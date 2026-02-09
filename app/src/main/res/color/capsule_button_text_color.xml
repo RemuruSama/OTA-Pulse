@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Color when the button is selected (e.g., white text on a primary color background) -->
+    <item android:color="?attr/colorOnPrimary" android:state_selected="true"/>
+    <!-- Default text color (primary theme color) -->
+    <item android:color="?attr/colorPrimary"/>
+</selector>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <set>
+            <!-- Shrink slightly on press -->
+            <objectAnimator
+                android:propertyName="scaleX"
+                android:duration="600"
+                android:valueTo="0.95"
+                android:valueType="floatType"
+                android:interpolator="@android:anim/decelerate_interpolator" />
+            <objectAnimator
+                android:propertyName="scaleY"
+                android:duration="600"
+                android:valueTo="0.95"
+                android:valueType="floatType"
+                android:interpolator="@android:anim/decelerate_interpolator" />
+        </set>
+    </item>
+    <item>
+        <set>
+            <!-- Bounce out slightly (overshoot) -->
+            <objectAnimator
+                android:propertyName="scaleX"
+                android:duration="600"
+                android:valueFrom="0.95"
+                android:valueTo="1.03"
+                android:valueType="floatType"
+                android:interpolator="@android:anim/overshoot_interpolator" />
+            <objectAnimator
+                android:propertyName="scaleY"
+                android:duration="600"
+                android:valueFrom="0.95"
+                android:valueTo="1.00"
+                android:valueType="floatType"
+                android:interpolator="@android:anim/overshoot_interpolator" />
+            <!-- Return to normal size (settle) -->
+            <objectAnimator
+                android:propertyName="scaleX"
+                android:startOffset="100"
+                android:duration="600"
+                android:valueFrom="1.00"
+                android:valueTo="1.0"
+                android:valueType="floatType"
+                android:interpolator="@android:anim/decelerate_interpolator" />
+            <objectAnimator
+                android:propertyName="scaleY"
+                android:startOffset="100"
+                android:duration="600"
+                android:valueFrom="1.00"
+                android:valueTo="1.0"
+                android:valueType="floatType"
+                android:interpolator="@android:anim/decelerate_interpolator" />
+        </set>
+    </item>
+</selector>

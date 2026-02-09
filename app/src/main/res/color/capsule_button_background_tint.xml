@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Color when the button is selected -->
+    <item android:color="?attr/colorPrimary" android:state_selected="true"/>
+    <!-- Default color (transparent for outlined style) -->
+    <item android:color="@android:color/transparent"/>
+</selector>

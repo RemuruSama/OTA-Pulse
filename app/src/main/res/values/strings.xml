@@ -1,0 +1,152 @@
+<resources>
+    <string name="app_name">OTA Pulse</string>
+    <string name="app_icon_desc">App Icon</string>
+    <string name="app_version">v2.0.0</string>
+    <string name="title_device">Device</string>
+    <string name="title_custom_update">Custom</string>
+    <string name="title_about">About</string>
+    <string name="title_settings">Settings</string>
+    <string name="title_devices">Devices</string>
+    <string name="title_downloads">Downloads</string>
+    
+    <string name="light_theme_description">The app is using a light theme.</string>
+    <string name="dark_theme_description">The app is using a dark theme.</string>
+    <string name="auto_theme_description">The theme will change automatically based on battery saver mode.</string>
+    <string name="system_theme_description">The app\'s theme will follow your device\'s system settings.</string>
+
+    <string name="ota_details_title">OTA Details</string>
+    <string name="button_copy_link">Copy Link</string>
+    <string name="button_download">Download</string>
+
+    <!-- Strings for fragment_device.xml -->
+    <string name="device_information_header">Device Information</string>
+    <string name="device_image_content_description">Device Image</string>
+    <string name="device_name_placeholder">Device Name</string>
+    <string name="device_model_placeholder">Device Model</string>
+    <string name="device_supported">Device Supported</string>
+    <string name="device_not_supported">Device Not Supported</string>
+    <string name="device_supported_placeholder">Checking support status...</string>
+    <string name="software_info_header">Software Info</string>
+    <string name="hardware_info_header">Hardware Info</string>
+    <string name="android_version">Android Version</string>
+    <string name="os_version">OS Version</string>
+    <string name="ota_version">OTA Version</string>
+    <string name="incremental_os_version">Incremental OS Version</string>
+    <string name="security_patch_date">Security Patch</string>
+    <string name="kernel_version">Kernel Version</string>
+    <string name="amount_of_ram">RAM</string>
+    <string name="system_on_a_chip">Chipset</string>
+    <string name="processor_frequency">Processor Frequency</string>
+    <string name="storage">Storage</string>
+    <string name="battery">Battery</string>
+    <string name="display">Display</string>
+    <string name="device_name_model_format">%1$s (%2$s)</string>
+
+    <string name="search_device_hint">Search devices</string>
+    <string name="close_search_hint">Close search</string>
+    <string name="select_region_variant">Select Region/Variant</string>
+    <string name="changelog_error">Could not open changelog link.</string>
+    <string name="link_copied">Link copied to clipboard</string>
+    <string name="no_update_found">No update found</string>
+    <string name="retry">Retry</string>
+
+    <string name="app_name_full">OTA Pulse</string>
+    <string name="about_card_title">About This App</string>
+    <string name="app_tagline">Always up to date</string>
+    <string name="made_with">MADE WITH</string>
+    <string name="about_app_description">Find the latest OTA updates for your device. Supports OnePlus, realme, and OPPO devices. Some models may not yet be supported.</string>
+    <string name="created_by_label">Created by</string>
+    <string name="creator_avatar_desc">Creator\'s avatar</string>
+    <string name="creator_name">Abhinav Verma</string>
+    <string name="supported_brands">Supported Brands</string>
+    <string name="oneplus_logo_desc">OnePlus logo</string>
+    <string name="realme_logo_desc">realme logo</string>
+    <string name="oppo_logo_desc">OPPO logo</string>
+    <string name="github_button_text">GitHub</string>
+    <string name="telegram_button_text">Telegram</string>
+    <string name="check_updates_cta">Check Updates</string>
+    <string name="footer_copyright">© 2026 OTA Pulse. All rights reserved.</string>
+
+    <!-- ADDED STRINGS -->
+    <string name="changelog_not_available">Changelog is not available.</string>
+    <string name="device_region_format">%1$s (%2$s)</string>
+    <string name="pause">Pause</string>
+    <string name="resume">Resume</string>
+    <string name="completed">Completed</string>
+    <string name="delete">Delete</string>
+    <string name="waiting">Waiting</string>
+    <string name="download_progress_percent">%d%%</string>
+    <string name="eta_hours_minutes">%1$dh %2$dm left</string>
+    <string name="eta_minutes_seconds">%1$dm %2$ds left</string>
+    <string name="eta_seconds">%ds left</string>
+    <string name="file_size_format">Size: %s</string>
+
+    <!-- Donate Strings -->
+    <string name="donate_card_title">Support Development</string>
+    <string name="buy_me_a_coffee_button_text">Buy me a coffee</string>
+    <!-- <string name="upi_payment_button_text">Donate with UPI</string> Removed as Razorpay is gone and we have a new UPI copy card -->
+    <string name="upi_id_copy_label">UPI ID (Tap to copy)</string>
+    <string name="upi_id_value">abhinavftp98@axl</string>
+    <string name="upi_id_copied_toast">UPI ID copied to clipboard</string>
+
+
+    <!-- Strings for DevicesFragment (ensure these are all present and correct) -->
+    <string name="settings">Settings</string>
+    <string name="delete_custom_device_title">Delete Custom Device?</string>
+    <string name="delete_custom_device_message">Are you sure you want to delete %s? This action cannot be undone.</string>
+    <string name="cancel">Cancel</string>
+    <string name="permission_denied_download_error">Required permissions denied. Cannot download.</string>
+    <string name="starting_download_for">Starting download for %s</string>
+    <string name="broad_file_access_prompt">Broad file access needed for downloads. Please enable in settings.</string>
+    <string name="cannot_proceed_download_missing_permissions">Cannot proceed with download. Missing permissions:</string>
+    <string name="cannot_open_app_settings">Could not open app settings.</string>
+
+    <!-- Overwrite Confirmation Strings -->
+    <string name="file_already_exists">File Already Exists</string>
+    <string name="file_exists_message">The file \"%1$s\" already exists. Do you want to delete it and download again?</string>
+    <string name="delete_and_download">Delete &amp; Download</string>
+
+    <string name="permission_needed">Permission Needed</string>
+
+    <!-- About Section Strings -->
+    <string name="libraries_title">Libraries</string>
+    <string name="libraries_desc">Open source licenses</string>
+    <string name="developer_title">Developer</string>
+    <string name="developer_desc">Abhinav Verma</string>
+    <string name="contributors_title">Contributors</string>
+    <string name="contributors_desc">Community contributions</string>
+    
+    <string name="libraries_content">
+        <b>Android Jetpack</b><br/>
+        - Core KTX<br/>
+        - AppCompat<br/>
+        - ConstraintLayout<br/>
+        - Fragment KTX<br/>
+        - Navigation<br/>
+        - Lifecycle<br/>
+        - WorkManager<br/><br/>
+        <b>Google</b><br/>
+        - Material Components<br/>
+        - Hilt (Dependency Injection)<br/>
+        - Gson<br/><br/>
+        <b>Square</b><br/>
+        - OkHttp<br/>
+        - Retrofit<br/><br/>
+        <b>Other</b><br/>
+        - Glide (Image Loading)<br/>
+        - Fetch (Download Manager)<br/>
+        - FlexboxLayout
+    </string>
+    
+    <string name="developer_content">
+        <b>Abhinav Verma</b><br/><br/>
+        Designed and developed with ❤️.<br/>
+        Thank you for using OTA Pulse!
+    </string>
+    
+    <string name="contributors_content">
+        Thank you to everyone who has contributed to this project, whether through code, translations, or feedback.<br/><br/>
+        <b>Special Thanks:</b><br/>
+        - The Open Source Community
+    </string>
+</resources>

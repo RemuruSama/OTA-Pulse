@@ -1,0 +1,12 @@
+<com.google.android.material.button.MaterialButton
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    style="?attr/materialButtonOutlinedStyle"
+    android:layout_margin="4dp"
+    app:cornerRadius="16dp"
+    app:strokeColor="?attr/colorPrimary"
+    android:textColor="@color/capsule_button_text_color"
+    app:backgroundTint="@color/capsule_button_background_tint"
+    android:stateListAnimator="@animator/bounce_animation" />

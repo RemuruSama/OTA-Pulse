@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Base.Theme.OtaUpdater" parent="Theme.Material3.Light.NoActionBar">
+
+        <item name="materialCardViewStyle">@style/Widget.App.MaterialCardView</item>
+
+        <item name="colorPrimary">@color/on_primary_container_light</item>
+        <item name="colorOnPrimary">@color/on_primary_light</item>
+        <item name="colorPrimaryContainer">@color/primary_container_light</item>
+        <item name="colorOnPrimaryContainer">@color/on_primary_container_light</item>
+        <item name="colorSecondary">@color/secondary_light</item>
+        <item name="colorOnSecondary">@color/on_secondary_light</item>
+        <item name="colorSecondaryContainer">@color/secondary_container_light</item>
+        <item name="colorOnSecondaryContainer">@color/on_secondary_container_light</item>
+        <item name="android:colorBackground">@color/background_light</item>
+        <item name="colorOnBackground">@color/on_background_light</item>
+        <item name="colorSurface">@color/surface_light</item>
+        <item name="colorOnSurface">@color/on_surface_light</item>
+        <item name="colorSurfaceVariant">@color/surface_variant_light</item>
+        <item name="colorOnSurfaceVariant">@color/on_surface_variant_light</item>
+        <item name="colorOutline">@color/outline_light</item>
+
+        <item name="android:statusBarColor">?android:attr/colorBackground</item>
+        <item name="android:navigationBarColor">?attr/colorSurface</item>
+        <!-- If you are using a light status bar with dark icons, consider adding: -->
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+        <item name="android:popupMenuStyle">@style/Widget.App.PopupMenu</item>
+        <item name="android:listPopupWindowStyle">@style/Widget.App.ListPopupWindow</item>
+    </style>
+
+    <style name="Theme.OtaUpdater" parent="Base.Theme.OtaUpdater" />
+
+    <style name="ShapeAppearanceOverlay.App.CornerSize50Percent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="ShapeAppearance.App.Dialog.Rounded" parent="ShapeAppearance.Material3.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">28dp</item> 
+    </style>
+
+    <style name="Theme.Otaupdater1" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Make sure your main app theme or activity theme is correctly set up -->
+    </style>
+
+    <style name="Widget.App.MaterialCardView" parent="Widget.Material3.CardView.Filled">
+        <item name="shapeAppearance">@style/ShapeAppearance.Material3.Corner.Large</item>
+    </style>
+
+</resources>

@@ -1,0 +1,33 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <group
+        android:name="dot1_group"
+        android:pivotX="4"
+        android:pivotY="12">
+        <path
+            android:name="dot1"
+            android:fillColor="?attr/colorPrimary"
+            android:pathData="M4,12 A2,2 0 1,1 4,11.99" />
+    </group>
+    <group
+        android:name="dot2_group"
+        android:pivotX="12"
+        android:pivotY="12">
+        <path
+            android:name="dot2"
+            android:fillColor="?attr/colorPrimary"
+            android:pathData="M12,12 A2,2 0 1,1 12,11.99" />
+    </group>
+    <group
+        android:name="dot3_group"
+        android:pivotX="20"
+        android:pivotY="12">
+        <path
+            android:name="dot3"
+            android:fillColor="?attr/colorPrimary"
+            android:pathData="M20,12 A2,2 0 1,1 20,11.99" />
+    </group>
+</vector>
