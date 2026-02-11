@@ -78,8 +78,14 @@ class DownloadNotificationHelper @Inject constructor(
             "$progressText • $speedText • $etaText"
         }
 
-        val title = if (downloadInfo.regionName.isNotBlank() && downloadInfo.otaUpdate?.versionName?.isNotBlank() == true) {
-            "${downloadInfo.regionName} - ${downloadInfo.otaUpdate.versionName}"
+        // Fix: For Manual/Direct downloads (External/Unknown Version), show the filename instead of "External - Unknown Version"
+        val isStandardUpdate = downloadInfo.regionName.isNotBlank() && 
+                               downloadInfo.otaUpdate?.versionName?.isNotBlank() == true &&
+                               downloadInfo.otaUpdate.versionName != "Unknown Version" &&
+                               downloadInfo.regionName != "External"
+
+        val title = if (isStandardUpdate) {
+            "${downloadInfo.regionName} - ${downloadInfo.otaUpdate!!.versionName}"
         } else {
             downloadInfo.fileName
         }

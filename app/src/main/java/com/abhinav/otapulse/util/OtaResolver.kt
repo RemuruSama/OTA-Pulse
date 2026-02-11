@@ -10,61 +10,100 @@ object OtaResolver {
 
     private const val TAG = "OtaResolver"
 
-    suspend fun resolveUrl(originalUrl: String): String = withContext(Dispatchers.IO) {
+    data class ResolvedUrlInfo(val url: String, val contentDispositionFileName: String?)
+
+    suspend fun resolveUrl(originalUrl: String): ResolvedUrlInfo = withContext(Dispatchers.IO) {
         if (!originalUrl.startsWith("http")) {
-            return@withContext originalUrl
+            return@withContext ResolvedUrlInfo(originalUrl, null)
         }
 
-        val cleanUrl = originalUrl.replace("\\u0026", "&")
-        var resolvedUrl = cleanUrl
-
+        var currentUrl = originalUrl.replace("\\u0026", "&")
+        var contentDispositionFileName: String? = null
         var connection: HttpURLConnection? = null
+        var redirectCount = 0
+        val MAX_REDIRECTS = 10
+
         try {
-            val url = URL(cleanUrl)
-            connection = url.openConnection() as HttpURLConnection
+            while (redirectCount < MAX_REDIRECTS) {
+                val url = URL(currentUrl)
+                connection = url.openConnection() as HttpURLConnection
+                
+                // We handle redirects manually to support HTTP -> HTTPS transitions
+                connection.instanceFollowRedirects = false 
+                connection.connectTimeout = 15000
+                connection.readTimeout = 15000
+                connection.requestMethod = "GET"
 
-            connection.instanceFollowRedirects = true
-            connection.connectTimeout = 15000
-            connection.readTimeout = 15000
-            connection.requestMethod = "GET"
+                connection.setRequestProperty("userId", "oplus-ota|16002018")
+                connection.setRequestProperty("User-Agent", "okhttp/3.12.12")
+                connection.setRequestProperty("Accept", "*/*")
+                connection.setRequestProperty("Accept-Encoding", "identity")
+                connection.setRequestProperty("Connection", "Keep-Alive")
+                connection.setRequestProperty("Cache-Control", "no-cache")
 
-            connection.setRequestProperty("userId", "oplus-ota|16002018")
-            connection.setRequestProperty("User-Agent", "okhttp/3.12.12")
-            connection.setRequestProperty("Accept", "*/*")
+                connection.connect()
 
-            // CRITICAL: "identity" must match DownloadManager.
-            // If we use "gzip", the server creates a different session type, failing the Resume check.
-            connection.setRequestProperty("Accept-Encoding", "identity")
+                val responseCode = connection.responseCode
+                
+                // Check for Redirects
+                if (responseCode == HttpURLConnection.HTTP_MOVED_PERM ||
+                    responseCode == HttpURLConnection.HTTP_MOVED_TEMP ||
+                    responseCode == HttpURLConnection.HTTP_SEE_OTHER ||
+                    responseCode == 307 || 
+                    responseCode == 308) {
+                    
+                    val location = connection.getHeaderField("Location")
+                    if (!location.isNullOrBlank()) {
+                        redirectCount++
+                        currentUrl = if (location.startsWith("/")) {
+                             // Handle relative redirects (rare but possible)
+                             val protocol = url.protocol
+                             val host = url.host
+                             "$protocol://$host$location"
+                        } else {
+                            location
+                        }
+                        Log.i(TAG, "Redirecting to: $currentUrl")
+                        connection.disconnect()
+                        continue
+                    }
+                }
 
-            connection.setRequestProperty("Connection", "Keep-Alive")
-            connection.setRequestProperty("Cache-Control", "no-cache")
+                // If we are here, we are at the final destination (or error)
+                // Extract Content-Disposition
+                val contentDisposition = connection.getHeaderField("Content-Disposition")
+                if (contentDisposition != null) {
+                    val token = "filename="
+                    val index = contentDisposition.indexOf(token)
+                    if (index >= 0) {
+                        var filename = contentDisposition.substring(index + token.length)
+                        if (filename.startsWith("\"") && filename.endsWith("\"")) {
+                            filename = filename.substring(1, filename.length - 1)
+                        }
+                        if (filename.isNotBlank()) {
+                             contentDispositionFileName = filename
+                        }
+                    }
+                }
+                
+                val contentType = connection.getContentType() ?: ""
+                val contentLength = connection.getContentLengthLong()
 
-            connection.connect()
+                if ((contentType.contains("text/html", true) || contentType.contains("application/json", true))
+                    && contentLength > 0 && contentLength < 1024) {
+                    Log.w(TAG, "Resolved URL seems to be a fallback/error page (Type: $contentType, Size: $contentLength).")
+                }
 
-            val finalUrl = connection.url.toString()
-
-            val contentType = connection.getContentType() ?: ""
-            val contentLength = connection.getContentLengthLong()
-
-            if ((contentType.contains("text/html", true) || contentType.contains("application/json", true))
-                && contentLength > 0 && contentLength < 1024) {
-                Log.w(TAG, "Resolved URL seems to be a fallback/error page (Type: $contentType, Size: $contentLength).")
-            }
-
-            if (finalUrl != cleanUrl) {
-                Log.i(TAG, "URL Resolved: $cleanUrl -> $finalUrl")
-                resolvedUrl = finalUrl
-            } else {
-                Log.d(TAG, "URL did not change after resolution.")
+                break // Exit loop if not redirected
             }
 
         } catch (e: Exception) {
             Log.e(TAG, "Failed to resolve URL: ${e.message}", e)
-            resolvedUrl = cleanUrl
+            // Keep currentUrl as best effort
         } finally {
             connection?.disconnect()
         }
 
-        return@withContext resolvedUrl
+        return@withContext ResolvedUrlInfo(currentUrl, contentDispositionFileName)
     }
 }

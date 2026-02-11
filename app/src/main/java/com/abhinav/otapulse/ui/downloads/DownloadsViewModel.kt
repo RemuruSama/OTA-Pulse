@@ -29,14 +29,14 @@ class DownloadsViewModel @Inject constructor(
             val rawName = path.substringAfterLast('/')
 
             if (rawName.isBlank()) {
-                "downloaded_file.zip"
+                ""
             } else {
                 // Decode URL encoded characters (e.g. %20 -> space)
                 URLDecoder.decode(rawName, "UTF-8")
             }
         } catch (e: Exception) {
             // Fallback for malformed URLs or other errors
-            newDownloadUrl.substringAfterLast('/').takeIf { it.isNotBlank() }?.substringBefore('?') ?: "downloaded_file.zip"
+            newDownloadUrl.substringAfterLast('/').takeIf { it.isNotBlank() }?.substringBefore('?') ?: ""
         }
 
         val otaUpdate = OtaUpdate(

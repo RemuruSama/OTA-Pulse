@@ -90,11 +90,11 @@ class DownloadManager @Inject constructor(
         val finalFileName = if (isManualDownload) {
             // We can't easily iterate network here. Use best guess or device name.
             val extractedName = extractFileNameFromUrl(otaUpdate.downloadUrl)
-             when {
-                isValidFilename(extractedName) -> extractedName
-                isValidFilename(otaUpdate.fileName) -> otaUpdate.fileName
-                else -> "downloaded_file.zip"
-            }
+             if (isValidFilename(otaUpdate.fileName)) {
+                 otaUpdate.fileName
+             } else {
+                 extractedName
+             }
         } else {
             "${regionName}-${otaUpdate.versionName ?: "update"}.zip"
         }
@@ -125,12 +125,13 @@ class DownloadManager @Inject constructor(
         ioScope.launch {
             Log.d("DownloadManager", "Starting download process for ${otaUpdate.fileName}")
 
-            val resolvedUrl = try {
+            val resolvedInfo = try {
                 OtaResolver.resolveUrl(otaUpdate.downloadUrl)
             } catch (e: Exception) {
                 Log.w("DownloadManager", "URL resolution failed, using original: ${e.message}")
-                otaUpdate.downloadUrl
+                OtaResolver.ResolvedUrlInfo(otaUpdate.downloadUrl, null)
             }
+            val resolvedUrl = resolvedInfo.url
 
             // use getTargetFile logic again? Or just call it?
             // reuse logic but carefully. getTargetFile uses 'otaUpdate.downloadUrl' not resolved one for name
@@ -148,12 +149,23 @@ class DownloadManager @Inject constructor(
             // Compromise: For Manual Downloads, we might have to accept less accurate existence check or run it async.
             // For now, let's use the implementation that aligns with 'standard' updates (99% of use cases).
 
-            val targetFile = getTargetFile(otaUpdate, deviceName, regionName)
-            // Note: Manual download filename generation inside getTargetFile using original URL might differ
-            // from logic using resolvedURL if the path changes.
-            // However, OtaResolver mostly handles direct link extraction.
-            // Let's stick to getTargetFile result.
+            var targetFile = getTargetFile(otaUpdate, deviceName, regionName)
 
+            // Always prioritize the filename from the RESOLVED URL or Content-Disposition headers.
+            // This overrides the initial filename derived from the original URL, ensuring redirects
+            // and server-provided filenames are respected (e.g. "downloadCheck").
+            val contentDispositionName = resolvedInfo.contentDispositionFileName
+            if (contentDispositionName != null && isValidFilename(contentDispositionName)) {
+                 Log.i("DownloadManager", "Overriding filename with Content-Disposition name: '$contentDispositionName'")
+                 targetFile = File(targetFile.parentFile, contentDispositionName)
+            } else {
+                val resolvedName = extractFileNameFromUrl(resolvedUrl)
+                if (isValidFilename(resolvedName)) {
+                    Log.i("DownloadManager", "Overriding filename with resolved URL name: '$resolvedName'")
+                    targetFile = File(targetFile.parentFile, resolvedName)
+                }
+            }
+            
             Log.i("DownloadManager", "Target File Path: ${targetFile.absolutePath}")
 
             val request = Request(resolvedUrl, targetFile.absolutePath).apply {
@@ -199,7 +211,10 @@ class DownloadManager @Inject constructor(
     }
 
     private fun isValidFilename(name: String): Boolean {
-        return name.isNotBlank() && !name.equals("downloadCheck", ignoreCase = true) && !name.equals("External-Unknown Version.zip", ignoreCase = true)
+        return name.isNotBlank() && 
+               !name.equals("downloadCheck", ignoreCase = true) && 
+               !name.equals("External-Unknown Version.zip", ignoreCase = true) &&
+               !name.equals("downloaded_file.zip", ignoreCase = true)
     }
 
     override fun pauseDownload(downloadInfo: DownloadInfo) {
@@ -343,7 +358,8 @@ class DownloadManager @Inject constructor(
         }
 
         Log.d("DownloadManager", "Refreshing URL for: ${otaUpdate.downloadUrl}")
-        val newResolvedUrl = OtaResolver.resolveUrl(otaUpdate.downloadUrl)
+        val newResolvedInfo = OtaResolver.resolveUrl(otaUpdate.downloadUrl)
+        val newResolvedUrl = newResolvedInfo.url
         if (newResolvedUrl == oldDownload.url) {
             Log.w("DownloadManager", "URL refresh resulted in the same URL. Aborting refresh.")
             handleDefaultError(oldDownload, oldDownload.error, null)
