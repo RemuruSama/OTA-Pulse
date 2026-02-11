@@ -6,6 +6,8 @@
 
 <img src="https://github.com/CodeSenseiX/OTAPulse/blob/main/OTAPulse/logo/logo.webp" width="120" alt="OTA Pulse Android OTA Downloader Logo"/>
 
+<b>![total-download-count](https://img.shields.io/github/downloads/RemuruSama/OTA-Pulse/total?color=brightgreen)<b>
+
 ![Platform](https://img.shields.io/badge/Platform-Android-green)
 ![Min Android](https://img.shields.io/badge/Android-10%2B-blue)
 ![Language](https://img.shields.io/badge/Kotlin-100%25-orange)
