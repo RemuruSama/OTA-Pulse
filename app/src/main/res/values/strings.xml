@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">OTA Pulse</string>
     <string name="app_icon_desc">App Icon</string>
-    <string name="app_version">v2.0.0</string>
+    <string name="app_version">v2.0.1</string>
     <string name="title_device">Device</string>
     <string name="title_custom_update">Custom</string>
     <string name="title_about">About</string>
