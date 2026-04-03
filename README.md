@@ -1,10 +1,10 @@
-# 🚀 OTA Pulse
-
-### OPLUS OTA Update Downloader & Manager
-
 <div align="center">
 
-<img src="https://github.com/CodeSenseiX/OTAPulse/blob/main/OTAPulse/logo/logo.webp" width="120" alt="OTA Pulse Android OTA Downloader Logo"/>
+<img src="https://github.com/CodeSenseiX/OTAPulse/raw/main/OTAPulse/logo/logo.webp" width="120" alt="OTA Pulse Logo"/>
+
+# 🚀 OTA Pulse
+
+### Android OTA Update Downloader & Payload Extractor for Realme, OPPO, OnePlus
 
 <b>![total-download-count](https://img.shields.io/github/downloads/RemuruSama/OTA-Pulse/total?color=brightgreen)<b>
 
@@ -14,88 +14,85 @@
 ![UI](https://img.shields.io/badge/UI-Jetpack%20Compose-purple)
 ![License](https://img.shields.io/badge/License-Open%20Source-brightgreen)
 
-<b>Download • Manage • Inspect OTA Updates</b>
+
+**[⬇️ Download APK](https://github.com/RemuruSama/OTA-Pulse/releases) • [📢 Telegram Channel](https://t.me/abhinav_v1) • [🐛 Report Issue](https://github.com/RemuruSama/OTA-Pulse/issues)**
 
 </div>
 
 ---
 
-## 📱 About
+## 📱 What is OTA Pulse?
 
-**OTA Pulse** is a modern Android OTA update downloader that helps you discover and download official firmware updates for:
+**OTA Pulse** is a free, open-source Android app that lets you **fetch, download, and extract official OTA firmware updates** for devices running ColorOS / RealmeUI / OxygenOS — including **Realme, OPPO, and OnePlus** phones.
 
-* OnePlus
-* Realme
-* OPPO
+Unlike stock OTA tools, OTA Pulse lets you:
+- Fetch OTA packages for **any supported device**, not just your own
+- **Extract individual partitions** (boot, vendor, system, etc.) directly from `payload.bin` without flashing
+- Download full OTA ZIPs with pause/resume support
+- View detailed firmware info: Android version, security patch, size, MD5
 
-Built with a clean architecture and modern Android tools, it provides a secure and powerful OTA management experience.
+Perfect for **custom ROM developers, kernel developers, and advanced Android users** who need raw partition images from official OTA packages.
 
 ---
 
 ## ✨ Features
 
-* 📦 OTA update detection
-* ⬇️ Built-in download manager (pause / resume / retry)
-* 🔧 Custom device profiles
-* 🔐 Secure OTA communication (AES + RSA)
-* 📊 Detailed device info
-* 🔄 In-app update checker
-* ⚡ Background downloads with WorkManager
+| Feature | Description |
+|---|---|
+| 📦 OTA Fetch | Fetch latest OTA metadata for any supported device model |
+| ⬇️ Download Manager | Built-in downloader with pause, resume, retry, and 3x auto-retry on CDN failures |
+| 🔧 Payload Extractor | Extract specific partitions from `payload.bin` inside the OTA ZIP |
+| 🔐 Secure Communication | AES + RSA encrypted OTA API calls |
+| 📊 Device Info | View Android version, security patch level, build number, OTA size & MD5 |
+| 🔄 In-app Updates | Auto-detects new OTA Pulse releases via GitHub |
+| ⚡ Background Downloads | Uses WorkManager for reliable background extraction |
+| 🎨 Material You | Full Material Design 3 with dynamic color (Android 12+) |
+
+---
+
+## 📱 Supported Devices
+
+OTA Pulse supports devices from:
+- **Realme** — Realme 12 Pro+, Realme P series, Realme GT series, and more
+- **OPPO** — Find series
+- **OnePlus** — OnePlus 15R, Nord 5, Nord CE 5, Ace 6T, and more
+
+> Don't see your device? Device definitions are easy to add — PRs welcome!
 
 ---
 
 ## 🛠 Tech Stack
 
-Kotlin • Jetpack Compose • Hilt • Retrofit • Coroutines • WorkManager • Fetch
+- **Language:** Kotlin 100%
+- **UI:** Jetpack Compose + Material Design 3
+- **DI:** Hilt
+- **Networking:** OkHttp
+- **Background Work:** WorkManager
+- **Async:** Coroutines + Flow
 
 ---
 
 ## 📦 Requirements
 
-* Android 10+ (API 29)
-* Active internet connection
+- Android 10+ (API 29)
+- Active internet connection
 
 ---
 
-## 🚀 Installation & Setup
+## ⬇️ Download
 
-### 1️⃣ Clone Repository
-
-```bash
-git clone https://github.com/RemuruSama/OTA-Pulse.git
-```
-
-### 2️⃣ Open in Android Studio
-
-Use the latest stable version.
-
-### 3️⃣ Create `keystore.properties`
-
-Create this file in the root directory:
-
-```
-STORE_PASSWORD=your_store_password
-KEY_PASSWORD=your_key_password
-```
-
-### 4️⃣ Sync & Run
-
-* Sync Gradle
-* Connect Android device (Android 10+)
-* Build & Run
-
----
-
-## 📥 Download Latest APK
-
-👉 [https://github.com/RemuruSama/OTA-Pulse/releases](https://github.com/RemuruSama/OTA-Pulse/releases)
+👉 **[Get the latest APK from Releases](https://github.com/RemuruSama/OTA-Pulse/releases)**
 
 ---
 
 ## ⚠️ Disclaimer
 
-OTA Pulse is an independent utility tool and is not affiliated with OnePlus, Realme, or OPPO.
+OTA Pulse is an independent utility and is **not affiliated with OnePlus, Realme, or OPPO**. All firmware files are fetched from official manufacturer servers.
 
 ---
 
-⭐ If you find OTA Pulse useful, consider starring the repository!
+<div align="center">
+
+⭐ If OTA Pulse helped you, please star the repo — it helps others find it!
+
+</div>
