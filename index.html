@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTA Pulse | Material OTA Manager</title>
+    <meta name="description" content="Free, open-source Android app to fetch, download, and extract official OTA firmware updates for Realme, OPPO, and OnePlus.">
+    
+    <!-- Theme Script (Placed early to prevent flash) -->
+    <script>
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Outfit for a modern, rounded, Material-friendly look -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Outfit"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#fffbeb',
+                            100: '#fef3c7',
+                            200: '#fde68a',
+                            300: '#fcd34d',
+                            400: '#fbbf24', // Material Yellow/Amber
+                            500: '#f59e0b',
+                            600: '#d97706',
+                            900: '#78350f',
+                        },
+                        surface: {
+                            light: '#fafafa',
+                            dark: '#121212',
+                        },
+                        card: {
+                            light: '#ffffff',
+                            dark: '#1e1e1e',
+                        }
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'marquee': 'marquee 30s linear infinite',
+                        'fade-in-up': 'fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        marquee: {
+                            '0%': { transform: 'translateX(0%)' },
+                            '100%': { transform: 'translateX(-100%)' }
+                        },
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Modern Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .dark ::-webkit-scrollbar-thumb { background: #334155; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        .dark ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+        /* --- M3 Tonal Surface Card Effect --- */
+        .m3-card {
+            border-radius: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform;
+        }
+        
+        .m3-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-color: currentColor;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .m3-card:hover::after { opacity: 0.04; }
+        
+        .m3-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+        }
+        
+        .dark .m3-card:hover {
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.5), 0 10px 10px -5px rgba(0,0,0,0.3);
+        }
+        
+        .m3-card:active {
+            transform: translateY(0px) scale(0.98);
+        }
+
+        /* Reveal Animation */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* --- Buttery Smooth 3D Carousel Architecture --- */
+        .carousel-perspective { 
+            perspective: 1200px; 
+            transform-style: preserve-3d;
+        }
+        .carousel-item { 
+            /* easeOutExpo curve for maximum fluidity */
+            transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), 
+                        opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), 
+                        filter 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+                        border-color 0.9s ease;
+            position: absolute; 
+            top: 50%; 
+            left: 50%; 
+            transform-origin: center center; 
+            transform-style: preserve-3d;
+            will-change: transform, opacity, filter;
+        }
+        
+        /* Smooth stretching navigation dots */
+        .nav-dot {
+            transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease;
+        }
+        
+        /* Glass Navbar */
+        .glass-nav {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="bg-surface-light text-slate-800 dark:bg-surface-dark dark:text-slate-200 antialiased selection:bg-brand-400/40 selection:text-slate-900 dark:selection:text-brand-100">
+
+    <!-- Animated Ambient Background Blobs -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div class="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-brand-300/30 dark:bg-brand-500/10 rounded-full filter blur-[120px] animate-blob transition-colors duration-500"></div>
+        <div class="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] bg-orange-300/30 dark:bg-orange-600/10 rounded-full filter blur-[150px] animate-blob transition-colors duration-500" style="animation-delay: 4s;"></div>
+    </div>
+
+    <!-- Image Lightbox Modal -->
+    <div id="image-modal" class="fixed inset-0 z-[100] hidden bg-slate-900/90 dark:bg-black/95 backdrop-blur-xl flex flex-col items-center justify-center p-2 sm:p-8 opacity-0 transition-all duration-500 ease-out" onclick="closeModal()">
+        
+        <!-- Previous Button (Left) -->
+        <button class="absolute left-4 sm:left-8 top-1/2 transform -translate-y-1/2 z-[110] p-3 sm:p-4 bg-white/10 hover:bg-brand-500 text-white hover:text-slate-900 border border-white/20 hover:border-brand-400 rounded-full backdrop-blur-md transition-all shadow-xl hover:scale-110 active:scale-95" onclick="event.stopPropagation(); prevModalImage();">
+            <i data-lucide="chevron-left" class="w-6 h-6 sm:w-8 sm:h-8"></i>
+        </button>
+
+        <!-- Full Screen Image Container -->
+        <div class="relative w-full h-[80vh] flex flex-col items-center justify-center px-16 sm:px-24" onclick="event.stopPropagation()">
+            <img id="modal-image" src="" alt="Full View" class="max-w-full max-h-full w-auto h-auto rounded-3xl shadow-[0_0_50px_rgba(251,191,36,0.15)] transform transition-all duration-300 ease-out scale-95 object-contain opacity-100">
+            <p id="modal-caption" class="mt-6 text-white font-bold text-xl tracking-wide text-center transition-opacity duration-300"></p>
+        </div>
+
+        <!-- Next Button (Right) -->
+        <button class="absolute right-4 sm:right-8 top-1/2 transform -translate-y-1/2 z-[110] p-3 sm:p-4 bg-white/10 hover:bg-brand-500 text-white hover:text-slate-900 border border-white/20 hover:border-brand-400 rounded-full backdrop-blur-md transition-all shadow-xl hover:scale-110 active:scale-95" onclick="event.stopPropagation(); nextModalImage();">
+            <i data-lucide="chevron-right" class="w-6 h-6 sm:w-8 sm:h-8"></i>
+        </button>
+
+        <!-- Floating Close Button (Bottom Center) -->
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-[110]">
+            <button class="flex items-center gap-2 bg-white/10 hover:bg-brand-500 text-white hover:text-slate-900 border border-white/20 hover:border-brand-400 px-6 py-3 rounded-full font-bold shadow-xl hover:shadow-brand-500/30 hover:scale-105 active:scale-95 transition-all backdrop-blur-md" onclick="closeModal()">
+                <i data-lucide="x" class="w-5 h-5"></i>
+                <span>Close View</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 top-0 start-0 glass-nav border-b border-slate-200/50 dark:border-white/5 bg-white/70 dark:bg-surface-dark/80 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-3 group">
+                    <img src="OTAPulse/logo/logo.webp" alt="OTA Pulse Logo" class="w-10 h-10 object-contain drop-shadow-md group-hover:scale-110 transition-transform duration-300" onerror="this.outerHTML='<div class=\'w-10 h-10 rounded-2xl bg-brand-400 flex items-center justify-center shadow-md shadow-brand-400/20 group-hover:shadow-lg group-hover:scale-105 transition-all text-slate-900\'><i data-lucide=\'activity\' class=\'w-6 h-6 stroke-[2.5]\'></i></div>'">
+                    <span class="text-xl font-bold text-slate-900 dark:text-white tracking-tight transition-colors">OTA Pulse</span>
+                </a>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-1 border border-slate-200 dark:border-white/10 bg-slate-100/50 dark:bg-white/5 rounded-full px-2 py-1 transition-colors">
+                    <a href="#features" class="px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-white/10 rounded-full transition-all">Features</a>
+                    <a href="#screenshots" class="px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-white/10 rounded-full transition-all">Interface</a>
+                    <a href="#tech" class="px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-white/10 rounded-full transition-all">Tech Stack</a>
+                </div>
+
+                <!-- Actions -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <!-- Theme Toggle -->
+                    <button id="theme-toggle" class="p-2 rounded-full text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-white/10 transition-colors hover:scale-110 active:scale-95" aria-label="Toggle Dark Mode">
+                        <i id="theme-icon-dark" data-lucide="moon" class="w-5 h-5 hidden dark:block"></i>
+                        <i id="theme-icon-light" data-lucide="sun" class="w-5 h-5 block dark:hidden"></i>
+                    </button>
+                    
+                    <!-- SVG GitHub Icon to bypass adblockers -->
+                    <a href="https://github.com/RemuruSama/OTA-Pulse" target="_blank" class="p-2 rounded-full text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-white/10 transition-colors hover:scale-110 active:scale-95">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+                            <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path>
+                            <path d="M9 18c-4.51 2-5-2-7-2"></path>
+                        </svg>
+                    </a>
+                    <a href="https://github.com/RemuruSama/OTA-Pulse/releases" target="_blank" class="flex items-center gap-2 bg-slate-900 dark:bg-brand-400 text-white dark:text-slate-900 px-5 py-2.5 rounded-full text-sm font-bold hover:opacity-90 hover:scale-105 active:scale-95 transition-all shadow-md">
+                        <i data-lucide="download" class="w-4 h-4"></i> Download
+                    </a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="flex items-center gap-2 md:hidden">
+                    <button id="theme-toggle-mobile" class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-white/10 rounded-full transition-colors">
+                        <i id="theme-icon-dark-mob" data-lucide="moon" class="w-6 h-6 hidden dark:block"></i>
+                        <i id="theme-icon-light-mob" data-lucide="sun" class="w-6 h-6 block dark:hidden"></i>
+                    </button>
+                    <button id="menu-btn" class="p-2 text-slate-800 dark:text-white hover:bg-slate-200 dark:hover:bg-white/10 rounded-full transition-colors">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-slate-200 dark:border-white/10 bg-white/95 dark:bg-surface-dark/95 backdrop-blur-xl absolute w-full transition-colors">
+            <div class="px-4 pt-2 pb-6 space-y-1">
+                <a href="#features" class="block px-3 py-3 text-base font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 rounded-2xl transition-colors">Features</a>
+                <a href="#screenshots" class="block px-3 py-3 text-base font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 rounded-2xl transition-colors">Interface</a>
+                <a href="#tech" class="block px-3 py-3 text-base font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 rounded-2xl transition-colors">Requirements</a>
+                <a href="https://github.com/RemuruSama/OTA-Pulse/releases" class="mt-4 flex items-center justify-center gap-2 bg-brand-400 text-slate-900 px-5 py-3 rounded-2xl font-bold shadow-md active:scale-95 transition-transform">
+                    <i data-lucide="download" class="w-5 h-5"></i> Download APK
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 lg:pt-40 lg:pb-32 overflow-hidden z-10 flex flex-col items-center justify-center min-h-[90vh]">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            
+            <!-- Hero Logo -->
+            <div class="flex justify-center mb-6 animate-fade-in-up">
+                <img src="OTAPulse/logo/logo.webp" alt="OTA Pulse Logo" class="w-28 h-28 md:w-36 md:h-36 object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-300" onerror="this.style.display='none'">
+            </div>
+
+            <!-- Material Pill Badge -->
+            <div class="animate-fade-in-up" style="animation-delay: 0.1s;">
+                <a href="https://github.com/RemuruSama/OTA-Pulse" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-brand-200 dark:border-brand-500/30 bg-brand-50 dark:bg-brand-400/10 text-brand-600 dark:text-brand-400 text-sm font-bold mb-8 hover:bg-brand-100 dark:hover:bg-brand-400/20 transition-colors shadow-sm">
+                    <span class="flex h-2.5 w-2.5 rounded-full bg-brand-500 animate-pulse"></span>
+                    Open Source Android Utility
+                </a>
+            </div>
+            
+            <!-- Main Headline -->
+            <h1 class="text-5xl md:text-7xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-6 animate-fade-in-up leading-[1.1] transition-colors" style="animation-delay: 0.2s;">
+                Extract & Control <br class="hidden md:block"/>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-500 to-orange-500 dark:from-brand-400 dark:to-orange-400">
+                    OTA Updates.
+                </span>
+            </h1>
+            
+            <!-- Subtitle -->
+            <p class="mt-6 text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto mb-10 animate-fade-in-up font-medium transition-colors" style="animation-delay: 0.3s;">
+                OTA Pulse is a free app that lets you fetch, download, and extract official OTA payloads directly from <span class="text-slate-800 dark:text-white font-bold">Realme</span>, <span class="text-slate-800 dark:text-white font-bold">OPPO</span>, and <span class="text-slate-800 dark:text-white font-bold">OnePlus</span> servers.
+            </p>
+            
+            <!-- CTAs -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in-up" style="animation-delay: 0.4s;">
+                <a href="https://github.com/RemuruSama/OTA-Pulse/releases" class="w-full sm:w-auto flex items-center justify-center gap-2 bg-brand-400 text-slate-900 px-8 py-4 rounded-full text-base font-bold hover:bg-brand-500 hover:shadow-lg hover:shadow-brand-400/30 transition-all transform hover:-translate-y-1 active:translate-y-0 active:scale-95">
+                    <i data-lucide="download-cloud" class="w-5 h-5"></i> Get the APK
+                </a>
+                <a href="https://github.com/RemuruSama/OTA-Pulse" target="_blank" class="w-full sm:w-auto flex items-center justify-center gap-2 bg-white dark:bg-slate-900 text-slate-800 dark:text-white border border-slate-200 dark:border-white/10 shadow-sm dark:shadow-none px-8 py-4 rounded-full text-base font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-all active:scale-95">
+                    <i data-lucide="code-2" class="w-5 h-5"></i> View Source
+                </a>
+            </div>
+
+            <!-- GitHub Shield -->
+            <div class="mt-12 flex justify-center animate-fade-in-up opacity-80 hover:opacity-100 transition-opacity" style="animation-delay: 0.5s;">
+                <img src="https://img.shields.io/github/downloads/RemuruSama/OTA-Pulse/total?style=flat-square&color=fbbf24&label=Total%20Downloads" alt="Downloads Badge">
+            </div>
+        </div>
+    </section>
+
+    <!-- Infinite Marquee -->
+    <div class="relative w-full border-y border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-slate-900/30 py-4 overflow-hidden z-10 transition-colors">
+        <div class="absolute inset-y-0 left-0 w-16 md:w-32 bg-gradient-to-r from-surface-light dark:from-surface-dark to-transparent z-10 pointer-events-none transition-colors"></div>
+        <div class="absolute inset-y-0 right-0 w-16 md:w-32 bg-gradient-to-l from-surface-light dark:from-surface-dark to-transparent z-10 pointer-events-none transition-colors"></div>
+        
+        <div class="flex flex-nowrap group hover:[animation-play-state:paused]">
+            <!-- Set 1 -->
+            <div class="flex items-center justify-around gap-8 px-4 w-max min-w-full shrink-0 animate-marquee whitespace-nowrap font-mono text-sm tracking-widest text-slate-500 dark:text-slate-400 uppercase">
+                <span class="flex items-center gap-2"><i data-lucide="smartphone" class="w-4 h-4 text-brand-500"></i> Realme UI</span>
+                <span class="opacity-30">•</span>
+                <span class="flex items-center gap-2"><i data-lucide="smartphone" class="w-4 h-4 text-brand-500"></i> OxygenOS</span>
+                <span class="opacity-30">•</span>
+                <span class="flex items-center gap-2"><i data-lucide="smartphone" class="w-4 h-4 text-brand-500"></i> ColorOS</span>
+                <span class="opacity-30">•</span>
+                <span>Jetpack Compose</span>
+                <span class="opacity-30">•</span>
+                <span>Payload Extractor</span>
+                <span class="opacity-30">•</span>
+            </div>
+            <!-- Set 2 -->
+            <div class="flex items-center justify-around gap-8 px-4 w-max min-w-full shrink-0 animate-marquee whitespace-nowrap font-mono text-sm tracking-widest text-slate-500 dark:text-slate-400 uppercase" aria-hidden="true">
+                <span class="flex items-center gap-2"><i data-lucide="smartphone" class="w-4 h-4 text-brand-500"></i> Realme UI</span>
+                <span class="opacity-30">•</span>
+                <span class="flex items-center gap-2"><i data-lucide="smartphone" class="w-4 h-4 text-brand-500"></i> OxygenOS</span>
+                <span class="opacity-30">•</span>
+                <span class="flex items-center gap-2"><i data-lucide="smartphone" class="w-4 h-4 text-brand-500"></i> ColorOS</span>
+                <span class="opacity-30">•</span>
+                <span>Jetpack Compose</span>
+                <span class="opacity-30">•</span>
+                <span>Payload Extractor</span>
+                <span class="opacity-30">•</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Uniform Rounded Squares Features Section -->
+    <section id="features" class="py-24 relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-16 reveal text-center md:text-left">
+            <h2 class="text-brand-500 font-bold text-sm tracking-widest uppercase mb-3">System Capabilities</h2>
+            <h3 class="text-3xl md:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight transition-colors">Everything you need to <br class="hidden md:block"/>control your firmware.</h3>
+        </div>
+
+        <!-- Equal Squares Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            
+            <!-- 1. OTA Fetch (Blue) -->
+            <div class="m3-card reveal sm:aspect-square flex flex-col bg-blue-50 dark:bg-blue-900/20 text-blue-900 dark:text-blue-100 p-8 border border-blue-200 dark:border-blue-500/20 transition-colors">
+                <div class="w-14 h-14 rounded-2xl bg-blue-500 text-white flex items-center justify-center shadow-lg shadow-blue-500/30 mb-6 shrink-0 transition-transform hover:scale-105">
+                    <i data-lucide="globe" class="w-7 h-7"></i>
+                </div>
+                <h4 class="text-xl font-bold mb-3">OTA Fetch</h4>
+                <p class="opacity-80 font-medium leading-relaxed">Fetch latest OTA metadata for <strong class="opacity-100">any supported device</strong> model — not just your own.</p>
+            </div>
+
+            <!-- 2. Download Manager (Orange) -->
+            <div class="m3-card reveal sm:aspect-square flex flex-col bg-orange-50 dark:bg-orange-900/20 text-orange-900 dark:text-orange-100 p-8 border border-orange-200 dark:border-orange-500/20 transition-colors" style="transition-delay: 100ms;">
+                <div class="w-14 h-14 rounded-2xl bg-orange-500 text-white flex items-center justify-center shadow-lg shadow-orange-500/30 mb-6 shrink-0 transition-transform hover:scale-105">
+                    <i data-lucide="download-cloud" class="w-7 h-7"></i>
+                </div>
+                <h4 class="text-xl font-bold mb-3">Download Manager</h4>
+                <p class="opacity-80 font-medium leading-relaxed">Built-in downloader with pause, resume, retry, and <strong class="opacity-100">3× auto-retry</strong> on CDN failures.</p>
+            </div>
+
+            <!-- 3. Payload Extractor (Brand/Yellow) -->
+            <div class="m3-card reveal sm:aspect-square flex flex-col bg-brand-50 dark:bg-brand-900/20 text-brand-900 dark:text-brand-100 p-8 border border-brand-200 dark:border-brand-500/20 transition-colors" style="transition-delay: 200ms;">
+                <div class="w-14 h-14 rounded-2xl bg-brand-500 text-white flex items-center justify-center shadow-lg shadow-brand-500/30 mb-6 shrink-0 transition-transform hover:scale-105">
+                    <i data-lucide="package-open" class="w-7 h-7"></i>
+                </div>
+                <h4 class="text-xl font-bold mb-3">Payload Extractor</h4>
+                <p class="opacity-80 font-medium leading-relaxed">Extract specific partitions like <code class="bg-white/60 dark:bg-black/40 px-2 py-0.5 rounded text-sm font-bold text-brand-900 dark:text-brand-300 transition-colors">boot.img</code> directly from the payload.bin inside the OTA ZIP.</p>
+            </div>
+
+            <!-- 4. Secure API Calls (Emerald) -->
+            <div class="m3-card reveal sm:aspect-square flex flex-col bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100 p-8 border border-emerald-200 dark:border-emerald-500/20 transition-colors" style="transition-delay: 300ms;">
+                <div class="w-14 h-14 rounded-2xl bg-emerald-500 text-white flex items-center justify-center shadow-lg shadow-emerald-500/30 mb-6 shrink-0 transition-transform hover:scale-105">
+                    <i data-lucide="lock" class="w-7 h-7"></i>
+                </div>
+                <h4 class="text-xl font-bold mb-3">Secure API Calls</h4>
+                <p class="opacity-80 font-medium leading-relaxed"><strong class="opacity-100">AES + RSA encrypted</strong> OTA API communication for all requests mirroring BBK servers.</p>
+            </div>
+
+            <!-- 5. Device Info (Slate/Surface) -->
+            <div class="m3-card reveal sm:aspect-square flex flex-col bg-white dark:bg-slate-900/50 text-slate-900 dark:text-white p-8 border border-slate-200 dark:border-white/10 shadow-sm dark:shadow-none transition-colors" style="transition-delay: 400ms;">
+                <div class="w-14 h-14 rounded-2xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-center mb-6 shrink-0 transition-transform hover:scale-105 transition-colors">
+                    <i data-lucide="cpu" class="w-7 h-7"></i>
+                </div>
+                <h4 class="text-xl font-bold mb-3">Device Info</h4>
+                <p class="opacity-80 font-medium leading-relaxed text-slate-600 dark:text-slate-400 transition-colors">View Android version, security patch level, build number, OTA size, and accurate MD5 hashes.</p>
+            </div>
+
+            <!-- 6. Background Extraction (Purple) -->
+            <div class="m3-card reveal sm:aspect-square flex flex-col bg-purple-50 dark:bg-purple-900/20 text-purple-900 dark:text-purple-100 p-8 border border-purple-200 dark:border-purple-500/20 transition-colors" style="transition-delay: 500ms;">
+                <div class="w-14 h-14 rounded-2xl bg-purple-500 text-white flex items-center justify-center shadow-lg shadow-purple-500/30 mb-6 shrink-0 transition-transform hover:scale-105">
+                    <i data-lucide="zap" class="w-7 h-7"></i>
+                </div>
+                <h4 class="text-xl font-bold mb-3">Background Extraction</h4>
+                <p class="opacity-80 font-medium leading-relaxed">WorkManager ensures reliable background downloads and extraction — <strong class="opacity-100">even when minimized.</strong></p>
+            </div>
+
+            <!-- 7. In-app Updates (Cyan) -->
+            <div class="m3-card reveal sm:aspect-square flex flex-col bg-cyan-50 dark:bg-cyan-900/20 text-cyan-900 dark:text-cyan-100 p-8 border border-cyan-200 dark:border-cyan-500/20 transition-colors" style="transition-delay: 600ms;">
+                <div class="w-14 h-14 rounded-2xl bg-cyan-500 text-white flex items-center justify-center shadow-lg shadow-cyan-500/30 mb-6 shrink-0 transition-transform hover:scale-105">
+                    <i data-lucide="refresh-cw" class="w-7 h-7"></i>
+                </div>
+                <h4 class="text-xl font-bold mb-3">In-app Updates</h4>
+                <p class="opacity-80 font-medium leading-relaxed">Auto-detects new OTA Pulse releases via <strong class="opacity-100">GitHub API</strong> so you're always up to date automatically.</p>
+            </div>
+
+            <!-- 8. Material You (Pink) -->
+            <div class="m3-card reveal sm:aspect-square flex flex-col bg-pink-50 dark:bg-pink-900/20 text-pink-900 dark:text-pink-100 p-8 border border-pink-200 dark:border-pink-500/20 transition-colors" style="transition-delay: 700ms;">
+                <div class="w-14 h-14 rounded-2xl bg-pink-500 text-white flex items-center justify-center shadow-lg shadow-pink-500/30 mb-6 shrink-0 transition-transform hover:scale-105">
+                    <i data-lucide="palette" class="w-7 h-7"></i>
+                </div>
+                <h4 class="text-xl font-bold mb-3">Material You</h4>
+                <p class="opacity-80 font-medium leading-relaxed">Full <strong class="opacity-100">Material Design 3</strong> implementation with system-wide dynamic color support on Android 12+.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Interactive Interface Section (3D Carousel) -->
+    <section id="screenshots" class="py-24 bg-slate-100 dark:bg-slate-900/40 border-y border-slate-200 dark:border-white/5 relative z-10 overflow-hidden transition-colors">
+        <div class="text-center mb-16 max-w-2xl mx-auto px-4 reveal">
+            <h2 class="text-brand-500 font-bold text-sm tracking-widest uppercase mb-3">Immersive Interface</h2>
+            <h3 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white tracking-tight mb-4 transition-colors">A Look Inside OTA Pulse</h3>
+            <p class="text-slate-600 dark:text-slate-400 transition-colors">Experience a fluid, native application built entirely with modern Android frameworks.</p>
+        </div>
+
+        <!-- Ultra-Smooth 3D Carousel Container -->
+        <div id="carousel-container" class="relative w-full max-w-5xl h-[550px] sm:h-[650px] md:h-[700px] mx-auto carousel-perspective group touch-pan-y reveal" onmouseenter="pauseCarousel()" onmouseleave="startCarousel()">
+            
+            <div class="carousel-item w-60 sm:w-72 rounded-[2rem] border-4 border-slate-200 dark:border-slate-800 shadow-xl overflow-hidden aspect-[9/19] cursor-pointer bg-white dark:bg-slate-950 transition-colors" data-index="0" onclick="handleItemClick(0)">
+                <img src="OTAPulse/Screenshot/otatools-page.webp" alt="OTA Tools" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/1080x2400/f59e0b/fff?text=OTA+Tools&font=Outfit'">
+            </div>
+
+            <div class="carousel-item w-60 sm:w-72 rounded-[2rem] border-4 border-slate-200 dark:border-slate-800 shadow-xl overflow-hidden aspect-[9/19] cursor-pointer bg-white dark:bg-slate-950 transition-colors" data-index="1" onclick="handleItemClick(1)">
+                <img src="OTAPulse/Screenshot/partitionextraction-page.webp" alt="Partition Extraction" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/1080x2400/1e293b/fff?text=Partition+Extraction&font=Outfit'">
+            </div>
+
+            <div class="carousel-item w-60 sm:w-72 rounded-[2rem] border-4 border-slate-200 dark:border-slate-800 shadow-xl overflow-hidden aspect-[9/19] cursor-pointer bg-white dark:bg-slate-950 transition-colors" data-index="2" onclick="handleItemClick(2)">
+                <img src="OTAPulse/Screenshot/selectpartion-page.webp" alt="Select Partition" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/1080x2400/3b82f6/fff?text=Select+Partition&font=Outfit'">
+            </div>
+
+            <div class="carousel-item w-60 sm:w-72 rounded-[2rem] border-4 border-slate-200 dark:border-slate-800 shadow-xl overflow-hidden aspect-[9/19] cursor-pointer bg-white dark:bg-slate-950 transition-colors" data-index="3" onclick="handleItemClick(3)">
+                <img src="OTAPulse/Screenshot/linkresolver-page.webp" alt="Link Resolver" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/1080x2400/f97316/fff?text=Link+Resolver&font=Outfit'">
+            </div>
+
+            <div class="carousel-item w-60 sm:w-72 rounded-[2rem] border-4 border-slate-200 dark:border-slate-800 shadow-xl overflow-hidden aspect-[9/19] cursor-pointer bg-white dark:bg-slate-950 transition-colors" data-index="4" onclick="handleItemClick(4)">
+                <img src="OTAPulse/Screenshot/download-page.webp" alt="Download Manager" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/1080x2400/ec4899/fff?text=Download+Manager&font=Outfit'">
+            </div>
+            
+            <div class="carousel-item w-60 sm:w-72 rounded-[2rem] border-4 border-slate-200 dark:border-slate-800 shadow-xl overflow-hidden aspect-[9/19] cursor-pointer bg-white dark:bg-slate-950 transition-colors" data-index="5" onclick="handleItemClick(5)">
+                <img src="OTAPulse/Screenshot/homescreen-page.webp" alt="Home Screen" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/1080x2400/f59e0b/fff?text=Home+Screen&font=Outfit'">
+            </div>
+
+            <div class="carousel-item w-60 sm:w-72 rounded-[2rem] border-4 border-slate-200 dark:border-slate-800 shadow-xl overflow-hidden aspect-[9/19] cursor-pointer bg-white dark:bg-slate-950 transition-colors" data-index="6" onclick="handleItemClick(6)">
+                <img src="OTAPulse/Screenshot/devicelist-page.webp" alt="Device List" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/1080x2400/1e293b/fff?text=Device+List&font=Outfit'">
+            </div>
+
+            <div class="carousel-item w-60 sm:w-72 rounded-[2rem] border-4 border-slate-200 dark:border-slate-800 shadow-xl overflow-hidden aspect-[9/19] cursor-pointer bg-white dark:bg-slate-950 transition-colors" data-index="7" onclick="handleItemClick(7)">
+                <img src="OTAPulse/Screenshot/manualquery-page.webp" alt="Manual Query" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/1080x2400/3b82f6/fff?text=Fetcher&font=Outfit'">
+            </div>
+
+            <div class="carousel-item w-60 sm:w-72 rounded-[2rem] border-4 border-slate-200 dark:border-slate-800 shadow-xl overflow-hidden aspect-[9/19] cursor-pointer bg-white dark:bg-slate-950 transition-colors" data-index="8" onclick="handleItemClick(8)">
+                <img src="OTAPulse/Screenshot/about-page.webp" alt="About Page" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/1080x2400/f97316/fff?text=Extractor&font=Outfit'">
+            </div>
+
+            <div class="carousel-item w-60 sm:w-72 rounded-[2rem] border-4 border-slate-200 dark:border-slate-800 shadow-xl overflow-hidden aspect-[9/19] cursor-pointer bg-white dark:bg-slate-950 transition-colors" data-index="9" onclick="handleItemClick(9)">
+                <img src="OTAPulse/Screenshot/settings-page.webp" alt="Settings Page" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/1080x2400/ec4899/fff?text=Settings&font=Outfit'">
+            </div>
+        </div>
+
+        <!-- Minimalist Dot Navigation -->
+        <div class="flex flex-wrap justify-center items-center gap-2 sm:gap-3 mt-12 sm:mt-16 relative z-20 reveal px-4">
+            <button onclick="goToSlide(0)" class="nav-dot w-2 h-2 rounded-full bg-slate-400 dark:bg-slate-600 hover:bg-slate-500 cursor-pointer" data-index="0" aria-label="Slide 1"></button>
+            <button onclick="goToSlide(1)" class="nav-dot w-2 h-2 rounded-full bg-slate-400 dark:bg-slate-600 hover:bg-slate-500 cursor-pointer" data-index="1" aria-label="Slide 2"></button>
+            <button onclick="goToSlide(2)" class="nav-dot w-2 h-2 rounded-full bg-slate-400 dark:bg-slate-600 hover:bg-slate-500 cursor-pointer" data-index="2" aria-label="Slide 3"></button>
+            <button onclick="goToSlide(3)" class="nav-dot w-2 h-2 rounded-full bg-slate-400 dark:bg-slate-600 hover:bg-slate-500 cursor-pointer" data-index="3" aria-label="Slide 4"></button>
+            <button onclick="goToSlide(4)" class="nav-dot w-2 h-2 rounded-full bg-slate-400 dark:bg-slate-600 hover:bg-slate-500 cursor-pointer" data-index="4" aria-label="Slide 5"></button>
+            <button onclick="goToSlide(5)" class="nav-dot w-2 h-2 rounded-full bg-slate-400 dark:bg-slate-600 hover:bg-slate-500 cursor-pointer" data-index="5" aria-label="Slide 6"></button>
+            <button onclick="goToSlide(6)" class="nav-dot w-2 h-2 rounded-full bg-slate-400 dark:bg-slate-600 hover:bg-slate-500 cursor-pointer" data-index="6" aria-label="Slide 7"></button>
+            <button onclick="goToSlide(7)" class="nav-dot w-2 h-2 rounded-full bg-slate-400 dark:bg-slate-600 hover:bg-slate-500 cursor-pointer" data-index="7" aria-label="Slide 8"></button>
+            <button onclick="goToSlide(8)" class="nav-dot w-2 h-2 rounded-full bg-slate-400 dark:bg-slate-600 hover:bg-slate-500 cursor-pointer" data-index="8" aria-label="Slide 9"></button>
+            <button onclick="goToSlide(9)" class="nav-dot w-2 h-2 rounded-full bg-slate-400 dark:bg-slate-600 hover:bg-slate-500 cursor-pointer" data-index="9" aria-label="Slide 10"></button>
+        </div>
+    </section>
+
+    <!-- Architecture & Community -->
+    <section id="tech" class="py-24 relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-16">
+            
+            <!-- Tech Stack & Requirements -->
+            <div class="reveal">
+                <h2 class="text-3xl font-bold text-slate-900 dark:text-white mb-8 tracking-tight transition-colors">System Architecture</h2>
+                
+                <div class="bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-white/5 rounded-3xl p-8 mb-8 shadow-sm dark:shadow-none transition-colors">
+                    <ul class="space-y-6">
+                        <li class="flex items-center gap-4">
+                            <div class="p-3 bg-slate-100 dark:bg-slate-800/80 rounded-2xl text-orange-500 transition-colors"><i data-lucide="code" class="w-6 h-6"></i></div>
+                            <div><p class="text-sm text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wider transition-colors">Language</p><p class="text-slate-900 dark:text-white font-bold text-lg transition-colors">100% Kotlin</p></div>
+                        </li>
+                        <li class="flex items-center gap-4">
+                            <div class="p-3 bg-slate-100 dark:bg-slate-800/80 rounded-2xl text-pink-500 transition-colors"><i data-lucide="layers" class="w-6 h-6"></i></div>
+                            <div><p class="text-sm text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wider transition-colors">UI Framework</p><p class="text-slate-900 dark:text-white font-bold text-lg transition-colors">Jetpack Compose + Material 3</p></div>
+                        </li>
+                        <li class="flex items-center gap-4">
+                            <div class="p-3 bg-slate-100 dark:bg-slate-800/80 rounded-2xl text-blue-500 transition-colors"><i data-lucide="network" class="w-6 h-6"></i></div>
+                            <div><p class="text-sm text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wider transition-colors">Concurrency</p><p class="text-slate-900 dark:text-white font-bold text-lg transition-colors">Coroutines, Flow, Hilt</p></div>
+                        </li>
+                        <li class="flex items-center gap-4">
+                            <div class="p-3 bg-slate-100 dark:bg-slate-800/80 rounded-2xl text-brand-500 transition-colors"><i data-lucide="cpu" class="w-6 h-6"></i></div>
+                            <div><p class="text-sm text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wider transition-colors">Background Work</p><p class="text-slate-900 dark:text-white font-bold text-lg transition-colors">WorkManager + OkHttp</p></div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="flex items-start gap-4 p-5 bg-orange-100 dark:bg-orange-500/10 border border-orange-200 dark:border-orange-500/20 rounded-2xl transition-colors">
+                    <i data-lucide="info" class="w-6 h-6 text-orange-600 dark:text-orange-400 shrink-0 mt-0.5 transition-colors"></i>
+                    <p class="text-sm text-orange-900 dark:text-slate-300 leading-relaxed font-medium transition-colors">
+                        <strong class="text-orange-700 dark:text-orange-400 transition-colors">Disclaimer:</strong> OTA Pulse is an independent utility and is not affiliated with OnePlus, Realme, or OPPO. Firmware files are fetched securely from official BBK servers. Android 10+ required.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Community Card -->
+            <div class="reveal" style="transition-delay: 200ms;">
+                <div class="h-full bg-brand-400 dark:bg-slate-900/60 border border-brand-300 dark:border-brand-500/20 rounded-[2.5rem] p-8 lg:p-10 relative overflow-hidden flex flex-col justify-between m3-card shadow-lg dark:shadow-none transition-colors">
+                    <div class="relative z-10">
+                        <div class="w-16 h-16 bg-white dark:bg-brand-400 rounded-2xl flex items-center justify-center text-brand-600 dark:text-slate-900 mb-8 shadow-md transition-colors">
+                            <i data-lucide="message-square" class="w-8 h-8 fill-current"></i>
+                        </div>
+                        <h2 class="text-3xl lg:text-4xl font-extrabold text-slate-900 dark:text-white mb-4 tracking-tight transition-colors">Join the Pulse.</h2>
+                        <p class="text-slate-800 dark:text-slate-300 text-lg mb-8 leading-relaxed font-medium transition-colors">
+                            Connect with developers, request device support, report bugs, or get help extracting specific partitions on our active network.
+                        </p>
+                    </div>
+
+                    <div class="space-y-4 relative z-10">
+                        <a href="https://t.me/abhinav_v1" target="_blank" class="flex items-center justify-between p-5 bg-white/40 dark:bg-slate-950/50 border border-white/50 dark:border-white/5 rounded-2xl hover:bg-white/60 dark:hover:bg-brand-500/20 transition-all group backdrop-blur-md active:scale-95">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 rounded-full bg-white dark:bg-slate-800 flex items-center justify-center shadow-sm transition-colors">
+                                    <i data-lucide="send" class="w-5 h-5 text-brand-600 dark:text-brand-400 transition-colors"></i>
+                                </div>
+                                <span class="text-slate-900 dark:text-white font-bold text-lg transition-colors">Official Channel</span>
+                            </div>
+                            <i data-lucide="arrow-up-right" class="w-6 h-6 text-slate-700 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white transition-colors"></i>
+                        </a>
+                        <a href="https://github.com/RemuruSama/OTA-Pulse/issues" target="_blank" class="flex items-center justify-between p-5 bg-white/40 dark:bg-slate-950/50 border border-white/50 dark:border-white/5 rounded-2xl hover:bg-white/60 dark:hover:bg-white/10 transition-all group backdrop-blur-md active:scale-95">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 rounded-full bg-white dark:bg-slate-800 flex items-center justify-center shadow-sm transition-colors">
+                                    <i data-lucide="bug" class="w-5 h-5 text-slate-700 dark:text-slate-400 transition-colors"></i>
+                                </div>
+                                <span class="text-slate-900 dark:text-white font-bold text-lg transition-colors">Report an Issue</span>
+                            </div>
+                            <i data-lucide="arrow-up-right" class="w-6 h-6 text-slate-700 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white transition-colors"></i>
+                        </a>
+                    </div>
+
+                    <!-- Decorative mesh -->
+                    <div class="absolute right-[-20%] bottom-[-20%] w-64 h-64 bg-white/20 dark:bg-brand-500/10 rounded-full blur-3xl pointer-events-none transition-colors"></div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-slate-950 relative z-10 transition-colors">
+        <div class="max-w-7xl mx-auto px-4 py-12 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-brand-100 dark:bg-brand-500/10 flex items-center justify-center border border-brand-200 dark:border-brand-500/20 text-brand-600 dark:text-brand-400 transition-colors">
+                    <i data-lucide="activity" class="w-5 h-5"></i>
+                </div>
+                <span class="font-bold text-slate-900 dark:text-white tracking-tight text-lg transition-colors">OTA Pulse</span>
+            </div>
+            
+            <p class="text-slate-500 dark:text-slate-400 text-sm font-medium transition-colors">
+                Open Source utility by <a href="https://github.com/RemuruSama" target="_blank" class="text-brand-600 dark:text-brand-400 hover:underline transition-colors">@RemuruSama</a>. &copy; <script>document.write(new Date().getFullYear())</script>
+            </p>
+
+            <div class="flex items-center gap-4">
+                <!-- SVG GitHub Icon to bypass adblockers -->
+                <a href="https://github.com/RemuruSama/OTA-Pulse" class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors p-3 bg-white dark:bg-slate-900 rounded-full border border-slate-200 dark:border-white/5 shadow-sm dark:shadow-none hover:scale-110 active:scale-95">
+                    <span class="sr-only">GitHub</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+                        <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path>
+                        <path d="M9 18c-4.51 2-5-2-7-2"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Theme Toggle Logic
+        const html = document.documentElement;
+        const themeBtn = document.getElementById('theme-toggle');
+        const themeBtnMob = document.getElementById('theme-toggle-mobile');
+
+        function toggleTheme() {
+            html.classList.toggle('dark');
+            const isDark = html.classList.contains('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        }
+
+        themeBtn.addEventListener('click', toggleTheme);
+        themeBtnMob.addEventListener('click', toggleTheme);
+
+        // Mobile Menu Toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu on link click
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Navbar styling on scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) {
+                navbar.classList.add('shadow-md');
+            } else {
+                navbar.classList.remove('shadow-md');
+            }
+        });
+
+        // Scroll Reveal Logic
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // Lightbox Modal Logic & Switching
+        let isModalOpen = false;
+        const modal = document.getElementById('image-modal');
+        const modalImg = document.getElementById('modal-image');
+        const modalCaption = document.getElementById('modal-caption');
+
+        function openModal(index) {
+            activeIndex = index; 
+            const img = items[activeIndex].querySelector('img');
+            
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modalImg.classList.remove('scale-95', 'opacity-0');
+                modalImg.classList.add('scale-100', 'opacity-100');
+            }, 10);
+            
+            updateModalContent(true);
+            document.body.style.overflow = 'hidden';
+            isModalOpen = true;
+            pauseCarousel();
+        }
+
+        function updateModalContent(initialLoad = false) {
+            const img = items[activeIndex].querySelector('img');
+            
+            if (initialLoad) {
+                modalImg.src = img.src;
+                modalCaption.textContent = img.getAttribute('alt');
+            } else {
+                // Crossfade effect
+                modalImg.classList.replace('opacity-100', 'opacity-0');
+                modalCaption.classList.replace('opacity-100', 'opacity-0');
+                
+                setTimeout(() => {
+                    modalImg.src = img.src;
+                    modalCaption.textContent = img.getAttribute('alt');
+                    
+                    modalImg.classList.replace('opacity-0', 'opacity-100');
+                    modalCaption.classList.replace('opacity-0', 'opacity-100');
+                }, 300); // Wait for fade out
+            }
+            
+            // Sync background carousel
+            updateCarousel();
+        }
+
+        function prevModalImage() {
+            activeIndex = (activeIndex - 1 + itemCount) % itemCount;
+            updateModalContent();
+        }
+
+        function nextModalImage() {
+            activeIndex = (activeIndex + 1) % itemCount;
+            updateModalContent();
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0');
+            modalImg.classList.remove('scale-100', 'opacity-100');
+            modalImg.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modalImg.src = '';
+            }, 500); 
+            document.body.style.overflow = 'auto';
+            isModalOpen = false;
+            startCarousel();
+        }
+
+        // Keyboard support
+        document.addEventListener('keydown', (e) => { 
+            if (!isModalOpen) return;
+            if (e.key === "Escape") closeModal(); 
+            if (e.key === "ArrowLeft") prevModalImage();
+            if (e.key === "ArrowRight") nextModalImage();
+        });
+
+        /* -------------------------------------------------------------------------- */
+        /* Ultra Smooth 3D Carousel Physics with Dynamic Item Count Wrapping          */
+        /* -------------------------------------------------------------------------- */
+        const items = document.querySelectorAll('.carousel-item');
+        const dots = document.querySelectorAll('.nav-dot');
+        let activeIndex = 0;
+        let intervalId;
+        const itemCount = items.length;
+
+        function updateCarousel() {
+            items.forEach((item, index) => {
+                let offset = (index - activeIndex);
+                
+                // Dynamic wrapping logic based on exactly how many items exist
+                const half = Math.floor(itemCount / 2);
+                if (offset > half) offset -= itemCount;
+                if (offset < -half) offset += itemCount;
+
+                // Strip active color outlines
+                item.classList.remove('border-brand-400');
+                item.classList.add('border-slate-200', 'dark:border-slate-800');
+                item.style.pointerEvents = 'none'; // prevent clicking hidden cards
+
+                // 3D positioning mapped precisely via translateZ to fix Z-index pops entirely!
+                if (offset === 0) {
+                    // CENTER
+                    item.style.zIndex = '30';
+                    item.style.opacity = '1';
+                    item.style.transform = 'translate(-50%, -50%) translateZ(100px) scale(1) rotateY(0deg)';
+                    item.style.filter = 'blur(0px) brightness(1)';
+                    item.classList.add('border-brand-400');
+                    item.classList.remove('border-slate-200', 'dark:border-slate-800');
+                    item.style.pointerEvents = 'auto';
+                } else if (offset === 1) {
+                    // RIGHT
+                    item.style.zIndex = '20';
+                    item.style.opacity = '0.8';
+                    item.style.transform = 'translate(15%, -50%) translateZ(0px) scale(0.85) rotateY(-15deg)';
+                    item.style.filter = 'blur(2px) brightness(0.8)';
+                    item.style.pointerEvents = 'auto';
+                } else if (offset === -1) {
+                    // LEFT
+                    item.style.zIndex = '20';
+                    item.style.opacity = '0.8';
+                    item.style.transform = 'translate(-115%, -50%) translateZ(0px) scale(0.85) rotateY(15deg)';
+                    item.style.filter = 'blur(2px) brightness(0.8)';
+                    item.style.pointerEvents = 'auto';
+                } else if (offset === 2) {
+                    // FAR RIGHT
+                    item.style.zIndex = '10';
+                    item.style.opacity = '0.4';
+                    item.style.transform = 'translate(60%, -50%) translateZ(-100px) scale(0.7) rotateY(-25deg)';
+                    item.style.filter = 'blur(6px) brightness(0.6)';
+                    item.style.pointerEvents = 'auto';
+                } else if (offset === -2) {
+                    // FAR LEFT
+                    item.style.zIndex = '10';
+                    item.style.opacity = '0.4';
+                    item.style.transform = 'translate(-160%, -50%) translateZ(-100px) scale(0.7) rotateY(25deg)';
+                    item.style.filter = 'blur(6px) brightness(0.6)';
+                    item.style.pointerEvents = 'auto';
+                } else {
+                    // HIDDEN IN BACK
+                    item.style.zIndex = '0';
+                    item.style.opacity = '0';
+                    // Send to the correct side so it loops invisibly
+                    item.style.transform = `translate(${offset > 0 ? '100%' : '-200%'}, -50%) translateZ(-200px) scale(0.5) rotateY(${offset > 0 ? '-35deg' : '35deg'})`;
+                    item.style.filter = 'blur(10px) brightness(0.4)';
+                }
+            });
+
+            // Update custom stretching dots
+            dots.forEach(dot => {
+                dot.classList.remove('w-8', 'bg-brand-500');
+                dot.classList.add('w-2');
+                if (parseInt(dot.dataset.index) === activeIndex) {
+                    dot.classList.remove('w-2');
+                    dot.classList.add('w-8', 'bg-brand-500');
+                }
+            });
+        }
+
+        function handleItemClick(clickedIndex) {
+            if (clickedIndex === activeIndex) {
+                openModal(clickedIndex);
+            } else {
+                activeIndex = clickedIndex;
+                updateCarousel();
+                resetInterval();
+            }
+        }
+
+        function goToSlide(index) {
+            activeIndex = index;
+            updateCarousel();
+            resetInterval();
+        }
+
+        function nextSlide() {
+            activeIndex = (activeIndex + 1) % itemCount;
+            updateCarousel();
+        }
+
+        function startCarousel() {
+            if (intervalId) clearInterval(intervalId);
+            intervalId = setInterval(nextSlide, 4000); 
+        }
+
+        function pauseCarousel() {
+            if (intervalId) clearInterval(intervalId);
+        }
+
+        function resetInterval() {
+            pauseCarousel();
+            startCarousel();
+        }
+
+        // Init Carousel
+        updateCarousel();
+        startCarousel();
+
+    </script>
+</body>
+</html>
