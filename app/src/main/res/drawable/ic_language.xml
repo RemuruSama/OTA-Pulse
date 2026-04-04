@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Outer globe circle -->
+    <path
+        android:pathData="M12,3 a9,9 0 1 0 0,18 a9,9 0 1 0 0,-18"
+        android:strokeWidth="1.5"
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#FF000000"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+
+    <!-- Vertical axis / prime meridian -->
+    <path
+        android:pathData="M12,3 L12,21"
+        android:strokeWidth="1.5"
+        android:strokeColor="#FF000000"
+        android:strokeLineCap="round" />
+
+    <!-- Equator -->
+    <path
+        android:pathData="M3,12 L21,12"
+        android:strokeWidth="1.5"
+        android:strokeColor="#FF000000"
+        android:strokeLineCap="round" />
+
+    <!-- Longitude arcs -->
+    <path
+        android:pathData="M12,3 C8.5,7.5 8.5,16.5 12,21"
+        android:strokeWidth="1.5"
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#FF000000"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+        
+    <path
+        android:pathData="M12,3 C15.5,7.5 15.5,16.5 12,21"
+        android:strokeWidth="1.5"
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#FF000000"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+
+    <!-- Latitudes curves -->
+    <path
+        android:pathData="M5.5,7.5 Q12,5.5 18.5,7.5"
+        android:strokeWidth="1.5"
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#FF000000"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+
+    <path
+        android:pathData="M5.5,16.5 Q12,18.5 18.5,16.5"
+        android:strokeWidth="1.5"
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#FF000000"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+
+</vector>

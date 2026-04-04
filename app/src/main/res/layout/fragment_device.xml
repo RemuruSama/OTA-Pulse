@@ -1,38 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorSurface"
+    android:background="?attr/colorSurfaceContainerHigh"
     android:fillViewport="true"
-    tools:context=".ui.device.DeviceFragment">
+    android:overScrollMode="never"
+    android:scrollbars="none"
+    tools:context=".feature.devices.ui.DeviceFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="24dp">
 
-        <!-- Hero Section Background -->
         <View
             android:id="@+id/heroBackground"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="?attr/colorSurfaceContainer"
+            android:background="?attr/colorSurface"
             app:layout_constraintBottom_toBottomOf="@+id/deviceModelTextView"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
 
-        <ImageView
-            android:id="@+id/deviceImageView"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/deviceImageContainer"
+            android:layout_width="136dp"
+            android:layout_height="136dp"
             android:layout_marginTop="32dp"
-            android:contentDescription="@string/device_image_content_description"
-            android:src="@drawable/ic_deviceimage"
+            app:cardBackgroundColor="?attr/colorPrimaryContainer"
+            app:cardCornerRadius="68dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/deviceImageView"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:padding="4dp"
+                android:contentDescription="@string/device_image_content_description"
+                android:src="@drawable/ic_deviceimage" />
+
+        </com.google.android.material.card.MaterialCardView>
 
         <TextView
             android:id="@+id/deviceNameTextView"
@@ -47,7 +62,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/deviceImageView" />
+            app:layout_constraintTop_toBottomOf="@+id/deviceImageContainer" />
 
         <TextView
             android:id="@+id/deviceModelTextView"
@@ -62,34 +77,47 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/deviceNameTextView" />
 
-        <TextView
+        <com.google.android.material.chip.Chip
             android:id="@+id/deviceSupportedTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:background="@drawable/bg_status_chip" 
-            android:paddingHorizontal="12dp"
-            android:paddingVertical="4dp"
             android:text="@string/device_supported_placeholder"
-            android:textAppearance="?attr/textAppearanceLabelMedium"
             android:textColor="?attr/colorOnSurfaceVariant"
+            android:clickable="false"
+            android:focusable="false"
+            style="@style/Widget.Material3.Chip.Suggestion"
+            app:chipBackgroundColor="?attr/colorSurfaceContainerHigh"
+            app:chipStrokeWidth="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/deviceModelTextView" />
-            <!-- Note: Need to handle bg_status_chip or just use MaterialCardView for chip -->
 
-        <!-- Stats Grid Header -->
+        <!-- Divider between hero and hardware section -->
+        <View
+            android:id="@+id/heroDivider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="24dp"
+            android:background="?attr/colorOutlineVariant"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/deviceSupportedTextView" />
+
         <TextView
             android:id="@+id/statsHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
             android:text="@string/hardware_info_header"
             android:textAppearance="?attr/textAppearanceTitleMedium"
             android:textColor="?attr/colorOnSurface"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/deviceSupportedTextView" />
+            app:layout_constraintTop_toBottomOf="@+id/heroDivider" />
 
         <!-- Stats Grid (Using GridLayout for 2 columns) -->
         <GridLayout
@@ -182,8 +210,9 @@
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="16dp"
             android:paddingBottom="8dp"
-            app:cardBackgroundColor="?attr/colorSurfaceContainer"
-            app:cardCornerRadius="16dp"
+            app:cardBackgroundColor="?attr/colorSurface"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
             app:strokeWidth="0dp"
             app:strokeColor="@android:color/transparent"
             app:layout_constraintTop_toBottomOf="@+id/softwareHeader">

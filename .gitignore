@@ -14,8 +14,11 @@ local.properties
 *.jks
 *.keystore
 *.key
+keystore.properties
 google-services.json
 auth_key.json
 .kotlin
 release
 /release
+hs_err_pid*.log
+replay_pid*.log

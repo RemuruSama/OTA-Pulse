@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- SIM card outline with clipped top-left corner -->
+    <path
+        android:pathData="M6.5,2 L17,2 A2,2 0 0 1 19,4 L19,20 A2,2 0 0 1 17,22 L7,22 A2,2 0 0 1 5,20 L5,4.5 Z"
+        android:strokeWidth="1.75"
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#FF000000"
+        android:strokeLineJoin="round" />
+
+    <!-- Gold contact pad grid — 3 columns x 2 rows -->
+    <!-- Row 1 -->
+    <path
+        android:pathData="M8.5,10 L10,10 A0.75,0.75 0 0 1 10.75,10.75 L10.75,12.25 A0.75,0.75 0 0 1 10,13 L8.5,13 A0.75,0.75 0 0 1 7.75,12.25 L7.75,10.75 A0.75,0.75 0 0 1 8.5,10 Z"
+        android:strokeWidth="1.4"
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#FF000000" />
+
+    <path
+        android:pathData="M11.5,10 L13,10 A0.75,0.75 0 0 1 13.75,10.75 L13.75,12.25 A0.75,0.75 0 0 1 13,13 L11.5,13 A0.75,0.75 0 0 1 10.75,12.25 L10.75,10.75 A0.75,0.75 0 0 1 11.5,10 Z"
+        android:strokeWidth="1.4"
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#FF000000" />
+
+    <path
+        android:pathData="M14.5,10 L16,10 A0.75,0.75 0 0 1 16.75,10.75 L16.75,12.25 A0.75,0.75 0 0 1 16,13 L14.5,13 A0.75,0.75 0 0 1 13.75,12.25 L13.75,10.75 A0.75,0.75 0 0 1 14.5,10 Z"
+        android:strokeWidth="1.4"
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#FF000000" />
+
+    <!-- Row 2 -->
+    <path
+        android:pathData="M8.5,14 L10,14 A0.75,0.75 0 0 1 10.75,14.75 L10.75,16.25 A0.75,0.75 0 0 1 10,17 L8.5,17 A0.75,0.75 0 0 1 7.75,16.25 L7.75,14.75 A0.75,0.75 0 0 1 8.5,14 Z"
+        android:strokeWidth="1.4"
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#FF000000" />
+
+    <path
+        android:pathData="M11.5,14 L13,14 A0.75,0.75 0 0 1 13.75,14.75 L13.75,16.25 A0.75,0.75 0 0 1 13,17 L11.5,17 A0.75,0.75 0 0 1 10.75,16.25 L10.75,14.75 A0.75,0.75 0 0 1 11.5,14 Z"
+        android:strokeWidth="1.4"
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#FF000000" />
+
+    <path
+        android:pathData="M14.5,14 L16,14 A0.75,0.75 0 0 1 16.75,14.75 L16.75,16.25 A0.75,0.75 0 0 1 16,17 L14.5,17 A0.75,0.75 0 0 1 13.75,16.25 L13.75,14.75 A0.75,0.75 0 0 1 14.5,14 Z"
+        android:strokeWidth="1.4"
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#FF000000" />
+
+</vector>

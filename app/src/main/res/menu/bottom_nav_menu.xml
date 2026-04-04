@@ -12,9 +12,9 @@
         android:title="@string/title_devices" />
 
     <item
-        android:id="@+id/navigation_custom_update"
-        android:icon="@drawable/ic_custom"
-        android:title="@string/title_custom_update" />
+        android:id="@+id/navigation_ota_tools"
+        android:icon="@drawable/ic_tools"
+        android:title="@string/title_ota_tools" />
 
     <item
         android:id="@+id/navigation_about"

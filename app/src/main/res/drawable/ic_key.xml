@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Key bow (ring) -->
+    <path
+        android:pathData="M9,9 m-6,0 a6,6 0 1 0 12,0 a6,6 0 1 0 -12,0"
+        android:strokeWidth="1.5"
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#FF000000"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+
+    <!-- Inner bow hole -->
+    <path
+        android:pathData="M9,9 m-2.5,0 a2.5,2.5 0 1 0 5,0 a2.5,2.5 0 1 0 -5,0"
+        android:fillColor="#FF000000" />
+
+    <!-- Key blade (shank) -->
+    <path
+        android:pathData="M14.25,14.25 L21,21"
+        android:strokeWidth="1.5"
+        android:strokeColor="#FF000000"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+
+    <!-- Key teeth -->
+    <path
+        android:pathData="M16.5,16.5 L15,18 M19.5,19.5 L18,21"
+        android:strokeWidth="1.5"
+        android:strokeColor="#FF000000"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+
+</vector>

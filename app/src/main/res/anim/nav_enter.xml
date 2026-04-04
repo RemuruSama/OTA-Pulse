@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Entering fragment slides in from the right and fades in -->
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:ordering="together">
+    <translate
+        android:fromXDelta="6%"
+        android:toXDelta="0%"
+        android:duration="280"
+        android:interpolator="@android:anim/decelerate_interpolator" />
+    <alpha
+        android:fromAlpha="0.0"
+        android:toAlpha="1.0"
+        android:duration="220"
+        android:interpolator="@android:anim/decelerate_interpolator" />
+</set>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/drawable/bg_hero_header.xml -->
+<!--
+  A subtle gradient overlay on top of colorSurface.
+  Uses a very light tint of colorPrimary at the top edge,
+  fading to transparent, giving depth without breaking dark/light themes.
+  Note: For a theme-aware gradient you may want to override this per theme.
+-->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Base surface -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="?attr/colorSurfaceContainer" />
+        </shape>
+    </item>
+
+    <!-- Bottom border accent line -->
+    <item
+        android:top="-2dp"
+        android:left="-2dp"
+        android:right="-2dp">
+        <shape android:shape="rectangle">
+            <stroke
+                android:width="2dp"
+                android:color="?attr/colorSurfaceContainerHighest" />
+        </shape>
+    </item>
+
+</layer-list>

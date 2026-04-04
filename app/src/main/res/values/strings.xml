@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">OTA Pulse</string>
     <string name="app_icon_desc">App Icon</string>
-    <string name="app_version">v2.0.1</string>
+    <string name="app_version">v3.0.0</string>
     <string name="title_device">Device</string>
-    <string name="title_custom_update">Custom</string>
+    <string name="title_ota_tools">Tools</string>
     <string name="title_about">About</string>
     <string name="title_settings">Settings</string>
     <string name="title_devices">Devices</string>
@@ -49,6 +49,7 @@
     <string name="link_copied">Link copied to clipboard</string>
     <string name="no_update_found">No update found</string>
     <string name="retry">Retry</string>
+    <string name="add_download">Add download</string>
 
     <string name="app_name_full">OTA Pulse</string>
     <string name="about_card_title">About This App</string>
@@ -77,9 +78,19 @@
     <string name="waiting">Waiting</string>
     <string name="download_progress_percent">%d%%</string>
     <string name="eta_hours_minutes">%1$dh %2$dm left</string>
+    <string name="eta_minutes_only">%d min left</string>
     <string name="eta_minutes_seconds">%1$dm %2$ds left</string>
     <string name="eta_seconds">%ds left</string>
     <string name="file_size_format">Size: %s</string>
+    <string name="downloaded_amount_format">%1$s / %2$s downloaded</string>
+    <string name="package_file_label">Package file</string>
+    <string name="status_downloading">DOWNLOADING</string>
+    <string name="status_paused">PAUSED</string>
+    <string name="status_completed">COMPLETED</string>
+    <string name="status_failed">FAILED</string>
+    <string name="status_cancelled">CANCELLED</string>
+    <string name="status_queued">QUEUED</string>
+    <string name="status_waiting">WAITING</string>
 
     <!-- Donate Strings -->
     <string name="donate_card_title">Support Development</string>
@@ -149,4 +160,51 @@
         <b>Special Thanks:</b><br/>
         - The Open Source Community
     </string>
+    <string name="developer_message">Designed and developed with ❤️.\nThank you for using OTA Pulse!</string>
+    <string name="special_thanks_label">Special Thanks</string>
+    <string name="open_source_community">The Open Source Community</string>
+    <string name="contributors_description">Thank you to everyone who has contributed to this project, whether through code, translations, or feedback.</string>
+
+    <!-- Hardcoded Strings Extraction -->
+    <!-- SettingsFragment -->
+    <string name="advanced_mode_enabled">Advanced Mode Enabled. Restart may be required for changes to take full effect.</string>
+    <string name="advanced_mode_disabled">Advanced Mode Disabled. Restart may be required for changes to take full effect.</string>
+    <string name="import_overwrite_title">Overwrite Custom Devices?</string>
+    <string name="import_overwrite_message">Importing a new list will overwrite all of your existing custom devices. This action cannot be undone.</string>
+    <string name="import_action">Import</string>
+    <string name="close_action">Close</string>
+
+    <!-- MainActivity -->
+    <string name="notification_permission_denied">Notification permission denied. You might miss download updates.</string>
+    <string name="storage_permission_granted">Storage permission granted</string>
+    <string name="storage_permission_required">Storage permission is required for downloads</string>
+    <string name="update_available_title">New Version Available: %s</string>
+    <string name="update_available_message">A new update is available!\n\nChangelog:\n%s</string>
+    <string name="download_action">Download</string>
+    <string name="later_action">Later</string>
+    <string name="tap_to_view_update">Tap to view changelog and download</string>
+    <string name="notification_permission_title">Notification Permission</string>
+    <string name="notification_permission_message">OTA Pulse uses notifications to keep you informed about download progress. Please grant this permission.</string>
+    <string name="grant_action">Grant</string>
+    <string name="exit_action">Exit</string>
+    <string name="could_not_open_download_link">Could not open download link</string>
+
+    <!-- DownloadNotificationHelper -->
+    <string name="notif_download_complete">Download Complete</string>
+    <string name="notif_download_failed">Download Failed</string>
+    <string name="notif_paused">Paused</string>
+    <string name="notif_cancel">Cancel</string>
+    <string name="notif_pause">Pause</string>
+    <string name="notif_resume">Resume</string>
+    <string name="notif_channel_progress">Download Progress</string>
+    <string name="notif_channel_progress_desc">Shows active download progress</string>
+    <string name="notif_channel_alerts">Download Status</string>
+    <string name="notif_channel_alerts_desc">Notifications for completed or failed downloads</string>
+    <string name="notif_error_link_expired">Link expired. Please retry in app.</string>
+    <string name="notif_error_not_found">File not found on server.</string>
+    <string name="notif_error_no_network">No internet connection.</string>
+    <string name="notif_error_unknown">Unknown error. Please retry.</string>
+
+    <string name="extract_partition_title">Extract Partitions</string>
+    <string name="extract">Extract</string>
 </resources>

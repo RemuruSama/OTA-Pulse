@@ -1,0 +1,49 @@
+package com.abhinav.otapulse.catalog.provider.oneplus
+
+import com.abhinav.otapulse.catalog.provider.DeviceProvider
+import com.abhinav.otapulse.catalog.model.PredefinedDevice
+import com.abhinav.otapulse.core.model.RegionVariant
+
+class OnePlus13RAce5 : DeviceProvider {
+
+    // Base list of regional variants to avoid duplication.
+    // The triple contains: Display Name, Product Model, and the base part of the firmware string.
+    private val baseVariants = listOf(
+        Triple("IN", "CPH2691IN", "CPH2691NV1B"),
+        Triple("GLO", "CPH2645", "CPH2645NVA7"),
+        Triple("EU", "CPH2645EEA", "CPH2645NV44"),
+        Triple("CN", "PKG110", "PKG110NV97")
+    )
+
+    // Helper function to generate the full list of variants for a specific version letter (e.g., "A").
+    private fun generateRegionalVariants(versionLetter: String): List<RegionVariant> {
+        return baseVariants.map { (displayName, productModel, firmwareBase) ->
+            val region = when (displayName) {
+                "IN" -> "IN"
+                "CN" -> "CN"
+                "EU" -> "EU"
+                else -> "GL"
+            }
+            RegionVariant(
+                displayName = displayName,
+                productModel = productModel,
+                firmwareVersion = "${firmwareBase}_11.${versionLetter}.01_0001_100001010000",
+                region = region
+            )
+        }
+    }
+
+    override fun getDevices(): List<PredefinedDevice> {
+        return listOf(
+            PredefinedDevice(
+                name = "OnePlus 13R/Ace 5",
+                ruiVersion = 5, // Use the latest ruiVersion
+                imageUrl = "https://placehold.co/100x100/E0F2F1/00796B?text=OP13RA5",
+                firmwareGroups = mapOf(
+                    "Android 15" to generateRegionalVariants("A"),
+                    "Android 16" to generateRegionalVariants("F")
+                )
+            )
+        )
+    }
+}

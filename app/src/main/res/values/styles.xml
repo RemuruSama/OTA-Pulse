@@ -26,4 +26,12 @@
         <item name="android:popupBackground">@drawable/bg_popup_menu</item>
     </style>
 
+    <style name="Widget.App.Button.Pill" parent="Widget.Material3.Button.TonalButton">
+        <item name="cornerRadius">999dp</item>
+    </style>
+
+    <style name="Widget.App.Button.PillFilled" parent="Widget.Material3.Button">
+        <item name="cornerRadius">999dp</item>
+    </style>
+
 </resources>

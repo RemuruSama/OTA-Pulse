@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Track line 1 (top) -->
+    <path
+        android:pathData="M3,7 L21,7"
+        android:strokeWidth="1.75"
+        android:strokeColor="#FF000000"
+        android:strokeLineCap="round" />
+
+    <!-- Track line 2 (middle) -->
+    <path
+        android:pathData="M3,12 L21,12"
+        android:strokeWidth="1.75"
+        android:strokeColor="#FF000000"
+        android:strokeLineCap="round" />
+
+    <!-- Track line 3 (bottom) -->
+    <path
+        android:pathData="M3,17 L21,17"
+        android:strokeWidth="1.75"
+        android:strokeColor="#FF000000"
+        android:strokeLineCap="round" />
+
+    <!-- Thumb 1 — positioned left on top track -->
+    <path
+        android:pathData="M8,7 m-2.25,0 a2.25,2.25 0 1 0 4.5,0 a2.25,2.25 0 1 0 -4.5,0"
+        android:fillColor="#FF000000" />
+
+    <!-- Thumb 2 — positioned right on middle track -->
+    <path
+        android:pathData="M16,12 m-2.25,0 a2.25,2.25 0 1 0 4.5,0 a2.25,2.25 0 1 0 -4.5,0"
+        android:fillColor="#FF000000" />
+
+    <!-- Thumb 3 — positioned center-left on bottom track -->
+    <path
+        android:pathData="M11,17 m-2.25,0 a2.25,2.25 0 1 0 4.5,0 a2.25,2.25 0 1 0 -4.5,0"
+        android:fillColor="#FF000000" />
+
+</vector>

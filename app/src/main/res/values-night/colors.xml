@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- MD3 Dark Palette (Seed #8B1A1A) -->
+    <color name="colorPrimary">#FFB4A9</color>
+    <color name="colorOnPrimary">#690005</color>
+    <color name="colorPrimaryContainer">#930006</color>
+    <color name="colorOnPrimaryContainer">#FFDAD5</color>
+    <color name="colorSecondary">#E7BDB7</color>
+    <color name="colorOnSecondary">#442926</color>
+    <color name="colorSecondaryContainer">#5D3F3B</color>
+    <color name="colorOnSecondaryContainer">#FFDAD5</color>
+    <color name="colorTertiary">#E0C38C</color>
+    <color name="colorOnTertiary">#3F2D04</color>
+    <color name="colorTertiaryContainer">#584419</color>
+    <color name="colorOnTertiaryContainer">#FDE1A7</color>
+    <color name="colorError">#FFB4A9</color>
+    <color name="colorOnError">#690005</color>
+    <color name="colorErrorContainer">#930006</color>
+    <color name="colorOnErrorContainer">#FFDAD5</color>
+    <color name="colorOutline">#A08C89</color>
+    <color name="colorOutlineVariant">#534341</color>
+    <color name="colorBackground">#201A19</color>
+    <color name="colorOnBackground">#EDE0DE</color>
+    <color name="colorSurface">#201A19</color>
+    <color name="colorOnSurface">#EDE0DE</color>
+    <color name="colorSurfaceVariant">#534341</color>
+    <color name="colorOnSurfaceVariant">#D8C2BE</color>
+    <color name="colorSurfaceContainerLowest">#0C0807</color>
+    <color name="colorSurfaceContainerLow">#231918</color>
+    <color name="colorSurfaceContainer">#271D1C</color>
+    <color name="colorSurfaceContainerHigh">#322726</color>
+    <color name="colorSurfaceContainerHighest">#3D3231</color>
+
+    <!-- Legacy / Utility Colors (Night) -->
+    <color name="material_green_500">#81C784</color>
+    <color name="material_red_500">#E57373</color>
+    <color name="material_red_100">#FFCDD2</color>
+</resources>

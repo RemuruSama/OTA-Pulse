@@ -11,10 +11,10 @@
         It's the key to Material You theming.
         -->
         <item name="android:windowBackground">?android:attr/colorBackground</item>
-        <item name="android:statusBarColor">?attr/colorSurfaceContainer</item>        <!-- Apply custom MaterialCardView style to remove outlines -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <!-- Apply custom MaterialCardView style to remove outlines -->
         <item name="materialCardViewStyle">@style/Widget.App.MaterialCardView</item>
-        <item name="android:navigationBarColor">?attr/colorSurfaceContainer</item>
-        <!--  This line tells the system to use dark icons on the status bar, which is correct for a light theme.  -->
+        <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
     </style>
 </resources>

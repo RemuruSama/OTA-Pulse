@@ -15,10 +15,25 @@
                 android:valueTo="0.95"
                 android:valueType="floatType"
                 android:interpolator="@android:anim/decelerate_interpolator" />
+            <objectAnimator
+                android:propertyName="translationZ"
+                android:duration="200"
+                android:valueTo="6dp"
+                android:valueType="floatType" />
+            <objectAnimator
+                android:propertyName="elevation"
+                android:duration="200"
+                android:valueTo="6dp"
+                android:valueType="floatType" />
         </set>
     </item>
     <item>
         <set>
+            <objectAnimator
+                android:propertyName="translationZ"
+                android:duration="200"
+                android:valueTo="0dp"
+                android:valueType="floatType" />
             <!-- Bounce out slightly (overshoot) -->
             <objectAnimator
                 android:propertyName="scaleX"

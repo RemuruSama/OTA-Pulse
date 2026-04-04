@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/drawable/bg_accent_line.xml -->
+<!--
+  A short accent underline under the hero title.
+  Uses a gradient from colorPrimary → transparent to give a
+  "fading underline" editorial effect.
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <corners android:radius="2dp" />
+    <gradient
+        android:type="linear"
+        android:angle="0"
+        android:startColor="?attr/colorPrimary"
+        android:endColor="@android:color/transparent" />
+</shape>

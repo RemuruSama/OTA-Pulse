@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Flask neck top bar -->
+    <path
+        android:pathData="M8,3 L16,3"
+        android:strokeWidth="1.75"
+        android:strokeColor="#FF000000"
+        android:strokeLineCap="round" />
+
+    <!-- Left neck side -->
+    <path
+        android:pathData="M9.5,3 L9.5,9"
+        android:strokeWidth="1.75"
+        android:strokeColor="#FF000000"
+        android:strokeLineCap="round" />
+
+    <!-- Right neck side -->
+    <path
+        android:pathData="M14.5,3 L14.5,9"
+        android:strokeWidth="1.75"
+        android:strokeColor="#FF000000"
+        android:strokeLineCap="round" />
+
+    <!-- Flask body outline -->
+    <path
+        android:pathData="M9.5,9 L4.5,17 A2.5,2.5 0 0 0 6.83,21 L17.17,21 A2.5,2.5 0 0 0 19.5,17 L14.5,9 Z"
+        android:strokeWidth="1.75"
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#FF000000"
+        android:strokeLineJoin="round" />
+
+    <!-- Liquid fill inside flask body -->
+    <path
+        android:pathData="M7.2,15.5 L16.8,15.5 A2.5,2.5 0 0 1 17.17,16 L19.5,17 A2.5,2.5 0 0 1 17.17,21 L6.83,21 A2.5,2.5 0 0 1 4.5,17 L6.83,16 Z"
+        android:fillColor="#FF000000"
+        android:alpha="0.15" />
+
+    <!-- Bubble 1 inside liquid -->
+    <path
+        android:pathData="M9,17.5 m-1,0 a1,1 0 1 0 2,0 a1,1 0 1 0 -2,0"
+        android:fillColor="#FF000000"
+        android:alpha="0.5" />
+
+    <!-- Bubble 2 inside liquid -->
+    <path
+        android:pathData="M13,18.5 m-0.7,0 a0.7,0.7 0 1 0 1.4,0 a0.7,0.7 0 1 0 -1.4,0"
+        android:fillColor="#FF000000"
+        android:alpha="0.5" />
+
+    <!-- Sparkle / star top-right: experimental indicator -->
+    <path
+        android:pathData="M18,3 L18.5,4.5 L20,5 L18.5,5.5 L18,7 L17.5,5.5 L16,5 L17.5,4.5 Z"
+        android:fillColor="#FF000000" />
+
+</vector>

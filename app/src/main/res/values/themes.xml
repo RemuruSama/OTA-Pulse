@@ -1,34 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <style name="Base.Theme.OtaUpdater" parent="Theme.Material3.Light.NoActionBar">
+    <style name="Theme.OTAPulse" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- MD3 Color Roles -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorOnPrimary">@color/colorOnPrimary</item>
+        <item name="colorPrimaryContainer">@color/colorPrimaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/colorOnPrimaryContainer</item>
+        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="colorOnSecondary">@color/colorOnSecondary</item>
+        <item name="colorSecondaryContainer">@color/colorSecondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/colorOnSecondaryContainer</item>
+        <item name="colorTertiary">@color/colorTertiary</item>
+        <item name="colorOnTertiary">@color/colorOnTertiary</item>
+        <item name="colorTertiaryContainer">@color/colorTertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/colorOnTertiaryContainer</item>
+        <item name="colorError">@color/colorError</item>
+        <item name="colorOnError">@color/colorOnError</item>
+        <item name="colorErrorContainer">@color/colorErrorContainer</item>
+        <item name="colorOnErrorContainer">@color/colorOnErrorContainer</item>
+        <item name="colorSurface">@color/colorSurface</item>
+        <item name="colorOnSurface">@color/colorOnSurface</item>
+        <item name="colorSurfaceVariant">@color/colorSurfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/colorOnSurfaceVariant</item>
+        <item name="colorOutline">@color/colorOutline</item>
+        <item name="colorOutlineVariant">@color/colorOutlineVariant</item>
+        <item name="android:colorBackground">@color/colorBackground</item>
+        <item name="colorOnBackground">@color/colorOnBackground</item>
+        <item name="colorSurfaceContainerLowest">@color/colorSurfaceContainerLowest</item>
+        <item name="colorSurfaceContainerLow">@color/colorSurfaceContainerLow</item>
+        <item name="colorSurfaceContainer">@color/colorSurfaceContainer</item>
+        <item name="colorSurfaceContainerHigh">@color/colorSurfaceContainerHigh</item>
+        <item name="colorSurfaceContainerHighest">@color/colorSurfaceContainerHighest</item>
 
+        <!-- windowBackground used as colorSurfaceContainer -->
+        <item name="android:windowBackground">?attr/colorSurfaceContainer</item>
+
+        <!-- UI Standardizations -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="O_MR1">true</item>
+
+        <!-- Component Styles -->
         <item name="materialCardViewStyle">@style/Widget.App.MaterialCardView</item>
-
-        <item name="colorPrimary">@color/on_primary_container_light</item>
-        <item name="colorOnPrimary">@color/on_primary_light</item>
-        <item name="colorPrimaryContainer">@color/primary_container_light</item>
-        <item name="colorOnPrimaryContainer">@color/on_primary_container_light</item>
-        <item name="colorSecondary">@color/secondary_light</item>
-        <item name="colorOnSecondary">@color/on_secondary_light</item>
-        <item name="colorSecondaryContainer">@color/secondary_container_light</item>
-        <item name="colorOnSecondaryContainer">@color/on_secondary_container_light</item>
-        <item name="android:colorBackground">@color/background_light</item>
-        <item name="colorOnBackground">@color/on_background_light</item>
-        <item name="colorSurface">@color/surface_light</item>
-        <item name="colorOnSurface">@color/on_surface_light</item>
-        <item name="colorSurfaceVariant">@color/surface_variant_light</item>
-        <item name="colorOnSurfaceVariant">@color/on_surface_variant_light</item>
-        <item name="colorOutline">@color/outline_light</item>
-
-        <item name="android:statusBarColor">?android:attr/colorBackground</item>
-        <item name="android:navigationBarColor">?attr/colorSurface</item>
-        <!-- If you are using a light status bar with dark icons, consider adding: -->
-        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
         <item name="android:popupMenuStyle">@style/Widget.App.PopupMenu</item>
         <item name="android:listPopupWindowStyle">@style/Widget.App.ListPopupWindow</item>
     </style>
 
-    <style name="Theme.OtaUpdater" parent="Base.Theme.OtaUpdater" />
+    <style name="Theme.OtaUpdater" parent="Theme.OTAPulse" />
 
     <style name="ShapeAppearanceOverlay.App.CornerSize50Percent">
         <item name="cornerFamily">rounded</item>
@@ -37,15 +56,12 @@
 
     <style name="ShapeAppearance.App.Dialog.Rounded" parent="ShapeAppearance.Material3.MediumComponent">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">28dp</item> 
-    </style>
-
-    <style name="Theme.Otaupdater1" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Make sure your main app theme or activity theme is correctly set up -->
+        <item name="cornerSize">28dp</item>
     </style>
 
     <style name="Widget.App.MaterialCardView" parent="Widget.Material3.CardView.Filled">
         <item name="shapeAppearance">@style/ShapeAppearance.Material3.Corner.Large</item>
     </style>
+
 
 </resources>

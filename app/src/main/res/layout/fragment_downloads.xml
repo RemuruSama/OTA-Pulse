@@ -4,15 +4,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorSurfaceContainerLow"
-    tools:context=".ui.downloads.DownloadsFragment">
+    android:background="?attr/colorSurfaceContainerHigh"
+    tools:context=".feature.downloads.ui.DownloadsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/downloadsRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:padding="8dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="88dp"
         tools:listitem="@layout/list_item_download" />
 
     <LinearLayout
@@ -26,9 +27,9 @@
         tools:visibility="visible">
 
         <ImageView
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_marginBottom="8dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginBottom="12dp"
             android:clickable="true"
             android:focusable="true"
             android:stateListAnimator="@animator/bounce_animation"
@@ -40,7 +41,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="No active downloads"
-            android:textAppearance="?attr/textAppearanceBodyLarge" />
+            android:textAppearance="?attr/textAppearanceBodyLarge"
+            android:textColor="?attr/colorOnSurface" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Start by tapping the + button below"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:gravity="center" />
 
     </LinearLayout>
 
@@ -50,7 +61,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        android:contentDescription="Add Download"
+        app:backgroundTint="?attr/colorPrimaryContainer"
+        app:tint="?attr/colorOnPrimaryContainer"
+        android:contentDescription="@string/add_download"
         app:srcCompat="@drawable/ic_add" />
 
 </FrameLayout>

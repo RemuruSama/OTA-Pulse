@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorSurfaceContainerLow"
-    tools:context=".ui.devices.AddDeviceFragment">
+    android:background="?attr/colorSurfaceContainerHigh"
+    tools:context=".feature.devices.ui.AddDeviceFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/toolbar_layout"
@@ -16,8 +16,8 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorSurfaceContainerLow"
-
+            android:background="?attr/colorSurfaceContainerHigh"
+            app:navigationIconTint="?attr/colorOnSurface"
             app:navigationIcon="@drawable/ic_arrow_back">
 
             <!-- By removing app:title and adding our own TextView, -->
@@ -49,7 +49,7 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="?attr/colorSurfaceContainer"
+                app:cardBackgroundColor="?attr/colorSurface"
                 app:cardElevation="0dp">
 
                 <LinearLayout

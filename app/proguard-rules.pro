@@ -1,21 +1,58 @@
-# Add project specific ProGuard rules here.
-# You can control the set of applied configuration files using the
-# proguardFiles setting in build.gradle.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
+# ProGuard rules for OTA Pulse
 
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
+# ---- Gson ----
+# Keep Gson-serialized model classes
+-keepattributes Signature
+-keepattributes *Annotation*
+-keep class com.abhinav.otapulse.domain.model.** { *; }
+-keep class com.abhinav.otapulse.util.NetworkComponent { *; }
+-keep class com.abhinav.otapulse.util.PredefinedDevice { *; }
+-keep class com.abhinav.otapulse.util.RegionVariant { *; }
+-keep class com.abhinav.otapulse.util.RegionData { *; }
+-keep class com.abhinav.otapulse.util.RequestPayload { *; }
+-keep class com.abhinav.otapulse.util.Data$ServerConfig { *; }
 
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+# Gson specific
+-dontwarn sun.misc.**
+-keep class com.google.gson.** { *; }
+-keep class * extends com.google.gson.TypeAdapter
+-keep class * implements com.google.gson.TypeAdapterFactory
+-keep class * implements com.google.gson.JsonSerializer
+-keep class * implements com.google.gson.JsonDeserializer
 
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
+# ---- OkHttp ----
+-dontwarn okhttp3.**
+-dontwarn okio.**
+-keep class okhttp3.** { *; }
+
+# ---- Fetch2 ----
+-keep class com.tonyodev.fetch2.** { *; }
+-keep class com.tonyodev.fetch2core.** { *; }
+
+# ---- Hilt ----
+-keep class dagger.hilt.** { *; }
+-keep class javax.inject.** { *; }
+-keep class * extends dagger.hilt.android.internal.managers.** { *; }
+
+# ---- Kotlin / Coroutines ----
+-dontwarn kotlinx.coroutines.**
+-keep class kotlinx.coroutines.** { *; }
+
+# ---- Stack traces ----
+-keepattributes SourceFile,LineNumberTable
+-renamesourcefileattribute SourceFile
+
+# ---- Apache Commons Compress (XZ) ----
+-dontwarn org.apache.commons.compress.**
+-keep class org.apache.commons.compress.** { *; }
+-dontwarn org.tukaani.xz.**
+-keep class org.tukaani.xz.** { *; }
+
+# ---- Protobuf Lite ----
+-dontwarn com.google.protobuf.**
+-keep class com.google.protobuf.** { *; }
+-keep class chromeos_update_engine.** { *; }
+-keep class * extends com.google.protobuf.GeneratedMessageLite { *; }
+-keep class * extends com.google.protobuf.MessageLite { *; }
+-keep interface * extends com.google.protobuf.MessageLiteOrBuilder { *; }
+-keep class * extends com.google.protobuf.GeneratedMessageLite$Builder { *; }

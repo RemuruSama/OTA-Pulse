@@ -5,8 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorSurfaceContainerLow"
-    tools:context=".ui.settings.SettingsFragment">
+    android:background="?attr/colorSurfaceContainerHigh"
+    tools:context=".feature.settings.SettingsFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -62,7 +62,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="20dp"
-                app:cardBackgroundColor="?attr/colorSurfaceContainer"
+                app:cardBackgroundColor="?attr/colorSurface"
                 app:strokeWidth="0dp"
                 app:cardElevation="0dp"
                 android:layout_marginBottom="24dp">
@@ -109,8 +109,10 @@
                             android:layout_marginEnd="6dp"
                             android:layout_marginBottom="6dp"
                             app:cardCornerRadius="16dp"
-                            app:cardBackgroundColor="?attr/colorSurfaceContainerHigh"
+                            android:background="@drawable/settings_card_selector"
+                            app:cardBackgroundColor="@android:color/transparent"
                             app:strokeWidth="0dp"
+                            app:cardElevation="0dp"
                             android:clickable="true"
                             android:focusable="true"
                             android:stateListAnimator="@animator/bounce_animation">
@@ -124,12 +126,15 @@
                                     android:layout_width="24dp"
                                     android:layout_height="24dp"
                                     android:src="@drawable/ic_light_mode"
-                                    app:tint="?attr/colorOnSurface"
+                                    app:tint="@color/settings_card_content_selector"
+                                    android:duplicateParentState="true"
                                     android:layout_marginBottom="8dp"/>
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Light"
+                                    android:textColor="@color/settings_card_content_selector"
+                                    android:duplicateParentState="true"
                                     android:textAppearance="?attr/textAppearanceLabelLarge"/>
                             </LinearLayout>
                         </com.google.android.material.card.MaterialCardView>
@@ -144,8 +149,10 @@
                             android:layout_marginStart="6dp"
                             android:layout_marginBottom="6dp"
                             app:cardCornerRadius="16dp"
-                            app:cardBackgroundColor="?attr/colorSurfaceContainerHigh"
+                            android:background="@drawable/settings_card_selector"
+                            app:cardBackgroundColor="@android:color/transparent"
                             app:strokeWidth="0dp"
+                            app:cardElevation="0dp"
                             android:clickable="true"
                             android:focusable="true"
                             android:stateListAnimator="@animator/bounce_animation">
@@ -159,12 +166,15 @@
                                     android:layout_width="24dp"
                                     android:layout_height="24dp"
                                     android:src="@drawable/ic_dark_mode"
-                                    app:tint="?attr/colorOnSurface"
+                                    app:tint="@color/settings_card_content_selector"
+                                    android:duplicateParentState="true"
                                     android:layout_marginBottom="8dp"/>
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Dark"
+                                    android:textColor="@color/settings_card_content_selector"
+                                    android:duplicateParentState="true"
                                     android:textAppearance="?attr/textAppearanceLabelLarge"/>
                             </LinearLayout>
                         </com.google.android.material.card.MaterialCardView>
@@ -179,8 +189,10 @@
                             android:layout_marginEnd="6dp"
                             android:layout_marginTop="6dp"
                             app:cardCornerRadius="16dp"
-                            app:cardBackgroundColor="?attr/colorSurfaceContainerHigh"
+                            android:background="@drawable/settings_card_selector"
+                            app:cardBackgroundColor="@android:color/transparent"
                             app:strokeWidth="0dp"
+                            app:cardElevation="0dp"
                             android:clickable="true"
                             android:focusable="true"
                             android:stateListAnimator="@animator/bounce_animation">
@@ -194,12 +206,15 @@
                                     android:layout_width="24dp"
                                     android:layout_height="24dp"
                                     android:src="@drawable/ic_auto_mode"
-                                    app:tint="?attr/colorOnSurface"
+                                    app:tint="@color/settings_card_content_selector"
+                                    android:duplicateParentState="true"
                                     android:layout_marginBottom="8dp"/>
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Auto"
+                                    android:textColor="@color/settings_card_content_selector"
+                                    android:duplicateParentState="true"
                                     android:textAppearance="?attr/textAppearanceLabelLarge"/>
                             </LinearLayout>
                         </com.google.android.material.card.MaterialCardView>
@@ -214,8 +229,10 @@
                             android:layout_marginStart="6dp"
                             android:layout_marginTop="6dp"
                             app:cardCornerRadius="16dp"
-                            app:cardBackgroundColor="?attr/colorSurfaceContainerHigh"
+                            android:background="@drawable/settings_card_selector"
+                            app:cardBackgroundColor="@android:color/transparent"
                             app:strokeWidth="0dp"
+                            app:cardElevation="0dp"
                             android:clickable="true"
                             android:focusable="true"
                             android:stateListAnimator="@animator/bounce_animation">
@@ -229,12 +246,15 @@
                                     android:layout_width="24dp"
                                     android:layout_height="24dp"
                                     android:src="@drawable/ic_system_default"
-                                    app:tint="?attr/colorOnSurface"
+                                    app:tint="@color/settings_card_content_selector"
+                                    android:duplicateParentState="true"
                                     android:layout_marginBottom="8dp"/>
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="System"
+                                    android:textColor="@color/settings_card_content_selector"
+                                    android:duplicateParentState="true"
                                     android:textAppearance="?attr/textAppearanceLabelLarge"/>
                             </LinearLayout>
                         </com.google.android.material.card.MaterialCardView>
@@ -258,7 +278,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="20dp"
-                app:cardBackgroundColor="?attr/colorSurfaceContainer"
+                app:cardBackgroundColor="?attr/colorSurface"
                 app:strokeWidth="0dp"
                 app:cardElevation="0dp"
                 android:layout_marginBottom="24dp">
@@ -343,6 +363,46 @@
                             android:layout_height="wrap_content"/>
                     </LinearLayout>
 
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"/>
+
+                    <!-- ARB Detection Switch -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="16dp">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:layout_marginEnd="16dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="ARB Detection"
+                                android:textAppearance="?attr/textAppearanceTitleMedium"
+                                android:textColor="?attr/colorOnSurface"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Enable Anti-Rollback checks for updates"
+                                android:textAppearance="?attr/textAppearanceBodyMedium"
+                                android:textColor="?attr/colorOnSurfaceVariant"/>
+                        </LinearLayout>
+
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            android:id="@+id/arbDetectionSwitch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
+
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -362,7 +422,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="20dp"
-                app:cardBackgroundColor="?attr/colorSurfaceContainer"
+                app:cardBackgroundColor="?attr/colorSurface"
                 app:strokeWidth="0dp"
                 app:cardElevation="0dp"
                 android:layout_marginBottom="24dp">
@@ -488,7 +548,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="20dp"
-                app:cardBackgroundColor="?attr/colorSurfaceContainer"
+                app:cardBackgroundColor="?attr/colorSurface"
                 app:strokeWidth="0dp"
                 app:cardElevation="0dp">
 
@@ -595,13 +655,16 @@
                     </LinearLayout>
 
                     <com.google.android.material.divider.MaterialDivider
+                        android:id="@+id/contributorsDivider"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="16dp"/>
+                        android:layout_marginHorizontal="16dp"
+                        android:visibility="gone"/>
 
                     <!-- Contributors Row -->
                     <LinearLayout
                         android:id="@+id/contributorsButton"
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -653,7 +716,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="20dp"
-                app:cardBackgroundColor="?attr/colorSurfaceContainer"
+                app:cardBackgroundColor="?attr/colorSurface"
                 app:strokeWidth="0dp"
                 app:cardElevation="0dp"
                 android:clickable="true"

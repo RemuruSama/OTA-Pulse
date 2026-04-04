@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Magnifier Lens (Centered) -->
+    <path
+        android:pathData="M15,9.5 m-6.5,0 a6.5,6.5 0 1 0 13,0 a6.5,6.5 0 1 0 -13,0"
+        android:strokeWidth="1.8"
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#FF000000" />
+
+    <!-- Magnifier Handle -->
+    <path
+        android:pathData="M9,15.5 L4,20.5"
+        android:strokeWidth="2.0"
+        android:strokeColor="#FF000000"
+        android:strokeLineCap="round" />
+
+    <!-- Download Arrow inside Lens -->
+    <path
+        android:pathData="M15,7 L15,12 M12.5,9.5 L15,12 L17.5,9.5"
+        android:strokeWidth="1.6"
+        android:strokeColor="#FF000000"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+
+</vector>

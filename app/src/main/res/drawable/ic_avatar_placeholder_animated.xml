@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:drawable="@drawable/ic_avatar_placeholder">
+
+    <!-- ═══════════════════════════════════════════════════════════
+         ANIMATION 1 — Pulse ring: scale from centre outward
+         Mimics the live / active presence indicator.
+         Scale: 0.88 → 1.10  (tighter bloom than generic 0.85→1.08)
+         Duration: 2000ms — slightly slower for a calm, confident feel
+    ════════════════════════════════════════════════════════════ -->
+    <target android:name="pulse_ring_group">
+        <aapt:attr name="android:animation">
+            <set android:ordering="together">
+
+                <objectAnimator
+                    android:propertyName="scaleX"
+                    android:valueFrom="0.88"
+                    android:valueTo="1.10"
+                    android:duration="2000"
+                    android:repeatCount="infinite"
+                    android:repeatMode="reverse"
+                    android:interpolator="@android:interpolator/fast_out_slow_in"/>
+
+                <objectAnimator
+                    android:propertyName="scaleY"
+                    android:valueFrom="0.88"
+                    android:valueTo="1.10"
+                    android:duration="2000"
+                    android:repeatCount="infinite"
+                    android:repeatMode="reverse"
+                    android:interpolator="@android:interpolator/fast_out_slow_in"/>
+
+            </set>
+        </aapt:attr>
+    </target>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         ANIMATION 2 — Pulse ring alpha fade
+         0.65 → 0.0 in sync with scale, creating the expanding-ring
+         halo effect. Golden colour (#C87828) matches the rim light.
+    ════════════════════════════════════════════════════════════ -->
+    <target android:name="pulse_ring_path">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="strokeAlpha"
+                android:valueFrom="0.65"
+                android:valueTo="0.0"
+                android:duration="2000"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:interpolator="@android:interpolator/fast_out_slow_in"/>
+        </aapt:attr>
+    </target>
+
+</animated-vector>

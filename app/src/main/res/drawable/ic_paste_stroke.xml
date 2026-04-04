@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Board -->
+    <path
+        android:pathData="M16,5 H18 C19.1,5 20,5.9 20,7 V19 C20,20.1 19.1,21 18,21 H6 C4.9,21 4,20.1 4,19 V7 C4,5.9 4.9,5 6,5 H8"
+        android:strokeWidth="1.8"
+        android:strokeColor="#FF000000"
+        android:strokeLineCap="round" />
+
+    <!-- Clip -->
+    <path
+        android:pathData="M8,5 V3 C8,2.4 8.4,2 9,2 H15 C15.6,2 16,2.4 16,3 V5 Z"
+        android:strokeWidth="1.8"
+        android:strokeColor="#FF000000"
+        android:strokeLineJoin="round" />
+
+    <!-- Document Lines -->
+    <path
+        android:pathData="M8,11 H16 M8,16 H13"
+        android:strokeWidth="1.5"
+        android:strokeColor="#FF000000"
+        android:strokeLineCap="round" />
+
+</vector>

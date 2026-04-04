@@ -11,7 +11,7 @@
 ![Platform](https://img.shields.io/badge/Platform-Android-green)
 ![Min Android](https://img.shields.io/badge/Android-10%2B-blue)
 ![Language](https://img.shields.io/badge/Kotlin-100%25-orange)
-![UI](https://img.shields.io/badge/UI-Jetpack%20Compose-purple)
+![UI](https://img.shields.io/badge/UI-View%20Binding-purple)
 ![License](https://img.shields.io/badge/License-Open%20Source-brightgreen)
 
 <b>Download • Manage • Inspect OTA Updates</b>
@@ -46,7 +46,7 @@ Built with a clean architecture and modern Android tools, it provides a secure a
 
 ## 🛠 Tech Stack
 
-Kotlin • Jetpack Compose • Hilt • Retrofit • Coroutines • WorkManager • Fetch
+Kotlin • View Binding • Hilt • OkHttp • Coroutines • WorkManager • Fetch
 
 ---
 

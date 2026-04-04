@@ -1,10 +1,19 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.hilt)
-    alias(libs.plugins.kotlin.compose)
     id("kotlin-parcelize")
     alias(libs.plugins.ksp)
+    alias(libs.plugins.protobuf)
+}
+
+// Load keystore properties from a separate, gitignored file
+val keystorePropertiesFile = rootProject.file("keystore.properties")
+val keystoreProperties = Properties()
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(keystorePropertiesFile.inputStream())
 }
 
 android {
@@ -13,10 +22,10 @@ android {
 
     signingConfigs {
         create("release") {
-            storeFile = file("keystore.jks")
-            storePassword = project.property("STORE_PASSWORD") as String
+            storeFile = rootProject.file("keystore.jks")
+            storePassword = keystoreProperties["STORE_PASSWORD"] as? String ?: ""
             keyAlias = "release"
-            keyPassword = project.property("KEY_PASSWORD") as String
+            keyPassword = keystoreProperties["KEY_PASSWORD"] as? String ?: ""
 
             enableV1Signing = true
             enableV2Signing = true
@@ -24,25 +33,21 @@ android {
         }
     }
 
-    buildTypes {
-        getByName("release") {
-            signingConfig = signingConfigs.getByName("release")
-        }
-    }
-
     defaultConfig {
         applicationId = "com.abhinav.otapulse"
         minSdk = 29
-        targetSdk = 34
-        versionCode = 9
-        versionName = "2.0.1"
+        targetSdk = 35
+        versionCode = 15
+        versionName = "3.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("release")
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -62,8 +67,31 @@ android {
 
     buildFeatures {
         viewBinding = true
-        compose = true
         buildConfig = true
+    }
+
+    lint {
+        baseline = file("lint-baseline.xml")
+        abortOnError = false
+        checkReleaseBuilds = false
+    }
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.25.5"
+    }
+    generateProtoTasks {
+        all().forEach { task ->
+            task.builtins {
+                register("java") {
+                    option("lite")
+                }
+                register("kotlin") {
+                    option("lite")
+                }
+            }
+        }
     }
 }
 
@@ -85,15 +113,11 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
 
-    // Compose
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
 
     // Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
+    ksp(libs.androidx.hilt.compiler)
 
     // WorkManager
     implementation(libs.androidx.work.runtime.ktx)
@@ -116,7 +140,13 @@ dependencies {
     implementation(libs.json)
 
     implementation(libs.okhttp)
-    implementation(libs.gson.v2101)
+    implementation(libs.markwon)
+
+    // ARB extraction - XZ/LZMA decompression
+    implementation(libs.commons.compress)
+    implementation(libs.xz)
+    implementation(libs.protobuf.javalite)
+    implementation(libs.protobuf.kotlin.lite)
 
     // Tests
     testImplementation(libs.junit)

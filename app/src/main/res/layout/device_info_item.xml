@@ -53,7 +53,8 @@
             android:textAppearance="?attr/textAppearanceBodyMedium"
             android:textColor="?attr/colorOnSurfaceVariant"
             android:breakStrategy="simple"
-            android:hyphenationFrequency="none" /> <!-- Make text copyable -->
+            android:hyphenationFrequency="none"
+            /> <!-- Make text copyable -->
 
         <ProgressBar
             android:id="@+id/itemProgress"

@@ -2,8 +2,8 @@ package com.abhinav.otapulse.di
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.abhinav.otapulse.util.DownloadNotificationHelper
-import com.abhinav.otapulse.util.OtaFetchNotificationManager
+import com.abhinav.otapulse.core.notifications.DownloadNotificationHelper
+import com.abhinav.otapulse.core.notifications.OtaFetchNotificationManager
 import com.google.gson.Gson
 import com.tonyodev.fetch2.Fetch
 import com.tonyodev.fetch2.FetchConfiguration
@@ -44,7 +44,7 @@ object AppModule {
         
         val fetchConfiguration = FetchConfiguration.Builder(context)
             .setDownloadConcurrentLimit(3)
-            .setHttpDownloader(HttpUrlConnectionDownloader(Downloader.FileDownloaderType.PARALLEL))
+            .setHttpDownloader(com.abhinav.otapulse.core.network.CustomHttpUrlConnectionDownloader(Downloader.FileDownloaderType.PARALLEL))
             .setNotificationManager(fetchNotificationManager) // Enable Foreground Service
             .build()
 
@@ -55,5 +55,11 @@ object AppModule {
     @Singleton
     fun provideGson(): Gson {
         return Gson()
+    }
+
+    @Provides
+    @Singleton
+    fun provideOtaExtractor(@ApplicationContext context: Context): com.abhinav.otapulse.ota.engine.OtaExtractor {
+        return com.abhinav.otapulse.ota.engine.OtaExtractor(context)
     }
 }
