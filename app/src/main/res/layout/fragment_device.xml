@@ -87,7 +87,7 @@
             android:clickable="false"
             android:focusable="false"
             style="@style/Widget.Material3.Chip.Suggestion"
-            app:chipBackgroundColor="?attr/colorSurfaceContainerHigh"
+            app:chipBackgroundColor="?attr/colorSurface"
             app:chipStrokeWidth="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
