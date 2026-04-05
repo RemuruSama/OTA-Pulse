@@ -54,6 +54,7 @@ class PartitionExtractionFragment : Fragment() {
     private var workInfoJob: Job? = null
     private var selectedPartition: PartitionInfo? = null
     private var wasFetchingPartitions = false
+    private var suppressSourceWatcher = false
 
     private val requestPermissionsLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -76,7 +77,13 @@ class PartitionExtractionFragment : Fragment() {
         }
         selectedLocalZipUri = uri
         selectedLocalZipName = resolveDisplayName(uri)
+        if (!binding.inputPartitionUrl.text.isNullOrBlank()) {
+            suppressSourceWatcher = true
+            binding.inputPartitionUrl.text?.clear()
+            suppressSourceWatcher = false
+        }
         updateSelectedLocalZipSummary(uri)
+        updateSourceUiState()
         startPartitionLoad()
     }
 
@@ -105,6 +112,7 @@ class PartitionExtractionFragment : Fragment() {
             selectedLocalZipUri = null
             selectedLocalZipName = ""
             updateSelectedLocalZipSummary(null)
+            updateSourceUiState()
             
             // Re-evaluate if there's a URL to load or reset state
             val urlSource = binding.inputPartitionUrl.text?.toString()?.trim().orEmpty()
@@ -124,6 +132,12 @@ class PartitionExtractionFragment : Fragment() {
         }
 
         binding.inputPartitionUrl.doOnTextChanged { text, _, _, _ ->
+            if (!suppressSourceWatcher && !text.isNullOrBlank() && selectedLocalZipUri != null) {
+                selectedLocalZipUri = null
+                selectedLocalZipName = ""
+                updateSelectedLocalZipSummary(null)
+            }
+
             if (text.isNullOrBlank()) {
                 binding.layoutPartitionUrl.endIconDrawable = androidx.core.content.ContextCompat.getDrawable(requireContext(), com.abhinav.otapulse.R.drawable.ic_paste_stroke)
                 binding.layoutPartitionUrl.setEndIconOnClickListener {
@@ -135,6 +149,8 @@ class PartitionExtractionFragment : Fragment() {
                     binding.inputPartitionUrl.text?.clear()
                 }
             }
+
+            updateSourceUiState()
 
             val partitionData = viewModel.uiState.value.showPartitionSelectDialog
             if (partitionData != null) {
@@ -180,6 +196,8 @@ class PartitionExtractionFragment : Fragment() {
         binding.btnExtractSelected.setHapticClickListener {
             handleExtractAction()
         }
+
+        updateSourceUiState()
     }
 
     private fun pasteFromClipboard() {
@@ -442,6 +460,22 @@ class PartitionExtractionFragment : Fragment() {
                 binding.tvSelectedPartitionName.text = "Select Partition"
             }
         }
+    }
+
+    private fun updateSourceUiState() {
+        val hasUrl = !binding.inputPartitionUrl.text.isNullOrBlank()
+        val hasLocalZip = selectedLocalZipUri != null
+
+        val urlActive = hasUrl || !hasLocalZip
+        val localActive = hasLocalZip || !hasUrl
+
+        binding.layoutPartitionUrl.alpha = if (urlActive) 1f else 0.45f
+        binding.cardLocalZip.alpha = if (localActive) 1f else 0.45f
+        binding.tvLocalZipSummary.alpha = if (localActive) 1f else 0.7f
+        binding.tvLocalZipSize.alpha = if (localActive) 1f else 0.7f
+
+        binding.btnPickLocalZip.isEnabled = !hasUrl
+        binding.btnRemoveLocalZip.isEnabled = !hasUrl
     }
 
 
