@@ -15,5 +15,6 @@ interface DownloadRepository {
     fun retryDownload(downloadInfo: DownloadInfo)
     fun deleteDownload(downloadInfo: DownloadInfo)
     fun getTargetFile(otaUpdate: OtaUpdate, deviceName: String, regionName: String): java.io.File
+    suspend fun getResolvedTargetFile(otaUpdate: OtaUpdate, deviceName: String, regionName: String): java.io.File
     fun deleteFile(file: java.io.File): Boolean
 }

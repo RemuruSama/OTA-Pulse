@@ -504,19 +504,31 @@ class DevicesFragment : Fragment(R.layout.fragment_devices) {
 
 
     private fun showOverwriteConfirmationDialog(pending: PendingDownload) {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(getString(R.string.file_already_exists))
-            .setMessage(getString(R.string.file_exists_message, pending.targetFile.name))
-            .setPositiveButton(getString(R.string.delete_and_download)) { _, _ ->
-                viewModel.confirmOverwriteDownload()
-            }
-            .setNegativeButton(getString(R.string.cancel)) { _, _ ->
-                viewModel.cancelPendingDownload()
-            }
+        val dialogView = layoutInflater.inflate(R.layout.dialog_overwrite_download, null)
+        dialogView.findViewById<TextView>(R.id.textFileName).text = pending.targetFile.name
+
+        val dialog = MaterialAlertDialogBuilder(requireContext())
+            .setView(dialogView)
             .setOnCancelListener {
                 viewModel.cancelPendingDownload()
             }
             .show()
+
+        dialog.applyBackgroundBlur()
+        dialog.window?.setLayout(
+            (resources.displayMetrics.widthPixels * 0.94f).toInt(),
+            android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+
+        dialogView.findViewById<View>(R.id.buttonCancel).setHapticClickListener {
+            viewModel.cancelPendingDownload()
+            dialog.dismiss()
+        }
+
+        dialogView.findViewById<View>(R.id.buttonConfirm).setHapticClickListener {
+            viewModel.confirmOverwriteDownload()
+            dialog.dismiss()
+        }
     }
 
     private fun setupSearch() {

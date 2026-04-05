@@ -18,6 +18,7 @@ import javax.inject.Inject
 data class AddDeviceUiState(
     val deviceName: String = "",
     val firmwareGroups: Map<String, List<RegionVariant>> = emptyMap(),
+    val ruiVersion: Int = 6,
     val isSaveSuccess: Boolean = false,
     val errorMessage: String? = null,
     val isEditMode: Boolean = false,
@@ -37,6 +38,7 @@ class AddDeviceViewModel @Inject constructor(
             it.copy(
                 deviceName = device.name,
                 firmwareGroups = device.firmwareGroups,
+                ruiVersion = device.ruiVersion,
                 isEditMode = true,
                 oldDeviceName = device.name
             )
@@ -114,7 +116,12 @@ class AddDeviceViewModel @Inject constructor(
         val variantsForGroup = newGroups[androidVersion]?.toMutableList() ?: mutableListOf()
         variantsForGroup.add(newVariant)
         newGroups[androidVersion] = variantsForGroup
-        _uiState.update { it.copy(firmwareGroups = newGroups) }
+        _uiState.update {
+            it.copy(
+                firmwareGroups = newGroups,
+                ruiVersion = ruiVersion
+            )
+        }
     }
 
     fun removeVariantFromGroup(androidVersion: String, variant: RegionVariant) {

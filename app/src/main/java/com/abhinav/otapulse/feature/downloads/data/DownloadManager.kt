@@ -69,6 +69,29 @@ class DownloadManager @Inject constructor(
     }
 
     override fun getTargetFile(otaUpdate: OtaUpdate, deviceName: String, regionName: String): File {
+        return resolveTargetFile(otaUpdate, deviceName, regionName, resolvedInfo = null)
+    }
+
+    override suspend fun getResolvedTargetFile(
+        otaUpdate: OtaUpdate,
+        deviceName: String,
+        regionName: String
+    ): File {
+        val resolvedInfo = try {
+            OtaResolver.resolveUrl(otaUpdate.downloadUrl)
+        } catch (e: Exception) {
+            Log.w(TAG, "URL resolution failed during target lookup, using original: ${e.message}")
+            OtaResolver.ResolvedUrlInfo(otaUpdate.downloadUrl, null)
+        }
+        return resolveTargetFile(otaUpdate, deviceName, regionName, resolvedInfo)
+    }
+
+    private fun resolveTargetFile(
+        otaUpdate: OtaUpdate,
+        deviceName: String,
+        regionName: String,
+        resolvedInfo: OtaResolver.ResolvedUrlInfo?
+    ): File {
         val baseDir = File(
             Environment.getExternalStorageDirectory(),
             Component.OTA_UPDATES_DIR
@@ -92,7 +115,18 @@ class DownloadManager @Inject constructor(
             raw.substringBeforeLast('.').take(200 - ext.length) + ext
         } else raw
 
-        return File(targetDir, finalFileName)
+        val initialTargetFile = File(targetDir, finalFileName)
+        val resolvedUrl = resolvedInfo?.url.orEmpty()
+
+        return when {
+            isValidFilename(resolvedFileNameFromUrl(resolvedUrl)) -> {
+                File(initialTargetFile.parentFile, resolvedFileNameFromUrl(resolvedUrl))
+            }
+            isValidFilename(resolvedInfo?.contentDispositionFileName ?: "") -> {
+                File(initialTargetFile.parentFile, resolvedInfo?.contentDispositionFileName!!)
+            }
+            else -> initialTargetFile
+        }
     }
 
 
@@ -125,20 +159,8 @@ class DownloadManager @Inject constructor(
                 Log.w(TAG, "URL resolution failed, using original: ${e.message}")
                 OtaResolver.ResolvedUrlInfo(otaUpdate.downloadUrl, null)
             }
-            // Delegate folder and filename resolution to getTargetFile
-            val targetFile = getTargetFile(otaUpdate, deviceName, regionName)
+            val finalTargetFile = resolveTargetFile(otaUpdate, deviceName, regionName, resolvedInfo)
             val resolvedUrl = resolvedInfo.url
-            
-            // If the resolved URL suggests a different filename than the original fallback, 
-            // we should still respect the version-specific subfolder.
-            val finalTargetFile = if (resolvedFileNameFromUrl(resolvedUrl).let { isValidFilename(it) }) {
-                 val newFileName = resolvedFileNameFromUrl(resolvedUrl)
-                 File(targetFile.parentFile, newFileName)
-            } else if (isValidFilename(resolvedInfo.contentDispositionFileName ?: "")) {
-                 File(targetFile.parentFile, resolvedInfo.contentDispositionFileName!!)
-            } else {
-                targetFile
-            }
 
             Log.i(TAG, "Target File Path: ${finalTargetFile.absolutePath}")
 

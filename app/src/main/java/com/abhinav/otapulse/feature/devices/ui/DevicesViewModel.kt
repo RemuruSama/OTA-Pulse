@@ -9,12 +9,13 @@ import com.abhinav.otapulse.feature.otatools.data.ArbLookupService
 import com.abhinav.otapulse.feature.devices.domain.FetchOtaDetailsUseCase
 import com.abhinav.otapulse.feature.devices.domain.GetDevicesUseCase
 import com.abhinav.otapulse.feature.devices.domain.ToggleFavoriteUseCase
+import com.abhinav.otapulse.feature.downloads.domain.DownloadRepository
 import com.abhinav.otapulse.feature.downloads.domain.DeleteFileUseCase
 import com.abhinav.otapulse.feature.downloads.domain.EnqueueDownloadUseCase
-import com.abhinav.otapulse.feature.downloads.domain.GetTargetFileUseCase
 import android.util.Log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -65,7 +66,7 @@ class DevicesViewModel @Inject constructor(
     private val fetchOtaDetailsUseCase: FetchOtaDetailsUseCase,
     private val toggleFavoriteUseCase: ToggleFavoriteUseCase,
     private val enqueueDownloadUseCase: EnqueueDownloadUseCase,
-    private val getTargetFileUseCase: GetTargetFileUseCase,
+    private val downloadRepository: DownloadRepository,
     private val deleteFileUseCase: DeleteFileUseCase,
     private val deviceRepository: com.abhinav.otapulse.catalog.repository.DeviceRepository,
     private val arbLookupService: ArbLookupService,
@@ -79,6 +80,7 @@ class DevicesViewModel @Inject constructor(
     val uiState: StateFlow<DevicesUiState> = _uiState.asStateFlow()
 
     private var allDevices: List<Device> = emptyList()
+    private var devicesCollectionJob: Job? = null
 
     init {
         loadDevices()
@@ -90,7 +92,11 @@ class DevicesViewModel @Inject constructor(
 
     fun startDownload(otaUpdate: OtaUpdate, device: Device, variant: RegionVariant) {
         viewModelScope.launch(Dispatchers.IO) {
-            val targetFile = getTargetFileUseCase(otaUpdate, device, variant)
+            val targetFile = downloadRepository.getResolvedTargetFile(
+                otaUpdate = otaUpdate,
+                deviceName = device.name,
+                regionName = variant.displayName
+            )
             if (targetFile.exists()) {
                 _uiState.update {
                     it.copy(
@@ -125,7 +131,8 @@ class DevicesViewModel @Inject constructor(
     }
 
     private fun loadDevices() {
-        getDevicesUseCase()
+        devicesCollectionJob?.cancel()
+        devicesCollectionJob = getDevicesUseCase()
             .onEach { devices ->
                 allDevices = devices
                 _uiState.update {

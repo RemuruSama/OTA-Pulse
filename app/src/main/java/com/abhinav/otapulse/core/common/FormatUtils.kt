@@ -7,11 +7,14 @@ object FormatUtils {
     /**
      * Formats a byte size into a human-readable string (B, KB, MB, GB).
      */
-    fun formatSize(bytes: Long): String = when {
-        bytes >= 1_073_741_824L -> "%.2f GB".format(java.util.Locale.US, bytes / 1_073_741_824.0)
-        bytes >= 1_048_576L -> "%.1f MB".format(java.util.Locale.US, bytes / 1_048_576.0)
-        bytes >= 1024L -> "%.1f KB".format(java.util.Locale.US, bytes / 1024.0)
-        else -> "$bytes B"
+    fun formatSize(bytes: Long): String {
+        val safeBytes = bytes.coerceAtLeast(0)
+        return when {
+            safeBytes >= 1_073_741_824L -> formatUnit(safeBytes / 1_073_741_824.0, "GB")
+            safeBytes >= 1_048_576L -> formatUnit(safeBytes / 1_048_576.0, "MB")
+            safeBytes >= 1024L -> formatUnit(safeBytes / 1024.0, "KB")
+            else -> "$safeBytes B"
+        }
     }
 
     /**
@@ -44,5 +47,10 @@ object FormatUtils {
         "LARGE" -> 0xFFB71C1C.toInt()
         "MED"   -> 0xFFF57F17.toInt()
         else    -> 0xFF2E7D32.toInt()
+    }
+
+    private fun formatUnit(value: Double, unit: String): String {
+        val pattern = if (value % 1.0 == 0.0) "#,##0" else "#,##0.#"
+        return "${DecimalFormat(pattern).format(value)} $unit"
     }
 }

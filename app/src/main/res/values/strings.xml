@@ -116,6 +116,11 @@
     <string name="file_already_exists">File Already Exists</string>
     <string name="file_exists_message">The file \"%1$s\" already exists. Do you want to delete it and download again?</string>
     <string name="delete_and_download">Delete &amp; Download</string>
+    <string name="overwrite_dialog_chip">Needs attention</string>
+    <string name="overwrite_dialog_risk">This will replace the current file</string>
+    <string name="overwrite_dialog_message">This file is already on your device. You can keep the current copy, or replace it with a fresh one.</string>
+    <string name="overwrite_dialog_existing_file">Existing file</string>
+    <string name="replace_existing_file">Replace Existing File</string>
 
     <string name="permission_needed">Permission Needed</string>
 

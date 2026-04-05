@@ -36,8 +36,6 @@ class AddDeviceFragment : Fragment() {
     private val viewModel: AddDeviceViewModel by viewModels()
     private lateinit var groupAdapter: FirmwareGroupAdapter
 
-    private var lastSelectedRuiVersion: Int = 6
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -95,7 +93,7 @@ class AddDeviceFragment : Fragment() {
         binding.buttonSaveDevice.setHapticClickListener {
             viewModel.saveDevice(
                 name = binding.inputDeviceName.text.toString(),
-                ruiVersion = lastSelectedRuiVersion
+                ruiVersion = viewModel.uiState.value.ruiVersion
             )
         }
     }
@@ -205,9 +203,7 @@ class AddDeviceFragment : Fragment() {
             .setPositiveButton("Add") { _, _ ->
                 val selectedRegionName = regionSpinner.text.toString()
                 val selectedRegion = RegionData.regions.find { it.displayName == selectedRegionName }
-                val selectedRuiVersion = ruiVersionSpinner.text.toString().toIntOrNull() ?: 5
-
-                lastSelectedRuiVersion = selectedRuiVersion
+                val selectedRuiVersion = ruiVersionSpinner.text.toString().toIntOrNull() ?: viewModel.uiState.value.ruiVersion
 
                 viewModel.addVariantToGroup(
                     androidVersion = androidVersion,

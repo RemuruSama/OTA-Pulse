@@ -4,6 +4,7 @@ import android.util.Log
 import com.abhinav.otapulse.core.model.AppUpdateInfo
 import com.abhinav.otapulse.feature.settings.AppUpdateRepository
 import com.google.gson.Gson
+import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -29,45 +30,59 @@ class AppUpdateRepositoryImpl @Inject constructor(
             .build()
 
         try {
-            val response = client.newCall(request).execute()
-            val jsonString = response.body?.string()
+            client.newCall(request).execute().use { response ->
+                val jsonString = response.body?.string()
 
-            if (!response.isSuccessful) {
-                Log.e(TAG, "Network Error: ${response.code}")
-                return@withContext Result.failure(Exception("Network Error: ${response.code}"))
-            }
-
-            if (jsonString != null) {
-                Log.d(TAG, "Response: $jsonString")
-
-                val json = Gson().fromJson(jsonString, JsonObject::class.java)
-                val latestTag = json.get("tag_name").asString
-
-                val cleanLatest = latestTag.removePrefix("v")
-                val cleanCurrent = currentVersion.removePrefix("v")
-
-                Log.d(TAG, "Comparing Local: $cleanCurrent vs Remote: $cleanLatest")
-
-                if (isNewerVersion(cleanLatest, cleanCurrent)) {
-                    val assets = json.getAsJsonArray("assets")
-                    if (assets.size() > 0) {
-                        val downloadUrl = assets[0].asJsonObject.get("browser_download_url").asString
-                        val body = json.get("body").asString
-                        val updateInfo = AppUpdateInfo(latestTag, downloadUrl, body)
-                        return@withContext Result.success(updateInfo)
-                    } else {
-                        Log.e(TAG, "No assets (APK) attached to the release!")
-                        return@withContext Result.failure(Exception("No assets attached to release"))
-                    }
-                } else {
-                    return@withContext Result.success(null) // No update available
+                if (!response.isSuccessful) {
+                    Log.e(TAG, "Network Error: ${response.code}")
+                    return@withContext Result.failure(Exception("Network Error: ${response.code}"))
                 }
+
+                if (jsonString != null) {
+                    Log.d(TAG, "Response: $jsonString")
+
+                    val json = Gson().fromJson(jsonString, JsonObject::class.java)
+                    val latestTag = json.get("tag_name").asString
+
+                    val cleanLatest = latestTag.removePrefix("v")
+                    val cleanCurrent = currentVersion.removePrefix("v")
+
+                    Log.d(TAG, "Comparing Local: $cleanCurrent vs Remote: $cleanLatest")
+
+                    if (isNewerVersion(cleanLatest, cleanCurrent)) {
+                        val assets = json.getAsJsonArray("assets")
+                        val apkAsset = selectApkAsset(assets)
+                        if (apkAsset != null) {
+                            val downloadUrl = apkAsset.get("browser_download_url").asString
+                            val body = json.get("body").asString
+                            val updateInfo = AppUpdateInfo(latestTag, downloadUrl, body)
+                            return@withContext Result.success(updateInfo)
+                        } else {
+                            Log.e(TAG, "No APK asset attached to the release!")
+                            return@withContext Result.failure(Exception("No APK asset attached to release"))
+                        }
+                    } else {
+                        return@withContext Result.success(null)
+                    }
+                }
+                return@withContext Result.failure(Exception("Empty response"))
             }
-            return@withContext Result.failure(Exception("Empty response"))
         } catch (e: Exception) {
             Log.e(TAG, "Exception: ${e.message}")
             return@withContext Result.failure(e)
         }
+    }
+
+    private fun selectApkAsset(assets: JsonArray?): JsonObject? {
+        if (assets == null || assets.size() == 0) return null
+        return assets
+            .map { it.asJsonObject }
+            .firstOrNull { asset ->
+                val name = asset.get("name")?.asString.orEmpty()
+                val contentType = asset.get("content_type")?.asString.orEmpty()
+                name.endsWith(".apk", ignoreCase = true) ||
+                    contentType.equals("application/vnd.android.package-archive", ignoreCase = true)
+            }
     }
 
     /**
