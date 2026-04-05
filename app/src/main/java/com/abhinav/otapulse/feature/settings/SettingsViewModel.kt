@@ -29,9 +29,17 @@ class SettingsViewModel @Inject constructor(
 
     fun importCustomDevices(json: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val success = customDeviceManager.overwriteDevicesFromJson(json)
-            val message = if (success) "Custom devices imported successfully!" else "Import failed: Invalid file format."
-            _uiState.update { it.copy(toastMessage = message) }
+            try {
+                val result = customDeviceManager.overwriteDevicesFromJson(json)
+                val message = if (result.skippedCount > 0) {
+                    "Imported ${result.importedCount} custom devices. Skipped ${result.skippedCount} invalid entr${if (result.skippedCount == 1) "y" else "ies"}."
+                } else {
+                    "Imported ${result.importedCount} custom devices successfully!"
+                }
+                _uiState.update { it.copy(toastMessage = message) }
+            } catch (_: IllegalArgumentException) {
+                _uiState.update { it.copy(toastMessage = "Import failed: Invalid file format.") }
+            }
         }
     }
 

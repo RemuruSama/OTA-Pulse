@@ -4,9 +4,17 @@ import android.content.SharedPreferences
 import com.abhinav.otapulse.di.CustomDevicesPrefs
 import com.abhinav.otapulse.catalog.model.PredefinedDevice
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import com.google.gson.JsonElement
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
+import com.abhinav.otapulse.core.model.RegionVariant
 import javax.inject.Inject
 import javax.inject.Singleton
+
+data class CustomDeviceImportResult(
+    val importedCount: Int,
+    val skippedCount: Int
+)
 
 @Singleton
 class CustomDeviceManager @Inject constructor(
@@ -19,8 +27,7 @@ class CustomDeviceManager @Inject constructor(
         val json = getCustomDevicesAsJson()
         return if (json.isNotEmpty()) {
             try {
-                val type = object : TypeToken<List<PredefinedDevice>>() {}.type
-                gson.fromJson(json, type)
+                parseDevices(json).devices
             } catch (e: Exception) {
                 emptyList()
             }
@@ -67,16 +74,102 @@ class CustomDeviceManager @Inject constructor(
      * Overwrites the current list of custom devices with data from a JSON string.
      * Returns true if successful, false otherwise.
      */
-    fun overwriteDevicesFromJson(json: String): Boolean {
+    fun overwriteDevicesFromJson(json: String): CustomDeviceImportResult {
         return try {
-            val type = object : TypeToken<List<PredefinedDevice>>() {}.type
-            // This line validates that the JSON is in the correct format
-            gson.fromJson<List<PredefinedDevice>>(json, type)
-            // If validation passes, save the new JSON string
-            sharedPreferences.edit().putString(KEY_CUSTOM_DEVICES, json).commit()
-            true
+            val parseResult = parseDevices(json)
+            sharedPreferences.edit()
+                .putString(KEY_CUSTOM_DEVICES, gson.toJson(parseResult.devices))
+                .commit()
+            CustomDeviceImportResult(
+                importedCount = parseResult.devices.size,
+                skippedCount = parseResult.skippedCount
+            )
         } catch (e: Exception) {
-            false
+            throw IllegalArgumentException("Invalid file format.", e)
         }
     }
+
+    private fun parseDevices(json: String): ParsedDevicesResult {
+        val root = JsonParser.parseString(json)
+        if (!root.isJsonArray) throw IllegalArgumentException("Expected a JSON array.")
+
+        val devices = root.asJsonArray.mapNotNull { element ->
+            element.asJsonObjectOrNull()?.toPredefinedDeviceOrNull()
+        }
+        return ParsedDevicesResult(
+            devices = devices,
+            skippedCount = root.asJsonArray.size() - devices.size
+        )
+    }
+
+    private fun JsonObject.toPredefinedDeviceOrNull(): PredefinedDevice? {
+        val name = getString("name")?.takeIf { it.isNotBlank() } ?: return null
+        val ruiVersion = getInt("ruiVersion") ?: return null
+        val firmwareGroups = getAsJsonObject("firmwareGroups")
+            ?.entrySet()
+            ?.associate { (groupName, variantsElement) ->
+                groupName to variantsElement.toRegionVariants()
+            }
+            ?.filterValues { it.isNotEmpty() }
+            .orEmpty()
+
+        if (firmwareGroups.isEmpty()) return null
+
+        return PredefinedDevice(
+            name = name,
+            ruiVersion = ruiVersion,
+            imei = getString("imei").orEmpty(),
+            beta = getBoolean("beta") ?: false,
+            imageUrl = getString("imageUrl"),
+            imageResId = getInt("imageResId"),
+            firmwareGroups = firmwareGroups,
+            isFavorite = getBoolean("isFavorite") ?: false,
+            isLoadingDetails = getBoolean("isLoadingDetails") ?: false,
+            isCustom = getBoolean("isCustom") ?: true
+        )
+    }
+
+    private fun JsonElement.toRegionVariants(): List<RegionVariant> {
+        if (!isJsonArray) return emptyList()
+
+        return asJsonArray.mapNotNull { variantElement ->
+            val variant = variantElement.asJsonObjectOrNull() ?: return@mapNotNull null
+            val displayName = variant.getString("displayName")?.takeIf { it.isNotBlank() } ?: return@mapNotNull null
+            val productModel = variant.getString("productModel")?.takeIf { it.isNotBlank() } ?: return@mapNotNull null
+            val firmwareVersion = variant.getString("firmwareVersion")?.takeIf { it.isNotBlank() } ?: return@mapNotNull null
+            val region = variant.getString("region")?.takeIf { it.isNotBlank() } ?: return@mapNotNull null
+
+            RegionVariant(
+                displayName = displayName,
+                productModel = productModel,
+                firmwareVersion = firmwareVersion,
+                region = region,
+                nvId = variant.getString("nvId"),
+                language = variant.getString("language")
+            )
+        }
+    }
+
+    private fun JsonElement.asJsonObjectOrNull(): JsonObject? =
+        if (isJsonObject) asJsonObject else null
+
+    private fun JsonObject.getString(key: String): String? {
+        val element = get(key) ?: return null
+        return if (element.isJsonNull) null else element.asString
+    }
+
+    private fun JsonObject.getInt(key: String): Int? {
+        val element = get(key) ?: return null
+        return if (element.isJsonNull) null else runCatching { element.asInt }.getOrNull()
+    }
+
+    private fun JsonObject.getBoolean(key: String): Boolean? {
+        val element = get(key) ?: return null
+        return if (element.isJsonNull) null else runCatching { element.asBoolean }.getOrNull()
+    }
+
+    private data class ParsedDevicesResult(
+        val devices: List<PredefinedDevice>,
+        val skippedCount: Int
+    )
 }
