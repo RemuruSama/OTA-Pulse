@@ -13,6 +13,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import com.abhinav.otapulse.R
+import com.abhinav.otapulse.app.MainActivity
 import com.abhinav.otapulse.core.common.FormatUtils
 import com.abhinav.otapulse.core.model.DownloadInfo
 import com.abhinav.otapulse.core.receiver.DownloadActionReceiver
@@ -80,6 +81,7 @@ class DownloadNotificationHelper @Inject constructor(
 
         val summaryNotification = NotificationCompat.Builder(context, CHANNEL_ID_PROGRESS)
             .setSmallIcon(R.drawable.ic_download)
+            .setContentIntent(createOpenDownloadsPendingIntent())
             .setGroup(NOTIFICATION_GROUP)
             .setGroupSummary(true)
             .setPriority(NotificationCompat.PRIORITY_LOW)
@@ -127,6 +129,7 @@ class DownloadNotificationHelper @Inject constructor(
             .setSmallIcon(R.drawable.ic_download)
             .setContentTitle(title.ifBlank { context.getString(R.string.app_name) })
             .setContentText(contentText.ifBlank { "..." })
+            .setContentIntent(createOpenDownloadsPendingIntent())
             .setPriority(NotificationCompat.PRIORITY_LOW)
             .setOngoing(true)
             .setOnlyAlertOnce(true)
@@ -280,6 +283,19 @@ class DownloadNotificationHelper @Inject constructor(
             return
         }
         notificationManager.notify(id, builder.build())
+    }
+
+    private fun createOpenDownloadsPendingIntent(): PendingIntent {
+        val intent = Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
+            action = MainActivity.ACTION_OPEN_DOWNLOADS
+        }
+        return PendingIntent.getActivity(
+            context,
+            300,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
     }
 
     private fun formatEta(etaInMilliSeconds: Long): String {

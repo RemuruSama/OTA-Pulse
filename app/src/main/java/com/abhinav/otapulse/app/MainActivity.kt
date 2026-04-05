@@ -64,6 +64,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         private const val TAG = "MainActivity"
         private const val PREFS_NAME = "ota_pulse_app_prefs"
         private const val KEY_FIRST_LAUNCH = "is_first_launch"
+        const val ACTION_OPEN_DOWNLOADS = "com.abhinav.otapulse.ACTION_OPEN_DOWNLOADS"
     }
 
     private val requestNotificationPermissionLauncher =
@@ -113,10 +114,12 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         checkForAppUpdates()
         observeAppUpdates()
 
-        handleIntent(intent)
+        val handledIntent = handleIntent(intent)
 
         if (savedInstanceState == null) {
-            navigateToFragment(R.id.navigation_device, false)
+            if (!handledIntent) {
+                navigateToFragment(R.id.navigation_device, false)
+            }
         } else {
             supportFragmentManager.findFragmentById(R.id.fragment_container)?.let {
                 updateToolbarForFragment(it)
@@ -171,14 +174,22 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         handleIntent(intent)
     }
 
-    private fun handleIntent(intent: Intent?) {
-        if (intent?.action == "com.abhinav.otapulse.ACTION_SHOW_UPDATE_DIALOG") {
-            val version = intent.getStringExtra("update_version") ?: return
-            val url = intent.getStringExtra("update_url") ?: return
-            val changelog = intent.getStringExtra("update_changelog") ?: return
-            val info = com.abhinav.otapulse.core.model.AppUpdateInfo(version, url, changelog)
-            showUpdateDialog(info)
+    private fun handleIntent(intent: Intent?): Boolean {
+        when (intent?.action) {
+            ACTION_OPEN_DOWNLOADS -> {
+                navigateToFragment(DOWNLOADS_SCREEN_ID, false)
+                return true
+            }
+            "com.abhinav.otapulse.ACTION_SHOW_UPDATE_DIALOG" -> {
+                val version = intent.getStringExtra("update_version") ?: return false
+                val url = intent.getStringExtra("update_url") ?: return false
+                val changelog = intent.getStringExtra("update_changelog") ?: return false
+                val info = com.abhinav.otapulse.core.model.AppUpdateInfo(version, url, changelog)
+                showUpdateDialog(info)
+                return true
+            }
         }
+        return false
     }
 
     private fun showUpdateDialog(info: com.abhinav.otapulse.core.model.AppUpdateInfo) {
