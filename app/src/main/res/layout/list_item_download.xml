@@ -245,10 +245,14 @@
                 android:layout_weight="1"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:minWidth="0dp"
+                android:paddingHorizontal="10dp"
                 android:textAllCaps="false"
                 android:textStyle="bold"
                 app:cornerRadius="16dp"
-                app:iconPadding="8dp"
+                app:iconPadding="6dp"
                 app:iconGravity="textStart"
                 tools:text="Pause" />
 
@@ -264,11 +268,15 @@
                 android:layout_weight="1"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:minWidth="0dp"
+                android:paddingHorizontal="10dp"
                 android:text="Cancel"
                 android:textAllCaps="false"
                 android:textStyle="bold"
                 app:cornerRadius="16dp"
-                app:iconPadding="8dp"
+                app:iconPadding="6dp"
                 app:iconGravity="textStart" />
         </LinearLayout>
 

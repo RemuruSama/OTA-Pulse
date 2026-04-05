@@ -5,6 +5,7 @@ import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -77,6 +78,7 @@ class DownloadAdapter(
             binding.fileSizeTextView.text = context.getString(R.string.file_size_format, FormatUtils.formatSize(downloadInfo.totalBytes))
             updateProgress(downloadInfo)
             bindStatus(downloadInfo)
+            updateActionButtonWeights(downloadInfo.status)
 
             binding.actionButton.isEnabled = true
             when (downloadInfo.status) {
@@ -126,6 +128,20 @@ class DownloadAdapter(
                     binding.cancelButton.setHapticClickListener { onCancel(downloadInfo) }
                 }
             }
+        }
+
+        private fun updateActionButtonWeights(status: Status) {
+            val actionParams = binding.actionButton.layoutParams as LinearLayout.LayoutParams
+            val cancelParams = binding.cancelButton.layoutParams as LinearLayout.LayoutParams
+            if (status == Status.COMPLETED || status == Status.FAILED || status == Status.CANCELLED) {
+                actionParams.weight = 1.15f
+                cancelParams.weight = 0.85f
+            } else {
+                actionParams.weight = 1f
+                cancelParams.weight = 1f
+            }
+            binding.actionButton.layoutParams = actionParams
+            binding.cancelButton.layoutParams = cancelParams
         }
 
         private fun updateProgress(downloadInfo: DownloadInfo) {
