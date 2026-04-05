@@ -26,6 +26,7 @@ fun Download.toDownloadInfo(
         id = this.id,
         file = currentActualFilePath,
         fileName = File(currentActualFilePath).name,
+        downloadedBytes = this.downloaded,
         progress = this.progress,
         status = this.status,
         error = this.error,

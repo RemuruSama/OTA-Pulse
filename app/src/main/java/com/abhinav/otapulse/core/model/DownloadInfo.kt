@@ -8,6 +8,7 @@ data class DownloadInfo(
     val id: Int,
     val file: String,
     val fileName: String,
+    val downloadedBytes: Long,
     val progress: Int,
     val status: Status,
     val error: Error,

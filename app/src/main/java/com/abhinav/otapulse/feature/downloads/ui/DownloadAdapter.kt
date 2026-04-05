@@ -147,7 +147,11 @@ class DownloadAdapter(
         private fun updateProgress(downloadInfo: DownloadInfo) {
             binding.downloadProgressBar.progress = downloadInfo.progress
             binding.downloadProgressText.text = context.getString(R.string.download_progress_percent, downloadInfo.progress)
-            val downloadedBytes = calculateDownloadedBytes(downloadInfo)
+            val downloadedBytes = if (downloadInfo.totalBytes > 0L) {
+                downloadInfo.downloadedBytes.coerceIn(0L, downloadInfo.totalBytes)
+            } else {
+                downloadInfo.downloadedBytes.coerceAtLeast(0L)
+            }
             binding.downloadedAmountTextView.text = context.getString(
                 R.string.downloaded_amount_format,
                 FormatUtils.formatSize(downloadedBytes),
@@ -256,10 +260,6 @@ class DownloadAdapter(
             }
         }
 
-        private fun calculateDownloadedBytes(downloadInfo: DownloadInfo): Long {
-            if (downloadInfo.totalBytes <= 0L) return 0L
-            return (downloadInfo.totalBytes * downloadInfo.progress / 100L).coerceIn(0L, downloadInfo.totalBytes)
-        }
     }
 
     class DownloadDiffCallback : DiffUtil.ItemCallback<DownloadInfo>() {
