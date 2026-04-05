@@ -8,7 +8,6 @@ class RealmeGT7 : DeviceProvider {
 
     private val baseVariants = listOf(
         Triple("TW", "RMX5061", "RMX5061NV1A"),
-        Triple("TR", "RMX5061TR", "RMX5061NV51"),
         Triple("RU", "RMX5061RU", "RMX5061NV37"),
         Triple("MEA", "RMX5061", "RMX5061NVA6"),
         Triple("MY", "RMX5061", "RMX5061NV38"),
@@ -21,7 +20,7 @@ class RealmeGT7 : DeviceProvider {
         Triple("BR", "RMX5061", "RMX5061NV9E"),
         Triple("CN", "RMX6688", "RMX6688NV97")
     )
-    private fun generateRegionalVariants(versionLetter: String): List<RegionVariant> {
+    private fun generateRegionalVariants(versionLetterProvider: (String) -> String): List<RegionVariant> {
         return baseVariants.map { (displayName, productModel, firmwareBase) ->
             val region = when (displayName) {
                 "IN" -> "EU"
@@ -29,6 +28,7 @@ class RealmeGT7 : DeviceProvider {
                 "EU", "RU", "MEA", "TH" -> "EU"
                 else -> "GL"
             }
+            val versionLetter = versionLetterProvider(displayName)
 
             RegionVariant(
                 displayName = displayName,
@@ -46,8 +46,10 @@ class RealmeGT7 : DeviceProvider {
                 ruiVersion = 5,
                 imageUrl = "https://placehold.co/100x100/E3F2FD/1565C0?text=GT7",
                 firmwareGroups = mapOf(
-                    "Android 15" to generateRegionalVariants("A"),
-                    "Android 16" to generateRegionalVariants("F")
+                    "Android 15" to generateRegionalVariants { displayName ->
+                        if (displayName == "CN") "A" else "C"
+                    },
+                    "Android 16" to generateRegionalVariants { "F" }
                 )
             )
         )
