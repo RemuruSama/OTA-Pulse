@@ -162,6 +162,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         lifecycleScope.launch {
             viewModel.appUpdateState.collectLatest { updateInfo ->
                 if (updateInfo != null && !isDestroyed && !isFinishing) {
+                    showUpdateDialog(updateInfo)
                     downloadNotificationHelper.showAppUpdateNotification(updateInfo)
                     viewModel.clearUpdateState()
                 }
