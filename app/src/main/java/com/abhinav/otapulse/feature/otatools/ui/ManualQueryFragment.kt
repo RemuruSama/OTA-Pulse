@@ -35,6 +35,7 @@ import com.abhinav.otapulse.ota.payload.PartitionInfo
 import com.abhinav.otapulse.core.common.DeviceUtils
 import com.abhinav.otapulse.core.common.FormatUtils
 import com.abhinav.otapulse.core.common.PermissionHelper
+import com.abhinav.otapulse.core.common.openInAppBrowser
 import com.abhinav.otapulse.catalog.model.RegionData
 import com.abhinav.otapulse.core.common.setHapticClickListener
 import com.abhinav.otapulse.core.ui.applyBackgroundBlur
@@ -211,7 +212,7 @@ class ManualQueryFragment : Fragment() {
         binding.btnOpenResolvedUrl.setHapticClickListener {
             val resolvedUrl = viewModel.uiState.value.resolverResult?.resolvedUrl ?: return@setHapticClickListener
             try {
-                startActivity(Intent(Intent.ACTION_VIEW, resolvedUrl.toUri()))
+                openInAppBrowser(resolvedUrl, getString(R.string.in_app_browser_title))
             } catch (_: Exception) {
                 Toast.makeText(requireContext(), "Could not open resolved link", Toast.LENGTH_SHORT).show()
             }
@@ -711,7 +712,7 @@ class ManualQueryFragment : Fragment() {
         }
         btnChangelog.setHapticClickListener {
             ota.panelUrl?.let { url ->
-                try { startActivity(Intent(Intent.ACTION_VIEW, url.toUri())) } catch (_: Exception) {}
+                    try { openInAppBrowser(url, getString(R.string.ota_details_title)) } catch (_: Exception) {}
             }
         }
         btnShare.setHapticClickListener {

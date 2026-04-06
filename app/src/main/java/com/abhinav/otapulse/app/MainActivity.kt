@@ -34,6 +34,7 @@ import com.abhinav.otapulse.feature.downloads.ui.DownloadsFragment
 import com.abhinav.otapulse.feature.settings.SettingsFragment
 import com.abhinav.otapulse.feature.settings.libraries.LibrariesFragment
 import com.abhinav.otapulse.core.notifications.DownloadNotificationHelper
+import com.abhinav.otapulse.feature.browser.InAppBrowserActivity
 import io.noties.markwon.Markwon
 
 import com.abhinav.otapulse.core.common.setHapticClickListener
@@ -204,8 +205,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
             .setMessage(markdownChangelog)
             .setPositiveButton(R.string.download_action) { _, _ ->
                 try {
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(info.downloadUrl))
-                    startActivity(intent)
+                    openInAppBrowser(info.downloadUrl, getString(R.string.download_action))
                 } catch (e: Exception) {
                     Toast.makeText(this, getString(R.string.could_not_open_download_link), Toast.LENGTH_SHORT).show()
                 }
@@ -372,6 +372,14 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
             binding.bottomNavigation.menu.findItem(itemId)?.isChecked = true
         }
         updateToolbarForFragment(selectedFragment)
+    }
+
+    fun openInAppBrowser(url: String, title: String? = null) {
+        if (url.isBlank()) {
+            Toast.makeText(this, getString(R.string.could_not_open_link), Toast.LENGTH_SHORT).show()
+            return
+        }
+        startActivity(InAppBrowserActivity.createIntent(this, url, title))
     }
 
     private fun updateBottomNavSelection() {

@@ -199,6 +199,25 @@
     <string name="grant_action">Grant</string>
     <string name="exit_action">Exit</string>
     <string name="could_not_open_download_link">Could not open download link</string>
+    <string name="could_not_open_link">Could not open link</string>
+    <string name="in_app_browser_title">Browser</string>
+    <string name="browser_reload">Reload page</string>
+    <string name="browser_open_external">Open in external browser</string>
+    <string name="browser_back">Go back</string>
+    <string name="browser_forward">Go forward</string>
+    <string name="browser_copy_link">Copy page link</string>
+    <string name="browser_share">Share page</string>
+    <string name="browser_status_loading">Loading</string>
+    <string name="browser_status_live">Live</string>
+    <string name="browser_loading_hint">Preparing a cleaner reading view for this page…</string>
+
+    <string name="browser_settings_title">In-App Browser</string>
+    <string name="browser_desktop_mode_title">Desktop site mode</string>
+    <string name="browser_desktop_mode_summary">Request desktop layouts for documentation and forums</string>
+    <string name="browser_controls_title">Show floating controls</string>
+    <string name="browser_controls_summary">Display the bottom navigation pill while browsing</string>
+    <string name="browser_webview_version_title">WebView version</string>
+    <string name="browser_webview_version_unavailable">Unavailable</string>
 
     <!-- DownloadNotificationHelper -->
     <string name="notif_download_complete">Download Complete</string>

@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatDelegate
@@ -21,6 +22,7 @@ import com.abhinav.otapulse.databinding.DialogDeveloperBinding
 import com.abhinav.otapulse.databinding.FragmentSettingsBinding
 import android.graphics.drawable.AnimatedVectorDrawable
 import com.abhinav.otapulse.core.common.performHapticFeedback
+import com.abhinav.otapulse.core.common.openInAppBrowser
 import com.abhinav.otapulse.core.common.setHapticClickListener
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -47,6 +49,8 @@ class SettingsFragment : Fragment() {
         const val PREF_ADVANCED_MODE_ENABLED = "advanced_mode_enabled"
         const val PREF_AUTO_UPDATE_CHECK = "auto_update_check_enabled"
         const val PREF_ARB_DETECTION_ENABLED = "arb_detection_enabled"
+        const val PREF_BROWSER_DESKTOP_MODE = "browser_desktop_mode"
+        const val PREF_BROWSER_SHOW_CONTROLS = "browser_show_controls"
     }
 
     private val exportLauncher = registerForActivityResult(ActivityResultContracts.CreateDocument("application/json")) { uri ->
@@ -74,6 +78,9 @@ class SettingsFragment : Fragment() {
         setupAdvancedModeSwitch()
         setupAutoUpdateSwitch()
         setupArbDetectionSwitch()
+        setupBrowserDesktopModeSwitch()
+        setupBrowserControlsSwitch()
+        bindWebViewVersion()
         runEnterAnimation()
     }
 
@@ -83,6 +90,8 @@ class SettingsFragment : Fragment() {
             binding.themeCard,
             binding.generalHeader,
             binding.generalCard,
+            binding.browserHeader,
+            binding.browserCard,
             binding.dataHeader,
             binding.dataCard,
             binding.infoHeader,
@@ -127,6 +136,32 @@ class SettingsFragment : Fragment() {
         }
     }
 
+    private fun setupBrowserDesktopModeSwitch() {
+        val isEnabled = appSettingsPrefs.getBoolean(PREF_BROWSER_DESKTOP_MODE, false)
+        binding.browserDesktopModeSwitch.isChecked = isEnabled
+
+        binding.browserDesktopModeSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+            buttonView.performHapticFeedback()
+            appSettingsPrefs.edit().putBoolean(PREF_BROWSER_DESKTOP_MODE, isChecked).apply()
+        }
+    }
+
+    private fun setupBrowserControlsSwitch() {
+        val isEnabled = appSettingsPrefs.getBoolean(PREF_BROWSER_SHOW_CONTROLS, true)
+        binding.browserControlsSwitch.isChecked = isEnabled
+
+        binding.browserControlsSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+            buttonView.performHapticFeedback()
+            appSettingsPrefs.edit().putBoolean(PREF_BROWSER_SHOW_CONTROLS, isChecked).apply()
+        }
+    }
+
+    private fun bindWebViewVersion() {
+        val versionName = WebView.getCurrentWebViewPackage()?.versionName
+            ?: getString(R.string.browser_webview_version_unavailable)
+        binding.browserWebviewVersionValue.text = versionName
+    }
+
     private fun setupClickListeners() {
         binding.lightThemeCard.setHapticClickListener { setTheme(AppCompatDelegate.MODE_NIGHT_NO) }
         binding.darkThemeCard.setHapticClickListener { setTheme(AppCompatDelegate.MODE_NIGHT_YES) }
@@ -165,8 +200,7 @@ class SettingsFragment : Fragment() {
         (dialogBinding.developerAvatar.drawable as? AnimatedVectorDrawable)?.start()
 
         dialogBinding.btnGithub.setHapticClickListener {
-            val browserIntent = android.content.Intent(android.content.Intent.ACTION_VIEW, Uri.parse("https://github.com/RemuruSama"))
-            startActivity(browserIntent)
+            openInAppBrowser("https://github.com/RemuruSama")
         }
 
         dialog.show()
@@ -179,8 +213,7 @@ class SettingsFragment : Fragment() {
             .create()
 
         dialogBinding.btnGithub.setHapticClickListener {
-            val browserIntent = android.content.Intent(android.content.Intent.ACTION_VIEW, Uri.parse("https://github.com/RemuruSama/OTA-Pulse"))
-            startActivity(browserIntent)
+            openInAppBrowser("https://github.com/RemuruSama/OTA-Pulse")
         }
 
         dialogBinding.btnClose.setHapticClickListener {

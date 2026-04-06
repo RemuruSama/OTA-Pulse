@@ -35,6 +35,7 @@ import com.abhinav.otapulse.core.model.OtaUpdate
 import com.abhinav.otapulse.core.model.RegionVariant
 import com.abhinav.otapulse.ota.payload.PartitionInfo
 import com.abhinav.otapulse.core.common.PermissionHelper
+import com.abhinav.otapulse.core.common.openInAppBrowser
 import com.abhinav.otapulse.core.common.toPredefined
 import com.abhinav.otapulse.core.common.toFullRegionName
 import com.abhinav.otapulse.core.common.performHapticFeedback
@@ -668,7 +669,7 @@ class DevicesFragment : Fragment(R.layout.fragment_devices) {
     private fun viewChangelog(url: String) {
         if (url.isNotEmpty()) {
             try {
-                startActivity(Intent(Intent.ACTION_VIEW, url.toUri()))
+                openInAppBrowser(url, getString(R.string.ota_details_title))
             } catch (_: Exception) {
                 Toast.makeText(requireContext(), getString(R.string.changelog_error), Toast.LENGTH_SHORT).show()
             }
