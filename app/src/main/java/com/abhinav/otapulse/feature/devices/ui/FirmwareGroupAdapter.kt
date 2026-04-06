@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.abhinav.otapulse.databinding.ListItemFirmwareGroupEditorBinding
+import com.abhinav.otapulse.R
 import com.abhinav.otapulse.core.model.RegionVariant
 import com.abhinav.otapulse.core.common.setHapticClickListener
 
@@ -37,6 +38,11 @@ class FirmwareGroupAdapter(
         fun bind(group: Pair<String, List<RegionVariant>>) {
             val (androidVersion, variants) = group
             binding.androidVersionTitle.text = androidVersion
+            binding.variantCountText.text = binding.root.resources.getQuantityString(
+                R.plurals.add_device_variant_count,
+                variants.size,
+                variants.size
+            )
 
             val variantAdapter = RegionVariantEditorAdapter { variant ->
                 onRemoveVariantClicked(androidVersion, variant)

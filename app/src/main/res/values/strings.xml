@@ -223,6 +223,20 @@
     <string name="browser_controls_summary">Display the bottom navigation pill while browsing</string>
     <string name="browser_webview_version_title">WebView version</string>
     <string name="browser_webview_version_unavailable">Unavailable</string>
+    <string name="add_device_name_title">Device name</string>
+    <string name="add_device_name_supporting">Choose a clear device label so it is easy to recognize later.</string>
+    <string name="add_device_name_hint">e.g., realme 12 Pro Plus</string>
+    <string name="add_device_groups_title">Firmware groups</string>
+    <string name="add_device_groups_supporting">Organize variants by Android version, then add the regional builds inside each group.</string>
+    <string name="add_device_empty_groups">No firmware groups yet. Add one to start building this custom device.</string>
+    <string name="add_device_add_group">Add firmware group</string>
+    <string name="add_device_save">Save device</string>
+    <string name="add_device_edit_group">Edit firmware group</string>
+    <string name="add_device_delete_group">Delete firmware group</string>
+    <string name="add_device_variants_title">Regional variants</string>
+    <string name="add_device_empty_variants">No variants yet. Add a region to complete this firmware group.</string>
+    <string name="add_device_add_variant">Add variant</string>
+    <string name="add_device_remove_variant">Remove variant</string>
 
     <!-- DownloadNotificationHelper -->
     <string name="notif_download_complete">Download Complete</string>

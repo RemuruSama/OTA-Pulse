@@ -30,6 +30,7 @@ class RegionVariantEditorAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(variant: RegionVariant) {
+            binding.variantRegionBadge.text = variant.region
             binding.variantDisplayName.text = variant.displayName
             binding.variantProductModel.text = variant.productModel
             binding.variantFirmwareVersion.text = variant.firmwareVersion
