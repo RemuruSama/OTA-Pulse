@@ -72,7 +72,7 @@
             android:layout_height="wrap_content"
             android:minWidth="120dp"
             android:text="@string/github_button_text"
-            app:icon="@drawable/ic_code"
+            app:icon="@drawable/ic_github"
             app:iconSize="18dp" />
 
     </LinearLayout>
