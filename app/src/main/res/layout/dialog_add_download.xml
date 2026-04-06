@@ -25,32 +25,63 @@
         android:textColor="?attr/colorOnSurface"
         android:textStyle="bold" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/url_text_input_layout"
-        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+    <LinearLayout
+        android:id="@+id/url_input_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="58dp"
         android:layout_marginTop="10dp"
-        android:hint="Paste URL"
-        app:boxBackgroundColor="?attr/colorSurfaceContainerLow"
-        app:boxCornerRadiusBottomEnd="18dp"
-        app:boxCornerRadiusBottomStart="18dp"
-        app:boxCornerRadiusTopEnd="18dp"
-        app:boxCornerRadiusTopStart="18dp"
-        app:endIconMode="clear_text"
-        app:startIconDrawable="@drawable/ic_download">
+        android:background="@drawable/bg_dialog_url_input"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="14dp"
+        android:paddingEnd="8dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/url_edit_text"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:hint="@string/paste_url"
             android:imeOptions="actionDone"
             android:inputType="textUri"
             android:maxLines="1"
-            android:minHeight="58dp"
+            android:textColor="?attr/colorOnSurface"
+            android:textColorHint="?attr/colorOnSurfaceVariant"
             tools:text="https://example.com/ota.zip" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+        <ImageButton
+            android:id="@+id/pasteUrlButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/paste_url"
+            android:padding="8dp"
+            android:src="@drawable/ic_paste_stroke"
+            app:tint="?attr/colorOnSurfaceVariant" />
+
+        <ImageButton
+            android:id="@+id/clearUrlButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/clear_url"
+            android:padding="8dp"
+            android:src="@drawable/ic_close"
+            android:visibility="gone"
+            app:tint="?attr/colorOnSurfaceVariant" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/urlErrorText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="@string/enter_download_url"
+        android:textAppearance="?attr/textAppearanceLabelMedium"
+        android:textColor="?attr/colorError"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/urlHintText"
@@ -69,7 +100,7 @@
         android:layout_marginTop="22dp"
         android:insetTop="0dp"
         android:insetBottom="0dp"
-        android:text="Start Download"
+        android:text="@string/start_download"
         android:textAllCaps="false"
         android:textStyle="bold"
         app:cornerRadius="18dp"

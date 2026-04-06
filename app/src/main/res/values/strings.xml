@@ -50,6 +50,11 @@
     <string name="no_update_found">No update found</string>
     <string name="retry">Retry</string>
     <string name="add_download">Add download</string>
+    <string name="paste_url">Paste URL</string>
+    <string name="clear_url">Clear URL</string>
+    <string name="start_download">Start Download</string>
+    <string name="enter_download_url">Enter a download URL</string>
+    <string name="no_url_in_clipboard">No URL found in clipboard</string>
 
     <string name="app_name_full">OTA Pulse</string>
     <string name="about_card_title">About This App</string>
