@@ -133,25 +133,31 @@
     <string name="contributors_desc">Community contributions</string>
     
     <string name="libraries_content">
-        <b>Android Jetpack</b><br/>
+        <b>AndroidX</b><br/>
         - Core KTX<br/>
         - AppCompat<br/>
+        - Activity / Activity KTX<br/>
+        - Fragment / Fragment KTX<br/>
         - ConstraintLayout<br/>
-        - Fragment KTX<br/>
-        - Navigation<br/>
-        - Lifecycle<br/>
-        - WorkManager<br/><br/>
+        - RecyclerView<br/>
+        - Lifecycle ViewModel / LiveData KTX<br/>
+        - Navigation Fragment / UI KTX<br/>
+        - WorkManager KTX<br/><br/>
         <b>Google</b><br/>
         - Material Components<br/>
-        - Hilt (Dependency Injection)<br/>
-        - Gson<br/><br/>
-        <b>Square</b><br/>
-        - OkHttp<br/>
-        - Retrofit<br/><br/>
+        - Hilt Android / Hilt Work<br/>
+        - Gson<br/>
+        - FlexboxLayout<br/>
+        - Protocol Buffers Lite<br/><br/>
         <b>Other</b><br/>
-        - Glide (Image Loading)<br/>
-        - Fetch (Download Manager)<br/>
-        - FlexboxLayout
+        - OkHttp<br/>
+        - Glide<br/>
+        - Fetch2<br/>
+        - Markwon<br/>
+        - Apache Commons Compress<br/>
+        - XZ for Java<br/>
+        - kotlinx-coroutines-android<br/>
+        - JSON in Java
     </string>
     
     <string name="developer_content">

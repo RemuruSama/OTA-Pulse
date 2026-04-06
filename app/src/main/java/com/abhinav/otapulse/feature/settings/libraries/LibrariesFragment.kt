@@ -9,9 +9,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.abhinav.otapulse.databinding.FragmentLibrariesBinding
-import com.abhinav.otapulse.core.common.setHapticClickListener
 import dagger.hilt.android.AndroidEntryPoint
+import com.abhinav.otapulse.databinding.FragmentLibrariesBinding
 
 @AndroidEntryPoint
 class LibrariesFragment : Fragment() {
@@ -30,30 +29,7 @@ class LibrariesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
-        val libraries = listOf(
-            Library("Android Jetpack", "Apache License 2.0", "https://developer.android.com/jetpack"),
-            Library("realme-ota", "Open Source", "https://github.com/R0rt1z2/realme-ota"),
-            Library("Material Components for Android", "Apache License 2.0", "https://github.com/material-components/material-components-android"),
-            Library("Hilt", "Apache License 2.0", "https://dagger.dev/hilt/"),
-            Library("OkHttp", "Apache License 2.0", "https://square.github.io/okhttp/"),
-            Library("Glide", "BSD, Part MIT and Apache 2.0", "https://github.com/bumptech/glide"),
-            Library("Fetch", "Apache License 2.0", "https://github.com/tonyofrancis/Fetch"),
-            Library("Gson", "Apache License 2.0", "https://github.com/google/gson"),
-            Library("FlexboxLayout", "Apache License 2.0", "https://github.com/google/flexbox-layout"),
-            Library("Coroutines", "Apache License 2.0", "https://github.com/Kotlin/kotlinx.coroutines"),
-            Library("Activity KTX", "Apache License 2.0", "https://developer.android.com/kotlin/ktx"),
-            Library("Fragment KTX", "Apache License 2.0", "https://developer.android.com/kotlin/ktx"),
-            Library("Lifecycle KTX", "Apache License 2.0", "https://developer.android.com/kotlin/ktx"),
-            Library("Navigation KTX", "Apache License 2.0", "https://developer.android.com/kotlin/ktx"),
-            Library("WorkManager KTX", "Apache License 2.0", "https://developer.android.com/kotlin/ktx"),
-            Library("Markwon", "Apache License 2.0", "https://github.com/noties/Markwon"),
-            Library("Apache Commons Compress", "Apache License 2.0", "https://commons.apache.org/proper/commons-compress/"),
-            Library("XZ for Java", "Public Domain", "https://tukaani.org/xz/java.html"),
-            Library("Protocol Buffers", "BSD License", "https://github.com/protocolbuffers/protobuf"),
-            Library("JSON in Java", "The JSON License", "https://github.com/stleary/JSON-java")
-        ).sortedBy { it.name }
+        val libraries = buildLibraries()
 
         val adapter = LibrariesAdapter(libraries) { library ->
             try {
@@ -72,4 +48,36 @@ class LibrariesFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+    private fun buildLibraries(): List<Library> = listOf(
+        Library("Activity", "Apache License 2.0", "https://developer.android.com/jetpack/androidx/releases/activity"),
+        Library("Activity KTX", "Apache License 2.0", "https://developer.android.com/kotlin/ktx"),
+        Library("Apache Commons Compress", "Apache License 2.0", "https://commons.apache.org/proper/commons-compress/"),
+        Library("AppCompat", "Apache License 2.0", "https://developer.android.com/jetpack/androidx/releases/appcompat"),
+        Library("ConstraintLayout", "Apache License 2.0", "https://developer.android.com/jetpack/androidx/releases/constraintlayout"),
+        Library("Fetch2", "Apache License 2.0", "https://github.com/tonyofrancis/Fetch"),
+        Library("FlexboxLayout", "Apache License 2.0", "https://github.com/google/flexbox-layout"),
+        Library("Fragment", "Apache License 2.0", "https://developer.android.com/jetpack/androidx/releases/fragment"),
+        Library("Fragment KTX", "Apache License 2.0", "https://developer.android.com/kotlin/ktx"),
+        Library("Glide", "BSD, MIT, and Apache License 2.0", "https://github.com/bumptech/glide"),
+        Library("Gson", "Apache License 2.0", "https://github.com/google/gson"),
+        Library("Hilt Android", "Apache License 2.0", "https://dagger.dev/hilt/"),
+        Library("Hilt Work", "Apache License 2.0", "https://developer.android.com/training/dependency-injection/hilt-jetpack"),
+        Library("JSON in Java", "The JSON License", "https://github.com/stleary/JSON-java"),
+        Library("Core KTX", "Apache License 2.0", "https://developer.android.com/kotlin/ktx"),
+        Library("Lifecycle LiveData KTX", "Apache License 2.0", "https://developer.android.com/kotlin/ktx"),
+        Library("Lifecycle ViewModel KTX", "Apache License 2.0", "https://developer.android.com/kotlin/ktx"),
+        Library("Markwon", "Apache License 2.0", "https://github.com/noties/Markwon"),
+        Library("Material Components for Android", "Apache License 2.0", "https://github.com/material-components/material-components-android"),
+        Library("Navigation Fragment KTX", "Apache License 2.0", "https://developer.android.com/kotlin/ktx"),
+        Library("Navigation UI KTX", "Apache License 2.0", "https://developer.android.com/kotlin/ktx"),
+        Library("OkHttp", "Apache License 2.0", "https://square.github.io/okhttp/"),
+        Library("Protocol Buffers Java Lite", "BSD 3-Clause License", "https://github.com/protocolbuffers/protobuf"),
+        Library("Protocol Buffers Kotlin Lite", "BSD 3-Clause License", "https://github.com/protocolbuffers/protobuf"),
+        Library("RecyclerView", "Apache License 2.0", "https://developer.android.com/jetpack/androidx/releases/recyclerview"),
+        Library("realme-ota", "Open Source", "https://github.com/R0rt1z2/realme-ota"),
+        Library("WorkManager KTX", "Apache License 2.0", "https://developer.android.com/kotlin/ktx"),
+        Library("XZ for Java", "Public Domain", "https://tukaani.org/xz/java.html"),
+        Library("kotlinx-coroutines-android", "Apache License 2.0", "https://github.com/Kotlin/kotlinx.coroutines")
+    ).sortedBy { it.name }
 }
