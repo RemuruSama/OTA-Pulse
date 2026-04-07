@@ -212,6 +212,8 @@
     <string name="browser_forward">Go forward</string>
     <string name="browser_copy_link">Copy page link</string>
     <string name="browser_share">Share page</string>
+    <string name="browser_enable_desktop_mode">Enable desktop mode</string>
+    <string name="browser_disable_desktop_mode">Disable desktop mode</string>
     <string name="browser_status_loading">Loading</string>
     <string name="browser_status_live">Live</string>
     <string name="browser_loading_hint">Preparing a cleaner reading view for this page…</string>

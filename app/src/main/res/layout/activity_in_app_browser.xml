@@ -168,6 +168,16 @@
                     app:tint="?attr/colorOnSurface" />
 
                 <ImageButton
+                    android:id="@+id/action_desktop_mode"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/browser_enable_desktop_mode"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_desktop_windows"
+                    app:tint="?attr/colorOnSurface" />
+
+                <ImageButton
                     android:id="@+id/action_copy_link"
                     android:layout_width="44dp"
                     android:layout_height="44dp"
