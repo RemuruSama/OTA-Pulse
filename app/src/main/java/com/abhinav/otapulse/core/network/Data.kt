@@ -21,7 +21,7 @@ object Data {
         "trackRegion" to "unknown", "imei" to "000000000000000", "imei1" to "000000000000000",
         "mode" to "0", "registrationId" to "unknown", "deviceId" to "0", "version" to "3",
         "type" to "1", "otaPrefix" to "unknown", "isRealme" to "unknown", "time" to "0",
-        "canCheckSelf" to "0"
+        "canCheckSelf" to "0", "gray" to "0", "reqMode" to "manual"
     )
 
     val urls = mapOf(

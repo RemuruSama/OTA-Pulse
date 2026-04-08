@@ -11,5 +11,7 @@ data class OtaRequest(
     val deviceId: String? = null,
     val nvIdentifier: String? = null,
     val imei1: String? = null,
-    val language: String? = "en-EN"
+    val language: String? = "en-EN",
+    val reqMode: String? = "manual",
+    val gray: Int = 0
 )

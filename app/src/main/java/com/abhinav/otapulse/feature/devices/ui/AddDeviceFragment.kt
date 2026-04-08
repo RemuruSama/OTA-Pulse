@@ -183,6 +183,8 @@ class AddDeviceFragment : Fragment() {
         val regionSpinner = dialogView.findViewById<AutoCompleteTextView>(R.id.spinnerRegion)
         val versionLetterSpinner = dialogView.findViewById<AutoCompleteTextView>(R.id.spinnerVersionLetter)
         val ruiVersionSpinner = dialogView.findViewById<AutoCompleteTextView>(R.id.spinnerRuiVersion)
+        val reqModeSpinner = dialogView.findViewById<AutoCompleteTextView>(R.id.spinnerReqMode)
+        val graySpinner = dialogView.findViewById<AutoCompleteTextView>(R.id.spinnerGray)
 
         val ruiVersions = (2..7).map { it.toString() }.toTypedArray()
         val ruiAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, ruiVersions)
@@ -196,6 +198,16 @@ class AddDeviceFragment : Fragment() {
         val versionLetterAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, versionLetters)
         versionLetterSpinner.setAdapter(versionLetterAdapter)
 
+        val reqModes = arrayOf("manual", "server_auto", "client_auto", "taste")
+        val reqModeAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, reqModes)
+        reqModeSpinner.setAdapter(reqModeAdapter)
+        reqModeSpinner.setText("manual", false)
+
+        val grayValues = arrayOf("0", "1")
+        val grayAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, grayValues)
+        graySpinner.setAdapter(grayAdapter)
+        graySpinner.setText("0", false)
+
         val dialog = MaterialAlertDialogBuilder(requireContext())
             .setTitle("Add Variant to $androidVersion")
             .setView(dialogView)
@@ -204,6 +216,8 @@ class AddDeviceFragment : Fragment() {
                 val selectedRegionName = regionSpinner.text.toString()
                 val selectedRegion = RegionData.regions.find { it.displayName == selectedRegionName }
                 val selectedRuiVersion = ruiVersionSpinner.text.toString().toIntOrNull() ?: viewModel.uiState.value.ruiVersion
+                val selectedReqMode = reqModeSpinner.text.toString().trim().takeIf { it.isNotBlank() } ?: "manual"
+                val selectedGray = graySpinner.text.toString().trim().toIntOrNull() ?: 0
 
                 viewModel.addVariantToGroup(
                     androidVersion = androidVersion,
@@ -211,7 +225,9 @@ class AddDeviceFragment : Fragment() {
                     productName = productNameInput.text.toString(),
                     selectedRegion = selectedRegion,
                     versionLetter = versionLetterSpinner.text.toString(),
-                    ruiVersion = selectedRuiVersion
+                    ruiVersion = selectedRuiVersion,
+                    reqMode = selectedReqMode,
+                    gray = selectedGray
                 )
             }
             .create()

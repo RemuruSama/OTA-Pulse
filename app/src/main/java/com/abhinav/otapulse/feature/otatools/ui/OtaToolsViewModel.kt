@@ -69,7 +69,9 @@ class OtaToolsViewModel @Inject constructor(
         imei: String = "0",
         beta: Boolean = false,
         nvId: String? = null,
-        language: String? = "en-EN"
+        language: String? = "en-EN",
+        reqMode: String? = "manual",
+        gray: Int = 0
     ) {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, result = null) }
@@ -96,7 +98,7 @@ class OtaToolsViewModel @Inject constructor(
                 language = language
             )
 
-            val result = fetchOtaDetailsUseCase(dummyDevice, regionVariant)
+            val result = fetchOtaDetailsUseCase(dummyDevice, regionVariant, reqMode, gray)
 
             // Enrich with verified ARB data from community database
             val appSettingsPrefs = context.getSharedPreferences(com.abhinav.otapulse.feature.settings.SettingsFragment.APP_SETTINGS_PREFS, android.content.Context.MODE_PRIVATE)

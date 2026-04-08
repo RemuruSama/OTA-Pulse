@@ -87,14 +87,7 @@ class AddDeviceViewModel @Inject constructor(
         _uiState.update { it.copy(firmwareGroups = newGroups) }
     }
 
-    fun addVariantToGroup(
-        androidVersion: String,
-        productModel: String,
-        productName: String,
-        selectedRegion: RegionInfo?,
-        versionLetter: String,
-        ruiVersion: Int
-    ) {
+    fun addVariantToGroup(androidVersion: String, productModel: String, productName: String, selectedRegion: RegionInfo?, versionLetter: String, ruiVersion: Int, reqMode: String, gray: Int) {
         if (productName.isBlank() || productModel.isBlank() || versionLetter.isBlank()) {
             _uiState.update { it.copy(errorMessage = "All variant fields are required.") }
             return
@@ -109,7 +102,9 @@ class AddDeviceViewModel @Inject constructor(
             displayName = selectedRegion.displayName,
             productModel = productName,
             firmwareVersion = "${firmwareBase}_11.${versionLetter}.01_0001_100001010000",
-            region = selectedRegion.serverCode
+            region = selectedRegion.serverCode,
+            reqMode = reqMode,
+            gray = gray
         )
 
         val newGroups = _uiState.value.firmwareGroups.toMutableMap()
@@ -175,3 +170,4 @@ class AddDeviceViewModel @Inject constructor(
         _uiState.update { it.copy(isSaveSuccess = false) }
     }
 }
+

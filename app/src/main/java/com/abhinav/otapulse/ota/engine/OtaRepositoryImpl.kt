@@ -30,7 +30,9 @@ class OtaRepositoryImpl @Inject constructor(
                 deviceId = request.deviceId,
                 nvIdentifier = request.nvIdentifier,
                 imei1 = request.imei1,
-                language = request.language
+                language = request.language,
+                reqMode = request.reqMode,
+                gray = request.gray
             )
 
             requestHelper.prepare()

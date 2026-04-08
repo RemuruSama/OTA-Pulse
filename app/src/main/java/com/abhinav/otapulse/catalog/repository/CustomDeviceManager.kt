@@ -145,7 +145,9 @@ class CustomDeviceManager @Inject constructor(
                 firmwareVersion = firmwareVersion,
                 region = region,
                 nvId = variant.getString("nvId"),
-                language = variant.getString("language")
+                language = variant.getString("language"),
+                reqMode = variant.getString("reqMode") ?: "manual",
+                gray = variant.getInt("gray") ?: 0
             )
         }
     }

@@ -10,5 +10,7 @@ data class RegionVariant(
     val firmwareVersion: String,
     val region: String,
     val nvId: String? = null,
-    val language: String? = null
+    val language: String? = null,
+    val reqMode: String? = "manual",
+    val gray: Int = 0
 ) : Parcelable

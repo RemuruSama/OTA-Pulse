@@ -165,6 +165,16 @@ class ManualQueryFragment : Fragment() {
         val languageAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, languages)
         binding.spinnerLanguage.setAdapter(languageAdapter)
         binding.spinnerLanguage.setText("en-EN", false)
+
+        val reqModes = listOf("manual", "server_auto", "client_auto", "taste")
+        val reqModeAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, reqModes)
+        binding.spinnerReqMode.setAdapter(reqModeAdapter)
+        binding.spinnerReqMode.setText("manual", false)
+
+        val grayValues = listOf("0", "1")
+        val grayAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, grayValues)
+        binding.spinnerGray.setAdapter(grayAdapter)
+        binding.spinnerGray.setText("0", false)
     }
 
     private fun setupClickListeners() {
@@ -273,6 +283,8 @@ class ManualQueryFragment : Fragment() {
             val imei = binding.inputImei.text.toString().trim().takeIf { it.isNotBlank() } ?: "0"
             val finalNvId = inputNvId.ifBlank { systemNvId }.takeIf { it.isNotBlank() }
             val language = binding.spinnerLanguage.text.toString().trim().takeIf { it.isNotBlank() } ?: "en-EN"
+            val reqMode = binding.spinnerReqMode.text.toString().trim().takeIf { it.isNotBlank() } ?: "manual"
+            val gray = binding.spinnerGray.text.toString().trim().toIntOrNull() ?: 0
 
             val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager
             imm.hideSoftInputFromWindow(binding.root.windowToken, 0)
@@ -287,7 +299,9 @@ class ManualQueryFragment : Fragment() {
                 imei = imei,
                 beta = isBeta,
                 nvId = finalNvId,
-                language = language
+                language = language,
+                reqMode = reqMode,
+                gray = gray
             )
         }
     }

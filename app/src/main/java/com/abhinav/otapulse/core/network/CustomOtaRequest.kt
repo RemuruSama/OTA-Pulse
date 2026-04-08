@@ -10,5 +10,7 @@ data class CustomOtaRequest(
     var otaVersionLetter: String = "C",
     var mode: Int = 0, // 0 for Stable, 1 for Beta
     var imei: String = "",
-    var proxy: String = ""
+    var proxy: String = "",
+    var reqMode: String = "manual",
+    var gray: Int = 0
 ) : Serializable

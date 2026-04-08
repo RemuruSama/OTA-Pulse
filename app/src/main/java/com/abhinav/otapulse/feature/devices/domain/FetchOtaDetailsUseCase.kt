@@ -13,7 +13,12 @@ import javax.inject.Inject
  * Unified use case to fetch OTA details for both manual queries and predefined devices.
  */
 class FetchOtaDetailsUseCase @Inject constructor(private val otaRepository: OtaRepository) {
-    suspend operator fun invoke(device: Device, variant: RegionVariant): Result<OtaUpdate> {
+    suspend operator fun invoke(
+        device: Device,
+        variant: RegionVariant,
+        reqMode: String? = variant.reqMode,
+        gray: Int = variant.gray
+    ): Result<OtaUpdate> {
         // 1. Resolve Region Info / Server ID
         // Try mapping the region string directly (for manual "EU", "IN", etc.)
         var regionId = Data.getServerId(variant.region)
@@ -41,7 +46,9 @@ class FetchOtaDetailsUseCase @Inject constructor(private val otaRepository: OtaR
             imei0 = device.imei,
             beta = device.beta,
             nvIdentifier = nvIdentifier,
-            language = variant.language
+            language = variant.language,
+            reqMode = reqMode,
+            gray = gray
         )
 
         // 4. Fetch and Map — repository now returns List<OtaUpdate> directly

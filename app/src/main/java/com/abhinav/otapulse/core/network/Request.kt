@@ -22,7 +22,9 @@ class Request(
     private val deviceId: String? = null,
     private val nvIdentifier: String? = null,
     private val imei1: String? = null,
-    private val language: String? = "en-EN"
+    private val language: String? = "en-EN",
+    private val reqMode: String? = "manual",
+    private val gray: Int = 0
 ) {
     private val properties: MutableMap<String, Any> = mutableMapOf()
     private var v2SymmetricKey: String? = null
@@ -45,6 +47,8 @@ class Request(
         properties["romVersion"] = firmwareVersion.split("_").take(2).joinToString("_")
         properties["nvId"] = nvIdentifier ?: "0"
         properties["language"] = language ?: "en-EN"
+        properties["gray"] = gray.toString()
+        properties["reqMode"] = reqMode ?: "manual"
 
         val idToHash = deviceId ?: imei0 ?: Data.defaultHeaders["deviceId"]!!
         properties["deviceId"] = Crypto.sha256(idToHash)
@@ -248,6 +252,8 @@ class Request(
             if (headers.containsKey(key)) headers[key] = value.toString()
         }
         if (reqVersion == 2) headers["version"] = "2"
+        // Override header 'mode' with reqMode (e.g. "manual", "client_auto", "server_auto", "taste")
+        headers["mode"] = (reqMode ?: "manual")
         return headers
     }
 
