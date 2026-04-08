@@ -157,10 +157,6 @@ class ManualQueryFragment : Fragment() {
             }
         }
 
-        binding.switchAdvanced.setOnCheckedChangeListener { _, isChecked ->
-            binding.layoutAdvancedOptions.isVisible = isChecked
-        }
-
         val languages = listOf("en-EN", "zh-CN", "ru-RU", "hi-IN", "es-ES")
         val languageAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, languages)
         binding.spinnerLanguage.setAdapter(languageAdapter)

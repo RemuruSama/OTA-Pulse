@@ -165,7 +165,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Product Model"
-                app:helperText="e.g. RMX3840"
                 app:startIconDrawable="@drawable/ic_device_stroke"
                 app:startIconTint="?attr/colorPrimary"
                 app:boxCornerRadiusTopStart="14dp"
@@ -192,7 +191,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:hint="Product Name"
-                app:helperText="e.g. RMX3840IN"
                 app:startIconDrawable="@drawable/ic_tag_stroke"
                 app:startIconTint="?attr/colorPrimary"
                 app:boxCornerRadiusTopStart="14dp"
@@ -242,7 +240,7 @@
 
             </LinearLayout>
 
-            <!-- Row 1: Ver Letter + RUI Version -->
+            <!-- Row 1: Ver Letter -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -258,7 +256,6 @@
                     android:layout_weight="1"
                     android:layout_marginEnd="6dp"
                     android:hint="Ver Letter"
-                    app:helperText="e.g. F"
                     app:boxCornerRadiusTopStart="14dp"
                     app:boxCornerRadiusTopEnd="14dp"
                     app:boxCornerRadiusBottomStart="14dp"
@@ -284,6 +281,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginStart="6dp"
+                    android:visibility="gone"
                     android:hint="RUI Version"
                     app:boxCornerRadiusTopStart="14dp"
                     app:boxCornerRadiusTopEnd="14dp"
@@ -291,7 +289,8 @@
                     app:boxCornerRadiusBottomEnd="14dp"
                     app:boxStrokeWidth="0dp"
                     app:boxStrokeWidthFocused="0dp"
-                    app:boxBackgroundColor="?attr/colorSurfaceContainerHigh">
+                    app:boxBackgroundColor="?attr/colorSurfaceContainerHigh"
+                    tools:visibility="gone">
 
                     <AutoCompleteTextView
                         android:id="@+id/spinner_rui_version"
@@ -320,7 +319,6 @@
                     android:layout_weight="1"
                     android:layout_marginEnd="6dp"
                     android:hint="Region"
-                    app:helperText="Determines NVID"
                     app:boxCornerRadiusTopStart="14dp"
                     app:boxCornerRadiusTopEnd="14dp"
                     app:boxCornerRadiusBottomStart="14dp"
@@ -370,13 +368,15 @@
             <!--  ADVANCED OPTIONS TOGGLE ROW        -->
             <!-- ─────────────────────────────────── -->
             <com.google.android.material.card.MaterialCardView
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 app:cardCornerRadius="14dp"
                 app:cardBackgroundColor="?attr/colorSurfaceContainerHigh"
                 app:cardElevation="0dp"
-                app:strokeWidth="0dp">
+                app:strokeWidth="0dp"
+                tools:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -410,7 +410,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="IMEI, NV ID, Language, Req Mode, Gray, Beta"
+                            android:text="NV ID, Req Mode, Gray, Beta"
                             android:textAppearance="?attr/textAppearanceLabelSmall"
                             android:textColor="?attr/colorOnSurfaceVariant" />
                     </LinearLayout>
@@ -432,15 +432,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="10dp"
-                android:visibility="gone"
-                tools:visibility="visible">
+                android:layout_marginTop="0dp">
 
                 <!-- IMEI -->
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.Material3.TextInputLayout.FilledBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:hint="IMEI (Optional)"
                     app:startIconDrawable="@drawable/ic_sim_stroke"
                     app:startIconTint="?attr/colorOutline"
@@ -450,37 +449,11 @@
                     app:boxCornerRadiusBottomEnd="14dp"
                     app:boxStrokeWidth="0dp"
                     app:boxStrokeWidthFocused="0dp"
-                    app:boxBackgroundColor="?attr/colorSurfaceContainerHigh">
+                    app:boxBackgroundColor="?attr/colorSurfaceContainerHigh"
+                    tools:visibility="gone">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/input_imei"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="number"
-                        android:maxLines="1"
-                        android:fontFamily="monospace" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- NV ID -->
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.Material3.TextInputLayout.FilledBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:hint="NV ID (Optional)"
-                    app:helperText="e.g. 10010111"
-                    app:startIconDrawable="@drawable/ic_key_stroke"
-                    app:startIconTint="?attr/colorOutline"
-                    app:boxCornerRadiusTopStart="14dp"
-                    app:boxCornerRadiusTopEnd="14dp"
-                    app:boxCornerRadiusBottomStart="14dp"
-                    app:boxCornerRadiusBottomEnd="14dp"
-                    app:boxStrokeWidth="0dp"
-                    app:boxStrokeWidthFocused="0dp"
-                    app:boxBackgroundColor="?attr/colorSurfaceContainerHigh">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/input_nvid"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
@@ -494,6 +467,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
+                    android:visibility="gone"
                     android:hint="Language"
                     app:startIconDrawable="@drawable/ic_language_stroke"
                     app:startIconTint="?attr/colorOutline"
@@ -503,7 +477,8 @@
                     app:boxCornerRadiusBottomEnd="14dp"
                     app:boxStrokeWidth="0dp"
                     app:boxStrokeWidthFocused="0dp"
-                    app:boxBackgroundColor="?attr/colorSurfaceContainerHigh">
+                    app:boxBackgroundColor="?attr/colorSurfaceContainerHigh"
+                    tools:visibility="gone">
 
                     <AutoCompleteTextView
                         android:id="@+id/spinner_language"
@@ -575,6 +550,32 @@
                             tools:ignore="HardcodedText" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
+
+                <!-- NV ID -->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.Material3.TextInputLayout.FilledBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:hint="NV ID (Optional)"
+                    app:startIconDrawable="@drawable/ic_key_stroke"
+                    app:startIconTint="?attr/colorOutline"
+                    app:boxCornerRadiusTopStart="14dp"
+                    app:boxCornerRadiusTopEnd="14dp"
+                    app:boxCornerRadiusBottomStart="14dp"
+                    app:boxCornerRadiusBottomEnd="14dp"
+                    app:boxStrokeWidth="0dp"
+                    app:boxStrokeWidthFocused="0dp"
+                    app:boxBackgroundColor="?attr/colorSurfaceContainerHigh">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/input_nvid"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:fontFamily="monospace" />
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- Beta Channel toggle row -->
                 <com.google.android.material.card.MaterialCardView
@@ -671,7 +672,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Full OTA URL"
-                app:helperText="Paste a direct full OTA ZIP link"
                 app:startIconDrawable="@drawable/ic_open_external_stroke"
                 app:startIconTint="?attr/colorPrimary"
                 app:boxCornerRadiusTopStart="14dp"
@@ -796,7 +796,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Resolver input link"
-                app:helperText="Paste the OTA link you want to resolve"
                 app:startIconDrawable="@drawable/ic_open_external_stroke"
                 app:startIconTint="?attr/colorPrimary"
                 app:boxCornerRadiusTopStart="14dp"
