@@ -78,16 +78,16 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingHorizontal="12dp"
-                android:paddingVertical="8dp">
+                android:paddingVertical="6dp">
 
                 <TextView
                     android:id="@+id/fileSizeTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?attr/textAppearanceLabelLarge"
-                    android:textColor="?attr/colorOnSurface"
+                    android:textAppearance="?attr/textAppearanceLabelMedium"
+                    android:textColor="?attr/colorOnSurfaceVariant"
                     android:textStyle="bold"
-                    tools:text="5.3 GB" />
+                    tools:text="Size: 5.3 GB" />
             </LinearLayout>
         </LinearLayout>
 
