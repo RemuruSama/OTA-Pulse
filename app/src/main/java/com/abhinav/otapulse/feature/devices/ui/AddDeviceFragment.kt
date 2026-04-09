@@ -182,13 +182,8 @@ class AddDeviceFragment : Fragment() {
         val productNameInput = dialogView.findViewById<TextInputEditText>(R.id.inputProductName)
         val regionSpinner = dialogView.findViewById<AutoCompleteTextView>(R.id.spinnerRegion)
         val versionLetterSpinner = dialogView.findViewById<AutoCompleteTextView>(R.id.spinnerVersionLetter)
-        val ruiVersionSpinner = dialogView.findViewById<AutoCompleteTextView>(R.id.spinnerRuiVersion)
         val reqModeSpinner = dialogView.findViewById<AutoCompleteTextView>(R.id.spinnerReqMode)
         val graySpinner = dialogView.findViewById<AutoCompleteTextView>(R.id.spinnerGray)
-
-        val ruiVersions = (2..7).map { it.toString() }.toTypedArray()
-        val ruiAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, ruiVersions)
-        ruiVersionSpinner.setAdapter(ruiAdapter)
 
         val regionNames = RegionData.regions.map { it.displayName }
         val regionAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, regionNames)
@@ -215,7 +210,6 @@ class AddDeviceFragment : Fragment() {
             .setPositiveButton("Add") { _, _ ->
                 val selectedRegionName = regionSpinner.text.toString()
                 val selectedRegion = RegionData.regions.find { it.displayName == selectedRegionName }
-                val selectedRuiVersion = ruiVersionSpinner.text.toString().toIntOrNull() ?: viewModel.uiState.value.ruiVersion
                 val selectedReqMode = reqModeSpinner.text.toString().trim().takeIf { it.isNotBlank() } ?: "manual"
                 val selectedGray = graySpinner.text.toString().trim().toIntOrNull() ?: 0
 
@@ -225,7 +219,7 @@ class AddDeviceFragment : Fragment() {
                     productName = productNameInput.text.toString(),
                     selectedRegion = selectedRegion,
                     versionLetter = versionLetterSpinner.text.toString(),
-                    ruiVersion = selectedRuiVersion,
+                    ruiVersion = viewModel.uiState.value.ruiVersion,
                     reqMode = selectedReqMode,
                     gray = selectedGray
                 )
