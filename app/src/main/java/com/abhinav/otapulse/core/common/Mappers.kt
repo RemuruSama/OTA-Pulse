@@ -54,7 +54,8 @@ fun NetworkComponent.toDomain(): OtaUpdate {
         securityPatch = this.securityPatch,
         panelUrl = this.panelUrl,
         fileName = fileName,
-        downloadUrl = this.url
+        downloadUrl = this.url,
+        rawJson = this.rawJson
     )
 }
 

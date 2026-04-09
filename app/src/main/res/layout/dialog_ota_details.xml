@@ -21,8 +21,29 @@
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btnViewJsonTop"
             tools:text="@string/ota_details_title" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnViewJsonTop"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:contentDescription="@string/button_view_json"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:padding="0dp"
+            app:backgroundTint="@color/view_json_button_background_tint"
+            app:cornerRadius="20dp"
+            app:icon="@drawable/ic_code"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:iconTint="@color/view_json_button_icon_tint"
+            app:rippleColor="?attr/colorPrimary"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <!-- Version Name -->
         <TextView

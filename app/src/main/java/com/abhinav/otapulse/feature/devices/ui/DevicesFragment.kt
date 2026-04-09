@@ -41,6 +41,7 @@ import com.abhinav.otapulse.core.common.toFullRegionName
 import com.abhinav.otapulse.core.common.performHapticFeedback
 import com.abhinav.otapulse.core.common.setHapticClickListener
 import com.abhinav.otapulse.core.ui.applyBackgroundBlur
+import com.abhinav.otapulse.feature.otatools.ui.JsonOutputActivity
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -186,6 +187,7 @@ class DevicesFragment : Fragment(R.layout.fragment_devices) {
         val btnCopyLink = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnCopyLink)
         val btnChangelog = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnChangelog)
         val btnShare = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnShare)
+        val btnViewJsonTop = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnViewJsonTop)
 
         val layoutPartitionSelector = dialogView.findViewById<View>(R.id.layoutPartitionSelector)
         val tvSelectedPartitionName = dialogView.findViewById<TextView>(R.id.tvSelectedPartitionName)
@@ -471,6 +473,13 @@ class DevicesFragment : Fragment(R.layout.fragment_devices) {
         }
         btnCopyLink.setHapticClickListener { copyLinkToClipboard(data.otaUpdate.url) }
         btnChangelog.setHapticClickListener { viewChangelog(data.otaUpdate.panelUrl ?: "") }
+        btnViewJsonTop.setHapticClickListener {
+            if (data.otaUpdate.rawJson.isNullOrBlank()) {
+                Toast.makeText(requireContext(), getString(R.string.json_output_unavailable), Toast.LENGTH_SHORT).show()
+            } else {
+                startActivity(JsonOutputActivity.createIntent(requireContext(), data.otaUpdate))
+            }
+        }
         btnShare.setHapticClickListener {
             val shareText = """
                 🚀 𝗢𝗧𝗔 𝗣𝘂𝗹𝘀𝗲 | 𝗨𝗽𝗱𝗮𝘁𝗲 𝗔𝗹𝗲𝗿𝘁

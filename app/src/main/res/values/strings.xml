@@ -17,6 +17,16 @@
     <string name="ota_details_title">OTA Details</string>
     <string name="button_copy_link">Copy Link</string>
     <string name="button_download">Download</string>
+    <string name="button_view_json">View JSON</string>
+    <string name="button_download_json">Download</string>
+    <string name="button_save_json">Save</string>
+    <string name="json_output_title">JSON Output</string>
+    <string name="json_output_unavailable">JSON output is not available for this result.</string>
+    <string name="json_output_saved">Saved JSON to Downloads as %s</string>
+    <string name="json_output_save_failed">Could not save JSON output.</string>
+    <string name="json_output_saved_to_file">Saved JSON to %s</string>
+    <string name="copy">Copy</string>
+    <string name="close">Close</string>
 
     <!-- Strings for fragment_device.xml -->
     <string name="device_information_header">Device Information</string>

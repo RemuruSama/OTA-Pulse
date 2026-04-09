@@ -433,6 +433,7 @@ class ManualQueryFragment : Fragment() {
         val btnCopyLink = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnCopyLink)
         val btnChangelog = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnChangelog)
         val btnShare = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnShare)
+        val btnViewJsonTop = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnViewJsonTop)
 
         val layoutPartitionSelector = dialogView.findViewById<View>(R.id.layoutPartitionSelector)
         val tvSelectedPartitionName = dialogView.findViewById<TextView>(R.id.tvSelectedPartitionName)
@@ -754,6 +755,14 @@ class ManualQueryFragment : Fragment() {
                 type = "text/plain"
             }
             startActivity(Intent.createChooser(shareIntent, "Share OTA Update for $deviceName"))
+        }
+
+        btnViewJsonTop.setHapticClickListener {
+            if (ota.rawJson.isNullOrBlank()) {
+                Toast.makeText(requireContext(), getString(R.string.json_output_unavailable), Toast.LENGTH_SHORT).show()
+            } else {
+                startActivity(JsonOutputActivity.createIntent(requireContext(), ota))
+            }
         }
     }
 

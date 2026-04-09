@@ -174,6 +174,7 @@ class Request(
 
     fun parseComponents(content: JSONObject): List<NetworkComponent> {
         val componentsList = mutableListOf<NetworkComponent>()
+        val rawJson = content.toString(2)
 
         // Adaptive Parsing: Check if the useful content is wrapped inside a "body" object
         val dataRoot = if (content.has("body")) content.getJSONObject("body") else content
@@ -228,7 +229,8 @@ class Request(
                     realOsVersion = dataRoot.optString("realOsVersion"),
                     osVersion = dataRoot.optString("osVersion"),
                     colorOSVersion = dataRoot.optString("colorOSVersion"),
-                    panelUrl = cleanPanelUrl
+                    panelUrl = cleanPanelUrl,
+                    rawJson = rawJson
                 )
             )
         }
