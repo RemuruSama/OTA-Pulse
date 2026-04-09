@@ -37,10 +37,33 @@ object DeviceUtils {
     fun getDeviceModel(): String = "${Build.DEVICE} (${getSystemProperty("ro.product.vendor.name")})"
     fun getAndroidVersion(): String = Build.VERSION.RELEASE
     fun getOsVersion(): String = getSystemProperty("ro.build.display.id")
+    fun getDisplayOtaVersion(): String = getSystemProperty("ro.build.display.ota")
     fun getOtaVersion(): String = getSystemProperty("ro.build.version.ota")
     fun getIncrementalOsVersion(): String = Build.VERSION.INCREMENTAL
     fun getSecurityPatch(): String = Build.VERSION.SECURITY_PATCH
     fun getDeviceBrand(): String = getSystemProperty("ro.product.brand")
+
+    fun getOtaVersionLetter(): String {
+        val patterns = listOf(
+            Regex("""_11[._]([A-Z])\.""", RegexOption.IGNORE_CASE),
+            Regex("""\b11[._]([A-Z])\.""", RegexOption.IGNORE_CASE)
+        )
+        val candidates = listOf(
+            getDisplayOtaVersion(),
+            getOtaVersion(),
+            getOsVersion(),
+            getIncrementalOsVersion()
+        )
+
+        for (candidate in candidates) {
+            if (candidate.isBlank()) continue
+            for (pattern in patterns) {
+                val letter = pattern.find(candidate)?.groupValues?.getOrNull(1)?.uppercase()
+                if (!letter.isNullOrBlank()) return letter
+            }
+        }
+        return ""
+    }
 
     fun getRamUsageInfo(context: Context): Pair<Long, Long> {
         return try {

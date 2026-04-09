@@ -228,10 +228,12 @@ class ManualQueryFragment : Fragment() {
             val model = DeviceUtils.getSystemProperty("ro.product.model")
             val name = DeviceUtils.getSystemProperty("ro.product.name")
             val nvId = DeviceUtils.getSystemProperty("ro.build.oplus_nv_id")
+            val otaVersionLetter = DeviceUtils.getOtaVersionLetter()
 
             if (model.isNotBlank()) binding.inputProductModel.setText(model)
             if (name.isNotBlank()) binding.inputProductName.setText(name)
             if (nvId.isNotBlank()) binding.inputNvid.setText(nvId)
+            if (otaVersionLetter.isNotBlank()) binding.spinnerVersionLetter.setText(otaVersionLetter, false)
 
             if (name.isNotBlank()) {
                 val foundRegion = when {
