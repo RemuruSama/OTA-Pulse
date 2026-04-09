@@ -179,9 +179,9 @@ class DevicesFragment : Fragment(R.layout.fragment_devices) {
         val tvVersionName = dialogView.findViewById<TextView>(R.id.tvVersionName)
         val tvAndroidVersion = dialogView.findViewById<TextView>(R.id.tvAndroidVersion)
         val tvSecurityPatch = dialogView.findViewById<TextView>(R.id.tvSecurityPatch)
-        val tvRealOsVersion = dialogView.findViewById<TextView>(R.id.tvRealOsVersion)
         val tvSize = dialogView.findViewById<TextView>(R.id.tvSize)
         val tvArbStatus = dialogView.findViewById<TextView>(R.id.tvArbStatus)
+        val tvMd5 = dialogView.findViewById<TextView>(R.id.tvMd5)
 
         val btnDownloadOta = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnDownloadOta)
         val btnCopyLink = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnCopyLink)
@@ -203,8 +203,6 @@ class DevicesFragment : Fragment(R.layout.fragment_devices) {
         tvVersionName.text = data.otaUpdate.versionName
         tvAndroidVersion.text = data.otaUpdate.realAndroidVersion
         tvSecurityPatch.text = data.otaUpdate.securityPatch
-        tvRealOsVersion.text = data.otaUpdate.realOsVersion
-
         val arbStatusText = data.otaUpdate.arbStatus ?: "N/A"
         tvArbStatus.text = arbStatusText
         if (arbStatusText.equals("Safe", ignoreCase = true)) {
@@ -212,6 +210,9 @@ class DevicesFragment : Fragment(R.layout.fragment_devices) {
         } else if (arbStatusText.contains("Protected", ignoreCase = true)) {
             tvArbStatus.setTextColor(android.graphics.Color.parseColor("#B00020"))
         }
+
+        tvMd5.text = data.otaUpdate.md5.ifBlank { "N/A" }
+        tvMd5.setTextColor(tvAndroidVersion.currentTextColor)
 
         tvSize.text = data.otaUpdate.size
 

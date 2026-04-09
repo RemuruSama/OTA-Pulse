@@ -51,7 +51,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
-            android:textIsSelectable="true"
             android:textStyle="bold"
             android:textAppearance="?attr/textAppearanceBodyMedium"
             android:textColor="?attr/colorOnSurfaceVariant"
@@ -113,37 +112,6 @@
                         tools:text="14" />
                 </LinearLayout>
 
-                <!-- OS Version -->
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-                    <TextView
-                        android:id="@+id/labelOsVersion"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="OS Version"
-                        android:textAppearance="?attr/textAppearanceBodySmall"
-                        android:textColor="?attr/colorOnSurfaceVariant" />
-                    <TextView
-                        android:id="@+id/tvRealOsVersion"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?attr/textAppearanceBodyMedium"
-                        android:textStyle="bold"
-                        tools:text="ColorOS 14.0" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <!-- Row 2 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:orientation="horizontal"
-                android:baselineAligned="false">
-
                 <!-- Security Patch -->
                 <LinearLayout
                     android:layout_width="0dp"
@@ -164,6 +132,37 @@
                         android:textAppearance="?attr/textAppearanceBodyMedium"
                         android:textStyle="bold"
                         tools:text="2024-07-05" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Row 2 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal"
+                android:baselineAligned="false">
+
+                <!-- ARB Status -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/labelArbStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ARB Status"
+                        android:textAppearance="?attr/textAppearanceBodySmall"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+                    <TextView
+                        android:id="@+id/tvArbStatus"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        android:textStyle="bold"
+                        tools:text="Safe" />
                 </LinearLayout>
 
                 <!-- Size -->
@@ -197,25 +196,25 @@
                 android:orientation="horizontal"
                 android:baselineAligned="false">
 
-                <!-- ARB Status -->
+                <!-- MD5 -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
                     <TextView
-                        android:id="@+id/labelArbStatus"
+                        android:id="@+id/labelMd5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="ARB Status"
+                        android:text="MD5"
                         android:textAppearance="?attr/textAppearanceBodySmall"
                         android:textColor="?attr/colorOnSurfaceVariant" />
                     <TextView
-                        android:id="@+id/tvArbStatus"
+                        android:id="@+id/tvMd5"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        android:textAppearance="?attr/textAppearanceBodySmall"
                         android:textStyle="bold"
-                        tools:text="v5" />
+                        tools:text="abcdef1234567890" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
