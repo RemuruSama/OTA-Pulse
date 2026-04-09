@@ -19,6 +19,7 @@ import com.abhinav.otapulse.R
 import com.abhinav.otapulse.core.common.OtaJsonOutputHelper
 import com.abhinav.otapulse.core.model.OtaUpdate
 import com.abhinav.otapulse.databinding.DialogJsonOutputBinding
+import com.google.android.material.color.MaterialColors
 
 class JsonOutputActivity : AppCompatActivity() {
 
@@ -60,6 +61,9 @@ class JsonOutputActivity : AppCompatActivity() {
         }
 
         setupEdgeToEdge()
+        binding.toolbarJson.navigationIcon?.setTint(
+            MaterialColors.getColor(binding.toolbarJson, com.google.android.material.R.attr.colorOnSurface)
+        )
         binding.toolbarJson.setNavigationOnClickListener { finish() }
         val jsonOutput = OtaJsonOutputHelper.getJsonOutput(update)
         binding.tvJsonOutput.text = jsonOutput

@@ -404,8 +404,15 @@ class DevicesFragment : Fragment(R.layout.fragment_devices) {
             .show()
 
         dialog.applyBackgroundBlur()
+        val isLargeScreen = resources.configuration.smallestScreenWidthDp >= 600
+        val maxDialogWidthPx = (720 * resources.displayMetrics.density).toInt()
+        val targetDialogWidth = if (isLargeScreen) {
+            minOf((resources.displayMetrics.widthPixels * 0.68f).toInt(), maxDialogWidthPx)
+        } else {
+            (resources.displayMetrics.widthPixels * 1.0f).toInt()
+        }
         dialog.window?.setLayout(
-            (resources.displayMetrics.widthPixels * 1.0).toInt(),
+            targetDialogWidth,
             android.view.ViewGroup.LayoutParams.WRAP_CONTENT
         )
 

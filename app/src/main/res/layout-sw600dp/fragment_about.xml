@@ -15,15 +15,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp"
-        android:paddingBottom="40dp">
+        android:paddingHorizontal="32dp"
+        android:paddingTop="24dp"
+        android:paddingBottom="56dp">
 
         <!-- 1. APP IDENTITY CARD -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/main_sheet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="16dp"
             app:cardBackgroundColor="?attr/colorSurface"
             app:cardCornerRadius="24dp"
             app:cardElevation="0dp"
@@ -34,9 +35,9 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:gravity="center"
-                android:paddingTop="28dp"
-                android:paddingBottom="24dp"
-                android:paddingHorizontal="24dp">
+                android:paddingTop="36dp"
+                android:paddingBottom="32dp"
+                android:paddingHorizontal="32dp">
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/profile_section"
@@ -112,7 +113,7 @@
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="16dp"
             app:cardBackgroundColor="?attr/colorSurface"
             app:cardCornerRadius="20dp"
             app:cardElevation="0dp"
@@ -122,7 +123,7 @@
                 android:id="@+id/app_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="20dp"
+                android:padding="24dp"
                 android:text="@string/about_app_description"
                 android:textAppearance="?attr/textAppearanceBodyMedium"
                 android:textColor="?attr/colorOnSurfaceVariant"
@@ -140,7 +141,7 @@
             android:textStyle="bold"
             android:letterSpacing="0.06"
             android:layout_marginStart="4dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="10dp"
             android:layout_marginTop="4dp"/>
 
         <!-- Row 1: GitHub + Telegram -->
@@ -276,7 +277,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="16dp"
             android:baselineAligned="false">
 
             <com.google.android.material.card.MaterialCardView
@@ -404,7 +405,7 @@
             android:id="@+id/creator_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="24dp"
             app:cardBackgroundColor="?attr/colorSurface"
             app:cardCornerRadius="20dp"
             app:cardElevation="0dp"
@@ -436,13 +437,28 @@
                     android:orientation="vertical"
                     android:layout_marginStart="14dp">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/made_with"
-                        android:textAppearance="?attr/textAppearanceLabelSmall"
-                        android:textColor="?attr/colorOnSurfaceVariant"
-                        android:alpha="0.85"/>
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/made_with"
+                            android:textAppearance="?attr/textAppearanceLabelSmall"
+                            android:textColor="?attr/colorOnSurfaceVariant"
+                            android:alpha="0.85"/>
+
+                        <ImageView
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:layout_marginStart="4dp"
+                            android:src="@drawable/ic_heart_small"
+                            app:tint="?attr/colorError"/>
+
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/creator_name"

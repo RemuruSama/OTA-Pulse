@@ -1,50 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/colorSurfaceContainerHigh"
+    android:clipToPadding="false"
+    android:fillViewport="true"
+    android:paddingBottom="40dp"
     tools:context=".feature.settings.SettingsFragment">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        app:elevation="0dp">
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp"
+        android:paddingTop="12dp">
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Settings"
-                android:textAppearance="?attr/textAppearanceDisplaySmall"
-                android:textColor="?attr/colorOnSurface"
-                android:textStyle="bold"
-                android:paddingHorizontal="16dp"
-                android:paddingTop="48dp"
-                android:paddingBottom="24dp"
-                app:layout_collapseMode="parallax"/>
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:clipToPadding="false"
-        android:paddingBottom="32dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingHorizontal="16dp">
+            android:paddingBottom="20dp"
+            android:text="Settings"
+            android:textAppearance="?attr/textAppearanceDisplaySmall"
+            android:textColor="?attr/colorOnSurface"
+            android:textStyle="bold" />
 
             <!-- SECTION: APPEARANCE -->
             <TextView
@@ -94,8 +75,8 @@
                     <GridLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:columnCount="2"
-                        android:rowCount="2"
+                        android:columnCount="4"
+                        android:rowCount="1"
                         android:useDefaultMargins="false"
                         android:alignmentMode="alignMargins">
 
@@ -107,7 +88,6 @@
                             android:layout_columnWeight="1"
                             android:layout_rowWeight="1"
                             android:layout_marginEnd="6dp"
-                            android:layout_marginBottom="6dp"
                             app:cardCornerRadius="16dp"
                             android:background="@drawable/settings_card_selector"
                             app:cardBackgroundColor="@android:color/transparent"
@@ -120,7 +100,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
-                                android:padding="16dp"
+                                android:padding="12dp"
                                 android:gravity="center">
                                 <ImageView
                                     android:layout_width="24dp"
@@ -128,7 +108,7 @@
                                     android:src="@drawable/ic_light_mode"
                                     app:tint="@color/settings_card_content_selector"
                                     android:duplicateParentState="true"
-                                    android:layout_marginBottom="8dp"/>
+                                    android:layout_marginBottom="6dp"/>
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -147,7 +127,7 @@
                             android:layout_columnWeight="1"
                             android:layout_rowWeight="1"
                             android:layout_marginStart="6dp"
-                            android:layout_marginBottom="6dp"
+                            android:layout_marginEnd="6dp"
                             app:cardCornerRadius="16dp"
                             android:background="@drawable/settings_card_selector"
                             app:cardBackgroundColor="@android:color/transparent"
@@ -160,7 +140,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
-                                android:padding="16dp"
+                                android:padding="12dp"
                                 android:gravity="center">
                                 <ImageView
                                     android:layout_width="24dp"
@@ -168,7 +148,7 @@
                                     android:src="@drawable/ic_dark_mode"
                                     app:tint="@color/settings_card_content_selector"
                                     android:duplicateParentState="true"
-                                    android:layout_marginBottom="8dp"/>
+                                    android:layout_marginBottom="6dp"/>
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -186,8 +166,8 @@
                             android:layout_height="wrap_content"
                             android:layout_columnWeight="1"
                             android:layout_rowWeight="1"
+                            android:layout_marginStart="6dp"
                             android:layout_marginEnd="6dp"
-                            android:layout_marginTop="6dp"
                             app:cardCornerRadius="16dp"
                             android:background="@drawable/settings_card_selector"
                             app:cardBackgroundColor="@android:color/transparent"
@@ -200,7 +180,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
-                                android:padding="16dp"
+                                android:padding="12dp"
                                 android:gravity="center">
                                 <ImageView
                                     android:layout_width="24dp"
@@ -208,7 +188,7 @@
                                     android:src="@drawable/ic_auto_mode"
                                     app:tint="@color/settings_card_content_selector"
                                     android:duplicateParentState="true"
-                                    android:layout_marginBottom="8dp"/>
+                                    android:layout_marginBottom="6dp"/>
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -227,7 +207,6 @@
                             android:layout_columnWeight="1"
                             android:layout_rowWeight="1"
                             android:layout_marginStart="6dp"
-                            android:layout_marginTop="6dp"
                             app:cardCornerRadius="16dp"
                             android:background="@drawable/settings_card_selector"
                             app:cardBackgroundColor="@android:color/transparent"
@@ -240,7 +219,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
-                                android:padding="16dp"
+                                android:padding="12dp"
                                 android:gravity="center">
                                 <ImageView
                                     android:layout_width="24dp"
@@ -248,7 +227,7 @@
                                     android:src="@drawable/ic_system_default"
                                     app:tint="@color/settings_card_content_selector"
                                     android:duplicateParentState="true"
-                                    android:layout_marginBottom="8dp"/>
+                                    android:layout_marginBottom="6dp"/>
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -893,7 +872,6 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.core.widget.NestedScrollView>
