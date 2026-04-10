@@ -97,10 +97,12 @@ class DownloadManager @Inject constructor(
             Component.OTA_UPDATES_DIR
         )
         
-        // Structure: OTAPulseDownloader/Firmware/<versionName>/
+        // Structure: OTAPulseDownloader/Firmware/<region>-<versionName>/
         val firmwareDir = File(baseDir, "Firmware")
-        val versionName = otaUpdate.versionName ?: "Unknown"
-        val targetDir = File(firmwareDir, versionName).also { 
+        val versionName = sanitizeFolderSegment(otaUpdate.versionName ?: "Unknown")
+        val regionFolderPrefix = sanitizeFolderSegment(regionName).takeIf { regionName.isNotBlank() }.orEmpty()
+        val folderName = if (regionFolderPrefix.isBlank()) versionName else "$regionFolderPrefix-$versionName"
+        val targetDir = File(firmwareDir, folderName).also {
             if (!it.exists()) it.mkdirs() 
         }
 
@@ -136,6 +138,7 @@ class DownloadManager @Inject constructor(
                 val deleted = file.delete()
                 if (deleted) {
                     Log.i(TAG, "File deleted successfully: ${file.absolutePath}")
+                    cleanupEmptyParentDirectories(file)
                 } else {
                     Log.e(TAG, "File.delete() returned false for: ${file.absolutePath}")
                 }
@@ -226,6 +229,41 @@ class DownloadManager @Inject constructor(
                !name.equals(INVALID_FILENAME_DOWNLOADED_FILE, ignoreCase = true)
     }
 
+    private fun cleanupEmptyParentDirectories(file: File) {
+        val baseDir = File(
+            Environment.getExternalStorageDirectory(),
+            Component.OTA_UPDATES_DIR
+        ).absoluteFile
+
+        var current = file.parentFile?.absoluteFile
+        while (current != null && current != baseDir) {
+            val relativePath = runCatching { current.relativeTo(baseDir).path }.getOrNull() ?: break
+            if (relativePath.isBlank()) break
+
+            val children = current.listFiles()
+            if (children != null && children.isEmpty()) {
+                if (current.delete()) {
+                    Log.i(TAG, "Removed empty directory: ${current.absolutePath}")
+                    current = current.parentFile?.absoluteFile
+                } else {
+                    Log.w(TAG, "Failed to remove empty directory: ${current.absolutePath}")
+                    break
+                }
+            } else {
+                break
+            }
+        }
+    }
+
+    private fun sanitizeFolderSegment(value: String): String {
+        return value
+            .trim()
+            .replace(Regex("[\\\\/:*?\"<>|]+"), "_")
+            .replace(Regex("\\s+"), " ")
+            .trim('.')
+            .ifBlank { "Unknown" }
+    }
+
     override fun pauseDownload(downloadInfo: DownloadInfo) {
         fetch.pause(downloadInfo.id)
         notificationHelper.cancelNotification(downloadInfo.id)
@@ -255,7 +293,17 @@ class DownloadManager @Inject constructor(
     }
 
     override fun deleteDownload(downloadInfo: DownloadInfo) {
+        val targetFile = File(downloadInfo.file)
         fetch.delete(downloadInfo.id)
+        if (targetFile.exists()) {
+            val deleted = targetFile.delete()
+            if (!deleted && targetFile.exists()) {
+                Log.w(TAG, "Unable to delete file during download cleanup: ${targetFile.absolutePath}")
+            }
+        }
+        if (!targetFile.exists()) {
+            cleanupEmptyParentDirectories(targetFile)
+        }
         lastProgressUpdateMap.remove(downloadInfo.id)
         speedSmoothingMap.remove(downloadInfo.id)
         autoRefreshAttempts.remove(downloadInfo.id)

@@ -349,7 +349,8 @@ class DevicesFragment : Fragment(R.layout.fragment_devices) {
                                 activeExtractionWorkId = viewModel.extractPartition(
                                     url = partitionData.url,
                                     versionName = partitionData.versionName,
-                                    partitionName = item.name
+                                    partitionName = item.name,
+                                    regionName = data.variant.displayName
                                 )
                                 workInfoJob?.cancel()
                                 workInfoJob = viewLifecycleOwner.lifecycleScope.launch {
@@ -436,7 +437,8 @@ class DevicesFragment : Fragment(R.layout.fragment_devices) {
                 activeExtractionWorkId = viewModel.extractPartition(
                     url = partitionData.url,
                     versionName = partitionData.versionName,
-                    partitionName = partition.name
+                    partitionName = partition.name,
+                    regionName = data.variant.displayName
                 )
                 workInfoJob?.cancel()
                 workInfoJob = viewLifecycleOwner.lifecycleScope.launch {
@@ -485,7 +487,7 @@ class DevicesFragment : Fragment(R.layout.fragment_devices) {
             if (data.otaUpdate.rawJson.isNullOrBlank()) {
                 Toast.makeText(requireContext(), getString(R.string.json_output_unavailable), Toast.LENGTH_SHORT).show()
             } else {
-                startActivity(JsonOutputActivity.createIntent(requireContext(), data.otaUpdate))
+                startActivity(JsonOutputActivity.createIntent(requireContext(), data.otaUpdate, data.variant.displayName))
             }
         }
         btnShare.setHapticClickListener {

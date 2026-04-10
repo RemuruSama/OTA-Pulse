@@ -35,6 +35,7 @@ class PartitionExtractorWorker @AssistedInject constructor(
         const val KEY_URL = "url"
         const val KEY_PARTITION_NAME = "partition_name"
         const val KEY_VERSION_NAME = "version_name"
+        const val KEY_REGION_NAME = "region_name"
         
         const val PROGRESS_KEY = "progress"
         const val PROGRESS_MAX_KEY = "progress_max"
@@ -52,10 +53,13 @@ class PartitionExtractorWorker @AssistedInject constructor(
             ?: inputData.getString(KEY_URL)
             ?: return@withContext Result.failure()
         val partitionName = inputData.getString(KEY_PARTITION_NAME) ?: return@withContext Result.failure()
-        val versionName = inputData.getString(KEY_VERSION_NAME) ?: "Unknown"
+        val versionName = sanitizeFolderSegment(inputData.getString(KEY_VERSION_NAME) ?: "Unknown")
+        val regionName = inputData.getString(KEY_REGION_NAME).orEmpty()
         val baseDir = File(Environment.getExternalStorageDirectory(), com.abhinav.otapulse.core.network.Component.OTA_UPDATES_DIR)
         val extractedDir = File(baseDir, "Extracted").also { it.mkdirs() }
-        val targetFolder = File(extractedDir, versionName).also { it.mkdirs() }
+        val regionFolderPrefix = sanitizeFolderSegment(regionName).takeIf { regionName.isNotBlank() }.orEmpty()
+        val folderName = if (regionFolderPrefix.isBlank()) versionName else "$regionFolderPrefix-$versionName"
+        val targetFolder = File(extractedDir, folderName).also { it.mkdirs() }
         val outputFile = File(targetFolder, "$partitionName.img")
 
         createNotificationChannel()
@@ -188,5 +192,14 @@ class PartitionExtractorWorker @AssistedInject constructor(
 
         val manager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         manager.notify(NOTIFICATION_ID + 3, notification)
+    }
+
+    private fun sanitizeFolderSegment(value: String): String {
+        return value
+            .trim()
+            .replace(Regex("[\\\\/:*?\"<>|]+"), "_")
+            .replace(Regex("\\s+"), " ")
+            .trim('.')
+            .ifBlank { "Unknown" }
     }
 }

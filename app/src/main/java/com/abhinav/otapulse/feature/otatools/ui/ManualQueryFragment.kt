@@ -604,7 +604,8 @@ class ManualQueryFragment : Fragment() {
                             activeExtractionWorkId = viewModel.extractPartition(
                                 activePartitionSource(),
                                 activePartitionVersion(),
-                                item.name
+                                item.name,
+                                regionName
                             )
                             workInfoJob?.cancel()
                             workInfoJob = viewLifecycleOwner.lifecycleScope.launch {
@@ -685,7 +686,8 @@ class ManualQueryFragment : Fragment() {
                 activeExtractionWorkId = viewModel.extractPartition(
                     activePartitionSource(),
                     activePartitionVersion(),
-                    partition.name
+                    partition.name,
+                    regionName
                 )
                 workInfoJob?.cancel()
                 workInfoJob = viewLifecycleOwner.lifecycleScope.launch {
@@ -768,7 +770,7 @@ class ManualQueryFragment : Fragment() {
             if (ota.rawJson.isNullOrBlank()) {
                 Toast.makeText(requireContext(), getString(R.string.json_output_unavailable), Toast.LENGTH_SHORT).show()
             } else {
-                startActivity(JsonOutputActivity.createIntent(requireContext(), ota))
+                startActivity(JsonOutputActivity.createIntent(requireContext(), ota, regionName))
             }
         }
     }

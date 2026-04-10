@@ -283,12 +283,14 @@ class DevicesViewModel @Inject constructor(
     fun extractPartition(
         url: String,
         versionName: String,
-        partitionName: String
+        partitionName: String,
+        regionName: String? = null
     ): java.util.UUID {
         val data = androidx.work.workDataOf(
             com.abhinav.otapulse.arb.worker.PartitionExtractorWorker.KEY_URL to url,
             com.abhinav.otapulse.arb.worker.PartitionExtractorWorker.KEY_VERSION_NAME to versionName,
-            com.abhinav.otapulse.arb.worker.PartitionExtractorWorker.KEY_PARTITION_NAME to partitionName
+            com.abhinav.otapulse.arb.worker.PartitionExtractorWorker.KEY_PARTITION_NAME to partitionName,
+            com.abhinav.otapulse.arb.worker.PartitionExtractorWorker.KEY_REGION_NAME to regionName
         )
 
         val request = androidx.work.OneTimeWorkRequestBuilder<com.abhinav.otapulse.arb.worker.PartitionExtractorWorker>()

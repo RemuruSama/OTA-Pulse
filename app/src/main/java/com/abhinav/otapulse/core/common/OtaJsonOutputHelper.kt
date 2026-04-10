@@ -19,7 +19,14 @@ object OtaJsonOutputHelper {
         return prettyPrintJson(source)
     }
 
-    fun buildExportFileName(otaUpdate: OtaUpdate): String {
+    fun buildExportFileName(otaUpdate: OtaUpdate, regionName: String? = null): String {
+        val regionPrefix = regionName
+            ?.trim()
+            ?.takeIf { it.isNotBlank() }
+            ?.uppercase()
+            ?.replace(Regex("[^A-Z0-9]+"), "_")
+            ?.let { "$it-" }
+            .orEmpty()
         val baseName = listOfNotNull(
             otaUpdate.versionName?.takeIf { it.isNotBlank() },
             otaUpdate.componentName.takeIf { it.isNotBlank() }
@@ -29,11 +36,11 @@ object OtaJsonOutputHelper {
             .take(64)
             .ifBlank { "ota_output" }
 
-        return "${baseName}_${System.currentTimeMillis()}.json"
+        return "${regionPrefix}${baseName}_${System.currentTimeMillis()}.json"
     }
 
-    fun exportToDownloads(context: Context, otaUpdate: OtaUpdate): Result<String> {
-        val fileName = buildExportFileName(otaUpdate)
+    fun exportToDownloads(context: Context, otaUpdate: OtaUpdate, regionName: String? = null): Result<String> {
+        val fileName = buildExportFileName(otaUpdate, regionName)
         return runCatching {
             val targetFile = resolveJsonTargetFile(otaUpdate, fileName)
             targetFile.parentFile?.mkdirs()
@@ -72,7 +79,7 @@ object OtaJsonOutputHelper {
             Environment.getExternalStorageDirectory(),
             Component.OTA_UPDATES_DIR
         )
-        val jsonDir = File(baseDir, "JSON")
+        val jsonDir = File(baseDir, "JSON Output")
         return File(jsonDir, fileName)
     }
 }

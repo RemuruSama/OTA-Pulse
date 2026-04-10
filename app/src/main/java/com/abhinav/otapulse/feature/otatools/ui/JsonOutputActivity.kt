@@ -25,6 +25,7 @@ class JsonOutputActivity : AppCompatActivity() {
 
     private lateinit var binding: DialogJsonOutputBinding
     private var otaUpdate: OtaUpdate? = null
+    private var exportRegionName: String? = null
 
     private val saveJsonLauncher = registerForActivityResult(
         ActivityResultContracts.CreateDocument("application/json")
@@ -59,6 +60,7 @@ class JsonOutputActivity : AppCompatActivity() {
             finish()
             return
         }
+        exportRegionName = intent.getStringExtra(EXTRA_REGION_NAME)
 
         setupEdgeToEdge()
         binding.toolbarJson.navigationIcon?.setTint(
@@ -75,7 +77,7 @@ class JsonOutputActivity : AppCompatActivity() {
         }
 
         binding.btnDownloadJson.setOnClickListener {
-            OtaJsonOutputHelper.exportToDownloads(this, update)
+            OtaJsonOutputHelper.exportToDownloads(this, update, exportRegionName)
                 .onSuccess { fileName ->
                     Toast.makeText(
                         this,
@@ -106,8 +108,11 @@ class JsonOutputActivity : AppCompatActivity() {
 
     companion object {
         private const val EXTRA_OTA_UPDATE = "extra_ota_update"
+        private const val EXTRA_REGION_NAME = "extra_region_name"
 
-        fun createIntent(context: Context, otaUpdate: OtaUpdate): Intent =
-            Intent(context, JsonOutputActivity::class.java).putExtra(EXTRA_OTA_UPDATE, otaUpdate)
+        fun createIntent(context: Context, otaUpdate: OtaUpdate, regionName: String? = null): Intent =
+            Intent(context, JsonOutputActivity::class.java)
+                .putExtra(EXTRA_OTA_UPDATE, otaUpdate)
+                .putExtra(EXTRA_REGION_NAME, regionName)
     }
 }
