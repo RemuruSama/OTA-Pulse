@@ -149,7 +149,7 @@
                 android:layout_weight="1"
                 android:textAppearance="?attr/textAppearanceBodyMedium"
                 android:textColor="?attr/colorOnSurfaceVariant"
-                tools:text="742 MB / 5.3 GB downloaded" />
+                tools:text="742 MB / 5.3 GB" />
 
             <TextView
                 android:id="@+id/downloadProgressText"

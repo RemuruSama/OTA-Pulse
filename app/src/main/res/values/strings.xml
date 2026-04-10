@@ -97,7 +97,7 @@
     <string name="eta_minutes_seconds">%1$dm %2$ds left</string>
     <string name="eta_seconds">%ds left</string>
     <string name="file_size_format">Size: %s</string>
-    <string name="downloaded_amount_format">%1$s / %2$s downloaded</string>
+    <string name="downloaded_amount_format">%1$s / %2$s</string>
     <string name="package_file_label">Package file</string>
     <string name="status_downloading">DOWNLOADING</string>
     <string name="status_paused">PAUSED</string>
