@@ -740,24 +740,21 @@ class ManualQueryFragment : Fragment() {
             val shareText = """
                 🚀 𝗢𝗧𝗔 𝗣𝘂𝗹𝘀𝗲 | 𝗨𝗽𝗱𝗮𝘁𝗲 𝗔𝗹𝗲𝗿𝘁
 
-                📱 𝗗𝗲𝘃𝗶𝗰𝗲: $deviceName
-                🌍 𝗥𝗲𝗴𝗶𝗼𝗻: $regionName
-                📦 𝗩𝗲𝗿: ${ota.versionName ?: "Unknown"}
-                🤖 𝗔𝗻𝗱𝗿𝗼𝗶𝗱: ${ota.realAndroidVersion ?: "Unknown"}
-                🎨 𝗢𝗦: ${ota.realOsVersion ?: "Unknown"}
-                🛡️ 𝗦𝗲𝗰𝘂𝗿𝗶𝘁𝘆 𝗣𝗮𝘁𝗰𝗵: ${ota.securityPatch ?: "Unknown"}
-                🔒 𝗔𝗥𝗕: ${ota.arbStatus ?: "N/A"}
-                💾 𝗦𝗶𝘇𝗲: ${ota.size}
-                🔐 𝗠𝗗𝟱: ${ota.md5}
+                • 𝗩𝗲𝗿: ${ota.versionName ?: "Unknown"}
+                • 𝗥𝗲𝗴𝗶𝗼𝗻: $regionName
+                • 𝗔𝗻𝗱𝗿𝗼𝗶𝗱: ${ota.realAndroidVersion ?: "Unknown"}
+                • 𝗦𝗲𝗰𝘂𝗿𝗶𝘁𝘆 𝗣𝗮𝘁𝗰𝗵: ${ota.securityPatch ?: "Unknown"}
+                • 𝗦𝗶𝘇𝗲: ${ota.size}
+                • 𝗔𝗥𝗕 𝗦𝘁𝗮𝘁𝘂𝘀: ${ota.arbStatus ?: "N/A"}
 
                 ━━━━━━━━━━━━━━━━━
-                📋 𝗖𝗵𝗮𝗻𝗴𝗲𝗹𝗼𝗴: ${ota.panelUrl ?: "Not available"}
+                • 𝗖𝗵𝗮𝗻𝗴𝗲𝗹𝗼𝗴: ${ota.panelUrl ?: "Not available"}
 
                 ━━━━━━━━━━━━━━━━━
-                ⬇️ 𝗗𝗼𝘄𝗻𝗹𝗼𝗮𝗱: ${ota.url}
+                • 𝗗𝗼𝘄𝗻𝗹𝗼𝗮𝗱: ${ota.url}
 
                 ━━━━━━━━━━━━━━━━━
-                📣 @abhinav_v1
+                • @abhinav_v1
             """.trimIndent()
             val shareIntent = Intent().apply {
                 action = Intent.ACTION_SEND

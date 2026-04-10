@@ -492,24 +492,21 @@ class DevicesFragment : Fragment(R.layout.fragment_devices) {
             val shareText = """
                 🚀 𝗢𝗧𝗔 𝗣𝘂𝗹𝘀𝗲 | 𝗨𝗽𝗱𝗮𝘁𝗲 𝗔𝗹𝗲𝗿𝘁
 
-                📱 𝗗𝗲𝘃𝗶𝗰𝗲: ${data.device.name}
-                🌍 𝗥𝗲𝗴𝗶𝗼𝗻: ${data.variant.displayName.toFullRegionName()}
-                📦 𝗩𝗲𝗿: ${data.otaUpdate.versionName}
-                🤖 𝗔𝗻𝗱𝗿𝗼𝗶𝗱: ${data.otaUpdate.realAndroidVersion}
-                🎨 𝗢𝗦: ${data.otaUpdate.realOsVersion}
-                🛡️ 𝗦𝗲𝗰𝘂𝗿𝗶𝘁𝘆 𝗣𝗮𝘁𝗰𝗵: ${data.otaUpdate.securityPatch}
-                🔒 𝗔𝗥𝗕: ${data.otaUpdate.arbStatus ?: "N/A"}
-                💾 𝗦𝗶𝘇𝗲: ${data.otaUpdate.size}
-                🔐 𝗠𝗗𝟱: ${data.otaUpdate.md5}
+                • 𝗩𝗲𝗿: ${data.otaUpdate.versionName}
+                • 𝗥𝗲𝗴𝗶𝗼𝗻: ${data.variant.displayName.toFullRegionName()}
+                • 𝗔𝗻𝗱𝗿𝗼𝗶𝗱: ${data.otaUpdate.realAndroidVersion}
+                • 𝗦𝗲𝗰𝘂𝗿𝗶𝘁𝘆 𝗣𝗮𝘁𝗰𝗵: ${data.otaUpdate.securityPatch}
+                • 𝗦𝗶𝘇𝗲: ${data.otaUpdate.size}
+                • 𝗔𝗥𝗕 𝗦𝘁𝗮𝘁𝘂𝘀: ${data.otaUpdate.arbStatus ?: "N/A"}
 
                 ━━━━━━━━━━━━━━━━━
-                📋 𝗖𝗵𝗮𝗻𝗴𝗲𝗹𝗼𝗴: ${data.otaUpdate.panelUrl ?: "Not available"}
+                • 𝗖𝗵𝗮𝗻𝗴𝗲𝗹𝗼𝗴: ${data.otaUpdate.panelUrl ?: "Not available"}
 
                 ━━━━━━━━━━━━━━━━━
-                ⬇️ 𝗗𝗼𝘄𝗻𝗹𝗼𝗮𝗱: ${data.otaUpdate.url}
+                • 𝗗𝗼𝘄𝗻𝗹𝗼𝗮𝗱: ${data.otaUpdate.url}
 
                 ━━━━━━━━━━━━━━━━━
-                📣 @abhinav_v1
+                • @abhinav_v1
             """.trimIndent()
             val sendIntent = android.content.Intent().apply {
                 action = android.content.Intent.ACTION_SEND
