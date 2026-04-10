@@ -35,6 +35,7 @@ import com.abhinav.otapulse.feature.settings.SettingsFragment
 import com.abhinav.otapulse.feature.settings.libraries.LibrariesFragment
 import com.abhinav.otapulse.core.notifications.DownloadNotificationHelper
 import com.abhinav.otapulse.feature.browser.InAppBrowserActivity
+import com.abhinav.otapulse.core.common.openExternalBrowser
 import io.noties.markwon.Markwon
 
 import com.abhinav.otapulse.core.common.setHapticClickListener
@@ -205,7 +206,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
             .setMessage(markdownChangelog)
             .setPositiveButton(R.string.download_action) { _, _ ->
                 try {
-                    openInAppBrowser(info.downloadUrl, getString(R.string.download_action))
+                    openExternalBrowser(info.downloadUrl)
                 } catch (e: Exception) {
                     Toast.makeText(this, getString(R.string.could_not_open_download_link), Toast.LENGTH_SHORT).show()
                 }

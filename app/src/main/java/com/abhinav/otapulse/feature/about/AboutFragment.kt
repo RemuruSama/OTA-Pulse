@@ -19,6 +19,7 @@ import com.abhinav.otapulse.R
 import com.abhinav.otapulse.databinding.FragmentAboutBinding
 import com.abhinav.otapulse.core.network.GitHubUpdater
 import com.abhinav.otapulse.core.network.UpdateInfo
+import com.abhinav.otapulse.core.common.openExternalBrowser
 import com.abhinav.otapulse.core.common.openInAppBrowser
 import com.abhinav.otapulse.core.common.setHapticClickListener
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -180,7 +181,7 @@ class AboutFragment : Fragment() {
             .setMessage(markdownText)
             .setPositiveButton("Download") { _, _ ->
                 try {
-                    openInAppBrowser(info.downloadUrl, getString(R.string.download_action))
+                    openExternalBrowser(info.downloadUrl)
                 } catch (e: Exception) {
                     Toast.makeText(requireContext(), "Could not open download link", Toast.LENGTH_SHORT).show()
                 }
