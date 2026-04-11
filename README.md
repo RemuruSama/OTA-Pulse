@@ -1,101 +1,97 @@
-# 🚀 OTA Pulse
+# OTA Pulse
 
-### OPLUS OTA Update Downloader & Manager
+OTA Pulse is an Android app for discovering, downloading, and inspecting OTA packages for supported `OnePlus`, `Realme`, and `OPPO` devices. This repository also now includes a static landing page at [index.html](https://remurusama.github.io/OTA-Pulse/).
 
-<div align="center">
+> Request and download OTA packages from BBK server(s).
 
-<img src="https://github.com/CodeSenseiX/OTAPulse/blob/main/OTAPulse/logo/logo.webp" width="120" alt="OTA Pulse Android OTA Downloader Logo"/>
+## What the App Does
 
-<b>![total-download-count](https://img.shields.io/github/downloads/RemuruSama/OTA-Pulse/total?color=brightgreen)<b>
+- Browse supported devices from built-in catalog
+- Mark favorite devices for quick access
+- Fetch and view OTA update metadata
+- Download OTA packages with progress notifications
+- Inspect OTA links using built-in browser
+- Advanced tools:
+  - Manual Query
+  - Partition Extraction
+  - Link Resolver
+- Import / export custom device definitions
+- Check for OTA Pulse app updates
 
-![Platform](https://img.shields.io/badge/Platform-Android-green)
-![Min Android](https://img.shields.io/badge/Android-10%2B-blue)
-![Language](https://img.shields.io/badge/Kotlin-100%25-orange)
-![UI](https://img.shields.io/badge/UI-View%20Binding-purple)
-![License](https://img.shields.io/badge/License-Open%20Source-brightgreen)
+## Tech Stack
 
-<b>Download • Manage • Inspect OTA Updates</b>
+- Kotlin (Android)
+- minSdk 29 • targetSdk 35 • compileSdk 36
+- ViewBinding UI
+- Hilt (Dependency Injection)
+- WorkManager (with Hilt integration)
+- Fetch (Download Manager)
+- OkHttp (Networking)
+- Glide, Markwon, Gson, Flexbox
+- Protobuf Lite
+- XZ / Apache Commons Compress
 
-</div>
+## Project Structure
 
----
-
-## 📱 About
-
-**OTA Pulse** is a modern Android OTA update downloader that helps you discover and download official firmware updates for:
-
-* OnePlus
-* Realme
-* OPPO
-
-Built with a clean architecture and modern Android tools, it provides a secure and powerful OTA management experience.
-
----
-
-## ✨ Features
-
-* 📦 OTA update detection
-* ⬇️ Built-in download manager (pause / resume / retry)
-* 🔧 Custom device profiles
-* 🔐 Secure OTA communication (AES + RSA)
-* 📊 Detailed device info
-* 🔄 In-app update checker
-* ⚡ Background downloads with WorkManager
-
----
-
-## 🛠 Tech Stack
-
-Kotlin • View Binding • Hilt • OkHttp • Coroutines • WorkManager • Fetch
-
----
-
-## 📦 Requirements
-
-* Android 10+ (API 29)
-* Active internet connection
-
----
-
-## 🚀 Installation & Setup
-
-### 1️⃣ Clone Repository
-
-```bash
-git clone https://github.com/RemuruSama/OTA-Pulse.git
+```text
+Otaupdater/
+├─ app/
+│  ├─ build.gradle.kts
+│  └─ src/main/
+│     ├─ java/com/abhinav/otapulse/
+│     │  ├─ app/
+│     │  ├─ arb/
+│     │  ├─ catalog/
+│     │  ├─ core/
+│     │  ├─ di/
+│     │  ├─ feature/
+│     │  └─ ota/
+│     └─ res/
+├─ OTAPulse/
+│  ├─ logo/
+│  └─ Screenshot/
+├─ architecture.md
+├─ index.html
+└─ settings.gradle.kts
 ```
 
-### 2️⃣ Open in Android Studio
+See [architecture.md](C:/Users/abhin/AndroidStudioProjects/Otaupdater/architecture.md) for the deeper package map and ownership rules.
 
-Use the latest stable version.
+## Android Features
 
-### 3️⃣ Create `keystore.properties`
+- `feature/devices`: home device flow, browsing, variants, OTA details
+- `feature/downloads`: download queue and file lifecycle
+- `feature/otatools`: Manual Query, Partition Extraction, Link Resolver
+- `feature/browser`: in-app WebView browser
+- `feature/settings`: theme, browser preferences, etc.
+- `feature/about`: project information
 
-Create this file in the root directory:
+## Setup
 
-```
+1. Open the project in Android Studio.
+2. Create `keystore.properties` in the project root if you want signed release builds.
+3. Add:
+
+```properties
 STORE_PASSWORD=your_store_password
 KEY_PASSWORD=your_key_password
 ```
 
-### 4️⃣ Sync & Run
+4. Sync Gradle.
+5. Run the `app` configuration on an Android 10+ device or emulator.
 
-* Sync Gradle
-* Connect Android device (Android 10+)
-* Build & Run
+## Notes for Contributors
 
----
+- keep device definitions and provider mappings in `catalog`
+- keep user-facing flows in `feature`
+- keep OTA parsing / extraction logic in `ota` and `arb`
+- move code into `core` only when it is genuinely shared
+- treat the root landing page as a separate web asset, not part of the Android runtime
 
-## 📥 Download Latest APK
+## Credits
 
-👉 [https://github.com/RemuruSama/OTA-Pulse/releases](https://github.com/RemuruSama/OTA-Pulse/releases)
+- [R0rt1z2/realme-ota](https://github.com/R0rt1z2/realme-ota)
 
----
+## Support
 
-## ⚠️ Disclaimer
-
-OTA Pulse is an independent utility tool and is not affiliated with OnePlus, Realme, or OPPO.
-
----
-
-⭐ If you find OTA Pulse useful, consider starring the repository!
+> If you find this project useful, consider giving it a **star ⭐ on GitHub** — it helps improve visibility and SEO!
