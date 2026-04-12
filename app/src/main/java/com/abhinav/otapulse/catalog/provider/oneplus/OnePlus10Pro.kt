@@ -40,7 +40,8 @@ class OnePlus10Pro : DeviceProvider {
                     "Android 12" to generateRegionalVariants("A"),
                     "Android 13" to generateRegionalVariants("C"),
                     "Android 14" to generateRegionalVariants("F"),
-                    "Android 15" to generateRegionalVariants("H")
+                    "Android 15" to generateRegionalVariants("H"),
+                    "Android 16" to generateRegionalVariants("J")
                 )
             )
         )
