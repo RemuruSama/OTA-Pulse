@@ -188,8 +188,7 @@ class AddDeviceFragment : Fragment() {
         val regionNames = RegionData.regions.map { it.displayName }
         val regionAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, regionNames)
         regionSpinner.setAdapter(regionAdapter)
-
-        val versionLetters = arrayOf("A", "C", "F", "H")
+        val versionLetters = arrayOf("A", "C", "F", "H", "J")
         val versionLetterAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, versionLetters)
         versionLetterSpinner.setAdapter(versionLetterAdapter)
 

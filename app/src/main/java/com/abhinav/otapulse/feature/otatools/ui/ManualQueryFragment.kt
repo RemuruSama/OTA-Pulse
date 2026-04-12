@@ -128,13 +128,13 @@ class ManualQueryFragment : Fragment() {
     private fun setupSpinners() {
         val ruiVersions = listOf("2", "3", "4", "5", "6", "7")
         val ruiAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, ruiVersions)
-        binding.spinnerRuiVersion.setAdapter(ruiAdapter)
+        binding.spinnerRuiVersion.setAdapter(ruiAdapter)
 
         val regions = RegionData.regions.map { it.displayName }
         val regionAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, regions)
         binding.spinnerRegion.setAdapter(regionAdapter)
 
-        val letters = listOf("A", "C", "F", "H")
+        val letters = listOf("A", "C", "F", "H", "J")
         val letterAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, letters)
         binding.spinnerVersionLetter.setAdapter(letterAdapter)
 
