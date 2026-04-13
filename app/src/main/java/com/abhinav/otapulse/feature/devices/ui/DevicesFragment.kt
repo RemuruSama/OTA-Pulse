@@ -76,12 +76,25 @@ class DevicesFragment : Fragment(R.layout.fragment_devices) {
         }
     }
 
+    private val requestNotificationPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            proceedWithPendingDownloadIfPermissionsGranted()
+        } else {
+            showPermissionDeniedSnackbar(getString(R.string.permission_denied_download_error))
+            pendingDownload = null
+        }
+    }
+
     private val manageStoragePermissionLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             if (android.os.Environment.isExternalStorageManager()) {
-                proceedWithPendingDownloadIfPermissionsGranted()
+                if (checkAndRequestPermissions()) {
+                    proceedWithPendingDownloadIfPermissionsGranted()
+                }
             } else {
                 showPermissionDeniedSnackbar(getString(R.string.permission_denied_download_error))
                 pendingDownload = null
@@ -627,7 +640,7 @@ class DevicesFragment : Fragment(R.layout.fragment_devices) {
                 return false
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !permissionHelper.hasNotificationPermission()) {
-                requestPermissionsLauncher.launch(arrayOf(Manifest.permission.POST_NOTIFICATIONS))
+                requestNotificationPermission()
                 return false
             }
             return true
@@ -643,6 +656,19 @@ class DevicesFragment : Fragment(R.layout.fragment_devices) {
             return false
         }
         return true
+    }
+
+    private fun requestNotificationPermission() {
+        val canRequestInApp = !permissionHelper.wasNotificationPermissionRequested() ||
+            shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)
+
+        if (canRequestInApp) {
+            permissionHelper.markNotificationPermissionRequested()
+            requestNotificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            return
+        }
+
+        showNotificationPermissionSettingsDialog()
     }
 
     private fun requestManageAllFilesAccess() {
@@ -674,6 +700,23 @@ class DevicesFragment : Fragment(R.layout.fragment_devices) {
             }
             pendingDownload = null
         }
+    }
+
+    private fun showNotificationPermissionSettingsDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.notification_permission_title)
+            .setMessage(R.string.notification_permission_settings_message)
+            .setPositiveButton(R.string.settings) { _, _ ->
+                try {
+                    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                    intent.data = Uri.fromParts("package", requireContext().packageName, null)
+                    startActivity(intent)
+                } catch (_: Exception) {
+                    Toast.makeText(requireContext(), getString(R.string.cannot_open_app_settings), Toast.LENGTH_SHORT).show()
+                }
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
     }
 
     private fun copyLinkToClipboard(url: String) {

@@ -60,6 +60,14 @@ class PartitionExtractionFragment : Fragment() {
         ActivityResultContracts.RequestMultiplePermissions()
     ) { _ -> }
 
+    private val requestNotificationPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (!isGranted) {
+            Toast.makeText(requireContext(), getString(R.string.notification_permission_denied), Toast.LENGTH_SHORT).show()
+        }
+    }
+
     private val manageStoragePermissionLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { _ -> }
@@ -488,7 +496,7 @@ class PartitionExtractionFragment : Fragment() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
                 !permissionHelper.hasNotificationPermission()
             ) {
-                requestPermissionsLauncher.launch(arrayOf(Manifest.permission.POST_NOTIFICATIONS))
+                requestNotificationPermission()
                 return false
             }
             return true
@@ -505,6 +513,19 @@ class PartitionExtractionFragment : Fragment() {
         return true
     }
 
+    private fun requestNotificationPermission() {
+        val canRequestInApp = !permissionHelper.wasNotificationPermissionRequested() ||
+            shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)
+
+        if (canRequestInApp) {
+            permissionHelper.markNotificationPermissionRequested()
+            requestNotificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            return
+        }
+
+        openAppSettingsForNotificationPermission()
+    }
+
     private fun requestManageAllFilesAccess() {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.permission_needed)
@@ -516,6 +537,25 @@ class PartitionExtractionFragment : Fragment() {
                     manageStoragePermissionLauncher.launch(intent)
                 } catch (_: Exception) {
                     manageStoragePermissionLauncher.launch(Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION))
+                }
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+    }
+
+    private fun openAppSettingsForNotificationPermission() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.notification_permission_title)
+            .setMessage(R.string.notification_permission_settings_message)
+            .setPositiveButton(R.string.settings) { _, _ ->
+                try {
+                    startActivity(
+                        Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                            data = Uri.fromParts("package", requireContext().packageName, null)
+                        }
+                    )
+                } catch (_: Exception) {
+                    Toast.makeText(requireContext(), getString(R.string.cannot_open_app_settings), Toast.LENGTH_SHORT).show()
                 }
             }
             .setNegativeButton(R.string.cancel, null)

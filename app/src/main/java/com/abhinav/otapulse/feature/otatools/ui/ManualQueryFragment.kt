@@ -57,13 +57,44 @@ class ManualQueryFragment : Fragment() {
     @Inject
     lateinit var permissionHelper: PermissionHelper
 
+    private var pendingDownload: (() -> Unit)? = null
+
     private val requestPermissionsLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
-    ) { _ -> }
+    ) { permissions ->
+        if (permissions.all { it.value }) {
+            proceedWithPendingDownloadIfPermissionsGranted()
+        } else {
+            Toast.makeText(requireContext(), getString(R.string.permission_denied_download_error), Toast.LENGTH_SHORT).show()
+            pendingDownload = null
+        }
+    }
+
+    private val requestNotificationPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            proceedWithPendingDownloadIfPermissionsGranted()
+        } else {
+            Toast.makeText(requireContext(), getString(R.string.notification_permission_denied), Toast.LENGTH_SHORT).show()
+            pendingDownload = null
+        }
+    }
 
     private val manageStoragePermissionLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
-    ) { _ -> }
+    ) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            if (android.os.Environment.isExternalStorageManager()) {
+                if (checkAndRequestPermissions()) {
+                    proceedWithPendingDownloadIfPermissionsGranted()
+                }
+            } else {
+                Toast.makeText(requireContext(), getString(R.string.permission_denied_download_error), Toast.LENGTH_SHORT).show()
+                pendingDownload = null
+            }
+        }
+    }
 
     private var selectedLocalZipUri: Uri? = null
     private var selectedLocalZipName: String = ""
@@ -725,8 +756,15 @@ class ManualQueryFragment : Fragment() {
         }
 
         btnDownloadOta.setHapticClickListener {
-            viewModel.startDownload(ota, deviceName, regionName)
-            dialog.dismiss()
+            pendingDownload = {
+                viewModel.startDownload(ota, deviceName, regionName)
+                dialog.dismiss()
+            }
+
+            if (checkAndRequestPermissions()) {
+                pendingDownload?.invoke()
+                pendingDownload = null
+            }
         }
         btnCopyLink.setHapticClickListener {
             val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -782,7 +820,7 @@ class ManualQueryFragment : Fragment() {
                 return false
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !permissionHelper.hasNotificationPermission()) {
-                requestPermissionsLauncher.launch(arrayOf(Manifest.permission.POST_NOTIFICATIONS))
+                requestNotificationPermission()
                 return false
             }
             return true
@@ -796,6 +834,30 @@ class ManualQueryFragment : Fragment() {
         return true
     }
 
+    private fun requestNotificationPermission() {
+        val canRequestInApp = !permissionHelper.wasNotificationPermissionRequested() ||
+            shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)
+
+        if (canRequestInApp) {
+            permissionHelper.markNotificationPermissionRequested()
+            requestNotificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            return
+        }
+
+        openAppSettingsForNotificationPermission()
+    }
+
+    private fun proceedWithPendingDownloadIfPermissionsGranted() {
+        if (pendingDownload != null) {
+            if (permissionHelper.hasNotificationPermission() && permissionHelper.hasStoragePermission()) {
+                pendingDownload?.invoke()
+            } else {
+                Toast.makeText(requireContext(), getString(R.string.permission_denied_download_error), Toast.LENGTH_SHORT).show()
+            }
+            pendingDownload = null
+        }
+    }
+
     private fun requestManageAllFilesAccess() {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.permission_needed)
@@ -807,6 +869,25 @@ class ManualQueryFragment : Fragment() {
                     manageStoragePermissionLauncher.launch(intent)
                 } catch (_: Exception) {
                     manageStoragePermissionLauncher.launch(Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION))
+                }
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+    }
+
+    private fun openAppSettingsForNotificationPermission() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.notification_permission_title)
+            .setMessage(R.string.notification_permission_settings_message)
+            .setPositiveButton(R.string.settings) { _, _ ->
+                try {
+                    startActivity(
+                        Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                            data = Uri.fromParts("package", requireContext().packageName, null)
+                        }
+                    )
+                } catch (_: Exception) {
+                    Toast.makeText(requireContext(), getString(R.string.cannot_open_app_settings), Toast.LENGTH_SHORT).show()
                 }
             }
             .setNegativeButton(R.string.cancel, null)

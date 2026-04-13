@@ -17,6 +17,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -33,6 +34,7 @@ import com.abhinav.otapulse.feature.devices.ui.DevicesFragment
 import com.abhinav.otapulse.feature.downloads.ui.DownloadsFragment
 import com.abhinav.otapulse.feature.settings.SettingsFragment
 import com.abhinav.otapulse.feature.settings.libraries.LibrariesFragment
+import com.abhinav.otapulse.core.common.PermissionHelper
 import com.abhinav.otapulse.core.notifications.DownloadNotificationHelper
 import com.abhinav.otapulse.feature.browser.InAppBrowserActivity
 import com.abhinav.otapulse.core.common.openExternalBrowser
@@ -55,17 +57,17 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     @Inject
     lateinit var downloadNotificationHelper: DownloadNotificationHelper
 
+    @Inject
+    lateinit var permissionHelper: PermissionHelper
+
     private lateinit var binding: ActivityMainBinding
     private var lastSelectedItemId = 0
     private var isDownloading: Boolean = false
     private val DOWNLOADS_SCREEN_ID = -1
     private lateinit var appSettingsPrefs: SharedPreferences
-    private lateinit var mainAppPrefs: SharedPreferences
 
     companion object {
         private const val TAG = "MainActivity"
-        private const val PREFS_NAME = "ota_pulse_app_prefs"
-        private const val KEY_FIRST_LAUNCH = "is_first_launch"
         const val ACTION_OPEN_DOWNLOADS = "com.abhinav.otapulse.ACTION_OPEN_DOWNLOADS"
     }
 
@@ -95,7 +97,6 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        mainAppPrefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         appSettingsPrefs = getSharedPreferences(SettingsFragment.APP_SETTINGS_PREFS, Context.MODE_PRIVATE)
         appSettingsPrefs.registerOnSharedPreferenceChangeListener(this)
 
@@ -249,20 +250,44 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     }
 
     private fun checkNotificationPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-                if (mainAppPrefs.getBoolean(KEY_FIRST_LAUNCH, true)) {
-                    MaterialAlertDialogBuilder(this)
-                        .setTitle(R.string.notification_permission_title)
-                        .setMessage(R.string.notification_permission_message)
-                        .setPositiveButton(R.string.grant_action) { _, _ ->
-                            requestNotificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
-                        }
-                        .setNegativeButton(R.string.later_action) { dialog, _ -> dialog.dismiss() }
-                        .show()
-                    mainAppPrefs.edit().putBoolean(KEY_FIRST_LAUNCH, false).apply()
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+            return
+        }
+
+        val canRequestInApp = !permissionHelper.wasNotificationPermissionRequested() ||
+            shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)
+
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.notification_permission_title)
+            .setMessage(
+                if (canRequestInApp) {
+                    getString(R.string.notification_permission_message)
+                } else {
+                    getString(R.string.notification_permission_settings_message)
+                }
+            )
+            .setPositiveButton(if (canRequestInApp) R.string.grant_action else R.string.settings) { _, _ ->
+                if (canRequestInApp) {
+                    permissionHelper.markNotificationPermissionRequested()
+                    requestNotificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                } else {
+                    openAppNotificationSettings()
                 }
             }
+            .setNegativeButton(R.string.later_action) { dialog, _ -> dialog.dismiss() }
+            .show()
+    }
+
+    private fun openAppNotificationSettings() {
+        try {
+            startActivity(
+                Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                    data = "package:$packageName".toUri()
+                }
+            )
+        } catch (_: Exception) {
+            Toast.makeText(this, getString(R.string.cannot_open_app_settings), Toast.LENGTH_SHORT).show()
         }
     }
 
