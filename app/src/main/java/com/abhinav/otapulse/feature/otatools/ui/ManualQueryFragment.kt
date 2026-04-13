@@ -268,9 +268,9 @@ class ManualQueryFragment : Fragment() {
             val systemNvId = DeviceUtils.getSystemProperty("ro.build.oplus_nv_id")
 
             val apiModelParam = if (nameInput.isNotBlank()) nameInput else modelInput
-            val otaVersionString = constructOtaString(apiModelParam, region, letter)
+            val otaVersionString = constructOtaString(modelInput, region, letter)
 
-            if (apiModelParam.isBlank() || otaVersionString.isBlank() || ruiVersionStr.isBlank() || region.isBlank() || server.isBlank()) {
+            if (modelInput.isBlank() || apiModelParam.isBlank() || otaVersionString.isBlank() || ruiVersionStr.isBlank() || region.isBlank() || server.isBlank()) {
                 Toast.makeText(requireContext(), "Please fill required fields", Toast.LENGTH_SHORT).show()
                 return@setHapticClickListener
             }
