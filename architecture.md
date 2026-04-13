@@ -32,7 +32,7 @@ From [app/build.gradle.kts](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/
 - `minSdk = 29`
 - `targetSdk = 35`
 - `compileSdk = 36`
-- `versionName = 3.0.2`
+- `versionName = 3.0.3`
 - ViewBinding enabled
 - Hilt + KSP
 - WorkManager
