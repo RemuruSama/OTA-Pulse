@@ -43,6 +43,7 @@ object DeviceCatalog {
         OnePlusNordCE3Lite(),
         OnePlusNordCE3(),
         OnePlusNord5(),
+        OnePlusNord6(),
         OnePlusNord4(),
         OnePlusNord3(),
         OnePlusPadPro(),
