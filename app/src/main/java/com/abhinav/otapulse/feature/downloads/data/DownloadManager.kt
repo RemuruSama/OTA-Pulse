@@ -25,6 +25,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -59,9 +60,10 @@ class DownloadManager @Inject constructor(
     // Stores the calculated "smoothed" speed for each download ID to prevent visual jumping
     private val speedSmoothingMap = ConcurrentHashMap<Int, Long>()
 
-    // Track auto-refresh attempts per download to prevent infinite loops
-    private val autoRefreshAttempts = ConcurrentHashMap<Int, AtomicInteger>()
-    private val MAX_AUTO_REFRESH_ATTEMPTS = 3
+    // Track automatic retry attempts per download to prevent infinite loops.
+    private val autoRetryAttempts = ConcurrentHashMap<Int, AtomicInteger>()
+    private val MAX_AUTO_RETRY_ATTEMPTS = 3
+    private val AUTO_RETRY_BASE_DELAY_MS = 1_500L
 
     init {
         fetch.addListener(this)
@@ -270,8 +272,8 @@ class DownloadManager @Inject constructor(
     }
 
     override fun resumeDownload(downloadInfo: DownloadInfo) {
-        // Reset the auto-refresh counter so the user gets a fresh 3 attempts after manually resuming
-        autoRefreshAttempts.remove(downloadInfo.id)
+        // Reset the auto-retry counter so the user gets a fresh retry window after manually resuming.
+        autoRetryAttempts.remove(downloadInfo.id)
 
         // The CustomHttpUrlConnectionDownloader handles expired signed URLs on the fly transparently.
         // We do NOT use fetch.updateRequest() here because Fetch2 natively wipes local files 
@@ -283,12 +285,12 @@ class DownloadManager @Inject constructor(
         fetch.cancel(downloadInfo.id)
         lastProgressUpdateMap.remove(downloadInfo.id)
         speedSmoothingMap.remove(downloadInfo.id)
-        autoRefreshAttempts.remove(downloadInfo.id)
+        autoRetryAttempts.remove(downloadInfo.id)
     }
 
     override fun retryDownload(downloadInfo: DownloadInfo) {
-        // Reset auto-refresh counter on manual retry
-        autoRefreshAttempts.remove(downloadInfo.id)
+        // Reset auto-retry counter on manual retry.
+        autoRetryAttempts.remove(downloadInfo.id)
         fetch.retry(downloadInfo.id)
     }
 
@@ -306,7 +308,7 @@ class DownloadManager @Inject constructor(
         }
         lastProgressUpdateMap.remove(downloadInfo.id)
         speedSmoothingMap.remove(downloadInfo.id)
-        autoRefreshAttempts.remove(downloadInfo.id)
+        autoRetryAttempts.remove(downloadInfo.id)
     }
 
     /** Checks if the error indicates an expired, invalid, or range-rejected download URL */
@@ -318,6 +320,41 @@ class DownloadManager @Inject constructor(
                error == Error.REQUEST_NOT_SUCCESSFUL ||
                error == Error.HTTP_NOT_FOUND ||
                error == Error.UNKNOWN
+    }
+
+    private fun shouldAutoRetry(error: Error): Boolean {
+        return isExpiredUrlError(error) ||
+            error == Error.NO_NETWORK_CONNECTION ||
+            error == Error.CONNECTION_TIMED_OUT ||
+            error == Error.UNKNOWN_IO_ERROR ||
+            error == Error.UNKNOWN
+    }
+
+    private fun scheduleAutoRetry(download: Download, error: Error): Boolean {
+        if (!shouldAutoRetry(error)) return false
+
+        val attempts = autoRetryAttempts.getOrPut(download.id) { AtomicInteger(0) }
+        val nextAttempt = attempts.incrementAndGet()
+        if (nextAttempt > MAX_AUTO_RETRY_ATTEMPTS) {
+            attempts.set(MAX_AUTO_RETRY_ATTEMPTS)
+            return false
+        }
+
+        val retryDelayMs = AUTO_RETRY_BASE_DELAY_MS * nextAttempt
+        Log.w(
+            TAG,
+            "Auto retry scheduled for download ${download.id}: " +
+                "attempt $nextAttempt/$MAX_AUTO_RETRY_ATTEMPTS in ${retryDelayMs}ms after $error"
+        )
+
+        updateSingleDownloadState(download)
+        notificationHelper.cancelNotification(download.id)
+
+        ioScope.launch {
+            delay(retryDelayMs)
+            fetch.retry(download.id)
+        }
+        return true
     }
 
     private fun updateDownloadsList() {
@@ -355,9 +392,9 @@ class DownloadManager @Inject constructor(
     }
 
     override fun onStarted(download: Download, downloadBlocks: List<DownloadBlock>, totalBlocks: Int) {
-        // Reset smoothing and auto-refresh counter on successful start
+        // Reset smoothing and auto-retry counter on successful start.
         speedSmoothingMap[download.id] = 0L
-        autoRefreshAttempts.remove(download.id)
+        autoRetryAttempts.remove(download.id)
         updateSingleDownloadState(download)
         notificationHelper.showProgressNotification(download.toDownloadInfo())
         lastProgressUpdateMap[download.id] = System.currentTimeMillis()
@@ -388,6 +425,7 @@ class DownloadManager @Inject constructor(
         ioScope.launch {
             lastProgressUpdateMap.remove(download.id)
             speedSmoothingMap.remove(download.id)
+            autoRetryAttempts.remove(download.id)
 
             val completedDownloadInfo = download.toDownloadInfo(newFilePath = download.file)
             updateSingleDownloadState(download, newFilePath = download.file)
@@ -399,7 +437,12 @@ class DownloadManager @Inject constructor(
     override fun onError(download: Download, error: Error, throwable: Throwable?) {
         lastProgressUpdateMap.remove(download.id)
         speedSmoothingMap.remove(download.id)
-        autoRefreshAttempts.remove(download.id)
+
+        if (scheduleAutoRetry(download, error)) {
+            return
+        }
+
+        autoRetryAttempts.remove(download.id)
 
         handleDefaultError(download, error, throwable)
     }
@@ -417,7 +460,7 @@ class DownloadManager @Inject constructor(
         notificationHelper.cancelNotification(download.id)
         lastProgressUpdateMap.remove(download.id)
         speedSmoothingMap.remove(download.id)
-        autoRefreshAttempts.remove(download.id)
+        autoRetryAttempts.remove(download.id)
     }
 
     override fun onRemoved(download: Download) {
@@ -425,7 +468,7 @@ class DownloadManager @Inject constructor(
         notificationHelper.cancelNotification(download.id)
         lastProgressUpdateMap.remove(download.id)
         speedSmoothingMap.remove(download.id)
-        autoRefreshAttempts.remove(download.id)
+        autoRetryAttempts.remove(download.id)
     }
 
     override fun onDeleted(download: Download) {
@@ -433,7 +476,7 @@ class DownloadManager @Inject constructor(
         notificationHelper.cancelNotification(download.id)
         lastProgressUpdateMap.remove(download.id)
         speedSmoothingMap.remove(download.id)
-        autoRefreshAttempts.remove(download.id)
+        autoRetryAttempts.remove(download.id)
     }
 
     override fun onAdded(download: Download) = updateDownloadsList()
