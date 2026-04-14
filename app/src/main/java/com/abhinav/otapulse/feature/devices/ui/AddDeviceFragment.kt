@@ -186,19 +186,19 @@ class AddDeviceFragment : Fragment() {
         val graySpinner = dialogView.findViewById<AutoCompleteTextView>(R.id.spinnerGray)
 
         val regionNames = RegionData.regions.map { it.displayName }
-        val regionAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, regionNames)
+        val regionAdapter = ArrayAdapter(requireContext(), R.layout.item_spinner_dropdown, android.R.id.text1, regionNames)
         regionSpinner.setAdapter(regionAdapter)
-        val versionLetters = arrayOf("A", "C", "F", "H", "J")
-        val versionLetterAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, versionLetters)
+        val versionLetters = arrayOf("A", "C", "F", "H", "J")
+        val versionLetterAdapter = ArrayAdapter(requireContext(), R.layout.item_spinner_dropdown, android.R.id.text1, versionLetters)
         versionLetterSpinner.setAdapter(versionLetterAdapter)
 
         val reqModes = arrayOf("manual", "server_auto", "client_auto", "taste")
-        val reqModeAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, reqModes)
+        val reqModeAdapter = ArrayAdapter(requireContext(), R.layout.item_spinner_dropdown, android.R.id.text1, reqModes)
         reqModeSpinner.setAdapter(reqModeAdapter)
         reqModeSpinner.setText("manual", false)
 
         val grayValues = arrayOf("0", "1")
-        val grayAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, grayValues)
+        val grayAdapter = ArrayAdapter(requireContext(), R.layout.item_spinner_dropdown, android.R.id.text1, grayValues)
         graySpinner.setAdapter(grayAdapter)
         graySpinner.setText("0", false)
 

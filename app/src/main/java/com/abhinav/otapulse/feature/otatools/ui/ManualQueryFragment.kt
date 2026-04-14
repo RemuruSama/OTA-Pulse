@@ -158,19 +158,19 @@ class ManualQueryFragment : Fragment() {
 
     private fun setupSpinners() {
         val ruiVersions = listOf("2", "3", "4", "5", "6", "7")
-        val ruiAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, ruiVersions)
+        val ruiAdapter = ArrayAdapter(requireContext(), R.layout.item_spinner_dropdown, android.R.id.text1, ruiVersions)
         binding.spinnerRuiVersion.setAdapter(ruiAdapter)
 
         val regions = RegionData.regions.map { it.displayName }
-        val regionAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, regions)
+        val regionAdapter = ArrayAdapter(requireContext(), R.layout.item_spinner_dropdown, android.R.id.text1, regions)
         binding.spinnerRegion.setAdapter(regionAdapter)
 
         val letters = listOf("A", "C", "F", "H", "J")
-        val letterAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, letters)
+        val letterAdapter = ArrayAdapter(requireContext(), R.layout.item_spinner_dropdown, android.R.id.text1, letters)
         binding.spinnerVersionLetter.setAdapter(letterAdapter)
 
         val servers = listOf("GL", "CN", "IN", "EU")
-        val serverAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, servers)
+        val serverAdapter = ArrayAdapter(requireContext(), R.layout.item_spinner_dropdown, android.R.id.text1, servers)
         binding.spinnerServer.setAdapter(serverAdapter)
 
         binding.spinnerRuiVersion.setText("4", false)
@@ -189,17 +189,17 @@ class ManualQueryFragment : Fragment() {
         }
 
         val languages = listOf("en-EN", "zh-CN", "ru-RU", "hi-IN", "es-ES")
-        val languageAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, languages)
+        val languageAdapter = ArrayAdapter(requireContext(), R.layout.item_spinner_dropdown, android.R.id.text1, languages)
         binding.spinnerLanguage.setAdapter(languageAdapter)
         binding.spinnerLanguage.setText("en-EN", false)
 
         val reqModes = listOf("manual", "server_auto", "client_auto", "taste")
-        val reqModeAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, reqModes)
+        val reqModeAdapter = ArrayAdapter(requireContext(), R.layout.item_spinner_dropdown, android.R.id.text1, reqModes)
         binding.spinnerReqMode.setAdapter(reqModeAdapter)
         binding.spinnerReqMode.setText("manual", false)
 
         val grayValues = listOf("0", "1")
-        val grayAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, grayValues)
+        val grayAdapter = ArrayAdapter(requireContext(), R.layout.item_spinner_dropdown, android.R.id.text1, grayValues)
         binding.spinnerGray.setAdapter(grayAdapter)
         binding.spinnerGray.setText("0", false)
     }
