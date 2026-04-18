@@ -22,6 +22,7 @@ import com.abhinav.otapulse.core.network.UpdateInfo
 import com.abhinav.otapulse.core.common.openExternalBrowser
 import com.abhinav.otapulse.core.common.openInAppBrowser
 import com.abhinav.otapulse.core.common.setHapticClickListener
+import com.abhinav.otapulse.core.common.AnimationUtils
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import io.noties.markwon.Markwon
 import dagger.hilt.android.AndroidEntryPoint
@@ -125,7 +126,7 @@ class AboutFragment : Fragment() {
             // Manual Check Logic (with Loading UI)
             binding.btnCheckUpdate?.isEnabled = false
             binding.btnCheckUpdate?.text = ""
-            // Fade in progress indicator
+            // Fade in progress indicator — withLayer() composites alpha cheaply from GPU texture
             (binding.progressUpdate as? com.abhinav.otapulse.core.ui.WavyCircularProgressIndicator)?.apply {
                 indicatorColor = binding.btnCheckUpdate?.currentTextColor ?: android.graphics.Color.WHITE
                 alpha = 0f
@@ -133,6 +134,7 @@ class AboutFragment : Fragment() {
                 animate()
                     .alpha(1f)
                     .setDuration(300)
+                    .withLayer()
                     .start()
             }
 
@@ -148,10 +150,11 @@ class AboutFragment : Fragment() {
                     Handler(Looper.getMainLooper()).postDelayed({
                         if (_binding == null) return@postDelayed // Re-check binding in case fragment is destroyed during delay
 
-                        // Fade out progress indicator
+                        // Fade out progress indicator — withLayer() composites alpha cheaply from GPU texture
                         binding.progressUpdate?.animate()
                             ?.alpha(0f)
                             ?.setDuration(300)
+                            ?.withLayer()
                             ?.withEndAction {
                                 binding.progressUpdate?.visibility = View.GONE
                                 binding.btnCheckUpdate?.isEnabled = true
@@ -221,17 +224,9 @@ class AboutFragment : Fragment() {
             binding.creatorCard,
             binding.footerText
         )
-
-        elements.forEachIndexed { index, v ->
-            v.alpha = 0f
-            v.translationY = 50f
-            v.animate()
-                .alpha(1f)
-                .translationY(0f)
-                .setDuration(500)
-                .setStartDelay((index * 100).toLong())
-                .start()
-        }
+        // Delegate to shared utility — picks up the correct interpolator,
+        // density-independent offset, and hardware-layer optimisation.
+        AnimationUtils.animateEntrance(elements)
     }
 
     override fun onDestroyView() {

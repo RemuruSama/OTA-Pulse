@@ -2,27 +2,23 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true">
         <set>
-            <!-- Shrink slightly on press -->
+            <!-- Shrink slightly on press — 150ms is snappy without feeling abrupt -->
             <objectAnimator
                 android:propertyName="scaleX"
-                android:duration="600"
+                android:duration="150"
                 android:valueTo="0.95"
                 android:valueType="floatType"
                 android:interpolator="@android:anim/decelerate_interpolator" />
             <objectAnimator
                 android:propertyName="scaleY"
-                android:duration="600"
+                android:duration="150"
                 android:valueTo="0.95"
                 android:valueType="floatType"
                 android:interpolator="@android:anim/decelerate_interpolator" />
+            <!-- translationZ only — elevation is redundant on API 21+ -->
             <objectAnimator
                 android:propertyName="translationZ"
-                android:duration="200"
-                android:valueTo="6dp"
-                android:valueType="floatType" />
-            <objectAnimator
-                android:propertyName="elevation"
-                android:duration="200"
+                android:duration="150"
                 android:valueTo="6dp"
                 android:valueType="floatType" />
         </set>
@@ -37,35 +33,18 @@
             <!-- Bounce out slightly (overshoot) -->
             <objectAnimator
                 android:propertyName="scaleX"
-                android:duration="600"
+                android:duration="400"
                 android:valueFrom="0.95"
-                android:valueTo="1.03"
+                android:valueTo="1.0"
                 android:valueType="floatType"
                 android:interpolator="@android:anim/overshoot_interpolator" />
             <objectAnimator
                 android:propertyName="scaleY"
-                android:duration="600"
+                android:duration="400"
                 android:valueFrom="0.95"
-                android:valueTo="1.00"
+                android:valueTo="1.0"
                 android:valueType="floatType"
                 android:interpolator="@android:anim/overshoot_interpolator" />
-            <!-- Return to normal size (settle) -->
-            <objectAnimator
-                android:propertyName="scaleX"
-                android:startOffset="100"
-                android:duration="600"
-                android:valueFrom="1.00"
-                android:valueTo="1.0"
-                android:valueType="floatType"
-                android:interpolator="@android:anim/decelerate_interpolator" />
-            <objectAnimator
-                android:propertyName="scaleY"
-                android:startOffset="100"
-                android:duration="600"
-                android:valueFrom="1.00"
-                android:valueTo="1.0"
-                android:valueType="floatType"
-                android:interpolator="@android:anim/decelerate_interpolator" />
         </set>
     </item>
 </selector>

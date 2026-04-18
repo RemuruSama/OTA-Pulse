@@ -33,6 +33,14 @@ import kotlin.math.sin
  *       android:layout_width="20dp"
  *       android:layout_height="20dp"
  *       android:visibility="gone" />
+ *
+ * Performance notes:
+ *   - The wavy path is built with 180 segments (half the original 360) —
+ *     visually indistinguishable at screen sizes but halves trig work per frame.
+ *   - The path is only rebuilt when wavePhase actually changed since the last
+ *     draw, avoiding re-computation on rotation-only frames.
+ *   - All three ValueAnimators call invalidate() from their update listeners so
+ *     arc phase and wave phase are always current when onDraw() executes.
  */
 class WavyCircularProgressIndicator @JvmOverloads constructor(
     context: Context,
@@ -80,6 +88,9 @@ class WavyCircularProgressIndicator @JvmOverloads constructor(
     private var arcPhase      = 0f   // 0..1    — arc grow/shrink
     private var wavePhase     = 0f   // 0..2π   — ripple along path
 
+    // Path cache: only rebuilt when wavePhase changes between frames.
+    private var lastBuiltWavePhase = Float.NaN
+
     private var rotationAnimator: ValueAnimator? = null
     private var arcAnimator:      ValueAnimator? = null
     private var waveAnimator:     ValueAnimator? = null
@@ -122,9 +133,14 @@ class WavyCircularProgressIndicator @JvmOverloads constructor(
         // KEY FIX: cap amplitude to 20% of radius — prevents asterisk at small sizes
         val clampedAmplitude = min(waveAmplitude, safeRadius * 0.20f)
 
-        buildWavyCirclePath(cx, cy, safeRadius, clampedAmplitude)
+        // Only rebuild the wavy path when wavePhase has actually changed.
+        // On rotation-only frames this is a no-op, saving 180 trig calls.
+        if (wavePhase != lastBuiltWavePhase) {
+            buildWavyCirclePath(cx, cy, safeRadius, clampedAmplitude)
+            lastBuiltWavePhase = wavePhase
+            fullPathMeasure.setPath(wavyPath, false)
+        }
 
-        fullPathMeasure.setPath(wavyPath, false)
         val totalLength = fullPathMeasure.length
         if (totalLength <= 0f) return
 
@@ -147,6 +163,11 @@ class WavyCircularProgressIndicator @JvmOverloads constructor(
         canvas.drawPath(clippedPath, paint)
     }
 
+    /**
+     * Builds the wavy circle path into [wavyPath].
+     * Uses 180 segments — half the original 360 — which is visually smooth
+     * at all realistic screen sizes and halves the trigonometric workload.
+     */
     private fun buildWavyCirclePath(
         cx: Float,
         cy: Float,
@@ -154,7 +175,7 @@ class WavyCircularProgressIndicator @JvmOverloads constructor(
         clampedAmplitude: Float
     ) {
         wavyPath.reset()
-        val steps = 360
+        val steps = 180
         for (i in 0..steps) {
             val angle = (i.toDouble() / steps) * 2.0 * Math.PI
             val wave  = sin(angle * waveCount + wavePhase) * clampedAmplitude
@@ -175,7 +196,7 @@ class WavyCircularProgressIndicator @JvmOverloads constructor(
             interpolator = LinearInterpolator()
             addUpdateListener {
                 rotationAngle = it.animatedValue as Float
-                invalidate()
+                invalidate()   // drives the draw loop
             }
             start()
         }
@@ -184,7 +205,13 @@ class WavyCircularProgressIndicator @JvmOverloads constructor(
             duration = arcSpeedMs
             repeatCount = ValueAnimator.INFINITE
             interpolator = LinearInterpolator()
-            addUpdateListener { arcPhase = it.animatedValue as Float }
+            addUpdateListener {
+                arcPhase = it.animatedValue as Float
+                // invalidate() is already triggered by rotationAnimator on the
+                // same vsync; a second call here is a no-op if the View is
+                // already dirty, but ensures arc is current if rotation is paused.
+                invalidate()
+            }
             start()
         }
 
@@ -192,7 +219,12 @@ class WavyCircularProgressIndicator @JvmOverloads constructor(
             duration = (rotationSpeedMs * 0.75f).toLong()
             repeatCount = ValueAnimator.INFINITE
             interpolator = LinearInterpolator()
-            addUpdateListener { wavePhase = it.animatedValue as Float }
+            addUpdateListener {
+                wavePhase = it.animatedValue as Float
+                // Trigger invalidate so the path cache check in onDraw runs;
+                // path will only be rebuilt if wavePhase actually changed.
+                invalidate()
+            }
             start()
         }
     }
@@ -201,6 +233,8 @@ class WavyCircularProgressIndicator @JvmOverloads constructor(
         rotationAnimator?.cancel()
         arcAnimator?.cancel()
         waveAnimator?.cancel()
+        // Reset cache so next start() rebuilds the path fresh.
+        lastBuiltWavePhase = Float.NaN
     }
 
     private fun restartAnimators() {

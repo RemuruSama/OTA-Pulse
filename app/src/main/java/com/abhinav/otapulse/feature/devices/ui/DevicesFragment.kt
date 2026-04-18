@@ -143,6 +143,12 @@ class DevicesFragment : Fragment(R.layout.fragment_devices) {
                     }
                 }
                 parentFragmentManager.beginTransaction()
+                    .setCustomAnimations(
+                        R.anim.nav_enter,
+                        R.anim.nav_exit,
+                        R.anim.nav_pop_enter,
+                        R.anim.nav_pop_exit
+                    )
                     .replace(R.id.fragment_container, fragment)
                     .addToBackStack(null)
                     .commit()
@@ -615,6 +621,12 @@ class DevicesFragment : Fragment(R.layout.fragment_devices) {
 
         binding.addDeviceFab?.setHapticClickListener {
             parentFragmentManager.beginTransaction()
+                .setCustomAnimations(
+                    R.anim.nav_enter,
+                    R.anim.nav_exit,
+                    R.anim.nav_pop_enter,
+                    R.anim.nav_pop_exit
+                )
                 .replace(R.id.fragment_container, AddDeviceFragment())
                 .addToBackStack(null)
                 .commit()

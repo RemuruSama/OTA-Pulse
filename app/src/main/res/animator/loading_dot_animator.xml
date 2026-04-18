@@ -3,7 +3,7 @@
     android:duration="600"
     android:propertyName="pathData"
     android:repeatCount="infinite"
-    android:repeatMode="restart"
+    android:repeatMode="reverse"
     android:valueFrom="M4,12 A2,2 0 1,1 4,11.99"
     android:valueTo="M4,12 A1,1 0 1,1 4,11.99"
     android:valueType="pathType" />
