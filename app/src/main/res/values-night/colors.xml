@@ -30,6 +30,8 @@
     <color name="colorSurfaceContainer">#271D1C</color>
     <color name="colorSurfaceContainerHigh">#322726</color>
     <color name="colorSurfaceContainerHighest">#3D3231</color>
+    <color name="colorSuccessContainer">#24512B</color>
+    <color name="colorOnSuccessContainer">#B7F1BA</color>
 
     <!-- Legacy / Utility Colors (Night) -->
     <color name="material_green_500">#81C784</color>

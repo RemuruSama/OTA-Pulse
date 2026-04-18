@@ -39,6 +39,9 @@ class OtaToolsFragment : Fragment() {
         binding.cardLinkResolver.setHapticClickListener {
             openTool(LinkResolverFragment())
         }
+        binding.cardArbChecker.setHapticClickListener {
+            openTool(ArbCheckerFragment())
+        }
     }
 
     private fun openTool(fragment: Fragment) {
@@ -63,7 +66,8 @@ class OtaToolsFragment : Fragment() {
             binding.cardHeroIcon,
             binding.cardManualQuery,
             binding.cardPartitionExtraction,
-            binding.cardLinkResolver
+            binding.cardLinkResolver,
+            binding.cardArbChecker
         )
         com.abhinav.otapulse.core.common.AnimationUtils.animateEntrance(viewsToAnimate)
     }

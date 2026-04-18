@@ -40,26 +40,25 @@ class ArbLookupService @Inject constructor(private val arbChecker: ArbChecker) {
         }
     }
 
-    // Cache results keyed by original URL to avoid re-resolving + re-extracting
+    // Cache results keyed by original source to avoid repeating extraction work.
     private val cache = mutableMapOf<String, ArbInfo?>()
 
-    /**
-     * Extract ARB info from the OTA download URL.
-     * Resolves the URL first (follows redirects) before running Range Requests.
-     * Returns null if extraction fails or device doesn't have xbl_config.
-     */
-    suspend fun lookupByUrl(downloadUrl: String): ArbInfo? {
-        if (downloadUrl.isBlank()) return null
+    suspend fun lookup(source: String): ArbInfo? {
+        val trimmedSource = source.trim()
+        if (trimmedSource.isBlank()) return null
 
-        // Check cache (keyed on original URL)
-        cache[downloadUrl]?.let { return it }
+        cache[trimmedSource]?.let { return it }
 
         return try {
-            // Resolve the URL to follow all redirects → final CDN endpoint
-            val resolved = OtaResolver.resolveUrl(downloadUrl)
-            Log.d(TAG, "Resolved URL for ARB: ${resolved.url}")
+            val effectiveSource = if (trimmedSource.startsWith("http", ignoreCase = true)) {
+                val resolved = OtaResolver.resolveUrl(trimmedSource)
+                Log.d(TAG, "Resolved URL for ARB: ${resolved.url}")
+                resolved.url
+            } else {
+                trimmedSource
+            }
 
-            val result = arbChecker.checkArb(resolved.url)
+            val result = arbChecker.checkArb(effectiveSource)
             val arbInfo = result?.let {
                 ArbInfo(
                     arbIndex = it.arb,
@@ -67,11 +66,13 @@ class ArbLookupService @Inject constructor(private val arbChecker: ArbChecker) {
                     minor = it.minor
                 )
             }
-            cache[downloadUrl] = arbInfo
+            cache[trimmedSource] = arbInfo
             arbInfo
         } catch (e: Exception) {
-            Log.w(TAG, "ARB lookup failed for $downloadUrl", e)
+            Log.w(TAG, "ARB lookup failed for $trimmedSource", e)
             null
         }
     }
+
+    suspend fun lookupByUrl(downloadUrl: String): ArbInfo? = lookup(downloadUrl)
 }

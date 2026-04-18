@@ -30,6 +30,8 @@
     <color name="colorSurfaceContainer">#FCEAE7</color>
     <color name="colorSurfaceContainerHigh">#F6E4E1</color>
     <color name="colorSurfaceContainerHighest">#F0DEDE</color>
+    <color name="colorSuccessContainer">#D8F8D7</color>
+    <color name="colorOnSuccessContainer">#11361A</color>
 
     <!-- Legacy / Utility Colors -->
     <color name="material_green_500">#4CAF50</color>

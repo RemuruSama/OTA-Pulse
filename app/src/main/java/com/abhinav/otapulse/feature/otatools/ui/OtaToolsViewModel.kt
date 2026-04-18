@@ -20,6 +20,7 @@ import javax.inject.Inject
 
 data class OtaToolsUiState(
     val isLoading: Boolean = false,
+    val isCheckingArb: Boolean = false,
     val result: Result<OtaUpdate>? = null,
     val deviceName: String = "",
     val regionName: String = "",
@@ -28,6 +29,7 @@ data class OtaToolsUiState(
     val isStartingExtraction: Boolean = false,
     val showPartitionSelectDialog: ManualQuerySelectDialogData? = null,
     val resolverResult: ResolvedLinkUiState? = null,
+    val arbCheckResult: ArbCheckUiState? = null,
     val userMessage: String? = null
 )
 
@@ -42,6 +44,13 @@ data class ResolvedLinkUiState(
     val originalUrl: String,
     val resolvedUrl: String,
     val fileName: String?
+)
+
+data class ArbCheckUiState(
+    val source: String,
+    val sourceLabel: String,
+    val displayName: String,
+    val arbInfo: ArbLookupService.ArbInfo
 )
 
 @HiltViewModel
@@ -198,8 +207,56 @@ class OtaToolsViewModel @Inject constructor(
         }
     }
 
+    fun checkArb(source: String, sourceLabel: String, displayName: String) {
+        viewModelScope.launch {
+            val trimmedSource = source.trim()
+            if (trimmedSource.isBlank()) {
+                _uiState.update { it.copy(userMessage = "Paste a link or choose a ZIP first.") }
+                return@launch
+            }
+
+            _uiState.update { it.copy(isCheckingArb = true, arbCheckResult = null) }
+
+            runCatching { arbLookupService.lookup(trimmedSource) }
+                .onSuccess { arbInfo ->
+                    if (arbInfo != null) {
+                        _uiState.update {
+                            it.copy(
+                                isCheckingArb = false,
+                                arbCheckResult = ArbCheckUiState(
+                                    source = trimmedSource,
+                                    sourceLabel = sourceLabel,
+                                    displayName = displayName,
+                                    arbInfo = arbInfo
+                                )
+                            )
+                        }
+                    } else {
+                        _uiState.update {
+                            it.copy(
+                                isCheckingArb = false,
+                                userMessage = "Could not extract ARB metadata from this package."
+                            )
+                        }
+                    }
+                }
+                .onFailure { error ->
+                    _uiState.update {
+                        it.copy(
+                            isCheckingArb = false,
+                            userMessage = "Could not check ARB: ${error.message}"
+                        )
+                    }
+                }
+        }
+    }
+
     fun clearResolverResult() {
         _uiState.update { it.copy(resolverResult = null) }
+    }
+
+    fun clearArbCheckResult() {
+        _uiState.update { it.copy(arbCheckResult = null) }
     }
 
     fun extractPartition(source: String, versionName: String, partitionName: String, regionName: String? = null): java.util.UUID {
