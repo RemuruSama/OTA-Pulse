@@ -47,6 +47,7 @@ object DeviceCatalog {
         OnePlusNord4(),
         OnePlusNord3(),
         OnePlusPadPro(),
+        OnePlusPad3(),
         OnePlusPad2Pro(),
         OnePlusPad2(),
         OnePlusPad(),
