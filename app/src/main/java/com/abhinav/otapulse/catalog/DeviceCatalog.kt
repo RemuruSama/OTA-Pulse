@@ -124,6 +124,7 @@ object DeviceCatalog {
         RealmeC63_5G(),
         RealmeC25s(),
         RealmeC25(),
+        RealmeNarzoN65_5G(),
         RealmeNarzoN55(),
         RealmeNarzo90x(),
         RealmeNarzo80x_5G(),
