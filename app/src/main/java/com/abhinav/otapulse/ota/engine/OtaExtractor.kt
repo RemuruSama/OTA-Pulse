@@ -50,7 +50,7 @@ data class OtaMetadataMap(
 class OtaExtractor(private val context: Context) {
 
     private val http       = RangeHttpClient()
-    private val checker    = ServerCapabilityChecker(http)
+    private val checker    = ServerCapabilityChecker()
     private val stateStore = ExtractionStateStore(context)
 
     companion object {

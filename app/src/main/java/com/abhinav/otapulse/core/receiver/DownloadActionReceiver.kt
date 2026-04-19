@@ -3,11 +3,9 @@ package com.abhinav.otapulse.core.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.abhinav.otapulse.core.model.DownloadInfo
+import com.abhinav.otapulse.core.download.OkHttpDownloadEngine
 import com.abhinav.otapulse.core.model.toDownloadInfo
 import com.abhinav.otapulse.core.notifications.DownloadNotificationHelper
-import com.tonyodev.fetch2.Error
-import com.tonyodev.fetch2.Fetch
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import javax.inject.Inject
@@ -16,7 +14,7 @@ import javax.inject.Inject
 class DownloadActionReceiver : BroadcastReceiver() {
 
     @Inject
-    lateinit var fetch: Fetch
+    lateinit var engine: OkHttpDownloadEngine
 
     @Inject
     lateinit var notificationHelper: DownloadNotificationHelper
@@ -60,35 +58,24 @@ class DownloadActionReceiver : BroadcastReceiver() {
 
         when (action) {
             ACTION_PAUSE_DOWNLOAD -> {
-                fetch.pause(downloadId)
+                engine.pause(downloadId)
                 shouldUpdateNotificationAfterAction = true
             }
             ACTION_RESUME_DOWNLOAD -> {
-                fetch.resume(downloadId)
+                engine.resume(downloadId)
                 shouldUpdateNotificationAfterAction = true
             }
             ACTION_CANCEL_DOWNLOAD -> {
-                fetch.cancel(downloadId)
+                engine.cancel(downloadId)
                 notificationHelper.cancelNotification(downloadId)
-                // Notification is now cancelled; no further update from here is needed.
-                // Your FetchListener's onCancelled method should handle any other cleanup.
             }
         }
 
         if (shouldUpdateNotificationAfterAction) {
-            // Attempt to get the latest download info and update the notification.
-            // Using Fetch's getDownload with a callback is asynchronous.
-            fetch.getDownload(downloadId) { fetchDownload: com.tonyodev.fetch2.Download? ->
-                fetchDownload?.let {
-                    // IMPORTANT: The status here (it.status) depends on how quickly Fetch
-                    // processes the pause/resume action and updates its database relative
-                    // to this callback firing. A FetchListener is generally more reliable
-                    // for getting confirmed status changes.
-                    val downloadInfo = it.toDownloadInfo()
-                    notificationHelper.showProgressNotification(downloadInfo)
-                }
+            // Get the latest download info synchronously and update the notification.
+            engine.getDownload(downloadId)?.let { record ->
+                notificationHelper.showProgressNotification(record.toDownloadInfo())
             }
         }
     }
-
 }

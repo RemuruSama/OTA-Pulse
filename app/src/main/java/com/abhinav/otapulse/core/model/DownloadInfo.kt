@@ -1,8 +1,8 @@
 package com.abhinav.otapulse.core.model
 
-import com.tonyodev.fetch2.Download
-import com.tonyodev.fetch2.Error
-import com.tonyodev.fetch2.Status
+import com.abhinav.otapulse.core.download.DownloadError
+import com.abhinav.otapulse.core.download.DownloadRecord
+import com.abhinav.otapulse.core.download.DownloadStatus
 
 data class DownloadInfo(
     val id: Int,
@@ -10,12 +10,12 @@ data class DownloadInfo(
     val fileName: String,
     val downloadedBytes: Long,
     val progress: Int,
-    val status: Status,
-    val error: Error,
+    val status: DownloadStatus,
+    val error: DownloadError,
     val eta: Long,
     val speed: Long,
     val totalBytes: Long,
-    val original: Download,
+    val original: DownloadRecord,
     val otaUpdate: OtaUpdate?,
     val deviceName: String,
     val regionName: String
@@ -23,10 +23,10 @@ data class DownloadInfo(
 
 sealed class DownloadState {
     object Idle : DownloadState()
-    data class Queued(val download: Download) : DownloadState()
-    data class Downloading(val download: Download) : DownloadState()
-    data class Paused(val download: Download) : DownloadState()
-    data class Completed(val download: Download) : DownloadState()
-    data class Failed(val download: Download, val error: Error) : DownloadState()
-    data class Cancelled(val download: Download) : DownloadState()
+    data class Queued(val download: DownloadRecord) : DownloadState()
+    data class Downloading(val download: DownloadRecord) : DownloadState()
+    data class Paused(val download: DownloadRecord) : DownloadState()
+    data class Completed(val download: DownloadRecord) : DownloadState()
+    data class Failed(val download: DownloadRecord, val error: DownloadError) : DownloadState()
+    data class Cancelled(val download: DownloadRecord) : DownloadState()
 }

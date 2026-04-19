@@ -53,7 +53,6 @@ class LibrariesFragment : Fragment() {
         Library("Apache Commons Compress", "Apache License 2.0", "https://commons.apache.org/proper/commons-compress/"),
         Library("AppCompat", "Apache License 2.0", "https://developer.android.com/jetpack/androidx/releases/appcompat"),
         Library("ConstraintLayout", "Apache License 2.0", "https://developer.android.com/jetpack/androidx/releases/constraintlayout"),
-        Library("Fetch2", "Apache License 2.0", "https://github.com/tonyofrancis/Fetch"),
         Library("FlexboxLayout", "Apache License 2.0", "https://github.com/google/flexbox-layout"),
         Library("Fragment", "Apache License 2.0", "https://developer.android.com/jetpack/androidx/releases/fragment"),
         Library("Fragment KTX", "Apache License 2.0", "https://developer.android.com/kotlin/ktx"),

@@ -110,8 +110,11 @@ object OtaResolver {
             connectTimeout = 15000
             readTimeout = 15000
             requestMethod = method
-            setRequestProperty("userId", "oplus-ota|16002018")
-            setRequestProperty("User-Agent", "okhttp/3.12.12")
+            
+            if (com.abhinav.otapulse.feature.downloads.data.DownloadManager.isDownloadCheckUrl(url.toString())) {
+                setRequestProperty("userId", "oplus-ota|16002018")
+                setRequestProperty("User-Agent", "okhttp/3.12.12")
+            }
             setRequestProperty("Accept", "*/*")
             setRequestProperty("Accept-Encoding", "identity")
             setRequestProperty("Connection", "Keep-Alive")

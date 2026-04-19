@@ -3,24 +3,21 @@ package com.abhinav.otapulse.feature.downloads.data
 import android.content.Context
 import android.os.Environment
 import android.util.Log
+import com.abhinav.otapulse.core.download.DownloadError
+import com.abhinav.otapulse.core.download.DownloadListener
+import com.abhinav.otapulse.core.download.DownloadRecord
+import com.abhinav.otapulse.core.download.DownloadStatus
+import com.abhinav.otapulse.core.download.OkHttpDownloadEngine
 import com.abhinav.otapulse.core.model.DownloadInfo
 import com.abhinav.otapulse.core.model.DownloadState
 import com.abhinav.otapulse.core.model.OtaUpdate
-import com.abhinav.otapulse.core.model.toData
 import com.abhinav.otapulse.core.model.toDownloadInfo
+import com.abhinav.otapulse.core.model.toExtras
 import com.abhinav.otapulse.feature.downloads.domain.DownloadRepository
 import com.abhinav.otapulse.core.network.Component
 import com.abhinav.otapulse.core.notifications.DownloadNotificationHelper
 import com.abhinav.otapulse.core.network.OtaResolver
 import com.google.gson.Gson
-import com.tonyodev.fetch2.Download
-import com.tonyodev.fetch2.Error
-import com.tonyodev.fetch2.Fetch
-import com.tonyodev.fetch2.FetchListener
-import com.tonyodev.fetch2.NetworkType
-import com.tonyodev.fetch2.Priority
-import com.tonyodev.fetch2.Request
-import com.tonyodev.fetch2core.DownloadBlock
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -40,9 +37,9 @@ import javax.inject.Singleton
 @Singleton
 class DownloadManager @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val fetch: Fetch,
+    private val engine: OkHttpDownloadEngine,
     private val notificationHelper: DownloadNotificationHelper
-) : DownloadRepository, FetchListener {
+) : DownloadRepository, DownloadListener {
 
     private val _allDownloads = MutableStateFlow<List<DownloadInfo>>(emptyList())
     override val allDownloads: StateFlow<List<DownloadInfo>> = _allDownloads.asStateFlow()
@@ -56,7 +53,7 @@ class DownloadManager @Inject constructor(
     private val lastProgressUpdateMap = ConcurrentHashMap<Int, Long>()
     private val PROGRESS_UPDATE_DELAY_MS = 800L // Only update notification every 800ms
 
-    // FIX: Speed Smoothing Map
+    // Speed Smoothing Map
     // Stores the calculated "smoothed" speed for each download ID to prevent visual jumping
     private val speedSmoothingMap = ConcurrentHashMap<Int, Long>()
 
@@ -66,7 +63,7 @@ class DownloadManager @Inject constructor(
     private val AUTO_RETRY_BASE_DELAY_MS = 1_500L
 
     init {
-        fetch.addListener(this)
+        engine.addListener(this)
         updateDownloadsList()
     }
 
@@ -79,10 +76,15 @@ class DownloadManager @Inject constructor(
         deviceName: String,
         regionName: String
     ): File {
-        val resolvedInfo = try {
-            OtaResolver.resolveUrl(otaUpdate.downloadUrl)
-        } catch (e: Exception) {
-            Log.w(TAG, "URL resolution failed during target lookup, using original: ${e.message}")
+        val resolvedInfo = if (isDownloadCheckUrl(otaUpdate.downloadUrl)) {
+            try {
+                OtaResolver.resolveUrl(otaUpdate.downloadUrl)
+            } catch (e: Exception) {
+                Log.w(TAG, "URL resolution failed during target lookup, using original: ${e.message}")
+                OtaResolver.ResolvedUrlInfo(otaUpdate.downloadUrl, null)
+            }
+        } else {
+            // Direct CDN URL — no resolution needed, use as-is
             OtaResolver.ResolvedUrlInfo(otaUpdate.downloadUrl, null)
         }
         return resolveTargetFile(otaUpdate, deviceName, regionName, resolvedInfo)
@@ -98,14 +100,14 @@ class DownloadManager @Inject constructor(
             Environment.getExternalStorageDirectory(),
             Component.OTA_UPDATES_DIR
         )
-        
+
         // Structure: OTAPulseDownloader/Firmware/<region>-<versionName>/
         val firmwareDir = File(baseDir, "Firmware")
         val versionName = sanitizeFolderSegment(otaUpdate.versionName ?: "Unknown")
         val regionFolderPrefix = sanitizeFolderSegment(regionName).takeIf { regionName.isNotBlank() }.orEmpty()
         val folderName = if (regionFolderPrefix.isBlank()) versionName else "$regionFolderPrefix-$versionName"
         val targetDir = File(firmwareDir, folderName).also {
-            if (!it.exists()) it.mkdirs() 
+            if (!it.exists()) it.mkdirs()
         }
 
         // Extract filename from the OTA URL (query params stripped by URL.path)
@@ -133,7 +135,6 @@ class DownloadManager @Inject constructor(
         }
     }
 
-
     override fun deleteFile(file: File): Boolean {
         return try {
             if (file.exists()) {
@@ -158,10 +159,15 @@ class DownloadManager @Inject constructor(
         ioScope.launch {
             Log.d(TAG, "Starting download process for ${otaUpdate.fileName}")
 
-            val resolvedInfo = try {
-                OtaResolver.resolveUrl(otaUpdate.downloadUrl)
-            } catch (e: Exception) {
-                Log.w(TAG, "URL resolution failed, using original: ${e.message}")
+            // Only resolve downloadCheck URLs — direct CDN URLs need no resolution.
+            val resolvedInfo = if (isDownloadCheckUrl(otaUpdate.downloadUrl)) {
+                try {
+                    OtaResolver.resolveUrl(otaUpdate.downloadUrl)
+                } catch (e: Exception) {
+                    Log.w(TAG, "URL resolution failed, using original: ${e.message}")
+                    OtaResolver.ResolvedUrlInfo(otaUpdate.downloadUrl, null)
+                }
+            } else {
                 OtaResolver.ResolvedUrlInfo(otaUpdate.downloadUrl, null)
             }
             val finalTargetFile = resolveTargetFile(otaUpdate, deviceName, regionName, resolvedInfo)
@@ -169,34 +175,18 @@ class DownloadManager @Inject constructor(
 
             Log.i(TAG, "Target File Path: ${finalTargetFile.absolutePath}")
 
+            val otaInfoForExtras = otaUpdate.copy(fileName = finalTargetFile.name)
+            val otaUpdateJson = Gson().toJson(otaInfoForExtras)
 
-            val request = Request(resolvedUrl, finalTargetFile.absolutePath).apply {
-                priority = Priority.HIGH
-                networkType = NetworkType.ALL
+            val extras = mapOf(
+                "otaUpdate" to otaUpdateJson,
+                "deviceName" to deviceName,
+                "regionName" to regionName,
+                "originalFileName" to finalTargetFile.name
+            ).toExtras()
 
-                addHeader("Accept-Encoding", "identity")
-                addHeader("User-Agent", "okhttp/3.12.12")
-                addHeader("userId", "oplus-ota|16002018")
-                addHeader("Accept", "*/*")
-                addHeader("Connection", "Keep-Alive")
-                addHeader("Cache-Control", "no-cache")
-
-                val otaInfoForExtras = otaUpdate.copy(fileName = finalTargetFile.name)
-                val otaUpdateJson = Gson().toJson(otaInfoForExtras)
-
-                extras = mapOf(
-                    "otaUpdate" to otaUpdateJson,
-                    "deviceName" to deviceName,
-                    "regionName" to regionName,
-                    "originalFileName" to finalTargetFile.name
-                ).toData()
-            }
-
-            fetch.enqueue(request, {
-                Log.i(TAG, "Enqueued: ${finalTargetFile.absolutePath}")
-            }, {
-                Log.e(TAG, "Error enqueueing: ${it.throwable?.message}")
-            })
+            engine.enqueue(resolvedUrl, finalTargetFile.absolutePath, extras)
+            Log.i(TAG, "Enqueued: ${finalTargetFile.absolutePath}")
         }
     }
 
@@ -267,22 +257,18 @@ class DownloadManager @Inject constructor(
     }
 
     override fun pauseDownload(downloadInfo: DownloadInfo) {
-        fetch.pause(downloadInfo.id)
+        engine.pause(downloadInfo.id)
         notificationHelper.cancelNotification(downloadInfo.id)
     }
 
     override fun resumeDownload(downloadInfo: DownloadInfo) {
         // Reset the auto-retry counter so the user gets a fresh retry window after manually resuming.
         autoRetryAttempts.remove(downloadInfo.id)
-
-        // The CustomHttpUrlConnectionDownloader handles expired signed URLs on the fly transparently.
-        // We do NOT use fetch.updateRequest() here because Fetch2 natively wipes local files 
-        // if the requested URL String visibly changes. 
-        fetch.resume(downloadInfo.id)
+        engine.resume(downloadInfo.id)
     }
 
     override fun cancelDownload(downloadInfo: DownloadInfo) {
-        fetch.cancel(downloadInfo.id)
+        engine.cancel(downloadInfo.id)
         lastProgressUpdateMap.remove(downloadInfo.id)
         speedSmoothingMap.remove(downloadInfo.id)
         autoRetryAttempts.remove(downloadInfo.id)
@@ -291,12 +277,12 @@ class DownloadManager @Inject constructor(
     override fun retryDownload(downloadInfo: DownloadInfo) {
         // Reset auto-retry counter on manual retry.
         autoRetryAttempts.remove(downloadInfo.id)
-        fetch.retry(downloadInfo.id)
+        engine.retry(downloadInfo.id)
     }
 
     override fun deleteDownload(downloadInfo: DownloadInfo) {
         val targetFile = File(downloadInfo.file)
-        fetch.delete(downloadInfo.id)
+        engine.delete(downloadInfo.id)
         if (targetFile.exists()) {
             val deleted = targetFile.delete()
             if (!deleted && targetFile.exists()) {
@@ -312,28 +298,24 @@ class DownloadManager @Inject constructor(
     }
 
     /** Checks if the error indicates an expired, invalid, or range-rejected download URL */
-    private fun isExpiredUrlError(error: Error): Boolean {
-        val code = error.httpResponse?.code
-        return code == 403 ||
-               code == 410 ||
-               code == 416 || // Range Not Satisfiable — stale signed URL rejected the Range header
-               error == Error.REQUEST_NOT_SUCCESSFUL ||
-               error == Error.HTTP_NOT_FOUND ||
-               error == Error.UNKNOWN
+    private fun isExpiredUrlError(error: DownloadError): Boolean {
+        return error == DownloadError.REQUEST_NOT_SUCCESSFUL ||
+               error == DownloadError.HTTP_NOT_FOUND ||
+               error == DownloadError.UNKNOWN
     }
 
-    private fun shouldAutoRetry(error: Error): Boolean {
+    private fun shouldAutoRetry(error: DownloadError): Boolean {
         return isExpiredUrlError(error) ||
-            error == Error.NO_NETWORK_CONNECTION ||
-            error == Error.CONNECTION_TIMED_OUT ||
-            error == Error.UNKNOWN_IO_ERROR ||
-            error == Error.UNKNOWN
+            error == DownloadError.NO_NETWORK_CONNECTION ||
+            error == DownloadError.CONNECTION_TIMED_OUT ||
+            error == DownloadError.UNKNOWN_IO_ERROR ||
+            error == DownloadError.UNKNOWN
     }
 
-    private fun scheduleAutoRetry(download: Download, error: Error): Boolean {
+    private fun scheduleAutoRetry(record: DownloadRecord, error: DownloadError): Boolean {
         if (!shouldAutoRetry(error)) return false
 
-        val attempts = autoRetryAttempts.getOrPut(download.id) { AtomicInteger(0) }
+        val attempts = autoRetryAttempts.getOrPut(record.id) { AtomicInteger(0) }
         val nextAttempt = attempts.incrementAndGet()
         if (nextAttempt > MAX_AUTO_RETRY_ATTEMPTS) {
             attempts.set(MAX_AUTO_RETRY_ATTEMPTS)
@@ -343,36 +325,34 @@ class DownloadManager @Inject constructor(
         val retryDelayMs = AUTO_RETRY_BASE_DELAY_MS * nextAttempt
         Log.w(
             TAG,
-            "Auto retry scheduled for download ${download.id}: " +
+            "Auto retry scheduled for download ${record.id}: " +
                 "attempt $nextAttempt/$MAX_AUTO_RETRY_ATTEMPTS in ${retryDelayMs}ms after $error"
         )
 
-        updateSingleDownloadState(download)
-        notificationHelper.cancelNotification(download.id)
+        updateSingleDownloadState(record)
+        notificationHelper.cancelNotification(record.id)
 
         ioScope.launch {
             delay(retryDelayMs)
-            fetch.retry(download.id)
+            engine.retry(record.id)
         }
         return true
     }
 
     private fun updateDownloadsList() {
-        fetch.getDownloads { downloads ->
-            // Use smoothed speed if available, preventing UI from jumping
-            _allDownloads.value = downloads.map { it.toDownloadInfo(smoothedSpeed = speedSmoothingMap[it.id]) }
-        }
+        val downloads = engine.getDownloads()
+        _allDownloads.value = downloads.map { it.toDownloadInfo(smoothedSpeed = speedSmoothingMap[it.id]) }
     }
 
-    private fun updateSingleDownloadState(download: Download, newFilePath: String? = null, smoothedSpeed: Long? = null) {
+    private fun updateSingleDownloadState(record: DownloadRecord, newFilePath: String? = null, smoothedSpeed: Long? = null) {
         val currentDownloads = _allDownloads.value.toMutableList()
-        val index = currentDownloads.indexOfFirst { it.id == download.id }
+        val index = currentDownloads.indexOfFirst { it.id == record.id }
 
         // Prefer passed smoothed speed, then map value, then fallback to null (which uses raw)
-        val displaySpeed = smoothedSpeed ?: speedSmoothingMap[download.id]
+        val displaySpeed = smoothedSpeed ?: speedSmoothingMap[record.id]
 
-        val updatedInfo = download.toDownloadInfo(
-            newFilePath = newFilePath ?: download.file,
+        val updatedInfo = record.toDownloadInfo(
+            newFilePath = newFilePath ?: record.file,
             smoothedSpeed = displaySpeed
         )
 
@@ -384,106 +364,108 @@ class DownloadManager @Inject constructor(
         _allDownloads.value = currentDownloads.sortedByDescending { it.original.created }
     }
 
-    // --- FetchListener Callbacks ---
+    // --- DownloadListener Callbacks ---
 
-    override fun onQueued(download: Download, waitingOnNetwork: Boolean) {
+    override fun onQueued(record: DownloadRecord, waitingOnNetwork: Boolean) {
         updateDownloadsList()
-        notificationHelper.showProgressNotification(download.toDownloadInfo())
+        notificationHelper.showProgressNotification(record.toDownloadInfo())
     }
 
-    override fun onStarted(download: Download, downloadBlocks: List<DownloadBlock>, totalBlocks: Int) {
+    override fun onStarted(record: DownloadRecord) {
         // Reset smoothing and auto-retry counter on successful start.
-        speedSmoothingMap[download.id] = 0L
-        autoRetryAttempts.remove(download.id)
-        updateSingleDownloadState(download)
-        notificationHelper.showProgressNotification(download.toDownloadInfo())
-        lastProgressUpdateMap[download.id] = System.currentTimeMillis()
+        speedSmoothingMap[record.id] = 0L
+        autoRetryAttempts.remove(record.id)
+        updateSingleDownloadState(record)
+        notificationHelper.showProgressNotification(record.toDownloadInfo())
+        lastProgressUpdateMap[record.id] = System.currentTimeMillis()
     }
 
-    override fun onProgress(download: Download, etaInMilliSeconds: Long, downloadedBytesPerSecond: Long) {
+    override fun onProgress(record: DownloadRecord, etaInMilliSeconds: Long, downloadedBytesPerSecond: Long) {
         // SPEED SMOOTHING ALGORITHM
         // Applies a low-pass filter (Exponential Moving Average)
         // 80% previous speed + 20% current instantaneous speed
-        // This removes the "double speed" spikes and aligns with the system status bar.
-        val oldSpeed = speedSmoothingMap[download.id] ?: downloadedBytesPerSecond
+        val oldSpeed = speedSmoothingMap[record.id] ?: downloadedBytesPerSecond
         val smoothedSpeed = ((oldSpeed * 0.8) + (downloadedBytesPerSecond * 0.2)).toLong()
 
-        speedSmoothingMap[download.id] = smoothedSpeed
+        speedSmoothingMap[record.id] = smoothedSpeed
 
-        updateSingleDownloadState(download, smoothedSpeed = smoothedSpeed)
+        updateSingleDownloadState(record, smoothedSpeed = smoothedSpeed)
 
         val now = System.currentTimeMillis()
-        val lastUpdate = lastProgressUpdateMap[download.id] ?: 0L
+        val lastUpdate = lastProgressUpdateMap[record.id] ?: 0L
 
         if (now - lastUpdate >= PROGRESS_UPDATE_DELAY_MS) {
-            notificationHelper.showProgressNotification(download.toDownloadInfo(smoothedSpeed = smoothedSpeed))
-            lastProgressUpdateMap[download.id] = now
+            notificationHelper.showProgressNotification(record.toDownloadInfo(smoothedSpeed = smoothedSpeed))
+            lastProgressUpdateMap[record.id] = now
         }
     }
 
-    override fun onCompleted(download: Download) {
+    override fun onCompleted(record: DownloadRecord) {
         ioScope.launch {
-            lastProgressUpdateMap.remove(download.id)
-            speedSmoothingMap.remove(download.id)
-            autoRetryAttempts.remove(download.id)
+            lastProgressUpdateMap.remove(record.id)
+            speedSmoothingMap.remove(record.id)
+            autoRetryAttempts.remove(record.id)
 
-            val completedDownloadInfo = download.toDownloadInfo(newFilePath = download.file)
-            updateSingleDownloadState(download, newFilePath = download.file)
+            val completedDownloadInfo = record.toDownloadInfo(newFilePath = record.file)
+            updateSingleDownloadState(record, newFilePath = record.file)
             notificationHelper.showCompletedNotification(completedDownloadInfo)
-            Log.i(TAG, "Download completed: ${download.file}")
+            Log.i(TAG, "Download completed: ${record.file}")
         }
     }
 
-    override fun onError(download: Download, error: Error, throwable: Throwable?) {
-        lastProgressUpdateMap.remove(download.id)
-        speedSmoothingMap.remove(download.id)
+    override fun onError(record: DownloadRecord, error: DownloadError, throwable: Throwable?) {
+        lastProgressUpdateMap.remove(record.id)
+        speedSmoothingMap.remove(record.id)
 
-        if (scheduleAutoRetry(download, error)) {
+        if (scheduleAutoRetry(record, error)) {
             return
         }
 
-        autoRetryAttempts.remove(download.id)
-
-        handleDefaultError(download, error, throwable)
+        autoRetryAttempts.remove(record.id)
+        handleDefaultError(record, error, throwable)
     }
 
-    private fun handleDefaultError(download: Download, error: Error, throwable: Throwable?) {
-        updateSingleDownloadState(download)
-        notificationHelper.showErrorNotification(download.toDownloadInfo())
-        Log.e(TAG, "Download error for ${download.file}: $error - ${throwable?.message}")
+    private fun handleDefaultError(record: DownloadRecord, error: DownloadError, throwable: Throwable?) {
+        updateSingleDownloadState(record)
+        notificationHelper.showErrorNotification(record.toDownloadInfo())
+        Log.e(TAG, "Download error for ${record.file}: $error - ${throwable?.message}")
     }
 
-
-
-    override fun onCancelled(download: Download) {
-        updateSingleDownloadState(download)
-        notificationHelper.cancelNotification(download.id)
-        lastProgressUpdateMap.remove(download.id)
-        speedSmoothingMap.remove(download.id)
-        autoRetryAttempts.remove(download.id)
+    override fun onCancelled(record: DownloadRecord) {
+        updateSingleDownloadState(record)
+        notificationHelper.cancelNotification(record.id)
+        lastProgressUpdateMap.remove(record.id)
+        speedSmoothingMap.remove(record.id)
+        autoRetryAttempts.remove(record.id)
     }
 
-    override fun onRemoved(download: Download) {
+    override fun onRemoved(record: DownloadRecord) {
         updateDownloadsList()
-        notificationHelper.cancelNotification(download.id)
-        lastProgressUpdateMap.remove(download.id)
-        speedSmoothingMap.remove(download.id)
-        autoRetryAttempts.remove(download.id)
+        notificationHelper.cancelNotification(record.id)
+        lastProgressUpdateMap.remove(record.id)
+        speedSmoothingMap.remove(record.id)
+        autoRetryAttempts.remove(record.id)
     }
 
-    override fun onDeleted(download: Download) {
+    override fun onDeleted(record: DownloadRecord) {
         updateDownloadsList()
-        notificationHelper.cancelNotification(download.id)
-        lastProgressUpdateMap.remove(download.id)
-        speedSmoothingMap.remove(download.id)
-        autoRetryAttempts.remove(download.id)
+        notificationHelper.cancelNotification(record.id)
+        lastProgressUpdateMap.remove(record.id)
+        speedSmoothingMap.remove(record.id)
+        autoRetryAttempts.remove(record.id)
     }
 
-    override fun onAdded(download: Download) = updateDownloadsList()
-    override fun onPaused(download: Download) = updateSingleDownloadState(download)
-    override fun onResumed(download: Download) = updateSingleDownloadState(download)
-    override fun onWaitingNetwork(download: Download) = updateSingleDownloadState(download)
-    override fun onDownloadBlockUpdated(download: Download, downloadBlock: DownloadBlock, totalBlocks: Int) { /* No-op */ }
+    override fun onAdded(record: DownloadRecord) = updateDownloadsList()
+    
+    override fun onPaused(record: DownloadRecord) {
+        updateSingleDownloadState(record)
+        notificationHelper.showProgressNotification(record.toDownloadInfo(smoothedSpeed = speedSmoothingMap[record.id]))
+    }
+
+    override fun onResumed(record: DownloadRecord) {
+        updateSingleDownloadState(record)
+        notificationHelper.showProgressNotification(record.toDownloadInfo(smoothedSpeed = speedSmoothingMap[record.id]))
+    }
 
     companion object {
         private const val TAG = "DownloadManager"
@@ -492,5 +474,12 @@ class DownloadManager @Inject constructor(
         private const val INVALID_FILENAME_DOWNLOAD_CHECK = "downloadCheck"
         private const val INVALID_FILENAME_UNKNOWN_VERSION = "External-Unknown Version.zip"
         private const val INVALID_FILENAME_DOWNLOADED_FILE = "downloaded_file.zip"
+
+        /**
+         * Returns true for `downloadCheck` API URLs that OtaResolver can follow to get a
+         * fresh direct CDN URL. Direct CDN URLs (e.g. allawnfs.com signed URLs) return false.
+         */
+        fun isDownloadCheckUrl(url: String): Boolean =
+            url.contains("/downloadCheck", ignoreCase = true)
     }
 }

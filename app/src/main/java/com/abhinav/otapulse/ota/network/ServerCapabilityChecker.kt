@@ -1,6 +1,7 @@
 package com.abhinav.otapulse.ota.network
 
-import okhttp3.Request
+import java.net.HttpURLConnection
+import java.net.URL
 
 data class ServerCapabilities(
     val supportsRangeRequests: Boolean,
@@ -9,7 +10,22 @@ data class ServerCapabilities(
     val etag: String?
 )
 
-class ServerCapabilityChecker(private val http: RangeHttpClient) {
+class ServerCapabilityChecker {
+
+    private fun openConnection(urlStr: String, method: String = "GET"): HttpURLConnection {
+        return (URL(urlStr).openConnection() as HttpURLConnection).apply {
+            instanceFollowRedirects = true
+            connectTimeout = 30_000
+            readTimeout = 30_000
+            requestMethod = method
+            setRequestProperty("Accept-Encoding", "identity")
+
+            if (com.abhinav.otapulse.feature.downloads.data.DownloadManager.isDownloadCheckUrl(urlStr)) {
+                setRequestProperty("userId", "oplus-ota|16002018")
+                setRequestProperty("User-Agent", "okhttp/3.12.12")
+            }
+        }
+    }
 
     /**
      * Checks whether the server at [url] supports HTTP Range requests
@@ -19,27 +35,27 @@ class ServerCapabilityChecker(private val http: RangeHttpClient) {
      * performs a live probe request to verify Range support empirically.
      */
     fun check(url: String): ServerCapabilities {
-        // Some servers require Range: bytes=0-0 to get the total size
-        val request = Request.Builder()
-            .url(url)
-            .header("Range", "bytes=0-0")
-            .build()
-        val response = http.client.newCall(request).execute()
-
-        response.use {
-            val acceptRanges  = it.header("Accept-Ranges")
-            val etag          = it.header("ETag")
+        var conn: HttpURLConnection? = null
+        try {
+            conn = openConnection(url)
+            // Some servers require Range: bytes=0-0 to get the total size
+            conn.setRequestProperty("Range", "bytes=0-0")
+            conn.connect()
             
-            val contentRange = it.header("Content-Range")
+            val code = conn.responseCode
+            val acceptRanges = conn.getHeaderField("Accept-Ranges")
+            val etag = conn.getHeaderField("ETag")
+            
+            val contentRange = conn.getHeaderField("Content-Range")
             val contentLength = if (contentRange != null && contentRange.contains("/")) {
                 contentRange.substringAfterLast("/").toLongOrNull() ?: -1L
             } else {
-                it.header("Content-Length")?.toLongOrNull() ?: -1L
+                conn.getHeaderField("Content-Length")?.toLongOrNull() ?: -1L
             }
 
             val rangeSupported = when {
                 acceptRanges == "bytes" -> true
-                it.code == 206          -> true
+                code == 206             -> true
                 acceptRanges == "none"  -> false
                 else                    -> probeRangeSupport(url)
             }
@@ -50,20 +66,23 @@ class ServerCapabilityChecker(private val http: RangeHttpClient) {
                 acceptRangesHeader    = acceptRanges,
                 etag                  = etag
             )
+        } finally {
+            conn?.disconnect()
         }
     }
 
     /** Sends a 4-byte Range probe to empirically verify server support. */
     private fun probeRangeSupport(url: String): Boolean {
+        var conn: HttpURLConnection? = null
         return try {
-            val request = Request.Builder()
-                .url(url)
-                .header("Range", "bytes=0-3")
-                .build()
-            val response = http.client.newCall(request).execute()
-            response.use { it.code == 206 }
+            conn = openConnection(url)
+            conn.setRequestProperty("Range", "bytes=0-3")
+            conn.connect()
+            conn.responseCode == 206
         } catch (e: Exception) {
             false
+        } finally {
+            conn?.disconnect()
         }
     }
 }

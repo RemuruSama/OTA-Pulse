@@ -1,27 +1,30 @@
 package com.abhinav.otapulse.ota.network
 
-import okhttp3.OkHttpClient
-import okhttp3.Request
 import java.io.InputStream
-import java.util.concurrent.TimeUnit
+import java.net.HttpURLConnection
+import java.net.URL
 
 class RangeHttpClient(
     connectTimeoutSec: Long = 30,
     readTimeoutSec: Long = 120
 ) {
-    val client: OkHttpClient = OkHttpClient.Builder()
-        .connectTimeout(connectTimeoutSec, TimeUnit.SECONDS)
-        .readTimeout(readTimeoutSec, TimeUnit.SECONDS)
-        .retryOnConnectionFailure(true)
-        .addInterceptor { chain ->
-            val request = chain.request().newBuilder()
-                .header("userId", "oplus-ota|16002018")
-                .header("User-Agent", "okhttp/3.12.12")
-                .header("Accept-Encoding", "identity")
-                .build()
-            chain.proceed(request)
+    private val connectTimeoutMillis = (connectTimeoutSec * 1000).toInt()
+    private val readTimeoutMillis = (readTimeoutSec * 1000).toInt()
+
+    private fun openConnection(urlStr: String, method: String = "GET"): HttpURLConnection {
+        return (URL(urlStr).openConnection() as HttpURLConnection).apply {
+            instanceFollowRedirects = true
+            connectTimeout = connectTimeoutMillis
+            readTimeout = readTimeoutMillis
+            requestMethod = method
+            setRequestProperty("Accept-Encoding", "identity")
+
+            if (com.abhinav.otapulse.feature.downloads.data.DownloadManager.isDownloadCheckUrl(urlStr)) {
+                setRequestProperty("userId", "oplus-ota|16002018")
+                setRequestProperty("User-Agent", "okhttp/3.12.12")
+            }
         }
-        .build()
+    }
 
     /** Fetch bytes [start]..[end] inclusive. Enforces HTTP 206 with retry logic. */
     fun fetchBytes(url: String, start: Long, end: Long): ByteArray {
@@ -30,30 +33,30 @@ class RangeHttpClient(
         val maxRetries = 5
 
         for (attempt in 0..maxRetries) {
+            var conn: HttpURLConnection? = null
             try {
-                val request = Request.Builder()
-                    .url(url)
-                    .header("Range", "bytes=$start-$end")
-                    .build()
+                conn = openConnection(url)
+                conn.setRequestProperty("Range", "bytes=$start-$end")
+                conn.connect()
                 
-                client.newCall(request).execute().use { response ->
-                    if (response.code == 429 || response.code >= 500) {
-                        val msg = "Server returned ${response.code} for $start-$end"
-                        if (attempt < maxRetries) {
-                            android.util.Log.w("RangeHttpClient", "$msg, retrying in ${delay}ms... (Attempt ${attempt + 1})")
-                            Thread.sleep(delay)
-                            delay *= 2 // Exponential backoff
-                            return@use null // Continue loop via exception catch or null check
-                        } else {
-                            error(msg)
-                        }
+                val code = conn.responseCode
+                if (code == 429 || code >= 500) {
+                    val msg = "Server returned $code for $start-$end"
+                    if (attempt < maxRetries) {
+                        android.util.Log.w("RangeHttpClient", "$msg, retrying in ${delay}ms... (Attempt ${attempt + 1})")
+                        Thread.sleep(delay)
+                        delay *= 2
+                        continue
+                    } else {
+                        error(msg)
                     }
+                }
 
-                    if (response.code != 206 && response.code != 200) {
-                        error("Expected 206/200, got ${response.code}. Msg: ${response.message}")
-                    }
-                    return response.body!!.bytes()
-                } ?: continue // Retry loop if null returned from use block
+                if (code != 206 && code != 200) {
+                    error("Expected 206/200, got $code. Msg: ${conn.responseMessage}")
+                }
+                
+                return conn.inputStream.readBytes()
             } catch (e: Exception) {
                 lastException = e
                 if (attempt < maxRetries) {
@@ -62,6 +65,8 @@ class RangeHttpClient(
                 } else {
                     throw e
                 }
+            } finally {
+                conn?.disconnect()
             }
         }
         throw lastException ?: IllegalStateException("Failed to fetch $start-$end after $maxRetries retries")
@@ -69,31 +74,40 @@ class RangeHttpClient(
 
     /** Open a streaming response for large ranges — caller must close the stream. */
     fun openStream(url: String, start: Long, end: Long): InputStream {
-        val request = Request.Builder()
-            .url(url)
-            .header("Range", "bytes=$start-$end")
-            .build()
-        val response = client.newCall(request).execute()
-        if (response.code != 206 && response.code != 200) {
-            error("Expected HTTP 206/200 for Range $start-$end, got ${response.code}.")
+        val conn = openConnection(url)
+        conn.setRequestProperty("Range", "bytes=$start-$end")
+        conn.connect()
+        val code = conn.responseCode
+        if (code != 206 && code != 200) {
+            conn.disconnect()
+            error("Expected HTTP 206/200 for Range $start-$end, got $code.")
         }
-        return response.body!!.byteStream()
+        // Wrapping input stream to ensure connection is disconnected when stream is closed
+        return object : java.io.FilterInputStream(conn.inputStream) {
+            override fun close() {
+                super.close()
+                conn.disconnect()
+            }
+        }
     }
 
     fun getContentLength(url: String): Long {
         // Some servers (like Aliyun OSS) require a GET request with Range=0-0 to get the total size
         // instead of a HEAD request if the URL is pre-signed for GET.
-        val request = Request.Builder()
-            .url(url)
-            .header("Range", "bytes=0-0")
-            .build()
-        return client.newCall(request).execute().use { response ->
-            val contentRange = response.header("Content-Range")
+        var conn: HttpURLConnection? = null
+        try {
+            conn = openConnection(url)
+            conn.setRequestProperty("Range", "bytes=0-0")
+            conn.connect()
+            
+            val contentRange = conn.getHeaderField("Content-Range")
             if (contentRange != null && contentRange.contains("/")) {
-                contentRange.substringAfterLast("/").toLongOrNull() ?: -1L
+                return contentRange.substringAfterLast("/").toLongOrNull() ?: -1L
             } else {
-                response.header("Content-Length")?.toLongOrNull() ?: -1L
+                return conn.getHeaderField("Content-Length")?.toLongOrNull() ?: -1L
             }
+        } finally {
+            conn?.disconnect()
         }
     }
 }

@@ -1,25 +1,25 @@
 package com.abhinav.otapulse.core.model
 
-import com.tonyodev.fetch2.Download
+import com.abhinav.otapulse.core.download.DownloadRecord
 import java.io.File
 
 /**
- * Maps a Fetch [Download] object to our domain [DownloadInfo] model.
- * 
- * @param newFilePath Optional override for the file path (used during completion or file movement).
+ * Maps an [OkHttpDownloadEngine] [DownloadRecord] to our domain [DownloadInfo] model.
+ *
+ * @param newFilePath   Optional override for the file path (used during completion or file movement).
  * @param smoothedSpeed Optional override for the download speed (used for UI smoothing).
  */
-fun Download.toDownloadInfo(
+fun DownloadRecord.toDownloadInfo(
     newFilePath: String? = null,
     smoothedSpeed: Long? = null
 ): DownloadInfo {
-    val otaUpdateString = extras.getString("otaUpdate", "")
-    val deviceName = extras.getString("deviceName", "")
-    val regionName = extras.getString("regionName", "")
+    val otaUpdateString = extras["otaUpdate"] ?: ""
+    val deviceName = extras["deviceName"] ?: ""
+    val regionName = extras["regionName"] ?: ""
 
     val currentActualFilePath = newFilePath ?: this.file
 
-    // Use smoothed speed if available (prevents spikes), otherwise raw speed
+    // Use smoothed speed if available (prevents spikes), otherwise raw speed.
     val effectiveSpeed = smoothedSpeed ?: this.downloadedBytesPerSecond
 
     return DownloadInfo(

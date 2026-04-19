@@ -15,10 +15,10 @@ import androidx.core.content.ContextCompat
 import com.abhinav.otapulse.R
 import com.abhinav.otapulse.app.MainActivity
 import com.abhinav.otapulse.core.common.FormatUtils
+import com.abhinav.otapulse.core.download.DownloadError
+import com.abhinav.otapulse.core.download.DownloadStatus
 import com.abhinav.otapulse.core.model.DownloadInfo
 import com.abhinav.otapulse.core.receiver.DownloadActionReceiver
-import com.tonyodev.fetch2.Error
-import com.tonyodev.fetch2.Status
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -38,7 +38,7 @@ class DownloadNotificationHelper @Inject constructor(
         private const val REQUEST_CODE_RESUME = 101
         private const val REQUEST_CODE_CANCEL = 102
         private const val NOTIFICATION_GROUP = "ota_pulse_downloads"
-        private const val SUMMARY_ID = 44321 
+        private const val SUMMARY_ID = 44321
     }
 
     init {
@@ -95,7 +95,7 @@ class DownloadNotificationHelper @Inject constructor(
             .setAutoCancel(true)
             .setSilent(true)
             .build()
-        
+
         notificationManager.notify(SUMMARY_ID, summaryNotification)
     }
 
@@ -106,7 +106,7 @@ class DownloadNotificationHelper @Inject constructor(
     fun getProgressNotificationBuilder(downloadInfo: DownloadInfo): NotificationCompat.Builder {
         val progressText = "${downloadInfo.progress}%"
 
-        val contentText = if (downloadInfo.status == Status.PAUSED) {
+        val contentText = if (downloadInfo.status == DownloadStatus.PAUSED) {
             "$progressText - ${context.getString(R.string.notif_paused)}"
         } else {
             val speedText = FormatUtils.formatDownloadSpeed(downloadInfo.speed)
@@ -114,7 +114,7 @@ class DownloadNotificationHelper @Inject constructor(
             "$progressText • $speedText • $etaText"
         }
 
-        val isStandardUpdate = downloadInfo.regionName.isNotBlank() && 
+        val isStandardUpdate = downloadInfo.regionName.isNotBlank() &&
                                downloadInfo.otaUpdate?.versionName?.isNotBlank() == true &&
                                downloadInfo.otaUpdate.versionName != "Unknown Version" &&
                                downloadInfo.regionName != "External"
@@ -151,7 +151,7 @@ class DownloadNotificationHelper @Inject constructor(
 
         // Pause/Resume Action
         when (downloadInfo.status) {
-            Status.DOWNLOADING, Status.QUEUED -> {
+            DownloadStatus.DOWNLOADING, DownloadStatus.QUEUED -> {
                 val pauseIntent = DownloadActionReceiver.getPauseIntent(context, downloadInfo.id)
                 val pausePendingIntent = PendingIntent.getBroadcast(
                     context,
@@ -161,7 +161,7 @@ class DownloadNotificationHelper @Inject constructor(
                 )
                 builder.addAction(R.drawable.ic_pause, context.getString(R.string.notif_pause), pausePendingIntent)
             }
-            Status.PAUSED -> {
+            DownloadStatus.PAUSED -> {
                 val resumeIntent = DownloadActionReceiver.getResumeIntent(context, downloadInfo.id)
                 val resumePendingIntent = PendingIntent.getBroadcast(
                     context,
@@ -179,7 +179,6 @@ class DownloadNotificationHelper @Inject constructor(
 
     fun showProgressNotification(downloadInfo: DownloadInfo) {
         val builder = getProgressNotificationBuilder(downloadInfo)
-        
         showSummaryNotification()
         notify(downloadInfo.id, builder)
     }
@@ -198,7 +197,7 @@ class DownloadNotificationHelper @Inject constructor(
 
         val pendingIntent = PendingIntent.getActivity(
             context,
-            200, 
+            200,
             intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
@@ -237,14 +236,14 @@ class DownloadNotificationHelper @Inject constructor(
         val title = context.getString(R.string.notif_download_failed)
 
         val errorDescription = when (downloadInfo.error) {
-            Error.REQUEST_NOT_SUCCESSFUL -> context.getString(R.string.notif_error_link_expired)
-            Error.HTTP_NOT_FOUND -> context.getString(R.string.notif_error_not_found)
-            Error.NO_NETWORK_CONNECTION -> context.getString(R.string.notif_error_no_network)
-            Error.UNKNOWN -> context.getString(R.string.notif_error_unknown)
+            DownloadError.REQUEST_NOT_SUCCESSFUL -> context.getString(R.string.notif_error_link_expired)
+            DownloadError.HTTP_NOT_FOUND -> context.getString(R.string.notif_error_not_found)
+            DownloadError.NO_NETWORK_CONNECTION -> context.getString(R.string.notif_error_no_network)
+            DownloadError.UNKNOWN -> context.getString(R.string.notif_error_unknown)
             else -> downloadInfo.error.toString().replace("_", " ")
         }
 
-        val contentText = "$errorDescription"
+        val contentText = errorDescription
 
         val builder = NotificationCompat.Builder(context, CHANNEL_ID_ALERTS)
             .setSmallIcon(R.drawable.ic_download)
@@ -264,11 +263,11 @@ class DownloadNotificationHelper @Inject constructor(
 
     fun cancelNotification(downloadId: Int) {
         notificationManager.cancel(downloadId)
-        
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             val activeNotifications = nm.activeNotifications
-            val groupActive = activeNotifications.any { 
+            val groupActive = activeNotifications.any {
                 it.id != SUMMARY_ID && it.notification.group == NOTIFICATION_GROUP
             }
             if (!groupActive) {

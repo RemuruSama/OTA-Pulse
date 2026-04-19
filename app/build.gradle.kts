@@ -133,9 +133,6 @@ dependencies {
     // Coroutines
     implementation(libs.kotlinx.coroutines.android)
 
-    // Fetch
-    implementation(libs.fetch)
-
     // JSON
     implementation(libs.json)
 

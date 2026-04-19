@@ -15,7 +15,7 @@ import com.abhinav.otapulse.databinding.ListItemDownloadBinding
 import com.abhinav.otapulse.core.model.DownloadInfo
 import com.abhinav.otapulse.core.common.FormatUtils
 import com.abhinav.otapulse.core.common.setHapticClickListener
-import com.tonyodev.fetch2.Status
+import com.abhinav.otapulse.core.download.DownloadStatus
 import java.util.concurrent.TimeUnit
 
 class DownloadAdapter(
@@ -74,7 +74,6 @@ class DownloadAdapter(
                 }
             }
 
-            
             binding.fileSizeTextView.text = context.getString(R.string.file_size_format, FormatUtils.formatSize(downloadInfo.totalBytes))
             updateProgress(downloadInfo)
             bindStatus(downloadInfo)
@@ -82,7 +81,7 @@ class DownloadAdapter(
 
             binding.actionButton.isEnabled = true
             when (downloadInfo.status) {
-                Status.DOWNLOADING -> {
+                DownloadStatus.DOWNLOADING -> {
                     binding.actionButton.text = context.getString(R.string.pause)
                     binding.actionButton.setIconResource(R.drawable.ic_pause)
                     binding.actionButton.setHapticClickListener { onPause(downloadInfo) }
@@ -91,7 +90,7 @@ class DownloadAdapter(
                     binding.cancelButton.setIconResource(R.drawable.ic_cancel_circle)
                     binding.cancelButton.setHapticClickListener { onCancel(downloadInfo) }
                 }
-                Status.PAUSED -> {
+                DownloadStatus.PAUSED -> {
                     binding.actionButton.text = context.getString(R.string.resume)
                     binding.actionButton.setIconResource(R.drawable.ic_play_arrow)
                     binding.actionButton.setHapticClickListener { onResume(downloadInfo) }
@@ -100,7 +99,7 @@ class DownloadAdapter(
                     binding.cancelButton.setIconResource(R.drawable.ic_cancel_circle)
                     binding.cancelButton.setHapticClickListener { onCancel(downloadInfo) }
                 }
-                Status.COMPLETED -> {
+                DownloadStatus.COMPLETED -> {
                     binding.actionButton.text = context.getString(R.string.completed)
                     binding.actionButton.setIconResource(R.drawable.ic_check_circle)
                     binding.actionButton.isEnabled = false
@@ -109,7 +108,7 @@ class DownloadAdapter(
                     binding.cancelButton.setIconResource(R.drawable.ic_delete)
                     binding.cancelButton.setHapticClickListener { onDelete(downloadInfo) }
                 }
-                Status.FAILED, Status.CANCELLED -> {
+                DownloadStatus.FAILED, DownloadStatus.CANCELLED -> {
                     binding.actionButton.text = context.getString(R.string.retry)
                     binding.actionButton.setIconResource(R.drawable.ic_retry)
                     binding.actionButton.setHapticClickListener { onRetry(downloadInfo) }
@@ -118,7 +117,7 @@ class DownloadAdapter(
                     binding.cancelButton.setIconResource(R.drawable.ic_delete)
                     binding.cancelButton.setHapticClickListener { onDelete(downloadInfo) }
                 }
-                else -> { // Queued, Added, None
+                else -> { // QUEUED, ADDED, NONE
                     binding.actionButton.text = context.getString(R.string.waiting)
                     binding.actionButton.setIconResource(R.drawable.ic_download)
                     binding.actionButton.isEnabled = false
@@ -130,10 +129,10 @@ class DownloadAdapter(
             }
         }
 
-        private fun updateActionButtonWeights(status: Status) {
+        private fun updateActionButtonWeights(status: DownloadStatus) {
             val actionParams = binding.actionButton.layoutParams as LinearLayout.LayoutParams
             val cancelParams = binding.cancelButton.layoutParams as LinearLayout.LayoutParams
-            if (status == Status.COMPLETED || status == Status.FAILED || status == Status.CANCELLED) {
+            if (status == DownloadStatus.COMPLETED || status == DownloadStatus.FAILED || status == DownloadStatus.CANCELLED) {
                 actionParams.weight = 1.15f
                 cancelParams.weight = 0.85f
             } else {
@@ -157,7 +156,7 @@ class DownloadAdapter(
                 FormatUtils.formatSize(downloadedBytes),
                 FormatUtils.formatSize(downloadInfo.totalBytes)
             )
-            val isDownloading = downloadInfo.status == Status.DOWNLOADING
+            val isDownloading = downloadInfo.status == DownloadStatus.DOWNLOADING
             binding.statsRow.isVisible = isDownloading
             if (isDownloading) {
                 binding.downloadSpeedText.text = FormatUtils.formatDownloadSpeed(downloadInfo.speed)
@@ -167,12 +166,12 @@ class DownloadAdapter(
 
         private fun bindStatus(downloadInfo: DownloadInfo) {
             val (label, bgColorAttr, textColorAttr) = when (downloadInfo.status) {
-                Status.DOWNLOADING -> Triple(context.getString(R.string.status_downloading), com.google.android.material.R.attr.colorPrimaryContainer, com.google.android.material.R.attr.colorOnPrimaryContainer)
-                Status.PAUSED -> Triple(context.getString(R.string.status_paused), com.google.android.material.R.attr.colorSecondaryContainer, com.google.android.material.R.attr.colorOnSecondaryContainer)
-                Status.COMPLETED -> Triple(context.getString(R.string.status_completed), com.google.android.material.R.attr.colorTertiaryContainer, com.google.android.material.R.attr.colorOnTertiaryContainer)
-                Status.FAILED -> Triple(context.getString(R.string.status_failed), com.google.android.material.R.attr.colorErrorContainer, com.google.android.material.R.attr.colorOnErrorContainer)
-                Status.CANCELLED -> Triple(context.getString(R.string.status_cancelled), com.google.android.material.R.attr.colorErrorContainer, com.google.android.material.R.attr.colorOnErrorContainer)
-                Status.QUEUED, Status.ADDED -> Triple(context.getString(R.string.status_queued), com.google.android.material.R.attr.colorSurfaceContainerHighest, com.google.android.material.R.attr.colorOnSurface)
+                DownloadStatus.DOWNLOADING -> Triple(context.getString(R.string.status_downloading), com.google.android.material.R.attr.colorPrimaryContainer, com.google.android.material.R.attr.colorOnPrimaryContainer)
+                DownloadStatus.PAUSED -> Triple(context.getString(R.string.status_paused), com.google.android.material.R.attr.colorSecondaryContainer, com.google.android.material.R.attr.colorOnSecondaryContainer)
+                DownloadStatus.COMPLETED -> Triple(context.getString(R.string.status_completed), com.google.android.material.R.attr.colorTertiaryContainer, com.google.android.material.R.attr.colorOnTertiaryContainer)
+                DownloadStatus.FAILED -> Triple(context.getString(R.string.status_failed), com.google.android.material.R.attr.colorErrorContainer, com.google.android.material.R.attr.colorOnErrorContainer)
+                DownloadStatus.CANCELLED -> Triple(context.getString(R.string.status_cancelled), com.google.android.material.R.attr.colorErrorContainer, com.google.android.material.R.attr.colorOnErrorContainer)
+                DownloadStatus.QUEUED, DownloadStatus.ADDED -> Triple(context.getString(R.string.status_queued), com.google.android.material.R.attr.colorSurfaceContainerHighest, com.google.android.material.R.attr.colorOnSurface)
                 else -> Triple(context.getString(R.string.status_waiting), com.google.android.material.R.attr.colorSurfaceContainerHighest, com.google.android.material.R.attr.colorOnSurface)
             }
 
@@ -187,7 +186,7 @@ class DownloadAdapter(
             val secondaryButtonTint = ColorStateList.valueOf(
                 com.google.android.material.color.MaterialColors.getColor(
                     binding.root,
-                    if (downloadInfo.status == Status.DOWNLOADING || downloadInfo.status == Status.PAUSED) {
+                    if (downloadInfo.status == DownloadStatus.DOWNLOADING || downloadInfo.status == DownloadStatus.PAUSED) {
                         com.google.android.material.R.attr.colorPrimaryContainer
                     } else {
                         com.google.android.material.R.attr.colorSurfaceContainerHighest
@@ -197,7 +196,7 @@ class DownloadAdapter(
             val secondaryButtonText = ColorStateList.valueOf(
                 com.google.android.material.color.MaterialColors.getColor(
                     binding.root,
-                    if (downloadInfo.status == Status.DOWNLOADING || downloadInfo.status == Status.PAUSED) {
+                    if (downloadInfo.status == DownloadStatus.DOWNLOADING || downloadInfo.status == DownloadStatus.PAUSED) {
                         com.google.android.material.R.attr.colorOnPrimaryContainer
                     } else {
                         com.google.android.material.R.attr.colorOnSurface
@@ -208,10 +207,10 @@ class DownloadAdapter(
             binding.actionButton.setTextColor(secondaryButtonText)
             binding.actionButton.iconTint = secondaryButtonText
 
-            val destructiveStatuses = downloadInfo.status == Status.DOWNLOADING ||
-                downloadInfo.status == Status.PAUSED ||
-                downloadInfo.status == Status.QUEUED ||
-                downloadInfo.status == Status.ADDED
+            val destructiveStatuses = downloadInfo.status == DownloadStatus.DOWNLOADING ||
+                downloadInfo.status == DownloadStatus.PAUSED ||
+                downloadInfo.status == DownloadStatus.QUEUED ||
+                downloadInfo.status == DownloadStatus.ADDED
 
             val cancelBgAttr = if (destructiveStatuses) {
                 com.google.android.material.R.attr.colorErrorContainer
@@ -259,7 +258,6 @@ class DownloadAdapter(
                 else -> context.getString(R.string.eta_seconds, seconds)
             }
         }
-
     }
 
     class DownloadDiffCallback : DiffUtil.ItemCallback<DownloadInfo>() {

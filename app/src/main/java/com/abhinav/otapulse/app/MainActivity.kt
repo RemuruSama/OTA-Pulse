@@ -42,7 +42,7 @@ import io.noties.markwon.Markwon
 
 import com.abhinav.otapulse.core.common.setHapticClickListener
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.tonyodev.fetch2.Status
+import com.abhinav.otapulse.core.download.DownloadStatus
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -445,7 +445,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     private fun observeDownloads() {
         lifecycleScope.launch {
             downloadRepository.allDownloads.collectLatest { downloads ->
-                isDownloading = downloads.any { it.status == Status.DOWNLOADING || it.status == Status.QUEUED }
+                isDownloading = downloads.any { it.status == DownloadStatus.DOWNLOADING || it.status == DownloadStatus.QUEUED }
                 updateNotificationDotVisibility()
             }
         }

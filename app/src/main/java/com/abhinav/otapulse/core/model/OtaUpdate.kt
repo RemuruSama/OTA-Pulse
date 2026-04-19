@@ -2,7 +2,6 @@ package com.abhinav.otapulse.core.model
 
 import android.os.Parcelable
 import com.google.gson.Gson
-import com.tonyodev.fetch2core.Extras
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -35,10 +34,10 @@ data class OtaUpdate(
     }
 }
 
-fun Map<String, String>.toData(): Extras {
-    val map = mutableMapOf<String, String>()
-    this.forEach { (key, value) ->
-        map[key] = value
-    }
-    return Extras(map)
-}
+/**
+ * Converts a [Map] of String key-value pairs into a plain [Map] ready to be
+ * stored as download extras. Previously returned `Fetch2's Extras`; now simply
+ * returns the map itself since [OkHttpDownloadEngine] uses `Map<String, String>`
+ * directly.
+ */
+fun Map<String, String>.toExtras(): Map<String, String> = this

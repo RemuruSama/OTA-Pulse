@@ -25,10 +25,6 @@
 -dontwarn okio.**
 -keep class okhttp3.** { *; }
 
-# ---- Fetch2 ----
--keep class com.tonyodev.fetch2.** { *; }
--keep class com.tonyodev.fetch2core.** { *; }
-
 # ---- Hilt ----
 -keep class dagger.hilt.** { *; }
 -keep class javax.inject.** { *; }
