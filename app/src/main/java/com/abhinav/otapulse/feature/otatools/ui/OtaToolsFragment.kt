@@ -64,10 +64,10 @@ class OtaToolsFragment : Fragment() {
             binding.tvHeaderTitle,
             binding.tvHeaderSubtitle,
             binding.cardHeroIcon,
-            binding.cardManualQuery,
-            binding.cardPartitionExtraction,
+            binding.cardArbChecker,
             binding.cardLinkResolver,
-            binding.cardArbChecker
+            binding.cardManualQuery,
+            binding.cardPartitionExtraction
         )
         com.abhinav.otapulse.core.common.AnimationUtils.animateEntrance(viewsToAnimate)
     }
