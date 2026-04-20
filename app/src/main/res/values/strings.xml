@@ -213,6 +213,12 @@
     <string name="notification_permission_settings_message">Notification access is still off. Enable it from app settings so download progress and completion alerts can appear.</string>
     <string name="notification_permission_settings_snackbar">Enable notification access in Settings.</string>
     <string name="grant_action">Grant</string>
+    <string name="support_developer_title">Support the Developer</string>
+    <string name="support_developer_message">Support our open-source work and help OTA Pulse keep improving.</string>
+    <string name="support_developer_star_github">Star on GitHub</string>
+    <string name="support_developer_donate">Make a Donation</string>
+    <string name="support_developer_maybe_later">Maybe later</string>
+    <string name="support_developer_image_content_description">Support the developer illustration</string>
     <string name="exit_action">Exit</string>
     <string name="could_not_open_download_link">Could not open download link</string>
     <string name="could_not_open_link">Could not open link</string>

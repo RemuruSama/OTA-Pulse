@@ -26,6 +26,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.abhinav.otapulse.R
 import com.abhinav.otapulse.databinding.ActivityMainBinding
+import com.abhinav.otapulse.databinding.DialogSupportDeveloperBinding
 import com.abhinav.otapulse.feature.downloads.domain.DownloadRepository
 import com.abhinav.otapulse.feature.about.AboutFragment
 import com.abhinav.otapulse.feature.otatools.ui.OtaToolsFragment
@@ -69,6 +70,8 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     companion object {
         private const val TAG = "MainActivity"
         const val ACTION_OPEN_DOWNLOADS = "com.abhinav.otapulse.ACTION_OPEN_DOWNLOADS"
+        private const val OTA_PULSE_REPO_URL = "https://github.com/RemuruSama/OTA-Pulse"
+        private const val DONATION_URL = "https://paypal.me/Abhinavftp?country.x=IN&locale.x=en_GB"
     }
 
     private val requestNotificationPermissionLauncher =
@@ -146,6 +149,14 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
                 }
             }
         })
+
+        if (savedInstanceState == null) {
+            binding.root.post {
+                if (!isDestroyed && !isFinishing) {
+                    showSupportDeveloperDialog()
+                }
+            }
+        }
     }
 
     private fun checkForAppUpdates() {
@@ -289,6 +300,30 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         } catch (_: Exception) {
             Toast.makeText(this, getString(R.string.cannot_open_app_settings), Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun showSupportDeveloperDialog() {
+        val dialogBinding = DialogSupportDeveloperBinding.inflate(layoutInflater)
+        val dialog = MaterialAlertDialogBuilder(this)
+            .setView(dialogBinding.root)
+            .create()
+
+        dialogBinding.btnClose.setHapticClickListener {
+            dialog.dismiss()
+        }
+        dialogBinding.btnMaybeLater.setHapticClickListener {
+            dialog.dismiss()
+        }
+        dialogBinding.btnStarGithub.setHapticClickListener {
+            openExternalBrowser(OTA_PULSE_REPO_URL)
+            dialog.dismiss()
+        }
+        dialogBinding.btnDonate.setHapticClickListener {
+            openExternalBrowser(DONATION_URL)
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
