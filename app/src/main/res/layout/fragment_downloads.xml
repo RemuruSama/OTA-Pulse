@@ -18,40 +18,26 @@
 
     <LinearLayout
         android:id="@+id/emptyView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center_horizontal"
         android:orientation="vertical"
+        android:paddingHorizontal="32dp"
         android:visibility="gone"
         tools:visibility="visible">
 
         <ImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
             android:layout_marginBottom="12dp"
             android:clickable="true"
             android:focusable="true"
             android:stateListAnimator="@animator/bounce_animation"
             android:contentDescription="@null"
-            app:srcCompat="@drawable/ic_dissatisfied"
-            app:tint="?attr/colorOnSurfaceVariant" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="No active downloads"
-            android:textAppearance="?attr/textAppearanceBodyLarge"
-            android:textColor="?attr/colorOnSurface" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="Start by tapping the + button below"
-            android:textAppearance="?attr/textAppearanceBodyMedium"
-            android:textColor="?attr/colorOnSurfaceVariant"
-            android:gravity="center" />
+            app:srcCompat="@drawable/ic_download_page" />
 
     </LinearLayout>
 
