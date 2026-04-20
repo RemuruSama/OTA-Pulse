@@ -23,6 +23,7 @@ import com.abhinav.otapulse.databinding.FragmentSettingsBinding
 import android.graphics.drawable.AnimatedVectorDrawable
 import com.abhinav.otapulse.core.common.performHapticFeedback
 import com.abhinav.otapulse.core.common.openInAppBrowser
+import com.abhinav.otapulse.core.common.openExternalBrowser
 import com.abhinav.otapulse.core.common.setHapticClickListener
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -200,7 +201,7 @@ class SettingsFragment : Fragment() {
         (dialogBinding.developerAvatar.drawable as? AnimatedVectorDrawable)?.start()
 
         dialogBinding.btnGithub.setHapticClickListener {
-            openInAppBrowser("https://github.com/RemuruSama")
+            openExternalBrowser("https://github.com/RemuruSama")
         }
 
         dialog.show()
@@ -213,7 +214,7 @@ class SettingsFragment : Fragment() {
             .create()
 
         dialogBinding.btnGithub.setHapticClickListener {
-            openInAppBrowser("https://github.com/RemuruSama/OTA-Pulse")
+            openExternalBrowser("https://github.com/RemuruSama/OTA-Pulse")
         }
 
         dialogBinding.btnClose.setHapticClickListener {

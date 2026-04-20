@@ -194,9 +194,9 @@ class AboutFragment : Fragment() {
     }
 
     private fun setupClickListeners() {
-        binding.githubButton.setHapticClickListener { openUrl("https://github.com/RemuruSama/OTA-Pulse") }
+        binding.githubButton.setHapticClickListener { openExternal("https://github.com/RemuruSama/OTA-Pulse") }
         binding.telegramButton.setHapticClickListener { openUrl("https://t.me/abhinav_v1") }
-        binding.buyMeACoffeeButton.setHapticClickListener { openUrl("https://paypal.me/Abhinavftp?country.x=IN&locale.x=en_GB") }
+        binding.buyMeACoffeeButton.setHapticClickListener { openExternal("https://paypal.me/Abhinavftp?country.x=IN&locale.x=en_GB") }
         binding.creatorCard.setHapticClickListener { openUrl("https://t.me/CodeSenseiX") }
         binding.upiIdCopyCard.setHapticClickListener { copyUpiToClipboard() }
     }
@@ -204,6 +204,14 @@ class AboutFragment : Fragment() {
     private fun openUrl(url: String) {
         try {
             openInAppBrowser(url)
+        } catch (e: Exception) {
+            Toast.makeText(requireContext(), "Could not open link", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun openExternal(url: String) {
+        try {
+            openExternalBrowser(url)
         } catch (e: Exception) {
             Toast.makeText(requireContext(), "Could not open link", Toast.LENGTH_SHORT).show()
         }
