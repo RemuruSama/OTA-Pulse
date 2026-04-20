@@ -96,7 +96,7 @@ class InAppBrowserActivity : AppCompatActivity() {
     }
 
     private fun setupChrome() {
-        binding.navBack.setHapticClickListener { onBackPressedDispatcher.onBackPressed() }
+        binding.navBack.setHapticClickListener { finish() }
         binding.actionBack.setHapticClickListener { if (binding.webView.canGoBack()) binding.webView.goBack() }
         binding.actionForward.setHapticClickListener { if (binding.webView.canGoForward()) binding.webView.goForward() }
         binding.actionReload.setHapticClickListener { binding.webView.reload() }
