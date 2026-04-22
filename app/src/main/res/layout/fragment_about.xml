@@ -88,7 +88,7 @@
                         android:id="@+id/btn_check_update"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
-                        android:text="Check for Updates"
+                        android:text="@string/about_btn_check_for_updates"
                         style="@style/Widget.Material3.Button"
                         app:backgroundTint="?attr/colorPrimary"
                         android:textColor="?attr/colorOnPrimary"
@@ -134,7 +134,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Connect"
+            android:text="@string/about_connect_label"
             android:textAppearance="?attr/textAppearanceLabelMedium"
             android:textColor="?attr/colorOnSurfaceVariant"
             android:textStyle="bold"
@@ -195,14 +195,14 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="GitHub"
+                            android:text="@string/about_github_label"
                             android:textAppearance="?attr/textAppearanceLabelLarge"
                             android:textStyle="bold"
                             android:textColor="?attr/colorOnSurface"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Source code"
+                            android:text="@string/about_github_desc"
                             android:textAppearance="?attr/textAppearanceLabelSmall"
                             android:textColor="?attr/colorOnSurfaceVariant"/>
                     </LinearLayout>
@@ -254,14 +254,14 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Telegram"
+                            android:text="@string/about_telegram_label"
                             android:textAppearance="?attr/textAppearanceLabelLarge"
                             android:textStyle="bold"
                             android:textColor="?attr/colorOnSurface"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Channel"
+                            android:text="@string/about_telegram_desc"
                             android:textAppearance="?attr/textAppearanceLabelSmall"
                             android:textColor="?attr/colorOnSurfaceVariant"/>
                     </LinearLayout>
@@ -323,14 +323,14 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="PayPal"
+                            android:text="@string/about_paypal_label"
                             android:textAppearance="?attr/textAppearanceLabelLarge"
                             android:textStyle="bold"
                             android:textColor="?attr/colorOnSurface"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Support dev"
+                            android:text="@string/about_support_dev_desc"
                             android:textAppearance="?attr/textAppearanceLabelSmall"
                             android:textColor="?attr/colorOnSurfaceVariant"/>
                     </LinearLayout>
@@ -382,14 +382,14 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="UPI"
+                            android:text="@string/about_upi_label"
                             android:textAppearance="?attr/textAppearanceLabelLarge"
                             android:textStyle="bold"
                             android:textColor="?attr/colorOnSurface"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Copy ID"
+                            android:text="@string/about_copy_id_desc"
                             android:textAppearance="?attr/textAppearanceLabelSmall"
                             android:textColor="?attr/colorOnSurfaceVariant"/>
                     </LinearLayout>

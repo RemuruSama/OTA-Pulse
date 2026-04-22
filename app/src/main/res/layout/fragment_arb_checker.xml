@@ -28,7 +28,7 @@
                 android:id="@+id/tv_header_badge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ARB_CHECKER.sh"
+                android:text="@string/arb_checker_header_badge"
                 android:textColor="?attr/colorPrimary"
                 android:textSize="10sp"
                 android:fontFamily="monospace"
@@ -42,7 +42,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:text="ARB\nChecker"
+                android:text="@string/arb_checker_header_title"
                 android:textAppearance="?attr/textAppearanceDisplaySmall"
                 android:textColor="?attr/colorOnSurface"
                 android:textStyle="bold"
@@ -56,7 +56,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Inspect anti-rollback metadata from a remote OTA package or a locally downloaded ZIP."
+                android:text="@string/arb_checker_header_subtitle"
                 android:textAppearance="?attr/textAppearanceBodySmall"
                 android:textColor="?attr/colorOnSurfaceVariant"
                 app:layout_constraintTop_toBottomOf="@id/tv_header_title"
@@ -94,7 +94,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="SOURCE"
+                android:text="@string/partition_extraction_section_source"
                 android:textColor="?attr/colorPrimary"
                 android:textSize="11sp"
                 android:textStyle="bold"
@@ -118,7 +118,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Remote OTA Package"
+                        android:text="@string/partition_extraction_remote_label"
                         android:textAppearance="?attr/textAppearanceLabelLarge"
                         android:textColor="?attr/colorOnSurfaceVariant" />
 
@@ -128,7 +128,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:hint="Paste full OTA URL"
+                        android:hint="@string/hint_paste_ota_url"
                         app:boxStrokeWidth="0dp"
                         app:boxStrokeWidthFocused="0dp"
                         app:boxCornerRadiusTopStart="18dp"
@@ -154,7 +154,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="14dp"
-                        android:text="OR"
+                        android:text="@string/partition_extraction_or_label"
                         android:textAppearance="?attr/textAppearanceLabelMedium"
                         android:textColor="?attr/colorOnSurfaceVariant"
                         android:fontFamily="monospace"
@@ -164,7 +164,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="14dp"
-                        android:text="Local OTA ZIP"
+                        android:text="@string/partition_extraction_local_zip_label"
                         android:textAppearance="?attr/textAppearanceLabelLarge"
                         android:textColor="?attr/colorOnSurfaceVariant" />
 
@@ -177,14 +177,14 @@
                         android:insetTop="0dp"
                         android:insetBottom="0dp"
                         android:minHeight="52dp"
-                        android:text="Choose ZIP"
+                        android:text="@string/btn_choose_zip"
                         app:icon="@drawable/ic_import_stroke" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="Use either a full OTA URL or a downloaded ZIP package."
+                        android:text="@string/partition_extraction_source_hint"
                         android:textAppearance="?attr/textAppearanceBodySmall"
                         android:textColor="?attr/colorOnSurfaceVariant" />
 
@@ -226,7 +226,7 @@
                                 android:id="@+id/btn_remove_local_arb_zip"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
-                                android:contentDescription="Remove local ZIP"
+                                android:contentDescription="@string/content_desc_remove_local_zip"
                                 android:src="@drawable/ic_close"
                                 app:tint="?attr/colorOnSurfaceVariant" />
                         </LinearLayout>
@@ -245,7 +245,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:enabled="false"
-                    android:text="Check ARB"
+                    android:text="@string/btn_check_arb"
                     android:textColor="?attr/colorOnErrorContainer"
                     app:backgroundTint="?attr/colorErrorContainer"
                     app:cornerRadius="27dp" />
@@ -278,7 +278,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="RESULT"
+                        android:text="@string/arb_result_section_label"
                         android:textAppearance="?attr/textAppearanceLabelMedium"
                         android:textColor="?attr/colorPrimary"
                         android:fontFamily="monospace"
@@ -295,7 +295,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="ARB Status"
+                            android:text="@string/arb_status_label"
                             android:textAppearance="?attr/textAppearanceTitleSmall"
                             android:textStyle="bold" />
 
@@ -348,7 +348,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="ARB Index"
+                                    android:text="@string/arb_index_label"
                                     android:textAppearance="?attr/textAppearanceLabelMedium"
                                     android:textColor="?attr/colorOnTertiaryContainer" />
 
@@ -385,7 +385,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Metadata Version"
+                                    android:text="@string/arb_metadata_version_label"
                                     android:textAppearance="?attr/textAppearanceLabelMedium"
                                     android:textColor="?attr/colorOnPrimaryContainer" />
 
@@ -406,7 +406,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="14dp"
-                        android:text="Source"
+                        android:text="@string/arb_source_label"
                         android:textAppearance="?attr/textAppearanceLabelLarge"
                         android:textColor="?attr/colorOnSurfaceVariant" />
 

@@ -28,7 +28,7 @@
                 android:id="@+id/tv_header_badge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="PARTITION_EXTRACT.sh"
+                android:text="@string/partition_extraction_header_badge"
                 android:textColor="?attr/colorPrimary"
                 android:textSize="10sp"
                 android:fontFamily="monospace"
@@ -42,7 +42,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:text="Partition\nExtraction"
+                android:text="@string/partition_extraction_header_title"
                 android:textAppearance="?attr/textAppearanceDisplaySmall"
                 android:textColor="?attr/colorOnSurface"
                 android:textStyle="bold"
@@ -56,7 +56,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Load partitions from a direct full OTA URL or a downloaded local ZIP."
+                android:text="@string/partition_extraction_header_subtitle"
                 android:textAppearance="?attr/textAppearanceBodySmall"
                 android:textColor="?attr/colorOnSurfaceVariant"
                 app:layout_constraintTop_toBottomOf="@id/tv_header_title"
@@ -94,7 +94,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="SOURCE"
+                android:text="@string/partition_extraction_section_source"
                 android:textColor="?attr/colorPrimary"
                 android:textSize="11sp"
                 android:textStyle="bold"
@@ -119,7 +119,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Remote OTA Package"
+                        android:text="@string/partition_extraction_remote_label"
                         android:textAppearance="?attr/textAppearanceLabelLarge"
                         android:textColor="?attr/colorOnSurfaceVariant" />
 
@@ -129,7 +129,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:hint="Paste full OTA URL"
+                        android:hint="@string/hint_paste_ota_url"
                         app:boxStrokeWidth="0dp"
                         app:boxStrokeWidthFocused="0dp"
                         app:boxCornerRadiusTopStart="18dp"
@@ -155,7 +155,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="14dp"
-                        android:text="OR"
+                        android:text="@string/partition_extraction_or_label"
                         android:textAppearance="?attr/textAppearanceLabelMedium"
                         android:fontFamily="monospace"
                         android:letterSpacing="0.18"
@@ -165,7 +165,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="14dp"
-                        android:text="Local OTA ZIP"
+                        android:text="@string/partition_extraction_local_zip_label"
                         android:textAppearance="?attr/textAppearanceLabelLarge"
                         android:textColor="?attr/colorOnSurfaceVariant"
                         />
@@ -189,7 +189,7 @@
                                 android:id="@+id/tv_local_zip_summary"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="No ZIP selected yet"
+                                android:text="@string/partition_extraction_no_zip_selected"
                                 android:textAppearance="?attr/textAppearanceBodyMedium"
                                 android:textColor="?attr/colorOnSurfaceVariant" />
 
@@ -214,7 +214,7 @@
                                 android:insetTop="0dp"
                                 android:insetBottom="0dp"
                                 android:minHeight="52dp"
-                                android:text="Choose ZIP"
+                                android:text="@string/btn_choose_zip"
                                 app:icon="@drawable/ic_import_stroke" />
 
                             <com.google.android.material.button.MaterialButton
@@ -224,7 +224,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
                                 android:layout_gravity="end"
-                                android:text="Remove"
+                                android:text="@string/btn_remove"
                                 android:textColor="?attr/colorError"
                                 android:visibility="gone"
                                 app:icon="@drawable/ic_delete_stroke"
@@ -236,7 +236,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="Use either a full OTA URL or a downloaded ZIP package."
+                        android:text="@string/partition_extraction_source_hint"
                         android:textAppearance="?attr/textAppearanceBodySmall"
                         android:textColor="?attr/colorOnSurfaceVariant" />
                 </LinearLayout>
@@ -274,7 +274,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
-                            android:text="Select Partition"
+                            android:text="@string/partition_extraction_select_partition"
                             android:textAppearance="?attr/textAppearanceBodyMedium"
                             android:textColor="?attr/colorOnSurfaceVariant"
                             android:textStyle="bold"
@@ -348,7 +348,7 @@
                         android:layout_height="match_parent"
                         android:minWidth="88dp"
                         android:gravity="center"
-                        android:text="Extract"
+                        android:text="@string/extract"
                         android:textAllCaps="false"
                         android:paddingHorizontal="16dp"
                         android:insetTop="0dp"

@@ -68,7 +68,7 @@
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:layout_marginStart="8dp"
-        android:text="Extract"
+        android:text="@string/extract"
         android:textAllCaps="false"
         android:textColor="?attr/colorOnPrimary"
         android:paddingHorizontal="12dp"

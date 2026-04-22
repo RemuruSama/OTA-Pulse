@@ -100,7 +100,7 @@
                         android:id="@+id/labelAndroidVersion"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Android"
+                        android:text="@string/label_android"
                         android:textAppearance="?attr/textAppearanceBodySmall"
                         android:textColor="?attr/colorOnSurfaceVariant" />
                     <TextView
@@ -122,7 +122,7 @@
                         android:id="@+id/labelSecurityPatch"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Security Patch"
+                        android:text="@string/label_security_patch"
                         android:textAppearance="?attr/textAppearanceBodySmall"
                         android:textColor="?attr/colorOnSurfaceVariant" />
                     <TextView
@@ -153,7 +153,7 @@
                         android:id="@+id/labelArbStatus"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="ARB Status"
+                        android:text="@string/arb_status_label"
                         android:textAppearance="?attr/textAppearanceBodySmall"
                         android:textColor="?attr/colorOnSurfaceVariant" />
                     <TextView
@@ -175,7 +175,7 @@
                         android:id="@+id/labelSize"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Size"
+                        android:text="@string/label_size"
                         android:textAppearance="?attr/textAppearanceBodySmall"
                         android:textColor="?attr/colorOnSurfaceVariant" />
                     <TextView
@@ -205,7 +205,7 @@
                         android:id="@+id/labelMd5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="MD5"
+                        android:text="@string/label_md5"
                         android:textAppearance="?attr/textAppearanceBodySmall"
                         android:textColor="?attr/colorOnSurfaceVariant" />
                     <TextView
@@ -241,7 +241,7 @@
                 android:focusable="true"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
-                android:text="Changelog"
+                android:text="@string/btn_changelog"
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:textAppearance="?attr/textAppearanceBodyLarge"
@@ -304,7 +304,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
-                    android:text="Select Partition"
+                    android:text="@string/partition_extraction_select_partition"
                     android:textAppearance="?attr/textAppearanceBodyMedium"
                     android:textColor="?attr/colorOnSurfaceVariant"
                     android:textStyle="bold"
@@ -377,7 +377,7 @@
                     android:layout_height="match_parent"
                     android:minWidth="88dp"
                     android:gravity="center"
-                    android:text="Extract"
+                    android:text="@string/extract"
                     android:textAllCaps="false"
                     android:paddingHorizontal="12dp"
                     android:insetTop="0dp"

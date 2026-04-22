@@ -28,7 +28,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Select Partition"
+                android:text="@string/partition_extraction_select_partition"
                 android:textAppearance="?attr/textAppearanceTitleLarge"
                 android:textStyle="bold"
                 android:textColor="?attr/colorPrimary" />
@@ -81,7 +81,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:background="@android:color/transparent"
-                    android:hint="Search partitions…"
+                    android:hint="@string/hint_search_partitions"
                     android:imeOptions="actionSearch"
                     android:inputType="text"
                     android:padding="0dp"

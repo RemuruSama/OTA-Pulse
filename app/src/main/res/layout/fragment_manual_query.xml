@@ -33,7 +33,7 @@
                 android:id="@+id/tv_bracket_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TOOLS_HUB.sh"
+                android:text="@string/manual_query_header_badge"
                 android:textColor="?attr/colorPrimary"
                 android:textSize="10sp"
                 android:letterSpacing="0.18"
@@ -48,7 +48,7 @@
                 android:id="@+id/tv_cursor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="▮"
+                android:text="@string/cursor_decoration"
                 android:textColor="?attr/colorPrimary"
                 android:textSize="10sp"
                 android:layout_marginStart="6dp"
@@ -62,7 +62,7 @@
                 android:id="@+id/tv_header_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="OTA\nTools"
+                android:text="@string/manual_query_header_title"
                 android:textAppearance="?attr/textAppearanceDisplaySmall"
                 android:textColor="?attr/colorOnSurface"
                 android:textStyle="bold"
@@ -88,7 +88,7 @@
                 android:id="@+id/tv_header_subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Query OTA servers using your own model, region, server, and advanced fields."
+                android:text="@string/manual_query_header_subtitle"
                 android:textAppearance="?attr/textAppearanceBodySmall"
                 android:textColor="?attr/colorOnSurfaceVariant"
                 android:layout_marginTop="10dp"
@@ -150,7 +150,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="DEVICE IDENTITY"
+                    android:text="@string/manual_query_section_device_identity"
                     android:textColor="?attr/colorPrimary"
                     android:textSize="11sp"
                     android:textStyle="bold"
@@ -164,7 +164,7 @@
                 style="@style/Widget.Material3.TextInputLayout.FilledBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Product Model"
+                android:hint="@string/hint_product_model"
                 app:startIconDrawable="@drawable/ic_device_stroke"
                 app:startIconTint="?attr/colorPrimary"
                 app:boxCornerRadiusTopStart="14dp"
@@ -190,7 +190,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:hint="Product Name"
+                android:hint="@string/hint_product_name"
                 app:startIconDrawable="@drawable/ic_tag_stroke"
                 app:startIconTint="?attr/colorPrimary"
                 app:boxCornerRadiusTopStart="14dp"
@@ -231,7 +231,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="FIRMWARE PARAMETERS"
+                    android:text="@string/manual_query_section_firmware_params"
                     android:textColor="?attr/colorPrimary"
                     android:textSize="11sp"
                     android:textStyle="bold"
@@ -255,7 +255,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginEnd="6dp"
-                    android:hint="Ver Letter"
+                    android:hint="@string/hint_ver_letter"
                     app:boxCornerRadiusTopStart="14dp"
                     app:boxCornerRadiusTopEnd="14dp"
                     app:boxCornerRadiusBottomStart="14dp"
@@ -269,9 +269,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="none"
-                        android:text="F"
-                        android:fontFamily="monospace"
-                        tools:ignore="HardcodedText" />
+                        android:text="@string/default_ver_letter"
+                        android:fontFamily="monospace" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- RUI Version -->
@@ -282,7 +281,7 @@
                     android:layout_weight="1"
                     android:layout_marginStart="6dp"
                     android:visibility="gone"
-                    android:hint="RUI Version"
+                    android:hint="@string/hint_rui_version"
                     app:boxCornerRadiusTopStart="14dp"
                     app:boxCornerRadiusTopEnd="14dp"
                     app:boxCornerRadiusBottomStart="14dp"
@@ -297,9 +296,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="none"
-                        android:text="4"
-                        android:fontFamily="monospace"
-                        tools:ignore="HardcodedText" />
+                        android:text="@string/default_rui_version"
+                        android:fontFamily="monospace" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
@@ -318,7 +316,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginEnd="6dp"
-                    android:hint="Region"
+                    android:hint="@string/hint_region"
                     app:boxCornerRadiusTopStart="14dp"
                     app:boxCornerRadiusTopEnd="14dp"
                     app:boxCornerRadiusBottomStart="14dp"
@@ -332,9 +330,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="none"
-                        android:text="GLO"
-                        android:fontFamily="monospace"
-                        tools:ignore="HardcodedText" />
+                        android:text="@string/default_region"
+                        android:fontFamily="monospace" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- Server -->
@@ -344,7 +341,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginStart="6dp"
-                    android:hint="Server"
+                    android:hint="@string/hint_server"
                     app:boxCornerRadiusTopStart="14dp"
                     app:boxCornerRadiusTopEnd="14dp"
                     app:boxCornerRadiusBottomStart="14dp"
@@ -358,9 +355,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="none"
-                        android:text="GL"
-                        android:fontFamily="monospace"
-                        tools:ignore="HardcodedText" />
+                        android:text="@string/default_server"
+                        android:fontFamily="monospace" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
@@ -402,7 +398,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Advanced Options"
+                            android:text="@string/manual_query_advanced_options_title"
                             android:textAppearance="?attr/textAppearanceBodyMedium"
                             android:textColor="?attr/colorOnSurface"
                             android:textStyle="bold" />
@@ -410,7 +406,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="NV ID, Req Mode, Gray, Beta"
+                            android:text="@string/manual_query_advanced_options_desc"
                             android:textAppearance="?attr/textAppearanceLabelSmall"
                             android:textColor="?attr/colorOnSurfaceVariant" />
                     </LinearLayout>
@@ -440,7 +436,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
-                    android:hint="IMEI (Optional)"
+                    android:hint="@string/hint_imei_optional"
                     app:startIconDrawable="@drawable/ic_sim_stroke"
                     app:startIconTint="?attr/colorOutline"
                     app:boxCornerRadiusTopStart="14dp"
@@ -468,7 +464,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:visibility="gone"
-                    android:hint="Language"
+                    android:hint="@string/hint_language"
                     app:startIconDrawable="@drawable/ic_language_stroke"
                     app:startIconTint="?attr/colorOutline"
                     app:boxCornerRadiusTopStart="14dp"
@@ -485,9 +481,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="none"
-                        android:text="en-EN"
-                        android:fontFamily="monospace"
-                        tools:ignore="HardcodedText" />
+                        android:text="@string/default_language"
+                        android:fontFamily="monospace" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- Row: Req Mode + Gray -->
@@ -505,7 +500,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_marginEnd="6dp"
-                        android:hint="Req Mode"
+                        android:hint="@string/hint_req_mode"
                         app:boxCornerRadiusTopStart="14dp"
                         app:boxCornerRadiusTopEnd="14dp"
                         app:boxCornerRadiusBottomStart="14dp"
@@ -519,9 +514,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="none"
-                            android:text="manual"
-                            android:fontFamily="monospace"
-                            tools:ignore="HardcodedText" />
+                            android:text="@string/default_req_mode"
+                            android:fontFamily="monospace" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <!-- Gray -->
@@ -531,7 +525,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_marginStart="6dp"
-                        android:hint="Gray"
+                        android:hint="@string/hint_gray"
                         app:boxCornerRadiusTopStart="14dp"
                         app:boxCornerRadiusTopEnd="14dp"
                         app:boxCornerRadiusBottomStart="14dp"
@@ -545,9 +539,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="none"
-                            android:text="0"
-                            android:fontFamily="monospace"
-                            tools:ignore="HardcodedText" />
+                            android:text="@string/default_gray_value"
+                            android:fontFamily="monospace" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 
@@ -557,7 +550,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:hint="NV ID (Optional)"
+                    android:hint="@string/hint_nv_id_optional"
                     app:startIconDrawable="@drawable/ic_key_stroke"
                     app:startIconTint="?attr/colorOutline"
                     app:boxCornerRadiusTopStart="14dp"
@@ -611,7 +604,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Beta Channel"
+                                android:text="@string/manual_query_beta_channel_title"
                                 android:textAppearance="?attr/textAppearanceBodyMedium"
                                 android:textColor="?attr/colorOnTertiaryContainer"
                                 android:textStyle="bold" />
@@ -619,7 +612,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Query experimental firmware builds"
+                                android:text="@string/manual_query_beta_channel_desc"
                                 android:textAppearance="?attr/textAppearanceLabelSmall"
                                 android:textColor="?attr/colorOnTertiaryContainer"
                                 android:alpha="0.8" />
@@ -658,7 +651,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="PARTITION EXTRACTION"
+                    android:text="@string/manual_query_section_partition_extraction"
                     android:textColor="?attr/colorPrimary"
                     android:textSize="11sp"
                     android:textStyle="bold"
@@ -671,7 +664,7 @@
                 style="@style/Widget.Material3.TextInputLayout.FilledBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Full OTA URL"
+                android:hint="@string/hint_full_ota_url"
                 app:startIconDrawable="@drawable/ic_open_external_stroke"
                 app:startIconTint="?attr/colorPrimary"
                 app:boxCornerRadiusTopStart="14dp"
@@ -710,7 +703,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Local downloaded OTA ZIP"
+                        android:text="@string/manual_query_local_zip_label"
                         android:textAppearance="?attr/textAppearanceBodyLarge"
                         android:textStyle="bold" />
 
@@ -719,7 +712,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="No ZIP selected yet"
+                        android:text="@string/partition_extraction_no_zip_selected"
                         android:textAppearance="?attr/textAppearanceBodySmall"
                         android:textColor="?attr/colorOnSurfaceVariant" />
 
@@ -729,7 +722,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:text="Choose ZIP"
+                        android:text="@string/btn_choose_zip"
                         app:icon="@drawable/ic_import_stroke" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -749,7 +742,7 @@
                     android:layout_height="52dp"
                     android:layout_weight="1"
                     android:layout_marginEnd="6dp"
-                    android:text="From URL"
+                    android:text="@string/btn_from_url"
                     app:icon="@drawable/ic_extract_stroke" />
 
                 <com.google.android.material.button.MaterialButton
@@ -759,7 +752,7 @@
                     android:layout_height="52dp"
                     android:layout_weight="1"
                     android:layout_marginStart="6dp"
-                    android:text="From ZIP"
+                    android:text="@string/btn_from_zip"
                     app:icon="@drawable/ic_search_update" />
             </LinearLayout>
 
@@ -782,7 +775,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="LINK RESOLVER"
+                    android:text="@string/manual_query_section_link_resolver"
                     android:textColor="?attr/colorPrimary"
                     android:textSize="11sp"
                     android:textStyle="bold"
@@ -795,7 +788,7 @@
                 style="@style/Widget.Material3.TextInputLayout.FilledBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Resolver input link"
+                android:hint="@string/hint_resolver_input_link"
                 app:startIconDrawable="@drawable/ic_open_external_stroke"
                 app:startIconTint="?attr/colorPrimary"
                 app:boxCornerRadiusTopStart="14dp"
@@ -821,7 +814,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="52dp"
                 android:layout_marginTop="12dp"
-                android:text="Resolve Link"
+                android:text="@string/btn_resolve_link"
                 app:icon="@drawable/ic_search_update" />
 
             <com.google.android.material.card.MaterialCardView
@@ -871,7 +864,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="8dp"
-                            android:text="Copy"
+                            android:text="@string/copy"
                             app:icon="@drawable/ic_copy" />
 
                         <com.google.android.material.button.MaterialButton
@@ -879,7 +872,7 @@
                             style="@style/Widget.Material3.Button.TonalButton.Icon"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Open"
+                            android:text="@string/btn_open"
                             app:icon="@drawable/ic_open_in_new" />
                     </LinearLayout>
                 </LinearLayout>
@@ -899,7 +892,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="56dp"
                     android:layout_marginEnd="10dp"
-                    android:text="Auto-Fill"
+                    android:text="@string/btn_auto_fill"
                     android:paddingHorizontal="20dp"
                     app:icon="@android:drawable/ic_menu_rotate"
                     app:cornerRadius="28dp" />
@@ -915,7 +908,7 @@
                         style="@style/Widget.Material3.Button"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="Check for Update"
+                        android:text="@string/btn_check_for_update"
                         android:textStyle="bold"
                         android:letterSpacing="0.03"
                         app:backgroundTint="?attr/colorPrimary"

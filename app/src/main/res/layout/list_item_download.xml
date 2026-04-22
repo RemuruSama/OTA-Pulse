@@ -182,7 +182,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Speed"
+                    android:text="@string/download_speed_label"
                     android:textAppearance="?attr/textAppearanceLabelSmall"
                     android:textColor="?attr/colorOnSurfaceVariant" />
 
@@ -214,7 +214,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Remaining"
+                    android:text="@string/download_remaining_label"
                     android:textAppearance="?attr/textAppearanceLabelSmall"
                     android:textColor="?attr/colorOnSurfaceVariant" />
 
@@ -272,7 +272,7 @@
                 android:maxLines="1"
                 android:minWidth="0dp"
                 android:paddingHorizontal="10dp"
-                android:text="Cancel"
+                android:text="@string/cancel"
                 android:textAllCaps="false"
                 android:textStyle="bold"
                 app:cornerRadius="16dp"

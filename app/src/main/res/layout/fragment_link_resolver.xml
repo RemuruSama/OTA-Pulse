@@ -27,7 +27,7 @@
                 android:id="@+id/tv_header_badge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="LINK_RESOLVER.sh"
+                android:text="@string/link_resolver_header_badge"
                 android:textColor="?attr/colorPrimary"
                 android:textSize="10sp"
                 android:fontFamily="monospace"
@@ -41,7 +41,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:text="Link\nResolver"
+                android:text="@string/link_resolver_header_title"
                 android:textAppearance="?attr/textAppearanceDisplaySmall"
                 android:textColor="?attr/colorOnSurface"
                 android:textStyle="bold"
@@ -55,7 +55,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Resolve downloadCheck-redirected OTA links and quickly copy or open the final target."
+                android:text="@string/link_resolver_header_subtitle"
                 android:textAppearance="?attr/textAppearanceBodySmall"
                 android:textColor="?attr/colorOnSurfaceVariant"
                 app:layout_constraintTop_toBottomOf="@id/tv_header_title"
@@ -95,8 +95,8 @@
                 style="@style/Widget.Material3.TextInputLayout.FilledBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Paste downloadCheck link"
-                app:helperText="Paste the OTA link you want to resolve"
+                android:hint="@string/hint_paste_download_check_link"
+                app:helperText="@string/helper_paste_ota_link"
                 app:boxStrokeWidth="0dp"
                 app:boxStrokeWidthFocused="0dp"
                 app:boxCornerRadiusTopStart="18dp"
@@ -126,7 +126,7 @@
                     style="@style/Widget.Material3.Button"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="Resolve Link"
+                    android:text="@string/btn_resolve_link"
                     app:backgroundTint="?attr/colorPrimary"
                     app:cornerRadius="27dp" />
 
@@ -185,7 +185,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="8dp"
-                            android:text="Copy"
+                            android:text="@string/copy"
                             app:icon="@drawable/ic_copy_stroke" />
 
                         <com.google.android.material.button.MaterialButton
@@ -193,7 +193,7 @@
                             style="@style/Widget.Material3.Button.TonalButton.Icon"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Share"
+                            android:text="@string/browser_share"
                             app:icon="@drawable/ic_share_stroke" />
                     </LinearLayout>
                 </LinearLayout>

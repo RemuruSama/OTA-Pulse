@@ -9,7 +9,7 @@
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Android Version (e.g., Android 14)">
+        android:hint="@string/hint_android_version">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/inputAndroidVersion"

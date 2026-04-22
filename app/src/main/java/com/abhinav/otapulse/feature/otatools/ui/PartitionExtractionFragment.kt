@@ -130,7 +130,7 @@ class PartitionExtractionFragment : Fragment() {
                 viewModel.clearPartitionSelectDialog()
                 selectedPartition = null
                 resetExtractButton()
-                binding.tvSelectedPartitionName.text = "Select Partition"
+                binding.tvSelectedPartitionName.text = getString(R.string.partition_extraction_select_partition)
                 binding.tvSelectedPartitionSize.text = ""
             }
         }
@@ -214,9 +214,9 @@ class PartitionExtractionFragment : Fragment() {
         val pasteData = item?.text?.toString()
         if (!pasteData.isNullOrBlank()) {
             binding.inputPartitionUrl.setText(pasteData)
-            Toast.makeText(requireContext(), "Link pasted", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), getString(R.string.toast_link_pasted), Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(requireContext(), "Clipboard is empty", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), getString(R.string.toast_clipboard_empty), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -242,7 +242,7 @@ class PartitionExtractionFragment : Fragment() {
                 )
             }
             else -> {
-                Toast.makeText(requireContext(), "Paste a full OTA URL or choose a local ZIP first", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.toast_paste_url_or_choose_zip), Toast.LENGTH_SHORT).show()
                 return
             }
         }
@@ -312,7 +312,7 @@ class PartitionExtractionFragment : Fragment() {
         val recyclerView = sheetView.findViewById<RecyclerView>(R.id.rvPartitions)
         val search = sheetView.findViewById<EditText>(R.id.etSearch)
 
-        sheetView.findViewById<TextView>(R.id.tvTitle).text = "Select Partition"
+        sheetView.findViewById<TextView>(R.id.tvTitle).text = getString(R.string.partition_extraction_select_partition)
         sheetView.findViewById<TextView>(R.id.tvCount).text = partitions.size.toString()
 
         var displayedPartitions = partitions.toMutableList()
@@ -403,7 +403,7 @@ class PartitionExtractionFragment : Fragment() {
 
     private fun resetExtractButton() {
         binding.btnExtractSelected.isEnabled = selectedPartition != null
-        binding.btnExtractSelected.text = "Extract"
+        binding.btnExtractSelected.text = getString(R.string.extract)
         binding.btnExtractSelected.icon = null
         binding.extractionProgressBar.isVisible = false
     }
@@ -418,19 +418,19 @@ class PartitionExtractionFragment : Fragment() {
                 if (info.state == androidx.work.WorkInfo.State.SUCCEEDED) {
                     activeExtractionWorkId = null
                     resetExtractButton()
-                    Toast.makeText(requireContext(), "${item.name}.img extracted successfully", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.toast_partition_extracted, item.name), Toast.LENGTH_SHORT).show()
                     workInfoJob?.cancel()
                     return@collect
                 } else if (info.state == androidx.work.WorkInfo.State.CANCELLED) {
                     activeExtractionWorkId = null
                     resetExtractButton()
-                    Toast.makeText(requireContext(), "Extraction cancelled", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.toast_extraction_cancelled), Toast.LENGTH_SHORT).show()
                     workInfoJob?.cancel()
                     return@collect
                 } else if (info.state == androidx.work.WorkInfo.State.FAILED) {
                     activeExtractionWorkId = null
                     resetExtractButton()
-                    Toast.makeText(requireContext(), "Extraction failed", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.toast_extraction_failed), Toast.LENGTH_SHORT).show()
                     workInfoJob?.cancel()
                     return@collect
                 }
@@ -458,14 +458,14 @@ class PartitionExtractionFragment : Fragment() {
         binding.layoutPartitionSelector.isEnabled = !isLoading
         
         if (isLoading) {
-            binding.tvSelectedPartitionName.text = "Loading partitions..."
+            binding.tvSelectedPartitionName.text = getString(R.string.partition_loading_msg)
             binding.tvSelectedPartitionSize.text = ""
         } else {
             val partitionData = viewModel.uiState.value.showPartitionSelectDialog
             if (partitionData == null) {
-                binding.tvSelectedPartitionName.text = "Select Partition"
+                binding.tvSelectedPartitionName.text = getString(R.string.partition_extraction_select_partition)
             } else if (selectedPartition == null) {
-                binding.tvSelectedPartitionName.text = "Select Partition"
+                binding.tvSelectedPartitionName.text = getString(R.string.partition_extraction_select_partition)
             }
         }
     }
@@ -564,7 +564,7 @@ class PartitionExtractionFragment : Fragment() {
 
     private fun updateSelectedLocalZipSummary(uri: Uri?) {
         if (uri == null) {
-            binding.tvLocalZipSummary.text = "No ZIP selected yet"
+            binding.tvLocalZipSummary.text = getString(R.string.partition_extraction_no_zip_selected)
             binding.tvLocalZipSize.isVisible = false
             binding.btnRemoveLocalZip.isVisible = false
             return

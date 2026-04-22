@@ -22,7 +22,7 @@
             android:id="@+id/libraryName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Library Name"
+            android:text="@string/placeholder_library_name"
             android:textAppearance="?attr/textAppearanceTitleMedium"
             android:textColor="?attr/colorOnSurface" />
 
@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="Apache License 2.0"
+            android:text="@string/placeholder_apache_license"
             android:textAppearance="?attr/textAppearanceBodyMedium"
             android:textColor="?attr/colorOnSurfaceVariant" />
 

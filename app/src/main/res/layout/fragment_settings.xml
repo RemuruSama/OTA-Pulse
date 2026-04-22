@@ -22,7 +22,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Settings"
+                android:text="@string/title_settings"
                 android:textAppearance="?attr/textAppearanceDisplaySmall"
                 android:textColor="?attr/colorOnSurface"
                 android:textStyle="bold"
@@ -51,7 +51,7 @@
                 android:id="@+id/appearanceHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Appearance"
+                android:text="@string/settings_section_appearance"
                 android:textAppearance="?attr/textAppearanceTitleSmall"
                 android:textColor="?attr/colorPrimary"
                 android:layout_marginStart="8dp"
@@ -76,7 +76,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="App Theme"
+                        android:text="@string/settings_app_theme"
                         android:textAppearance="?attr/textAppearanceTitleMedium"
                         android:textColor="?attr/colorOnSurface"
                         android:layout_marginBottom="4dp"/>
@@ -132,7 +132,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Light"
+                                    android:text="@string/theme_option_light"
                                     android:textColor="@color/settings_card_content_selector"
                                     android:duplicateParentState="true"
                                     android:textAppearance="?attr/textAppearanceLabelLarge"/>
@@ -172,7 +172,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Dark"
+                                    android:text="@string/theme_option_dark"
                                     android:textColor="@color/settings_card_content_selector"
                                     android:duplicateParentState="true"
                                     android:textAppearance="?attr/textAppearanceLabelLarge"/>
@@ -212,7 +212,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Auto"
+                                    android:text="@string/theme_option_auto"
                                     android:textColor="@color/settings_card_content_selector"
                                     android:duplicateParentState="true"
                                     android:textAppearance="?attr/textAppearanceLabelLarge"/>
@@ -252,7 +252,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="System"
+                                    android:text="@string/theme_option_system"
                                     android:textColor="@color/settings_card_content_selector"
                                     android:duplicateParentState="true"
                                     android:textAppearance="?attr/textAppearanceLabelLarge"/>
@@ -267,7 +267,7 @@
                 android:id="@+id/generalHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="General"
+                android:text="@string/settings_section_general"
                 android:textAppearance="?attr/textAppearanceTitleSmall"
                 android:textColor="?attr/colorPrimary"
                 android:layout_marginStart="8dp"
@@ -306,13 +306,13 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Auto Check Updates"
+                                android:text="@string/settings_auto_check_updates"
                                 android:textAppearance="?attr/textAppearanceTitleMedium"
                                 android:textColor="?attr/colorOnSurface"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Notify on startup if update available"
+                                android:text="@string/settings_auto_check_updates_desc"
                                 android:textAppearance="?attr/textAppearanceBodyMedium"
                                 android:textColor="?attr/colorOnSurfaceVariant"/>
                         </LinearLayout>
@@ -346,13 +346,13 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Advanced Mode"
+                                android:text="@string/settings_advanced_mode"
                                 android:textAppearance="?attr/textAppearanceTitleMedium"
                                 android:textColor="?attr/colorOnSurface"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Unlock experimental features"
+                                android:text="@string/settings_advanced_mode_desc"
                                 android:textAppearance="?attr/textAppearanceBodyMedium"
                                 android:textColor="?attr/colorOnSurfaceVariant"/>
                         </LinearLayout>
@@ -386,13 +386,13 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="ARB Detection"
+                                android:text="@string/settings_arb_detection"
                                 android:textAppearance="?attr/textAppearanceTitleMedium"
                                 android:textColor="?attr/colorOnSurface"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Enable Anti-Rollback checks for updates"
+                                android:text="@string/settings_arb_detection_desc"
                                 android:textAppearance="?attr/textAppearanceBodyMedium"
                                 android:textColor="?attr/colorOnSurfaceVariant"/>
                         </LinearLayout>
@@ -548,7 +548,7 @@
                 android:id="@+id/dataHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Data Management"
+                android:text="@string/settings_section_data"
                 android:textAppearance="?attr/textAppearanceTitleSmall"
                 android:textColor="?attr/colorPrimary"
                 android:layout_marginStart="8dp"
@@ -597,13 +597,13 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Export Backup"
+                                android:text="@string/settings_export_backup"
                                 android:textAppearance="?attr/textAppearanceTitleMedium"
                                 android:textColor="?attr/colorOnSurface"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Save devices to storage"
+                                android:text="@string/settings_export_backup_desc"
                                 android:textAppearance="?attr/textAppearanceBodyMedium"
                                 android:textColor="?attr/colorOnSurfaceVariant"/>
                         </LinearLayout>
@@ -648,13 +648,13 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Import Backup"
+                                android:text="@string/settings_import_backup"
                                 android:textAppearance="?attr/textAppearanceTitleMedium"
                                 android:textColor="?attr/colorOnSurface"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Restore from file"
+                                android:text="@string/settings_import_backup_desc"
                                 android:textAppearance="?attr/textAppearanceBodyMedium"
                                 android:textColor="?attr/colorOnSurfaceVariant"/>
                         </LinearLayout>
@@ -674,7 +674,7 @@
                 android:id="@+id/infoHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Information"
+                android:text="@string/settings_section_information"
                 android:textAppearance="?attr/textAppearanceTitleSmall"
                 android:textColor="?attr/colorPrimary"
                 android:layout_marginStart="8dp"

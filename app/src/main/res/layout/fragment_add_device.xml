@@ -26,7 +26,7 @@
                 android:id="@+id/toolbarTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Add Custom Device"
+                android:text="@string/add_device_toolbar_title"
                 android:paddingTop="4dp"
                 android:paddingBottom="4dp"
                 android:textAppearance="@style/Toolbar.TitleText" />

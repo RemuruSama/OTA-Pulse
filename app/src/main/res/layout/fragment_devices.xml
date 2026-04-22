@@ -171,7 +171,7 @@
         android:clickable="true"
         android:focusable="true"
         android:stateListAnimator="@animator/bounce_animation"
-        android:contentDescription="Add new custom device"
+        android:contentDescription="@string/content_desc_add_new_device"
         android:elevation="6dp"
         app:elevation="6dp"
         app:pressedTranslationZ="12dp"

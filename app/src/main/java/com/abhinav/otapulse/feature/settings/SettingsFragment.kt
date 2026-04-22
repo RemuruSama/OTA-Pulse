@@ -133,7 +133,7 @@ class SettingsFragment : Fragment() {
         binding.arbDetectionSwitch?.setOnCheckedChangeListener { buttonView, isChecked ->
             buttonView.performHapticFeedback()
             appSettingsPrefs.edit().putBoolean(PREF_ARB_DETECTION_ENABLED, isChecked).apply()
-            Toast.makeText(requireContext(), if (isChecked) "ARB Detection Enabled" else "ARB Detection Disabled", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), getString(if (isChecked) R.string.toast_arb_detection_enabled else R.string.toast_arb_detection_disabled), Toast.LENGTH_SHORT).show()
         }
     }
 

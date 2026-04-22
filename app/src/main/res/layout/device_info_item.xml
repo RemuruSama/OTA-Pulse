@@ -41,7 +41,7 @@
             android:id="@+id/itemTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Item Title"
+            android:text="@string/placeholder_item_title"
             android:textAppearance="?attr/textAppearanceTitleMedium" />
 
         <TextView
@@ -49,7 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:text="Item Value"
+            android:text="@string/placeholder_item_value"
             android:textAppearance="?attr/textAppearanceBodyMedium"
             android:textColor="?attr/colorOnSurfaceVariant"
             android:breakStrategy="simple"

@@ -27,7 +27,7 @@
                 android:id="@+id/tv_bracket_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TOOLS_INDEX.sh"
+                android:text="@string/tools_header_badge"
                 android:textColor="?attr/colorPrimary"
                 android:textSize="10sp"
                 android:fontFamily="monospace"
@@ -41,7 +41,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:text="OTA\nTools"
+                android:text="@string/tools_header_title"
                 android:textAppearance="?attr/textAppearanceDisplaySmall"
                 android:textColor="?attr/colorOnSurface"
                 android:textStyle="bold"
@@ -55,7 +55,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Open a dedicated page for manual query, partition extraction, link resolving, or ARB checking."
+                android:text="@string/tools_header_subtitle"
                 android:textAppearance="?attr/textAppearanceBodySmall"
                 android:textColor="?attr/colorOnSurfaceVariant"
                 app:layout_constraintTop_toBottomOf="@id/tv_header_title"
@@ -93,7 +93,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TOOLS"
+                android:text="@string/tools_section_label"
                 android:textColor="?attr/colorPrimary"
                 android:textSize="11sp"
                 android:textStyle="bold"
@@ -143,7 +143,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="ARB Checker"
+                            android:text="@string/tools_arb_checker_title"
                             android:textAppearance="?attr/textAppearanceTitleMedium"
                             android:textStyle="bold" />
 
@@ -151,7 +151,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:text="Inspect anti-rollback metadata from a full OTA URL or a downloaded ZIP."
+                            android:text="@string/tools_arb_checker_desc"
                             android:textAppearance="?attr/textAppearanceBodySmall"
                             android:textColor="?attr/colorOnSurfaceVariant" />
                     </LinearLayout>
@@ -207,7 +207,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Link Resolver"
+                            android:text="@string/tools_link_resolver_title"
                             android:textAppearance="?attr/textAppearanceTitleMedium"
                             android:textStyle="bold" />
 
@@ -215,7 +215,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:text="Resolve downloadCheck redirected OTA links."
+                            android:text="@string/tools_link_resolver_desc"
                             android:textAppearance="?attr/textAppearanceBodySmall"
                             android:textColor="?attr/colorOnSurfaceVariant" />
                     </LinearLayout>
@@ -271,7 +271,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Manual Query"
+                            android:text="@string/tools_manual_query_title"
                             android:textAppearance="?attr/textAppearanceTitleMedium"
                             android:textStyle="bold" />
 
@@ -279,7 +279,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:text="Query OTA servers with your own model, region, server, and advanced fields."
+                            android:text="@string/tools_manual_query_desc"
                             android:textAppearance="?attr/textAppearanceBodySmall"
                             android:textColor="?attr/colorOnSurfaceVariant" />
                     </LinearLayout>
@@ -335,7 +335,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Partition Extraction"
+                            android:text="@string/tools_partition_extraction_title"
                             android:textAppearance="?attr/textAppearanceTitleMedium"
                             android:textStyle="bold" />
 
@@ -343,7 +343,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:text="Load partitions from a local OTA ZIP or a full OTA URL, then extract selected images."
+                            android:text="@string/tools_partition_extraction_desc"
                             android:textAppearance="?attr/textAppearanceBodySmall"
                             android:textColor="?attr/colorOnSurfaceVariant" />
                     </LinearLayout>

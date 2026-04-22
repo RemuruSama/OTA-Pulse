@@ -212,7 +212,7 @@ class ManualQueryFragment : Fragment() {
         binding.btnLoadUrlPartitions.setHapticClickListener {
             val source = binding.inputPartitionUrl.text?.toString()?.trim().orEmpty()
             if (source.isBlank()) {
-                Toast.makeText(requireContext(), "Paste a full OTA URL first", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.toast_paste_ota_url_first), Toast.LENGTH_SHORT).show()
                 return@setHapticClickListener
             }
             viewModel.fetchExtractablePartitions(
@@ -225,7 +225,7 @@ class ManualQueryFragment : Fragment() {
         binding.btnLoadLocalPartitions.setHapticClickListener {
             val localUri = selectedLocalZipUri
             if (localUri == null) {
-                Toast.makeText(requireContext(), "Choose a local OTA ZIP first", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.toast_choose_local_zip_first), Toast.LENGTH_SHORT).show()
                 return@setHapticClickListener
             }
             viewModel.fetchExtractablePartitions(
@@ -243,7 +243,7 @@ class ManualQueryFragment : Fragment() {
             val resolvedUrl = viewModel.uiState.value.resolverResult?.resolvedUrl ?: return@setHapticClickListener
             val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             clipboard.setPrimaryClip(ClipData.newPlainText("Resolved OTA Link", resolvedUrl))
-            Toast.makeText(requireContext(), "Resolved link copied", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), getString(R.string.toast_resolved_link_copied), Toast.LENGTH_SHORT).show()
         }
 
         binding.btnOpenResolvedUrl.setHapticClickListener {
@@ -251,7 +251,7 @@ class ManualQueryFragment : Fragment() {
             try {
                 openInAppBrowser(resolvedUrl, getString(R.string.in_app_browser_title))
             } catch (_: Exception) {
-                Toast.makeText(requireContext(), "Could not open resolved link", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.toast_could_not_open_resolved_link), Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -284,7 +284,7 @@ class ManualQueryFragment : Fragment() {
                     }
                 }
             }
-            Toast.makeText(requireContext(), "Device details fetched", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), getString(R.string.toast_device_details_fetched), Toast.LENGTH_SHORT).show()
         }
 
         binding.buttonSubmit.setHapticClickListener {
@@ -302,7 +302,7 @@ class ManualQueryFragment : Fragment() {
             val otaVersionString = constructOtaString(modelInput, region, letter)
 
             if (modelInput.isBlank() || apiModelParam.isBlank() || otaVersionString.isBlank() || ruiVersionStr.isBlank() || region.isBlank() || server.isBlank()) {
-                Toast.makeText(requireContext(), "Please fill required fields", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.toast_please_fill_required_fields), Toast.LENGTH_SHORT).show()
                 return@setHapticClickListener
             }
 
@@ -379,7 +379,7 @@ class ManualQueryFragment : Fragment() {
                     } else {
                         binding.progressBar.isVisible = false
                         binding.buttonSubmit.isEnabled = true
-                        binding.buttonSubmit.text = "Check for Update"
+                        binding.buttonSubmit.text = getString(R.string.btn_check_for_update)
                     }
 
                     if (state.result != null) {
@@ -486,10 +486,10 @@ class ManualQueryFragment : Fragment() {
         fun activePartitionVersion(): String =
             viewModel.uiState.value.showPartitionSelectDialog?.versionName ?: (ota.versionName ?: "Custom")
 
-        tvComponentName.text = "OTA Details: $deviceName"
-        tvVersionName.text = ota.versionName ?: "Unknown Version"
-        tvAndroidVersion.text = ota.realAndroidVersion ?: "Unknown"
-        tvSecurityPatch.text = ota.securityPatch ?: "Unknown"
+        tvComponentName.text = getString(R.string.ota_details_device, deviceName)
+        tvVersionName.text = ota.versionName ?: getString(R.string.unknown_version)
+        tvAndroidVersion.text = ota.realAndroidVersion ?: getString(R.string.unknown)
+        tvSecurityPatch.text = ota.securityPatch ?: getString(R.string.unknown)
         val arbStatusText = ota.arbStatus ?: "N/A"
         tvArbStatus.text = arbStatusText
         if (arbStatusText.equals("Safe", ignoreCase = true)) {
@@ -512,7 +512,7 @@ class ManualQueryFragment : Fragment() {
 
         fun resetExtractButton() {
             btnExtractSelected.isEnabled = selectedPartition != null
-            btnExtractSelected.text = "Extract"
+            btnExtractSelected.text = getString(R.string.extract)
             btnExtractSelected.icon = null
             extractionProgressBar.isVisible = false
         }
@@ -546,19 +546,19 @@ class ManualQueryFragment : Fragment() {
                         if (info.state == androidx.work.WorkInfo.State.SUCCEEDED) {
                             activeExtractionWorkId = null
                             resetExtractButton()
-                            Toast.makeText(requireContext(), "${item.name}.img extracted successfully", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(), getString(R.string.toast_partition_extracted, item.name), Toast.LENGTH_SHORT).show()
                             workInfoJob?.cancel()
                             return@collect
                         } else if (info.state == androidx.work.WorkInfo.State.CANCELLED) {
                             activeExtractionWorkId = null
                             resetExtractButton()
-                            Toast.makeText(requireContext(), "Extraction cancelled", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(), getString(R.string.toast_extraction_cancelled), Toast.LENGTH_SHORT).show()
                             workInfoJob?.cancel()
                             return@collect
                         } else if (info.state == androidx.work.WorkInfo.State.FAILED) {
                             activeExtractionWorkId = null
                             resetExtractButton()
-                            Toast.makeText(requireContext(), "Extraction failed", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(), getString(R.string.toast_extraction_failed), Toast.LENGTH_SHORT).show()
                             workInfoJob?.cancel()
                             return@collect
                         }
@@ -585,7 +585,7 @@ class ManualQueryFragment : Fragment() {
             val rv = sheetView.findViewById<RecyclerView>(R.id.rvPartitions)
 
             // Header
-            sheetView.findViewById<TextView>(R.id.tvTitle).text = "Select Partition"
+            sheetView.findViewById<TextView>(R.id.tvTitle).text = getString(R.string.partition_extraction_select_partition)
             sheetView.findViewById<TextView>(R.id.tvCount).text = partitions.size.toString()
 
             // Search with mutable display list
@@ -769,7 +769,7 @@ class ManualQueryFragment : Fragment() {
         btnCopyLink.setHapticClickListener {
             val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             clipboard.setPrimaryClip(ClipData.newPlainText("OTA Link", ota.url))
-            Toast.makeText(requireContext(), "Link copied", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), getString(R.string.toast_link_copied), Toast.LENGTH_SHORT).show()
         }
         btnChangelog.setHapticClickListener {
             ota.panelUrl?.let { url ->

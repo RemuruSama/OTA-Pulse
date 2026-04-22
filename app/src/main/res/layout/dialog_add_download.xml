@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
-        android:text="Download URL"
+        android:text="@string/dialog_add_download_section_title"
         android:textAppearance="?attr/textAppearanceLabelLarge"
         android:textColor="?attr/colorOnSurface"
         android:textStyle="bold" />
@@ -88,7 +88,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Supports direct firmware and shared OTA ZIP links."
+        android:text="@string/dialog_add_download_url_hint"
         android:textAppearance="?attr/textAppearanceLabelMedium"
         android:textColor="?attr/colorOnSurfaceVariant" />
 
@@ -116,7 +116,7 @@
         android:layout_marginTop="10dp"
         android:insetTop="0dp"
         android:insetBottom="0dp"
-        android:text="Cancel"
+        android:text="@string/cancel"
         android:textAllCaps="false"
         android:textStyle="bold"
         android:textColor="?attr/colorOnErrorContainer"
