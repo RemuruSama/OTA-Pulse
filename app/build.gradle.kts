@@ -17,7 +17,7 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace = "com.abhinav.otapulse"
-    compileSdk = 36
+    compileSdk = 37
 
     signingConfigs {
         create("release") {
@@ -35,7 +35,7 @@ android {
     defaultConfig {
         applicationId = "com.abhinav.otapulse"
         minSdk = 29
-        targetSdk = 35
+        targetSdk = 37
         versionCode = 19
         versionName = "3.0.4"
 
@@ -59,13 +59,6 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlin {
-        compilerOptions {
-            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
-            freeCompilerArgs.add("-Xannotation-default-target=param-property")
-        }
-    }
-
     buildFeatures {
         viewBinding = true
         buildConfig = true
@@ -75,6 +68,13 @@ android {
         baseline = file("lint-baseline.xml")
         abortOnError = false
         checkReleaseBuilds = false
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+        freeCompilerArgs.add("-Xannotation-default-target=param-property")
     }
 }
 
