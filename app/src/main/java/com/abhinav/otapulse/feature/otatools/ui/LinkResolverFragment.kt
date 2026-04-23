@@ -133,7 +133,9 @@ class LinkResolverFragment : Fragment() {
     private fun runEnterAnimation() {
         val views = listOf(
             binding.tvHeaderBadge,
+            binding.tvCursor,
             binding.tvHeaderTitle,
+            binding.viewAccentLine,
             binding.tvHeaderSubtitle,
             binding.cardHeroIcon,
             binding.btnResolveLink

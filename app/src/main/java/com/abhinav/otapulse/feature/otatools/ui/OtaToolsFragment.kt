@@ -61,7 +61,9 @@ class OtaToolsFragment : Fragment() {
     private fun runEnterAnimation() {
         val viewsToAnimate = listOf(
             binding.tvBracketLabel,
+            binding.tvCursor,
             binding.tvHeaderTitle,
+            binding.viewAccentLine,
             binding.tvHeaderSubtitle,
             binding.cardHeroIcon,
             binding.cardArbChecker,

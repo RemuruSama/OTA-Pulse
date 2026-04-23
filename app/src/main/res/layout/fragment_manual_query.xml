@@ -102,7 +102,7 @@
                 android:id="@+id/iv_hero_icon"
                 android:layout_width="72dp"
                 android:layout_height="72dp"
-                app:cardCornerRadius="20dp"
+                app:cardCornerRadius="14dp"
                 app:cardBackgroundColor="?attr/colorPrimaryContainer"
                 app:cardElevation="0dp"
                 app:strokeWidth="0dp"
