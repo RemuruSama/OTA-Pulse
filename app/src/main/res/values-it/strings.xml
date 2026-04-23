@@ -1,0 +1,274 @@
+<resources>
+    <string name="app_name">OTA Pulse</string>
+    <string name="app_icon_desc">Icona dell\'app</string>
+    <string name="app_version">v3.0.3</string>
+    <string name="title_device">Dispositivo</string>
+    <string name="title_ota_tools">Strumenti</string>
+    <string name="title_about">Info</string>
+    <string name="title_settings">Impostazioni</string>
+    <string name="title_devices">Dispositivi</string>
+    <string name="title_downloads">Download</string>
+
+    <string name="light_theme_description">L\'app sta usando il tema chiaro.</string>
+    <string name="dark_theme_description">L\'app sta usando il tema scuro.</string>
+    <string name="auto_theme_description">Il tema cambierà automaticamente in base alla modalità risparmio batteria.</string>
+    <string name="system_theme_description">Il tema dell\'app seguirà le impostazioni di sistema del dispositivo.</string>
+
+    <string name="ota_details_title">Dettagli OTA</string>
+    <string name="button_copy_link">Copia link</string>
+    <string name="button_download">Scarica</string>
+    <string name="button_view_json">Visualizza JSON</string>
+    <string name="button_download_json">Scarica</string>
+    <string name="button_save_json">Salva</string>
+    <string name="json_output_title">Output JSON</string>
+    <string name="json_output_unavailable">L\'output JSON non è disponibile per questo risultato.</string>
+    <string name="json_output_saved">JSON salvato in Download come %s</string>
+    <string name="json_output_save_failed">Impossibile salvare l\'output JSON.</string>
+    <string name="json_output_saved_to_file">JSON salvato in %s</string>
+    <string name="copy">Copia</string>
+    <string name="close">Chiudi</string>
+
+    <!-- Strings for fragment_device.xml -->
+    <string name="device_information_header">Informazioni dispositivo</string>
+    <string name="device_image_content_description">Immagine dispositivo</string>
+    <string name="device_name_placeholder">Nome dispositivo</string>
+    <string name="device_model_placeholder">Modello dispositivo</string>
+    <string name="device_supported">Dispositivo supportato</string>
+    <string name="device_not_supported">Dispositivo non supportato</string>
+    <string name="device_supported_placeholder">Verifica supporto in corso...</string>
+    <string name="software_info_header">Info software</string>
+    <string name="hardware_info_header">Info hardware</string>
+    <string name="android_version">Versione Android</string>
+    <string name="os_version">Versione OS</string>
+    <string name="ota_version">Versione OTA</string>
+    <string name="incremental_os_version">Versione OS incrementale</string>
+    <string name="security_patch_date">Patch di sicurezza</string>
+    <string name="kernel_version">Versione kernel</string>
+    <string name="amount_of_ram">RAM</string>
+    <string name="system_on_a_chip">Chipset</string>
+    <string name="processor_frequency">Frequenza processore</string>
+    <string name="storage">Memoria</string>
+    <string name="battery">Batteria</string>
+    <string name="display">Display</string>
+    <string name="device_name_model_format">%1$s (%2$s)</string>
+
+    <string name="search_device_hint">Cerca dispositivi</string>
+    <string name="close_search_hint">Chiudi ricerca</string>
+    <string name="select_region_variant">Seleziona Regione/Variante</string>
+    <string name="changelog_error">Impossibile aprire il link del changelog.</string>
+    <string name="link_copied">Link copiato negli appunti</string>
+    <string name="no_update_found">Nessun aggiornamento trovato</string>
+    <string name="retry">Riprova</string>
+    <string name="add_download">Aggiungi download</string>
+    <string name="paste_url">Incolla URL</string>
+    <string name="clear_url">Cancella URL</string>
+    <string name="start_download">Avvia download</string>
+    <string name="enter_download_url">Inserisci un URL di download</string>
+    <string name="no_url_in_clipboard">Nessun URL trovato negli appunti</string>
+
+    <string name="app_name_full">OTA Pulse</string>
+    <string name="about_card_title">Informazioni sull\'app</string>
+    <string name="app_tagline">Sempre aggiornato</string>
+    <string name="made_with">FATTO CON</string>
+    <string name="about_app_description">Trova gli ultimi aggiornamenti OTA per il tuo dispositivo. Supporta dispositivi OnePlus, realme e OPPO. Alcuni modelli potrebbero non essere ancora supportati.</string>
+    <string name="created_by_label">Creato da</string>
+    <string name="creator_avatar_desc">Avatar del creatore</string>
+    <string name="creator_name">Abhinav Verma</string>
+    <string name="supported_brands">Brand supportati</string>
+    <string name="oneplus_logo_desc">Logo OnePlus</string>
+    <string name="realme_logo_desc">Logo realme</string>
+    <string name="oppo_logo_desc">Logo OPPO</string>
+    <string name="github_button_text">GitHub</string>
+    <string name="telegram_button_text">Telegram</string>
+    <string name="check_updates_cta">Controlla aggiornamenti</string>
+    <string name="footer_copyright">© 2026 OTA Pulse. Tutti i diritti riservati.</string>
+
+    <!-- ADDED STRINGS -->
+    <string name="changelog_not_available">Changelog non disponibile.</string>
+    <string name="device_region_format">%1$s (%2$s)</string>
+    <string name="pause">Pausa</string>
+    <string name="resume">Riprendi</string>
+    <string name="completed">Completato</string>
+    <string name="delete">Elimina</string>
+    <string name="waiting">In attesa</string>
+    <string name="download_progress_percent">%d%%</string>
+    <string name="eta_hours_minutes">%1$dh %2$dm rimanenti</string>
+    <string name="eta_minutes_only">%d min rimanenti</string>
+    <string name="eta_minutes_seconds">%1$dm %2$ds rimanenti</string>
+    <string name="eta_seconds">%ds rimanenti</string>
+    <string name="file_size_format">Dimensione: %s</string>
+    <string name="downloaded_amount_format">%1$s / %2$s</string>
+    <string name="package_file_label">File pacchetto</string>
+    <string name="status_downloading">IN DOWNLOAD</string>
+    <string name="status_paused">IN PAUSA</string>
+    <string name="status_completed">COMPLETATO</string>
+    <string name="status_failed">FALLITO</string>
+    <string name="status_cancelled">ANNULLATO</string>
+    <string name="status_queued">IN CODA</string>
+    <string name="status_waiting">IN ATTESA</string>
+
+    <!-- Donate Strings -->
+    <string name="donate_card_title">Supporta lo sviluppo</string>
+    <string name="buy_me_a_coffee_button_text">Offrimi un caffè</string>
+    <!-- <string name="upi_payment_button_text">Donate with UPI</string> Removed as Razorpay is gone and we have a new UPI copy card -->
+    <string name="upi_id_copy_label">UPI ID (Tocca per copiare)</string>
+    <string name="upi_id_value">abhinavftp98@axl</string>
+    <string name="upi_id_copied_toast">UPI ID copiato negli appunti</string>
+
+
+    <!-- Strings for DevicesFragment (ensure these are all present and correct) -->
+    <string name="settings">Impostazioni</string>
+    <string name="delete_custom_device_title">Eliminare il dispositivo personalizzato?</string>
+    <string name="delete_custom_device_message">Sei sicuro di voler eliminare %s? Questa azione non può essere annullata.</string>
+    <string name="cancel">Annulla</string>
+    <string name="permission_denied_download_error">Permessi richiesti negati. Impossibile scaricare.</string>
+    <string name="starting_download_for">Avvio download per %s</string>
+    <string name="broad_file_access_prompt">È necessario l\'accesso esteso ai file per i download. Abilitalo nelle impostazioni.</string>
+    <string name="cannot_proceed_download_missing_permissions">Impossibile procedere con il download. Permessi mancanti:</string>
+    <string name="cannot_open_app_settings">Impossibile aprire le impostazioni dell\'app.</string>
+
+    <!-- Overwrite Confirmation Strings -->
+    <string name="file_already_exists">File già esistente</string>
+    <string name="file_exists_message">Il file \"%1$s\" esiste già. Vuoi eliminarlo e scaricarlo di nuovo?</string>
+    <string name="delete_and_download">Elimina &amp; Scarica</string>
+    <string name="overwrite_dialog_chip">Richiede attenzione</string>
+    <string name="overwrite_dialog_risk">Questo sostituirà il file corrente</string>
+    <string name="overwrite_dialog_message">Questo file è già presente sul dispositivo. Puoi mantenere la copia attuale o sostituirla con una nuova.</string>
+    <string name="overwrite_dialog_existing_file">File esistente</string>
+    <string name="replace_existing_file">Sostituisci file esistente</string>
+
+    <string name="permission_needed">Permesso necessario</string>
+
+    <!-- About Section Strings -->
+    <string name="libraries_title">Librerie</string>
+    <string name="libraries_desc">Licenze open source</string>
+    <string name="developer_title">Sviluppatore</string>
+    <string name="developer_desc">Abhinav Verma</string>
+    <string name="contributors_title">Contributori</string>
+    <string name="contributors_desc">Contributi della community</string>
+
+    <string name="libraries_content">
+        <b>AndroidX</b><br/>
+        - Core KTX<br/>
+        - AppCompat<br/>
+        - Activity / Activity KTX<br/>
+        - Fragment / Fragment KTX<br/>
+        - ConstraintLayout<br/>
+        - RecyclerView<br/>
+        - Lifecycle ViewModel / LiveData KTX<br/>
+        - Navigation Fragment / UI KTX<br/>
+        - WorkManager KTX<br/><br/>
+        <b>Google</b><br/>
+        - Material Components<br/>
+        - Hilt Android / Hilt Work<br/>
+        - Gson<br/>
+        - FlexboxLayout<br/>
+        - Protocol Buffers Lite<br/><br/>
+        <b>Altro</b><br/>
+        - OkHttp<br/>
+        - Glide<br/>
+        - Fetch2<br/>
+        - Markwon<br/>
+        - Apache Commons Compress<br/>
+        - XZ for Java<br/>
+        - kotlinx-coroutines-android<br/>
+        - JSON in Java
+    </string>
+
+    <string name="developer_content">
+        <b>Abhinav Verma</b><br/><br/>
+        Progettato e sviluppato con ❤️.<br/>
+        Grazie per usare OTA Pulse!
+    </string>
+
+    <string name="contributors_content">
+        Grazie a tutti coloro che hanno contribuito a questo progetto, attraverso codice, traduzioni o feedback.<br/><br/>
+        <b>Ringraziamenti speciali:</b><br/>
+        - La community open source
+    </string>
+    <string name="developer_message">Progettato e sviluppato con ❤️.\nGrazie per usare OTA Pulse!</string>
+    <string name="special_thanks_label">Ringraziamenti speciali</string>
+    <string name="open_source_community">La community open source</string>
+    <string name="contributors_description">Grazie a tutti coloro che hanno contribuito a questo progetto, attraverso codice, traduzioni o feedback.</string>
+
+    <!-- Hardcoded Strings Extraction -->
+    <!-- SettingsFragment -->
+    <string name="advanced_mode_enabled">Modalità avanzata attivata. Potrebbe essere necessario riavviare l\'app per applicare tutte le modifiche.</string>
+    <string name="advanced_mode_disabled">Modalità avanzata disattivata. Potrebbe essere necessario riavviare l\'app per applicare tutte le modifiche.</string>
+    <string name="import_overwrite_title">Sovrascrivere i dispositivi personalizzati?</string>
+    <string name="import_overwrite_message">L\'importazione di una nuova lista sovrascriverà tutti i tuoi dispositivi personalizzati esistenti. Questa azione non può essere annullata.</string>
+    <string name="import_action">Importa</string>
+    <string name="close_action">Chiudi</string>
+
+    <!-- MainActivity -->
+    <string name="notification_permission_denied">Permesso notifiche negato. Potresti perdere gli aggiornamenti sui download.</string>
+    <string name="storage_permission_granted">Permesso archiviazione concesso</string>
+    <string name="storage_permission_required">Il permesso di archiviazione è necessario per i download</string>
+    <string name="update_available_title">Nuova versione disponibile: %s</string>
+    <string name="update_available_message">È disponibile un nuovo aggiornamento!\n\nChangelog:\n%s</string>
+    <string name="download_action">Scarica</string>
+    <string name="later_action">Più tardi</string>
+    <string name="tap_to_view_update">Tocca per visualizzare il changelog e scaricare</string>
+    <string name="notification_permission_title">Permesso notifiche</string>
+    <string name="notification_permission_message">OTA Pulse usa le notifiche per tenerti informato sullo stato dei download. Concedi questo permesso.</string>
+    <string name="notification_permission_settings_message">L\'accesso alle notifiche è ancora disattivato. Abilitalo dalle impostazioni dell\'app per ricevere avvisi sull\'avanzamento e il completamento dei download.</string>
+    <string name="notification_permission_settings_snackbar">Abilita l\'accesso alle notifiche nelle impostazioni.</string>
+    <string name="grant_action">Concedi</string>
+    <string name="exit_action">Esci</string>
+    <string name="could_not_open_download_link">Impossibile aprire il link di download</string>
+    <string name="could_not_open_link">Impossibile aprire il link</string>
+    <string name="in_app_browser_title">Browser</string>
+    <string name="browser_reload">Ricarica pagina</string>
+    <string name="browser_open_external">Apri nel browser esterno</string>
+    <string name="browser_back">Vai indietro</string>
+    <string name="browser_forward">Vai avanti</string>
+    <string name="browser_copy_link">Copia link pagina</string>
+    <string name="browser_share">Condividi pagina</string>
+    <string name="browser_enable_desktop_mode">Attiva modalità desktop</string>
+    <string name="browser_disable_desktop_mode">Disattiva modalità desktop</string>
+    <string name="browser_status_loading">Caricamento</string>
+    <string name="browser_status_live">Live</string>
+    <string name="browser_loading_hint">Preparazione di una visualizzazione più pulita per questa pagina…</string>
+
+    <string name="browser_settings_title">Browser integrato</string>
+    <string name="browser_desktop_mode_title">Modalità sito desktop</string>
+    <string name="browser_desktop_mode_summary">Richiedi layout desktop per documentazione e forum</string>
+    <string name="browser_controls_title">Mostra controlli fluttuanti</string>
+    <string name="browser_controls_summary">Mostra la barra di navigazione inferiore durante la navigazione</string>
+    <string name="browser_webview_version_title">Versione WebView</string>
+    <string name="browser_webview_version_unavailable">Non disponibile</string>
+    <string name="add_device_name_title">Nome dispositivo</string>
+    <string name="add_device_name_supporting">Scegli un\'etichetta chiara per il dispositivo, in modo da riconoscerlo facilmente in seguito.</string>
+    <string name="add_device_name_hint">es., realme 12 Pro Plus</string>
+    <string name="add_device_groups_title">Gruppi firmware</string>
+    <string name="add_device_groups_supporting">Organizza le varianti per versione Android, poi aggiungi le build regionali all\'interno di ogni gruppo.</string>
+    <string name="add_device_empty_groups">Nessun gruppo firmware. Aggiungine uno per iniziare a configurare questo dispositivo personalizzato.</string>
+    <string name="add_device_add_group">Aggiungi gruppo firmware</string>
+    <string name="add_device_save">Salva dispositivo</string>
+    <string name="add_device_edit_group">Modifica gruppo firmware</string>
+    <string name="add_device_delete_group">Elimina gruppo firmware</string>
+    <string name="add_device_variants_title">Varianti regionali</string>
+    <string name="add_device_empty_variants">Nessuna variante. Aggiungi una regione per completare questo gruppo firmware.</string>
+    <string name="add_device_add_variant">Aggiungi variante</string>
+    <string name="add_device_remove_variant">Rimuovi variante</string>
+
+    <!-- DownloadNotificationHelper -->
+    <string name="notif_download_complete">Download completato</string>
+    <string name="notif_download_failed">Download fallito</string>
+    <string name="notif_paused">In pausa</string>
+    <string name="notif_cancel">Annulla</string>
+    <string name="notif_pause">Pausa</string>
+    <string name="notif_resume">Riprendi</string>
+    <string name="notif_channel_progress">Avanzamento download</string>
+    <string name="notif_channel_progress_desc">Mostra l\'avanzamento dei download attivi</string>
+    <string name="notif_channel_alerts">Stato download</string>
+    <string name="notif_channel_alerts_desc">Notifiche per download completati o falliti</string>
+    <string name="notif_error_link_expired">Link scaduto. Riprova dall\'app.</string>
+    <string name="notif_error_not_found">File non trovato sul server.</string>
+    <string name="notif_error_no_network">Nessuna connessione internet.</string>
+    <string name="notif_error_unknown">Errore sconosciuto. Riprova.</string>
+
+    <string name="extract_partition_title">Estrai partizioni</string>
+    <string name="extract">Estrai</string>
+    <string name="or_label">o</string>
+</resources>
