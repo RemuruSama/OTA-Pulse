@@ -41,7 +41,7 @@ object GitHubUpdater {
         Thread {
             try {
                 val response = httpClient.newCall(request).execute()
-                val jsonString = response.body?.string()
+                val jsonString = response.body.string()
 
                 if (!response.isSuccessful) {
                     Log.e(TAG, "Network Error: ${response.code}")
@@ -49,7 +49,7 @@ object GitHubUpdater {
                     return@Thread
                 }
 
-                if (jsonString != null) {
+                if (jsonString.isNotEmpty()) {
                     Log.d(TAG, "Response: $jsonString")
                     val json = Gson().fromJson(jsonString, JsonObject::class.java)
                     val latestTag = json.get("tag_name").asString

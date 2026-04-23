@@ -619,7 +619,7 @@ class DevicesFragment : Fragment(R.layout.fragment_devices) {
             imm.hideSoftInputFromWindow(binding.searchEditText.windowToken, 0)
         }
 
-        binding.addDeviceFab?.setHapticClickListener {
+        binding.addDeviceFab.setHapticClickListener {
             parentFragmentManager.beginTransaction()
                 .setCustomAnimations(
                     R.anim.nav_enter,

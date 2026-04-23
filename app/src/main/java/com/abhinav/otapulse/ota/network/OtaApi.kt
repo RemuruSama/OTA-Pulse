@@ -45,7 +45,7 @@ class OtaApi @Inject constructor(private val httpClient: OkHttpClient) {
 
             val response = httpClient.newCall(okRequest).execute()
             val responseCode = response.code
-            val responseBody = response.body?.string() ?: ""
+            val responseBody = response.body.string()
 
             // Validate HTTP and JSON structure
             Request.validateResponse(responseCode, responseBody)

@@ -95,7 +95,7 @@ class AboutFragment : Fragment() {
     }
 
     private fun applyUpdateAvailableUi(info: UpdateInfo) {
-        binding.btnCheckUpdate?.let { btn ->
+        binding.btnCheckUpdate.let { btn ->
             btn.text = "Update Available"
             btn.setIconResource(R.drawable.ic_download) // Ensure you have this icon or remove this line
 
@@ -114,7 +114,7 @@ class AboutFragment : Fragment() {
 
     private fun setupManualCheckButton() {
         // Default state: "Check for Updates"
-        binding.btnCheckUpdate?.setHapticClickListener {
+        binding.btnCheckUpdate.setHapticClickListener {
             if (pendingUpdateInfo != null) {
                 showUpdateDialog(pendingUpdateInfo!!)
                 return@setHapticClickListener
@@ -124,11 +124,11 @@ class AboutFragment : Fragment() {
             val minAnimationTime = 3000L // 3 second minimum
 
             // Manual Check Logic (with Loading UI)
-            binding.btnCheckUpdate?.isEnabled = false
-            binding.btnCheckUpdate?.text = ""
+            binding.btnCheckUpdate.isEnabled = false
+            binding.btnCheckUpdate.text = ""
             // Fade in progress indicator — withLayer() composites alpha cheaply from GPU texture
-            (binding.progressUpdate as? com.abhinav.otapulse.core.ui.WavyCircularProgressIndicator)?.apply {
-                indicatorColor = binding.btnCheckUpdate?.currentTextColor ?: android.graphics.Color.WHITE
+            binding.progressUpdate.apply {
+                indicatorColor = binding.btnCheckUpdate.currentTextColor
                 alpha = 0f
                 visibility = View.VISIBLE
                 animate()
@@ -151,24 +151,24 @@ class AboutFragment : Fragment() {
                         if (_binding == null) return@postDelayed // Re-check binding in case fragment is destroyed during delay
 
                         // Fade out progress indicator — withLayer() composites alpha cheaply from GPU texture
-                        binding.progressUpdate?.animate()
-                            ?.alpha(0f)
-                            ?.setDuration(300)
-                            ?.withLayer()
-                            ?.withEndAction {
-                                binding.progressUpdate?.visibility = View.GONE
-                                binding.btnCheckUpdate?.isEnabled = true
+                        binding.progressUpdate.animate()
+                            .alpha(0f)
+                            .setDuration(300)
+                            .withLayer()
+                            .withEndAction {
+                                binding.progressUpdate.visibility = View.GONE
+                                binding.btnCheckUpdate.isEnabled = true
 
                                 if (updateInfo != null) {
                                     pendingUpdateInfo = updateInfo
                                     applyUpdateAvailableUi(updateInfo)
                                     showUpdateDialog(updateInfo)
                                 } else {
-                                    binding.btnCheckUpdate?.text = "Check for Updates" // Reset text
+                                    binding.btnCheckUpdate.text = "Check for Updates" // Reset text
                                     Toast.makeText(requireContext(), "You are using the latest version", Toast.LENGTH_SHORT).show()
                                 }
                             }
-                            ?.start()
+                            .start()
                     }, delay)
                 }
             }

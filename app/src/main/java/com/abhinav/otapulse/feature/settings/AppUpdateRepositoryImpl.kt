@@ -31,14 +31,14 @@ class AppUpdateRepositoryImpl @Inject constructor(
 
         try {
             client.newCall(request).execute().use { response ->
-                val jsonString = response.body?.string()
+                val jsonString = response.body.string()
 
                 if (!response.isSuccessful) {
                     Log.e(TAG, "Network Error: ${response.code}")
                     return@withContext Result.failure(Exception("Network Error: ${response.code}"))
                 }
 
-                if (jsonString != null) {
+                if (jsonString.isNotEmpty()) {
                     Log.d(TAG, "Response: $jsonString")
 
                     val json = Gson().fromJson(jsonString, JsonObject::class.java)

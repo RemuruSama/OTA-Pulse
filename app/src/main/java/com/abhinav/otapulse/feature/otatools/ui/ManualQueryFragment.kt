@@ -159,7 +159,8 @@ class ManualQueryFragment : Fragment() {
     private fun setupSpinners() {
         val ruiVersions = listOf("2", "3", "4", "5", "6", "7")
         val ruiAdapter = ArrayAdapter(requireContext(), R.layout.item_spinner_dropdown, android.R.id.text1, ruiVersions)
-        binding.spinnerRuiVersion.setAdapter(ruiAdapter)
+
+        binding.spinnerRuiVersion.setAdapter(ruiAdapter)
 
         val regions = RegionData.regions.map { it.displayName }
         val regionAdapter = ArrayAdapter(requireContext(), R.layout.item_spinner_dropdown, android.R.id.text1, regions)
@@ -372,7 +373,7 @@ class ManualQueryFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
                     if (state.isLoading) {
-                        (binding.progressBar as? com.abhinav.otapulse.core.ui.WavyCircularProgressIndicator)?.indicatorColor = binding.buttonSubmit.currentTextColor ?: android.graphics.Color.WHITE
+                        binding.progressBar.indicatorColor = binding.buttonSubmit.currentTextColor
                         binding.progressBar.isVisible = true
                         binding.buttonSubmit.isEnabled = false
                         binding.buttonSubmit.text = ""

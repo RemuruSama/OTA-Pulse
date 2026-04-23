@@ -118,9 +118,9 @@ class SettingsFragment : Fragment() {
         val isAutoUpdateEnabled = appSettingsPrefs.getBoolean(PREF_AUTO_UPDATE_CHECK, true)
 
         // Use safe call ?. as ViewBinding might treat this as nullable
-        binding.autoUpdateSwitch?.isChecked = isAutoUpdateEnabled
+        binding.autoUpdateSwitch.isChecked = isAutoUpdateEnabled
 
-        binding.autoUpdateSwitch?.setOnCheckedChangeListener { buttonView, isChecked ->
+        binding.autoUpdateSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
             buttonView.performHapticFeedback()
             appSettingsPrefs.edit().putBoolean(PREF_AUTO_UPDATE_CHECK, isChecked).apply()
         }
@@ -128,9 +128,9 @@ class SettingsFragment : Fragment() {
 
     private fun setupArbDetectionSwitch() {
         val isArbDetectionEnabled = appSettingsPrefs.getBoolean(PREF_ARB_DETECTION_ENABLED, true)
-        binding.arbDetectionSwitch?.isChecked = isArbDetectionEnabled
+        binding.arbDetectionSwitch.isChecked = isArbDetectionEnabled
 
-        binding.arbDetectionSwitch?.setOnCheckedChangeListener { buttonView, isChecked ->
+        binding.arbDetectionSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
             buttonView.performHapticFeedback()
             appSettingsPrefs.edit().putBoolean(PREF_ARB_DETECTION_ENABLED, isChecked).apply()
             Toast.makeText(requireContext(), getString(if (isChecked) R.string.toast_arb_detection_enabled else R.string.toast_arb_detection_disabled), Toast.LENGTH_SHORT).show()
@@ -177,16 +177,16 @@ class SettingsFragment : Fragment() {
         }
 
         // About Section Listeners
-        binding.librariesButton?.let {
+        binding.librariesButton.let {
             it.setHapticClickListener {
                 (requireActivity() as? com.abhinav.otapulse.app.MainActivity)?.navigateToLibraries()
                 // android.widget.Toast.makeText(requireContext(), "Libraries Clicked", android.widget.Toast.LENGTH_SHORT).show()
             }
         }
-        binding.developerButton?.let {
+        binding.developerButton.let {
             it.setHapticClickListener { showDeveloperDialog() }
         }
-        binding.contributorsButton?.let {
+        binding.contributorsButton.let {
             it.setHapticClickListener { showContributorsDialog() }
         }
     }

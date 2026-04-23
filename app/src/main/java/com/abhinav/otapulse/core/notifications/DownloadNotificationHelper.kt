@@ -120,7 +120,7 @@ class DownloadNotificationHelper @Inject constructor(
                                downloadInfo.regionName != "External"
 
         val title = if (isStandardUpdate) {
-            "${downloadInfo.regionName} - ${downloadInfo.otaUpdate!!.versionName}"
+            "${downloadInfo.regionName} - ${downloadInfo.otaUpdate.versionName}"
         } else {
             downloadInfo.fileName
         }

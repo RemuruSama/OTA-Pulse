@@ -137,7 +137,7 @@ class DeviceAdapter(
                     errorMessage.contains("HTTP", ignoreCase = true) -> "Server error. Please try again later."
                     else -> errorMessage
                 }
-                binding.retryButton.setHapticClickListener { onFetchDetails(device, selectedVariant!!) }
+                binding.retryButton.setHapticClickListener { onFetchDetails(device, selectedVariant) }
             }
         }
 
