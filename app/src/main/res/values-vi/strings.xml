@@ -1,0 +1,379 @@
+<resources>
+    <string name="app_icon_desc">Biểu tượng ứng dụng</string>
+    <string name="title_device">Thiết bị</string>
+    <string name="title_ota_tools">Công cụ</string>
+    <string name="title_about">Giới thiệu</string>
+    <string name="title_settings">Cài đặt</string>
+    <string name="title_devices">Thiết bị</string>
+    <string name="title_downloads">Tải xuống</string>
+
+    <string name="light_theme_description">Ứng dụng đang sử dụng giao diện sáng.</string>
+    <string name="dark_theme_description">Ứng dụng đang sử dụng giao diện tối.</string>
+    <string name="auto_theme_description">Giao diện sẽ tự động thay đổi dựa trên chế độ tiết kiệm pin.</string>
+    <string name="system_theme_description">Giao diện ứng dụng sẽ theo cài đặt hệ thống của thiết bị.</string>
+
+    <string name="ota_details_title">Chi tiết OTA</string>
+    <string name="button_copy_link">Sao chép liên kết</string>
+    <string name="button_download">Tải xuống</string>
+    <string name="button_view_json">Xem JSON</string>
+    <string name="button_download_json">Tải xuống</string>
+    <string name="button_save_json">Lưu</string>
+    <string name="json_output_title">Đầu ra JSON</string>
+    <string name="json_output_unavailable">Đầu ra JSON không khả dụng cho kết quả này.</string>
+    <string name="json_output_saved">Đã lưu JSON vào mục Tải xuống dưới tên %s</string>
+    <string name="json_output_save_failed">Không thể lưu đầu ra JSON.</string>
+    <string name="json_output_saved_to_file">Đã lưu JSON vào %s</string>
+    <string name="copy">Sao chép</string>
+    <string name="close">Đóng</string>
+
+    <string name="device_information_header">Thông tin thiết bị</string>
+    <string name="device_image_content_description">Ảnh thiết bị</string>
+    <string name="device_name_placeholder">Tên thiết bị</string>
+    <string name="device_model_placeholder">Mẫu thiết bị</string>
+    <string name="device_supported">Thiết bị được hỗ trợ</string>
+    <string name="device_not_supported">Thiết bị không được hỗ trợ</string>
+    <string name="device_supported_placeholder">Đang kiểm tra trạng thái hỗ trợ…</string>
+    <string name="software_info_header">Thông tin phần mềm</string>
+    <string name="hardware_info_header">Thông tin phần cứng</string>
+    <string name="android_version">Phiên bản Android</string>
+    <string name="os_version">Phiên bản OS</string>
+    <string name="ota_version">Phiên bản OTA</string>
+    <string name="incremental_os_version">Phiên bản OS tăng dần</string>
+    <string name="security_patch_date">Bản vá bảo mật</string>
+    <string name="kernel_version">Phiên bản Kernel</string>
+    <string name="amount_of_ram">RAM</string>
+    <string name="system_on_a_chip">Chipset</string>
+    <string name="processor_frequency">Tần số bộ xử lý</string>
+    <string name="storage">Bộ nhớ</string>
+    <string name="battery">Pin</string>
+    <string name="display">Màn hình</string>
+
+    <string name="search_device_hint">Tìm kiếm thiết bị</string>
+    <string name="close_search_hint">Đóng tìm kiếm</string>
+    <string name="select_region_variant">Chọn Khu vực/Biến thể</string>
+    <string name="changelog_error">Không thể mở liên kết nhật ký thay đổi.</string>
+    <string name="link_copied">Đã sao chép liên kết vào bộ nhớ tạm</string>
+    <string name="no_update_found">Không tìm thấy bản cập nhật</string>
+    <string name="retry">Thử lại</string>
+    <string name="add_download">Thêm lượt tải xuống</string>
+    <string name="paste_url">Dán URL</string>
+    <string name="clear_url">Xóa URL</string>
+    <string name="start_download">Bắt đầu tải xuống</string>
+    <string name="enter_download_url">Nhập URL tải xuống</string>
+    <string name="no_url_in_clipboard">Không tìm thấy URL trong bộ nhớ tạm</string>
+
+    <string name="about_card_title">Về ứng dụng này</string>
+    <string name="app_tagline">Luôn cập nhật</string>
+    <string name="made_with">ĐƯỢC LÀM VỚI</string>
+    <string name="about_app_description">Tìm các bản cập nhật OTA mới nhất cho thiết bị của bạn. Hỗ trợ các thiết bị OnePlus, realme và OPPO. Một số mẫu có thể chưa được hỗ trợ.</string>
+    <string name="created_by_label">Tạo bởi</string>
+    <string name="creator_avatar_desc">Ảnh đại diện của người tạo</string>
+    <string name="creator_name">Abhinav Verma</string>
+    <string name="supported_brands">Các thương hiệu được hỗ trợ</string>
+    <string name="oneplus_logo_desc">Logo OnePlus</string>
+    <string name="realme_logo_desc">Logo realme</string>
+    <string name="oppo_logo_desc">Logo OPPO</string>
+    <string name="github_button_text">GitHub</string>
+    <string name="telegram_button_text">Telegram</string>
+    <string name="check_updates_cta">Kiểm tra cập nhật</string>
+    <string name="footer_copyright">© 2026 OTA Pulse. Bảo lưu mọi quyền.</string>
+
+    <string name="changelog_not_available">Nhật ký thay đổi không khả dụng.</string>
+    <string name="pause">Tạm dừng</string>
+    <string name="resume">Tiếp tục</string>
+    <string name="completed">Đã hoàn thành</string>
+    <string name="delete">Xóa</string>
+    <string name="waiting">Đang chờ</string>
+    <string name="package_file_label">Tệp gói</string>
+    <string name="status_downloading">ĐANG TẢI XUỐNG</string>
+    <string name="status_paused">ĐÃ TẠM DỪNG</string>
+    <string name="status_completed">ĐÃ HOÀN THÀNH</string>
+    <string name="status_failed">THẤT BẠI</string>
+    <string name="status_cancelled">ĐÃ HỦY</string>
+    <string name="status_queued">ĐANG CHỜ HÀNG</string>
+    <string name="status_waiting">ĐANG CHỜ</string>
+
+    <string name="donate_card_title">Hỗ trợ phát triển</string>
+    <string name="buy_me_a_coffee_button_text">Buy me a coffee</string>
+    <string name="upi_id_copy_label">ID UPI (Chạm để sao chép)</string>
+    <string name="upi_id_copied_toast">Đã sao chép ID UPI vào bộ nhớ tạm</string>
+
+    <string name="settings">Cài đặt</string>
+    <string name="delete_custom_device_title">Xóa thiết bị tùy chỉnh?</string>
+    <string name="delete_custom_device_message">Bạn có chắc chắn muốn xóa %s? Hành động này không thể hoàn tác.</string>
+    <string name="cancel">Hủy</string>
+    <string name="permission_denied_download_error">Các quyền cần thiết bị từ chối. Không thể tải xuống.</string>
+    <string name="starting_download_for">Bắt đầu tải xuống cho %s</string>
+    <string name="broad_file_access_prompt">Cần quyền truy cập tệp rộng để tải xuống. Vui lòng bật trong cài đặt.</string>
+    <string name="cannot_proceed_download_missing_permissions">Không thể tiếp tục tải xuống. Thiếu quyền:</string>
+    <string name="cannot_open_app_settings">Không thể mở cài đặt ứng dụng.</string>
+
+    <string name="file_already_exists">Tệp đã tồn tại</string>
+    <string name="file_exists_message">Tệp \"%1$s\" đã tồn tại. Bạn có muốn xóa nó và tải lại không?</string>
+    <string name="delete_and_download">Xóa và Tải xuống</string>
+    <string name="overwrite_dialog_chip">Cần chú ý</string>
+    <string name="overwrite_dialog_risk">Điều này sẽ thay thế tệp hiện tại</string>
+    <string name="overwrite_dialog_message">Tệp này đã có trên thiết bị của bạn. Bạn có thể giữ bản sao hiện tại hoặc thay thế bằng bản mới.</string>
+    <string name="overwrite_dialog_existing_file">Tệp hiện có</string>
+    <string name="replace_existing_file">Thay thế tệp hiện có</string>
+
+    <string name="permission_needed">Cần có quyền</string>
+
+    <string name="libraries_title">Thư viện</string>
+    <string name="libraries_desc">Giấy phép mã nguồn mở</string>
+    <string name="developer_title">Nhà phát triển</string>
+    <string name="developer_desc">Abhinav Verma</string>
+    <string name="contributors_title">Người đóng góp</string>
+    <string name="contributors_desc">Đóng góp của cộng đồng</string>
+
+    <string name="developer_message">Được thiết kế và phát triển với ❤️.\nCảm ơn bạn đã sử dụng OTA Pulse!</string>
+    <string name="special_thanks_label">Cảm ơn đặc biệt</string>
+    <string name="open_source_community">Cộng đồng mã nguồn mở</string>
+    <string name="contributors_description">Cảm ơn tất cả những người đã đóng góp cho dự án này, dù thông qua mã, bản dịch hay phản hồi.</string>
+
+    <string name="advanced_mode_enabled">Đã bật Chế độ nâng cao. Có thể cần khởi động lại để các thay đổi có hiệu lực hoàn toàn.</string>
+    <string name="advanced_mode_disabled">Đã tắt Chế độ nâng cao. Có thể cần khởi động lại để các thay đổi có hiệu lực hoàn toàn.</string>
+    <string name="import_overwrite_title">Ghi đè các thiết bị tùy chỉnh?</string>
+    <string name="import_overwrite_message">Việc nhập danh sách mới sẽ ghi đè lên tất cả các thiết bị tùy chỉnh hiện có của bạn. Hành động này không thể hoàn tác.</string>
+    <string name="import_action">Nhập</string>
+    <string name="close_action">Đóng</string>
+
+    <string name="notification_permission_denied">Quyền thông báo bị từ chối. Bạn có thể bỏ lỡ các cập nhật tải xuống.</string>
+    <string name="storage_permission_granted">Đã cấp quyền lưu trữ</string>
+    <string name="storage_permission_required">Quyền lưu trữ là bắt buộc để tải xuống</string>
+    <string name="update_available_title">Có phiên bản mới: %s</string>
+    <string name="update_available_message">Đã có bản cập nhật mới!\n\nNhật ký thay đổi:\n%s</string>
+    <string name="download_action">Tải xuống</string>
+    <string name="later_action">Để sau</string>
+    <string name="tap_to_view_update">Chạm để xem nhật ký thay đổi và tải xuống</string>
+    <string name="notification_permission_title">Quyền thông báo</string>
+    <string name="notification_permission_message">OTA Pulse sử dụng thông báo để giúp bạn biết về tiến trình tải xuống. Vui lòng cấp quyền này.</string>
+    <string name="notification_permission_settings_message">Quyền truy cập thông báo vẫn đang tắt. Hãy bật trong cài đặt ứng dụng để các cảnh báo tiến trình và hoàn thành tải xuống có thể xuất hiện.</string>
+    <string name="notification_permission_settings_snackbar">Bật quyền truy cập thông báo trong Cài đặt.</string>
+    <string name="grant_action">Cấp quyền</string>
+    <string name="support_developer_title">Hỗ trợ nhà phát triển</string>
+    <string name="support_developer_message">Hỗ trợ công việc mã nguồn mở của chúng tôi và giúp OTA Pulse tiếp tục cải thiện.</string>
+    <string name="support_developer_star_github">Tặng sao trên GitHub</string>
+    <string name="support_developer_donate">Quyên góp</string>
+    <string name="support_developer_maybe_later">Để sau</string>
+    <string name="support_developer_image_content_description">Minh họa hỗ trợ nhà phát triển</string>
+    <string name="exit_action">Thoát</string>
+    <string name="could_not_open_download_link">Không thể mở liên kết tải xuống</string>
+    <string name="could_not_open_link">Không thể mở liên kết</string>
+    <string name="in_app_browser_title">Trình duyệt</string>
+    <string name="browser_reload">Tải lại trang</string>
+    <string name="browser_open_external">Mở trong trình duyệt ngoài</string>
+    <string name="browser_back">Quay lại</string>
+    <string name="browser_forward">Tiếp tới</string>
+    <string name="browser_copy_link">Sao chép liên kết trang</string>
+    <string name="browser_share">Chia sẻ trang</string>
+    <string name="browser_enable_desktop_mode">Bật chế độ máy tính</string>
+    <string name="browser_disable_desktop_mode">Tắt chế độ máy tính</string>
+    <string name="browser_status_loading">Đang tải</string>
+    <string name="browser_status_live">Trực tiếp</string>
+    <string name="browser_loading_hint">Đang chuẩn bị chế độ đọc sạch hơn cho trang này…</string>
+
+    <string name="browser_settings_title">Trình duyệt trong ứng dụng</string>
+    <string name="browser_desktop_mode_title">Chế độ trang web máy tính</string>
+    <string name="browser_desktop_mode_summary">Yêu cầu bố cục máy tính cho tài liệu và diễn đàn</string>
+    <string name="browser_controls_title">Hiển thị các điều khiển nổi</string>
+    <string name="browser_controls_summary">Hiển thị thanh điều hướng phía dưới khi duyệt web</string>
+    <string name="browser_webview_version_title">Phiên bản WebView</string>
+    <string name="browser_webview_version_unavailable">Không khả dụng</string>
+    <string name="add_device_name_title">Tên thiết bị</string>
+    <string name="add_device_name_supporting">Chọn một nhãn thiết bị rõ ràng để dễ nhận diện sau này.</string>
+    <string name="add_device_name_hint">ví dụ: realme 12 Pro Plus</string>
+    <string name="add_device_groups_title">Nhóm firmware</string>
+    <string name="add_device_groups_supporting">Sắp xếp các biến thể theo phiên bản Android, sau đó thêm các bản dựng khu vực vào trong mỗi nhóm.</string>
+    <string name="add_device_empty_groups">Chưa có nhóm firmware nào. Thêm một nhóm để bắt đầu xây dựng thiết bị tùy chỉnh này.</string>
+    <string name="add_device_add_group">Thêm nhóm firmware</string>
+    <string name="add_device_save">Lưu thiết bị</string>
+    <string name="add_device_edit_group">Sửa nhóm firmware</string>
+    <string name="add_device_delete_group">Xóa nhóm firmware</string>
+    <string name="add_device_variants_title">Các biến thể khu vực</string>
+    <string name="add_device_empty_variants">Chưa có biến thể nào. Thêm một khu vực để hoàn thành nhóm firmware này.</string>
+    <string name="add_device_add_variant">Thêm biến thể</string>
+    <string name="add_device_remove_variant">Xóa biến thể</string>
+
+    <string name="notif_download_complete">Tải xuống hoàn tất</string>
+    <string name="notif_download_failed">Tải xuống thất bại</string>
+    <string name="notif_paused">Đã tạm dừng</string>
+    <string name="notif_cancel">Hủy</string>
+    <string name="notif_pause">Tạm dừng</string>
+    <string name="notif_resume">Tiếp tục</string>
+    <string name="notif_channel_progress">Tiến trình tải xuống</string>
+    <string name="notif_channel_progress_desc">Hiển thị tiến trình tải xuống đang hoạt động</string>
+    <string name="notif_channel_alerts">Trạng thái tải xuống</string>
+    <string name="notif_channel_alerts_desc">Thông báo cho các lượt tải xuống đã hoàn thành hoặc thất bại</string>
+    <string name="notif_error_link_expired">Liên kết đã hết hạn. Vui lòng thử lại trong ứng dụng.</string>
+    <string name="notif_error_not_found">Không tìm thấy tệp trên máy chủ.</string>
+    <string name="notif_error_no_network">Không có kết nối internet.</string>
+    <string name="notif_error_unknown">Lỗi không xác định. Vui lòng thử lại.</string>
+
+    <string name="extract_partition_title">Trích xuất phân vùng</string>
+    <string name="extract">Trích xuất</string>
+    <string name="or_label">hoặc</string>
+
+    <string name="settings_section_appearance">Giao diện</string>
+    <string name="settings_app_theme">Giao diện ứng dụng</string>
+    <string name="theme_option_light">Sáng</string>
+    <string name="theme_option_dark">Tối</string>
+    <string name="theme_option_auto">Tự động</string>
+    <string name="theme_option_system">Hệ thống</string>
+    <string name="settings_section_general">Chung</string>
+    <string name="settings_auto_check_updates">Tự động kiểm tra cập nhật</string>
+    <string name="settings_auto_check_updates_desc">Thông báo khi khởi động nếu có bản cập nhật</string>
+    <string name="settings_app_language">Ngôn ngữ ứng dụng</string>
+    <string name="settings_app_language_desc">Chọn ngôn ngữ ưu tiên của bạn cho ứng dụng</string>
+    <string name="language_option_system">Mặc định hệ thống</string>
+    <string name="settings_advanced_mode">Chế độ nâng cao</string>
+    <string name="settings_advanced_mode_desc">Mở khóa các tính năng thử nghiệm</string>
+    <string name="settings_arb_detection">Phát hiện ARB</string>
+    <string name="settings_arb_detection_desc">Bật kiểm tra Anti-Rollback cho các bản cập nhật</string>
+    <string name="settings_section_data">Quản lý dữ liệu</string>
+    <string name="settings_export_backup">Xuất bản sao lưu</string>
+    <string name="settings_export_backup_desc">Lưu các thiết bị vào bộ nhớ</string>
+    <string name="settings_import_backup">Nhập bản sao lưu</string>
+    <string name="settings_import_backup_desc">Khôi phục từ tệp</string>
+    <string name="settings_section_information">Thông tin</string>
+    <string name="toast_arb_detection_enabled">Đã bật Phát hiện ARB</string>
+    <string name="toast_arb_detection_disabled">Đã tắt Phát hiện ARB</string>
+
+    <string name="tools_header_title">Công cụ\nOTA</string>
+    <string name="tools_header_subtitle">Mở một trang riêng để truy vấn thủ công, trích xuất phân vùng, giải quyết liên kết hoặc kiểm tra ARB.</string>
+    <string name="tools_arb_checker_title">Kiểm tra ARB</string>
+    <string name="tools_arb_checker_desc">Kiểm tra siêu dữ liệu anti-rollback từ liên kết OTA đầy đủ hoặc tệp ZIP đã tải xuống.</string>
+    <string name="tools_link_resolver_title">Giải quyết liên kết</string>
+    <string name="tools_link_resolver_desc">Giải quyết các liên kết OTA bị chuyển hướng downloadCheck.</string>
+    <string name="tools_manual_query_title">Truy vấn thủ công</string>
+    <string name="tools_manual_query_desc">Truy vấn các máy chủ OTA với mẫu thiết bị, khu vực, máy chủ và các trường nâng cao của riêng bạn.</string>
+    <string name="tools_partition_extraction_title">Trích xuất phân vùng</string>
+    <string name="tools_partition_extraction_desc">Tải các phân vùng từ tệp ZIP OTA cục bộ hoặc liên kết OTA đầy đủ, sau đó trích xuất các ảnh đã chọn.</string>
+
+    <string name="partition_extraction_header_title">Trích xuất\nphân vùng</string>
+    <string name="partition_extraction_header_subtitle">Tải các phân vùng từ liên kết OTA đầy đủ trực tiếp hoặc tệp ZIP cục bộ đã tải xuống.</string>
+    <string name="partition_extraction_remote_label">Gói OTA từ xa</string>
+    <string name="hint_paste_ota_url">Dán liên kết OTA đầy đủ</string>
+    <string name="partition_extraction_local_zip_label">Tệp ZIP OTA cục bộ</string>
+    <string name="partition_extraction_no_zip_selected">Chưa chọn tệp ZIP nào</string>
+    <string name="btn_choose_zip">Chọn tệp ZIP</string>
+    <string name="btn_remove">Xóa</string>
+    <string name="partition_extraction_source_hint">Sử dụng liên kết OTA đầy đủ hoặc gói ZIP đã tải xuống.</string>
+    <string name="partition_extraction_select_partition">Chọn phân vùng</string>
+    <string name="partition_loading_msg">Đang tải các phân vùng…</string>
+    <string name="toast_link_pasted">Đã dán liên kết</string>
+    <string name="toast_clipboard_empty">Bộ nhớ tạm trống</string>
+    <string name="toast_paste_url_or_choose_zip">Dán liên kết OTA đầy đủ hoặc chọn tệp ZIP cục bộ trước</string>
+    <string name="toast_partition_extracted">Đã trích xuất %s.img thành công</string>
+    <string name="toast_extraction_cancelled">Đã hủy trích xuất</string>
+    <string name="toast_extraction_failed">Trích xuất thất bại</string>
+
+    <string name="content_desc_more_options">Thêm tùy chọn</string>
+    <string name="content_desc_mark_favorite">Đánh dấu là yêu thích</string>
+    <string name="label_android_version_colon">Phiên bản Android:</string>
+    <string name="label_os_version_colon">Phiên bản OS:</string>
+    <string name="label_security_patch_colon">Bản vá bảo mật:</string>
+    <string name="label_size_colon">Kích thước:</string>
+    <string name="label_md5_colon">MD5:</string>
+    <string name="btn_view_changelog">Xem nhật ký thay đổi</string>
+
+    <string name="download_speed_label">Tốc độ</string>
+    <string name="download_remaining_label">Còn lại</string>
+
+    <string name="content_desc_remove_local_zip">Xóa tệp ZIP cục bộ</string>
+    <string name="content_desc_add_new_device">Thêm thiết bị tùy chỉnh mới</string>
+
+    <string name="hint_android_version">Phiên bản Android (ví dụ: Android 14)</string>
+    <string name="hint_product_model_example">Mẫu sản phẩm (ví dụ: RMX3840)</string>
+    <string name="hint_product_name_example">Tên sản phẩm (ví dụ: RMX3840IN)</string>
+    <string name="hint_region">Khu vực</string>
+    <string name="hint_ota_version">Phiên bản OTA</string>
+    <string name="hint_req_mode">Chế độ yêu cầu</string>
+    <string name="hint_gray">Xám</string>
+    <string name="hint_search_partitions">Tìm kiếm phân vùng</string>
+    <string name="hint_paste_download_check_link">Dán liên kết downloadCheck</string>
+    <string name="helper_paste_ota_link">Dán liên kết OTA bạn muốn giải quyết</string>
+
+    <string name="hint_product_model">Mẫu sản phẩm</string>
+    <string name="hint_product_name">Tên sản phẩm</string>
+    <string name="hint_ver_letter">Chữ cái phiên bản</string>
+    <string name="hint_rui_version">Phiên bản RUI</string>
+    <string name="hint_server">Máy chủ</string>
+    <string name="hint_imei_optional">IMEI (Tùy chọn)</string>
+    <string name="hint_language">Ngôn ngữ</string>
+    <string name="hint_nv_id_optional">ID NV (Tùy chọn)</string>
+    <string name="hint_full_ota_url">Liên kết OTA đầy đủ</string>
+    <string name="hint_resolver_input_link">Liên kết đầu vào giải quyết</string>
+    <string name="btn_open">Mở</string>
+    <string name="btn_auto_fill">Tự động điền</string>
+    <string name="btn_check_for_update">Kiểm tra cập nhật</string>
+
+    <string name="toast_paste_ota_url_first">Dán liên kết OTA đầy đủ trước</string>
+    <string name="toast_choose_local_zip_first">Chọn tệp ZIP OTA cục bộ trước</string>
+    <string name="toast_resolved_link_copied">Đã sao chép liên kết được giải quyết</string>
+    <string name="toast_could_not_open_resolved_link">Không thể mở liên kết được giải quyết</string>
+    <string name="toast_device_details_fetched">Đã lấy chi tiết thiết bị</string>
+    <string name="toast_please_fill_required_fields">Vui lòng điền các trường bắt buộc</string>
+    <string name="toast_link_copied">Đã sao chép liên kết</string>
+    <string name="toast_could_not_share_link">Không thể chia sẻ liên kết</string>
+
+    <string name="ota_details_device">Chi tiết OTA: %s</string>
+    <string name="unknown">Không rõ</string>
+    <string name="unknown_version">Phiên bản không rõ</string>
+
+    <string name="placeholder_library_name">Tên thư viện</string>
+    <string name="placeholder_apache_license">Apache License 2.0</string>
+
+    <string name="arb_checker_header_title">Kiểm tra\nARB</string>
+    <string name="arb_checker_header_subtitle">Kiểm tra siêu dữ liệu anti-rollback từ gói OTA từ xa hoặc tệp ZIP đã tải xuống cục bộ.</string>
+    <string name="btn_check_arb">Kiểm tra ARB</string>
+    <string name="arb_status_label">Trạng thái ARB</string>
+    <string name="arb_index_label">Chỉ số ARB</string>
+    <string name="arb_metadata_version_label">Phiên bản siêu dữ liệu</string>
+    <string name="arb_source_label">Nguồn</string>
+
+    <string name="link_resolver_header_title">Giải quyết\nliên kết</string>
+    <string name="link_resolver_header_subtitle">Giải quyết các liên kết OTA bị chuyển hướng downloadCheck và nhanh chóng sao chép hoặc mở mục tiêu cuối cùng.</string>
+    <string name="btn_resolve_link">Giải quyết liên kết</string>
+
+    <string name="label_android">Android</string>
+    <string name="label_security_patch">Bản vá bảo mật</string>
+    <string name="label_size">Kích thước</string>
+    <string name="label_md5">MD5</string>
+    <string name="btn_changelog">Nhật ký thay đổi</string>
+
+    <string name="manual_query_header_title">Công cụ\nOTA</string>
+    <string name="manual_query_header_subtitle">Truy vấn các máy chủ OTA bằng mẫu thiết bị, khu vực, máy chủ và các trường nâng cao của riêng bạn.</string>
+    <string name="manual_query_local_zip_label">Tệp ZIP OTA đã tải xuống cục bộ</string>
+    <string name="manual_query_advanced_options_title">Tùy chọn nâng cao</string>
+    <string name="manual_query_advanced_options_desc">ID NV, Chế độ yêu cầu, Xám, Beta</string>
+    <string name="manual_query_beta_channel_title">Kênh Beta</string>
+    <string name="manual_query_beta_channel_desc">Truy vấn các bản dựng firmware thử nghiệm</string>
+    <string name="btn_from_url">Từ URL</string>
+    <string name="btn_from_zip">Từ tệp ZIP</string>
+    <string name="btn_auto_fill_label">Tự động điền</string>
+    <string name="btn_check_for_update_label">Kiểm tra cập nhật</string>
+
+    <string name="about_btn_check_for_updates">Kiểm tra cập nhật</string>
+    <string name="about_connect_label">Kết nối</string>
+    <string name="about_github_label">GitHub</string>
+    <string name="about_github_desc">Mã nguồn</string>
+    <string name="about_telegram_label">Telegram</string>
+    <string name="about_telegram_desc">Kênh</string>
+    <string name="about_paypal_label">PayPal</string>
+    <string name="about_support_dev_desc">Hỗ trợ nhà phát triển</string>
+    <string name="about_upi_label">UPI</string>
+    <string name="about_copy_id_desc">Sao chép ID</string>
+
+    <string name="btn_view_on_github">Xem trên GitHub</string>
+
+    <string name="developer_role">Nhà phát triển &amp; Thiết kế</string>
+
+    <string name="dialog_add_download_section_title">URL tải xuống</string>
+    <string name="dialog_add_download_url_hint">Hỗ trợ firmware trực tiếp và liên kết tệp ZIP OTA được chia sẻ.</string>
+
+    <string name="add_device_toolbar_title">Thêm thiết bị tùy chỉnh</string>
+
+    <string name="placeholder_item_title">Tiêu đề mục</string>
+    <string name="placeholder_item_value">Giá trị mục</string>
+</resources>

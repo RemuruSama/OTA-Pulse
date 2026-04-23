@@ -1,0 +1,379 @@
+<resources>
+    <string name="app_icon_desc">應用程式圖示</string>
+    <string name="title_device">裝置</string>
+    <string name="title_ota_tools">工具</string>
+    <string name="title_about">關於</string>
+    <string name="title_settings">設定</string>
+    <string name="title_devices">裝置列表</string>
+    <string name="title_downloads">下載</string>
+
+    <string name="light_theme_description">應用程式正在使用淺色主題。</string>
+    <string name="dark_theme_description">應用程式正在使用深色主題。</string>
+    <string name="auto_theme_description">主題將根據省電模式自動更改。</string>
+    <string name="system_theme_description">應用程式主題將遵循您的裝置系統設定。</string>
+
+    <string name="ota_details_title">OTA 詳情</string>
+    <string name="button_copy_link">複製連結</string>
+    <string name="button_download">下載</string>
+    <string name="button_view_json">查看 JSON</string>
+    <string name="button_download_json">下載</string>
+    <string name="button_save_json">儲存</string>
+    <string name="json_output_title">JSON 輸出</string>
+    <string name="json_output_unavailable">此結果暫無 JSON 輸出。</string>
+    <string name="json_output_saved">已將 JSON 儲存到下載目錄為 %s</string>
+    <string name="json_output_save_failed">無法儲存 JSON 輸出。</string>
+    <string name="json_output_saved_to_file">已將 JSON 儲存到 %s</string>
+    <string name="copy">複製</string>
+    <string name="close">關閉</string>
+
+    <string name="device_information_header">裝置資訊</string>
+    <string name="device_image_content_description">裝置圖片</string>
+    <string name="device_name_placeholder">裝置名稱</string>
+    <string name="device_model_placeholder">裝置型號</string>
+    <string name="device_supported">裝置已支援</string>
+    <string name="device_not_supported">裝置暫不支援</string>
+    <string name="device_supported_placeholder">正在檢查支援狀態…</string>
+    <string name="software_info_header">軟體資訊</string>
+    <string name="hardware_info_header">硬體資訊</string>
+    <string name="android_version">Android 版本</string>
+    <string name="os_version">系統版本</string>
+    <string name="ota_version">OTA 版本</string>
+    <string name="incremental_os_version">增量系統版本</string>
+    <string name="security_patch_date">安全性修補程式</string>
+    <string name="kernel_version">核心版本</string>
+    <string name="amount_of_ram">執行記憶體 (RAM)</string>
+    <string name="system_on_a_chip">晶片組</string>
+    <string name="processor_frequency">處理器頻率</string>
+    <string name="storage">儲存空間</string>
+    <string name="battery">電池</string>
+    <string name="display">螢幕</string>
+
+    <string name="search_device_hint">搜尋裝置</string>
+    <string name="close_search_hint">關閉搜尋</string>
+    <string name="select_region_variant">選擇地區/版本</string>
+    <string name="changelog_error">無法開啟更新日誌連結。</string>
+    <string name="link_copied">連結已複製到剪貼簿</string>
+    <string name="no_update_found">未發現更新</string>
+    <string name="retry">重試</string>
+    <string name="add_download">新增下載</string>
+    <string name="paste_url">貼上連結</string>
+    <string name="clear_url">清除連結</string>
+    <string name="start_download">開始下載</string>
+    <string name="enter_download_url">輸入下載連結</string>
+    <string name="no_url_in_clipboard">剪貼簿中未發現連結</string>
+
+    <string name="about_card_title">關於此應用程式</string>
+    <string name="app_tagline">保持最新</string>
+    <string name="made_with">製作</string>
+    <string name="about_app_description">尋找您裝置的最新 OTA 更新。支援一加、realme 和 OPPO 裝置。某些型號可能尚不支援。</string>
+    <string name="created_by_label">創作者</string>
+    <string name="creator_avatar_desc">創作者頭像</string>
+    <string name="creator_name">Abhinav Verma</string>
+    <string name="supported_brands">支援的品牌</string>
+    <string name="oneplus_logo_desc">一加圖示</string>
+    <string name="realme_logo_desc">realme 圖示</string>
+    <string name="oppo_logo_desc">OPPO 圖示</string>
+    <string name="github_button_text">GitHub</string>
+    <string name="telegram_button_text">Telegram</string>
+    <string name="check_updates_cta">檢查更新</string>
+    <string name="footer_copyright">© 2026 OTA Pulse. 保留所有權利。</string>
+
+    <string name="changelog_not_available">更新日誌不可用。</string>
+    <string name="pause">暫停</string>
+    <string name="resume">繼續</string>
+    <string name="completed">已完成</string>
+    <string name="delete">刪除</string>
+    <string name="waiting">等待中</string>
+    <string name="package_file_label">安裝包檔案</string>
+    <string name="status_downloading">正在下載</string>
+    <string name="status_paused">已暫停</string>
+    <string name="status_completed">已完成</string>
+    <string name="status_failed">下載失敗</string>
+    <string name="status_cancelled">已取消</string>
+    <string name="status_queued">排隊中</string>
+    <string name="status_waiting">等待中</string>
+
+    <string name="donate_card_title">支援開發</string>
+    <string name="buy_me_a_coffee_button_text">Buy me a coffee</string>
+    <string name="upi_id_copy_label">UPI ID（點擊複製）</string>
+    <string name="upi_id_copied_toast">UPI ID 已複製到剪貼簿</string>
+
+    <string name="settings">設定</string>
+    <string name="delete_custom_device_title">刪除自訂裝置？</string>
+    <string name="delete_custom_device_message">您確定要刪除 %s 嗎？此操作無法撤銷。</string>
+    <string name="cancel">取消</string>
+    <string name="permission_denied_download_error">所需權限被拒絕。無法下載。</string>
+    <string name="starting_download_for">正在開始下載 %s</string>
+    <string name="broad_file_access_prompt">下載需要廣泛的檔案存取權限。請在設定中啟用。</string>
+    <string name="cannot_proceed_download_missing_permissions">無法繼續下載。缺失權限：</string>
+    <string name="cannot_open_app_settings">無法開啟應用程式設定。</string>
+
+    <string name="file_already_exists">檔案已存在</string>
+    <string name="file_exists_message">檔案 \"%1$s\" 已存在。您要刪除它並重新下載嗎？</string>
+    <string name="delete_and_download">刪除並下載</string>
+    <string name="overwrite_dialog_chip">需要關注</string>
+    <string name="overwrite_dialog_risk">這將取代目前檔案</string>
+    <string name="overwrite_dialog_message">此檔案已存在於您的裝置上。您可以保留目前複本，或將其取代為新複本。</string>
+    <string name="overwrite_dialog_existing_file">現有檔案</string>
+    <string name="replace_existing_file">取代現有檔案</string>
+
+    <string name="permission_needed">需要權限</string>
+
+    <string name="libraries_title">程式庫</string>
+    <string name="libraries_desc">開源授權</string>
+    <string name="developer_title">開發者</string>
+    <string name="developer_desc">Abhinav Verma</string>
+    <string name="contributors_title">貢獻者</string>
+    <string name="contributors_desc">社群貢獻</string>
+
+    <string name="developer_message">用心設計與開發 ❤️。\n感謝使用 OTA Pulse！</string>
+    <string name="special_thanks_label">特別鳴謝</string>
+    <string name="open_source_community">開源社群</string>
+    <string name="contributors_description">感謝所有透過程式碼、翻譯或回饋為本專案做出貢獻的人。</string>
+
+    <string name="advanced_mode_enabled">進階模式已啟用。可能需要重啟應用程式才能使更改完全生效。</string>
+    <string name="advanced_mode_disabled">進階模式已停用。可能需要重啟應用程式才能使更改完全生效。</string>
+    <string name="import_overwrite_title">覆蓋自訂裝置？</string>
+    <string name="import_overwrite_message">匯入新列表將覆蓋所有現有的自訂裝置。此操作無法撤銷。</string>
+    <string name="import_action">匯入</string>
+    <string name="close_action">關閉</string>
+
+    <string name="notification_permission_denied">通知權限被拒絕。您可能會錯過下載更新。</string>
+    <string name="storage_permission_granted">儲存權限已授予</string>
+    <string name="storage_permission_required">下載需要儲存權限</string>
+    <string name="update_available_title">新版本可用：%s</string>
+    <string name="update_available_message">有新更新可用！\n\n更新日誌：\n%s</string>
+    <string name="download_action">下載</string>
+    <string name="later_action">稍後</string>
+    <string name="tap_to_view_update">點擊查看更新日誌並下載</string>
+    <string name="notification_permission_title">通知權限</string>
+    <string name="notification_permission_message">OTA Pulse 使用通知讓您了解下載進度。請授予此權限。</string>
+    <string name="notification_permission_settings_message">通知存取權限仍處於關閉狀態。請在應用程式設定中啟用，以便顯示下載進度和完成提醒。</string>
+    <string name="notification_permission_settings_snackbar">在設定中啟用通知存取權限。</string>
+    <string name="grant_action">授予</string>
+    <string name="support_developer_title">支援開發者</string>
+    <string name="support_developer_message">支援我們的開源工作，幫助 OTA Pulse 持續改進。</string>
+    <string name="support_developer_star_github">在 GitHub 上點亮星標</string>
+    <string name="support_developer_donate">進行捐款</string>
+    <string name="support_developer_maybe_later">以後再說</string>
+    <string name="support_developer_image_content_description">支援開發者插圖</string>
+    <string name="exit_action">退出</string>
+    <string name="could_not_open_download_link">無法開啟下載連結</string>
+    <string name="could_not_open_link">無法開啟連結</string>
+    <string name="in_app_browser_title">瀏覽器</string>
+    <string name="browser_reload">重新載入頁面</string>
+    <string name="browser_open_external">在外部瀏覽器中開啟</string>
+    <string name="browser_back">後退</string>
+    <string name="browser_forward">前進</string>
+    <string name="browser_copy_link">複製頁面連結</string>
+    <string name="browser_share">分享頁面</string>
+    <string name="browser_enable_desktop_mode">啟用電腦版模式</string>
+    <string name="browser_disable_desktop_mode">停用電腦版模式</string>
+    <string name="browser_status_loading">正在載入</string>
+    <string name="browser_status_live">即時</string>
+    <string name="browser_loading_hint">正在為此頁面準備更清晰的閱讀檢視…</string>
+
+    <string name="browser_settings_title">內建瀏覽器</string>
+    <string name="browser_desktop_mode_title">電腦版網站模式</string>
+    <string name="browser_desktop_mode_summary">為文件和論壇請求電腦版版面配置</string>
+    <string name="browser_controls_title">顯示懸浮控制按鈕</string>
+    <string name="browser_controls_summary">瀏覽時顯示底部導覽列</string>
+    <string name="browser_webview_version_title">WebView 版本</string>
+    <string name="browser_webview_version_unavailable">不可用</string>
+    <string name="add_device_name_title">裝置名稱</string>
+    <string name="add_device_name_supporting">選擇一個清晰的裝置標籤，以便以後識別。</string>
+    <string name="add_device_name_hint">例如：realme 12 Pro Plus</string>
+    <string name="add_device_groups_title">韌體組</string>
+    <string name="add_device_groups_supporting">按 Android 版本組織變體，然後在每個組中新增區域版本。</string>
+    <string name="add_device_empty_groups">暫無韌體組。新增一個以開始構建此自訂裝置。</string>
+    <string name="add_device_add_group">新增韌體組</string>
+    <string name="add_device_save">儲存裝置</string>
+    <string name="add_device_edit_group">編輯韌體組</string>
+    <string name="add_device_delete_group">刪除韌體組</string>
+    <string name="add_device_variants_title">區域變體</string>
+    <string name="add_device_empty_variants">暫無變體。新增一個地區以完成此韌體組。</string>
+    <string name="add_device_add_variant">新增變體</string>
+    <string name="add_device_remove_variant">移除變體</string>
+
+    <string name="notif_download_complete">下載完成</string>
+    <string name="notif_download_failed">下載失敗</string>
+    <string name="notif_paused">已暫停</string>
+    <string name="notif_cancel">取消</string>
+    <string name="notif_pause">暫停</string>
+    <string name="notif_resume">繼續</string>
+    <string name="notif_channel_progress">下載進度</string>
+    <string name="notif_channel_progress_desc">顯示活動的下載進度</string>
+    <string name="notif_channel_alerts">下載狀態</string>
+    <string name="notif_channel_alerts_desc">已完成或失敗下載的通知</string>
+    <string name="notif_error_link_expired">連結已過期。請在應用程式中重試。</string>
+    <string name="notif_error_not_found">伺服器上未找到檔案。</string>
+    <string name="notif_error_no_network">無網路連線。</string>
+    <string name="notif_error_unknown">未知錯誤。請重試。</string>
+
+    <string name="extract_partition_title">提取分區</string>
+    <string name="extract">提取</string>
+    <string name="or_label">或</string>
+
+    <string name="settings_section_appearance">外觀</string>
+    <string name="settings_app_theme">應用程式主題</string>
+    <string name="theme_option_light">淺色</string>
+    <string name="theme_option_dark">深色</string>
+    <string name="theme_option_auto">自動</string>
+    <string name="theme_option_system">系統</string>
+    <string name="settings_section_general">一般</string>
+    <string name="settings_auto_check_updates">自動檢查更新</string>
+    <string name="settings_auto_check_updates_desc">啟動時通知是否有可用更新</string>
+    <string name="settings_app_language">應用程式語言</string>
+    <string name="settings_app_language_desc">選擇您的應用程式首選語言</string>
+    <string name="language_option_system">系統預設</string>
+    <string name="settings_advanced_mode">進階模式</string>
+    <string name="settings_advanced_mode_desc">解鎖實驗性功能</string>
+    <string name="settings_arb_detection">ARB 檢測</string>
+    <string name="settings_arb_detection_desc">啟用更新的防回滾檢查</string>
+    <string name="settings_section_data">資料管理</string>
+    <string name="settings_export_backup">匯出備份</string>
+    <string name="settings_export_backup_desc">將裝置儲存到儲存空間</string>
+    <string name="settings_import_backup">匯入備份</string>
+    <string name="settings_import_backup_desc">從檔案還原</string>
+    <string name="settings_section_information">資訊</string>
+    <string name="toast_arb_detection_enabled">ARB 檢測已啟用</string>
+    <string name="toast_arb_detection_disabled">ARB 檢測已停用</string>
+
+    <string name="tools_header_title">OTA\n工具</string>
+    <string name="tools_header_subtitle">開啟專用頁面進行手動查詢、分區提取、連結解析或 ARB 檢查。</string>
+    <string name="tools_arb_checker_title">ARB 檢查器</string>
+    <string name="tools_arb_checker_desc">從完整的 OTA 連結或下載的 ZIP 中檢查防回滾元資料。</string>
+    <string name="tools_link_resolver_title">連結解析器</string>
+    <string name="tools_link_resolver_desc">解析 downloadCheck 重新導向的 OTA 連結。</string>
+    <string name="tools_manual_query_title">手動查詢</string>
+    <string name="tools_manual_query_desc">使用您自己的型號、地區、伺服器和進階欄位查詢 OTA 伺服器。</string>
+    <string name="tools_partition_extraction_title">分區提取</string>
+    <string name="tools_partition_extraction_desc">從本機 OTA ZIP 或完整 OTA 連結載入分區，然後提取選定的映像。</string>
+
+    <string name="partition_extraction_header_title">分區\n提取</string>
+    <string name="partition_extraction_header_subtitle">從直接的完整 OTA 連結或下載的本機 ZIP 載入分區。</string>
+    <string name="partition_extraction_remote_label">遠端 OTA 包</string>
+    <string name="hint_paste_ota_url">貼上完整 OTA 連結</string>
+    <string name="partition_extraction_local_zip_label">本機 OTA ZIP</string>
+    <string name="partition_extraction_no_zip_selected">尚未選擇 ZIP</string>
+    <string name="btn_choose_zip">選擇 ZIP</string>
+    <string name="btn_remove">移除</string>
+    <string name="partition_extraction_source_hint">使用完整 OTA 連結或下載的 ZIP 包。</string>
+    <string name="partition_extraction_select_partition">選擇分區</string>
+    <string name="partition_loading_msg">正在載入分區…</string>
+    <string name="toast_link_pasted">連結已貼上</string>
+    <string name="toast_clipboard_empty">剪貼簿為空</string>
+    <string name="toast_paste_url_or_choose_zip">請先貼上完整 OTA 連結或選擇本機 ZIP</string>
+    <string name="toast_partition_extracted">%s.img 提取成功</string>
+    <string name="toast_extraction_cancelled">提取已取消</string>
+    <string name="toast_extraction_failed">提取失敗</string>
+
+    <string name="content_desc_more_options">更多選項</string>
+    <string name="content_desc_mark_favorite">標記為收藏</string>
+    <string name="label_android_version_colon">Android 版本：</string>
+    <string name="label_os_version_colon">系統版本：</string>
+    <string name="label_security_patch_colon">安全性修補程式：</string>
+    <string name="label_size_colon">大小：</string>
+    <string name="label_md5_colon">MD5：</string>
+    <string name="btn_view_changelog">查看更新日誌</string>
+
+    <string name="download_speed_label">速度</string>
+    <string name="download_remaining_label">剩餘</string>
+
+    <string name="content_desc_remove_local_zip">移除本機 ZIP</string>
+    <string name="content_desc_add_new_device">新增新自訂裝置</string>
+
+    <string name="hint_android_version">Android 版本（例如：Android 14）</string>
+    <string name="hint_product_model_example">產品型號（例如：RMX3840）</string>
+    <string name="hint_product_name_example">產品名稱（例如：RMX3840IN）</string>
+    <string name="hint_region">地區</string>
+    <string name="hint_ota_version">OTA 版本</string>
+    <string name="hint_req_mode">請求模式</string>
+    <string name="hint_gray">Gray</string>
+    <string name="hint_search_partitions">搜尋分區</string>
+    <string name="hint_paste_download_check_link">貼上 downloadCheck 連結</string>
+    <string name="helper_paste_ota_link">貼上您想要解析的 OTA 連結</string>
+
+    <string name="hint_product_model">產品型號</string>
+    <string name="hint_product_name">產品名稱</string>
+    <string name="hint_ver_letter">版本字母</string>
+    <string name="hint_rui_version">RUI 版本</string>
+    <string name="hint_server">伺服器</string>
+    <string name="hint_imei_optional">IMEI（選填）</string>
+    <string name="hint_language">語言</string>
+    <string name="hint_nv_id_optional">NV ID（選填）</string>
+    <string name="hint_full_ota_url">完整 OTA 連結</string>
+    <string name="hint_resolver_input_link">解析器輸入連結</string>
+    <string name="btn_open">開啟</string>
+    <string name="btn_auto_fill">自動填充</string>
+    <string name="btn_check_for_update">檢查更新</string>
+
+    <string name="toast_paste_ota_url_first">請先貼上完整 OTA 連結</string>
+    <string name="toast_choose_local_zip_first">請先選擇本機 OTA ZIP</string>
+    <string name="toast_resolved_link_copied">解析後的連結已複製</string>
+    <string name="toast_could_not_open_resolved_link">無法開啟解析後的連結</string>
+    <string name="toast_device_details_fetched">已取得裝置詳情</string>
+    <string name="toast_please_fill_required_fields">請填寫必填欄位</string>
+    <string name="toast_link_copied">連結已複製</string>
+    <string name="toast_could_not_share_link">無法分享連結</string>
+
+    <string name="ota_details_device">OTA 詳情：%s</string>
+    <string name="unknown">未知</string>
+    <string name="unknown_version">未知版本</string>
+
+    <string name="placeholder_library_name">程式庫名稱</string>
+    <string name="placeholder_apache_license">Apache License 2.0</string>
+
+    <string name="arb_checker_header_title">ARB\n檢查器</string>
+    <string name="arb_checker_header_subtitle">從遠端 OTA 包或本機下載的 ZIP 中檢查防回滾元資料。</string>
+    <string name="btn_check_arb">檢查 ARB</string>
+    <string name="arb_status_label">ARB 狀態</string>
+    <string name="arb_index_label">ARB 指數</string>
+    <string name="arb_metadata_version_label">元資料版本</string>
+    <string name="arb_source_label">來源</string>
+
+    <string name="link_resolver_header_title">連結\n解析器</string>
+    <string name="link_resolver_header_subtitle">解析 downloadCheck 重新導向的 OTA 連結並快速複製或開啟最終目標。</string>
+    <string name="btn_resolve_link">解析連結</string>
+
+    <string name="label_android">Android</string>
+    <string name="label_security_patch">安全性修補程式</string>
+    <string name="label_size">大小</string>
+    <string name="label_md5">MD5</string>
+    <string name="btn_changelog">更新日誌</string>
+
+    <string name="manual_query_header_title">OTA\n工具</string>
+    <string name="manual_query_header_subtitle">使用您自己的型號、地區、伺服器和進階欄位查詢 OTA 伺服器。</string>
+    <string name="manual_query_local_zip_label">本機下載的 OTA ZIP</string>
+    <string name="manual_query_advanced_options_title">進階選項</string>
+    <string name="manual_query_advanced_options_desc">NV ID, 請求模式, Gray, Beta</string>
+    <string name="manual_query_beta_channel_title">Beta 通道</string>
+    <string name="manual_query_beta_channel_desc">查詢實驗性韌體版本</string>
+    <string name="btn_from_url">來自連結</string>
+    <string name="btn_from_zip">來自 ZIP</string>
+    <string name="btn_auto_fill_label">自動填充</string>
+    <string name="btn_check_for_update_label">檢查更新</string>
+
+    <string name="about_btn_check_for_updates">檢查更新</string>
+    <string name="about_connect_label">聯繫</string>
+    <string name="about_github_label">GitHub</string>
+    <string name="about_github_desc">原始碼</string>
+    <string name="about_telegram_label">Telegram</string>
+    <string name="about_telegram_desc">頻道</string>
+    <string name="about_paypal_label">PayPal</string>
+    <string name="about_support_dev_desc">支援開發</string>
+    <string name="about_upi_label">UPI</string>
+    <string name="about_copy_id_desc">複製 ID</string>
+
+    <string name="btn_view_on_github">在 GitHub 上查看</string>
+
+    <string name="developer_role">開發者與設計師</string>
+
+    <string name="dialog_add_download_section_title">下載連結</string>
+    <string name="dialog_add_download_url_hint">支援直接韌體和分享的 OTA ZIP 連結。</string>
+
+    <string name="add_device_toolbar_title">新增自訂裝置</string>
+
+    <string name="placeholder_item_title">項目標題</string>
+    <string name="placeholder_item_value">項目數值</string>
+</resources>

@@ -1,0 +1,379 @@
+<resources>
+    <string name="app_icon_desc">Ikon Aplikasi</string>
+    <string name="title_device">Peranti</string>
+    <string name="title_ota_tools">Alatan</string>
+    <string name="title_about">Perihal</string>
+    <string name="title_settings">Tetapan</string>
+    <string name="title_devices">Peranti</string>
+    <string name="title_downloads">Muat Turun</string>
+
+    <string name="light_theme_description">Aplikasi menggunakan tema cerah.</string>
+    <string name="dark_theme_description">Aplikasi menggunakan tema gelap.</string>
+    <string name="auto_theme_description">Tema akan berubah secara automatik berdasarkan mod penjimat bateri.</string>
+    <string name="system_theme_description">Tema aplikasi akan mengikuti tetapan sistem peranti anda.</string>
+
+    <string name="ota_details_title">Butiran OTA</string>
+    <string name="button_copy_link">Salin Pautan</string>
+    <string name="button_download">Muat Turun</string>
+    <string name="button_view_json">Lihat JSON</string>
+    <string name="button_download_json">Muat Turun</string>
+    <string name="button_save_json">Simpan</string>
+    <string name="json_output_title">Output JSON</string>
+    <string name="json_output_unavailable">Output JSON tidak tersedia untuk hasil ini.</string>
+    <string name="json_output_saved">JSON disimpan ke Muat Turun sebagai %s</string>
+    <string name="json_output_save_failed">Tidak dapat menyimpan output JSON.</string>
+    <string name="json_output_saved_to_file">JSON disimpan ke %s</string>
+    <string name="copy">Salin</string>
+    <string name="close">Tutup</string>
+
+    <string name="device_information_header">Maklumat Peranti</string>
+    <string name="device_image_content_description">Imej Peranti</string>
+    <string name="device_name_placeholder">Nama Peranti</string>
+    <string name="device_model_placeholder">Model Peranti</string>
+    <string name="device_supported">Peranti Disokong</string>
+    <string name="device_not_supported">Peranti Tidak Disokong</string>
+    <string name="device_supported_placeholder">Menyemak status sokongan…</string>
+    <string name="software_info_header">Info Perisian</string>
+    <string name="hardware_info_header">Info Perkakasan</string>
+    <string name="android_version">Versi Android</string>
+    <string name="os_version">Versi OS</string>
+    <string name="ota_version">Versi OTA</string>
+    <string name="incremental_os_version">Versi OS Inkremental</string>
+    <string name="security_patch_date">Tampalan Keselamatan</string>
+    <string name="kernel_version">Versi Kernel</string>
+    <string name="amount_of_ram">RAM</string>
+    <string name="system_on_a_chip">Chipset</string>
+    <string name="processor_frequency">Frekuensi Pemproses</string>
+    <string name="storage">Storan</string>
+    <string name="battery">Bateri</string>
+    <string name="display">Paparan</string>
+
+    <string name="search_device_hint">Cari peranti</string>
+    <string name="close_search_hint">Tutup carian</string>
+    <string name="select_region_variant">Pilih Wilayah/Varian</string>
+    <string name="changelog_error">Tidak dapat membuka pautan log perubahan.</string>
+    <string name="link_copied">Pautan disalin ke papan klip</string>
+    <string name="no_update_found">Tiada kemas kini ditemui</string>
+    <string name="retry">Cuba Lagi</string>
+    <string name="add_download">Tambah muat turun</string>
+    <string name="paste_url">Tampal URL</string>
+    <string name="clear_url">Kosongkan URL</string>
+    <string name="start_download">Mulakan Muat Turun</string>
+    <string name="enter_download_url">Masukkan URL muat turun</string>
+    <string name="no_url_in_clipboard">Tiada URL ditemui dalam papan klip</string>
+
+    <string name="about_card_title">Perihal Aplikasi Ini</string>
+    <string name="app_tagline">Sentiasa terkini</string>
+    <string name="made_with">DIPERBUAT DENGAN</string>
+    <string name="about_app_description">Cari kemas kini OTA terkini untuk peranti anda. Menyokong peranti OnePlus, realme, dan OPPO. Sesetengah model mungkin belum disokong lagi.</string>
+    <string name="created_by_label">Dicipta oleh</string>
+    <string name="creator_avatar_desc">Avatar pencipta</string>
+    <string name="creator_name">Abhinav Verma</string>
+    <string name="supported_brands">Jenama yang Disokong</string>
+    <string name="oneplus_logo_desc">Logo OnePlus</string>
+    <string name="realme_logo_desc">Logo realme</string>
+    <string name="oppo_logo_desc">Logo OPPO</string>
+    <string name="github_button_text">GitHub</string>
+    <string name="telegram_button_text">Telegram</string>
+    <string name="check_updates_cta">Semak Kemas Kini</string>
+    <string name="footer_copyright">© 2026 OTA Pulse. Hak cipta terpelihara.</string>
+
+    <string name="changelog_not_available">Log perubahan tidak tersedia.</string>
+    <string name="pause">Jeda</string>
+    <string name="resume">Sambung</string>
+    <string name="completed">Selesai</string>
+    <string name="delete">Padam</string>
+    <string name="waiting">Menunggu</string>
+    <string name="package_file_label">Fail pakej</string>
+    <string name="status_downloading">MUAT TURUN</string>
+    <string name="status_paused">DIJEDA</string>
+    <string name="status_completed">SELESAI</string>
+    <string name="status_failed">GAGAL</string>
+    <string name="status_cancelled">DIBATALKAN</string>
+    <string name="status_queued">DALAM GILIRAN</string>
+    <string name="status_waiting">MENUNGGU</string>
+
+    <string name="donate_card_title">Sokong Pembangunan</string>
+    <string name="buy_me_a_coffee_button_text">Buy me a coffee</string>
+    <string name="upi_id_copy_label">ID UPI (Ketik untuk salin)</string>
+    <string name="upi_id_copied_toast">ID UPI disalin ke papan klip</string>
+
+    <string name="settings">Tetapan</string>
+    <string name="delete_custom_device_title">Padam Peranti Kustom?</string>
+    <string name="delete_custom_device_message">Adakah anda pasti mahu memadam %s? Tindakan ini tidak boleh dibatalkan.</string>
+    <string name="cancel">Batal</string>
+    <string name="permission_denied_download_error">Keizinan yang diperlukan dinafikan. Tidak dapat memuat turun.</string>
+    <string name="starting_download_for">Memulakan muat turun untuk %s</string>
+    <string name="broad_file_access_prompt">Akses fail luas diperlukan untuk muat turun. Sila dayakan dalam tetapan.</string>
+    <string name="cannot_proceed_download_missing_permissions">Tidak dapat meneruskan muat turun. Keizinan hilang:</string>
+    <string name="cannot_open_app_settings">Tidak dapat membuka tetapan aplikasi.</string>
+
+    <string name="file_already_exists">Fail Sudah Wujud</string>
+    <string name="file_exists_message">Fail \"%1$s\" sudah wujud. Adakah anda mahu memadamnya dan memuat turun semula?</string>
+    <string name="delete_and_download">Padam &amp; Muat Turun</string>
+    <string name="overwrite_dialog_chip">Perlu perhatian</string>
+    <string name="overwrite_dialog_risk">Ini akan menggantikan fail semasa</string>
+    <string name="overwrite_dialog_message">Fail ini sudah ada pada peranti anda. Anda boleh menyimpan salinan semasa, atau menggantikannya dengan yang baharu.</string>
+    <string name="overwrite_dialog_existing_file">Fail sedia ada</string>
+    <string name="replace_existing_file">Gantikan Fail Sedia Ada</string>
+
+    <string name="permission_needed">Keizinan Diperlukan</string>
+
+    <string name="libraries_title">Pustaka</string>
+    <string name="libraries_desc">Lesen sumber terbuka</string>
+    <string name="developer_title">Pembangun</string>
+    <string name="developer_desc">Abhinav Verma</string>
+    <string name="contributors_title">Penyumbang</string>
+    <string name="contributors_desc">Sumbangan komuniti</string>
+
+    <string name="developer_message">Direka dan dibangunkan dengan ❤️.\nTerima kasih kerana menggunakan OTA Pulse!</string>
+    <string name="special_thanks_label">Terima Kasih Khas</string>
+    <string name="open_source_community">Komuniti Sumber Terbuka</string>
+    <string name="contributors_description">Terima kasih kepada semua yang telah menyumbang kepada projek ini, sama ada melalui kod, terjemahan, atau maklum balas.</string>
+
+    <string name="advanced_mode_enabled">Mod Lanjutan Didayakan. Mula semula mungkin diperlukan untuk perubahan berkesan sepenuhnya.</string>
+    <string name="advanced_mode_disabled">Mod Lanjutan Dilumpuhkan. Mula semula mungkin diperlukan untuk perubahan berkesan sepenuhnya.</string>
+    <string name="import_overwrite_title">Gantikan Peranti Kustom?</string>
+    <string name="import_overwrite_message">Mengimport senarai baharu akan menggantikan semua peranti kustom sedia ada anda. Tindakan ini tidak boleh dibatalkan.</string>
+    <string name="import_action">Import</string>
+    <string name="close_action">Tutup</string>
+
+    <string name="notification_permission_denied">Keizinan pemberitahuan dinafikan. Anda mungkin terlepas kemas kini muat turun.</string>
+    <string name="storage_permission_granted">Keizinan storan diberikan</string>
+    <string name="storage_permission_required">Keizinan storan diperlukan untuk muat turun</string>
+    <string name="update_available_title">Versi Baharu Tersedia: %s</string>
+    <string name="update_available_message">Kemas kini baharu tersedia!\n\nLog perubahan:\n%s</string>
+    <string name="download_action">Muat Turun</string>
+    <string name="later_action">Nanti</string>
+    <string name="tap_to_view_update">Ketik untuk melihat log perubahan dan muat turun</string>
+    <string name="notification_permission_title">Keizinan Pemberitahuan</string>
+    <string name="notification_permission_message">OTA Pulse menggunakan pemberitahuan untuk memaklumkan anda tentang kemajuan muat turun. Sila berikan keizinan ini.</string>
+    <string name="notification_permission_settings_message">Akses pemberitahuan masih dimatikan. Dayakan ia dari tetapan aplikasi supaya amaran kemajuan dan penyiapan muat turun dapat muncul.</string>
+    <string name="notification_permission_settings_snackbar">Dayakan akses pemberitahuan dalam Tetapan.</string>
+    <string name="grant_action">Berikan</string>
+    <string name="support_developer_title">Sokong Pembangun</string>
+    <string name="support_developer_message">Sokong kerja sumber terbuka kami dan bantu OTA Pulse terus bertambah baik.</string>
+    <string name="support_developer_star_github">Berikan bintang di GitHub</string>
+    <string name="support_developer_donate">Lakukan Donasi</string>
+    <string name="support_developer_maybe_later">Mungkin nanti</string>
+    <string name="support_developer_image_content_description">Ilustrasi sokong pembangun</string>
+    <string name="exit_action">Keluar</string>
+    <string name="could_not_open_download_link">Tidak dapat membuka pautan muat turun</string>
+    <string name="could_not_open_link">Tidak dapat membuka pautan</string>
+    <string name="in_app_browser_title">Pelayar</string>
+    <string name="browser_reload">Muat semula halaman</string>
+    <string name="browser_open_external">Buka dalam pelayar luaran</string>
+    <string name="browser_back">Kembali</string>
+    <string name="browser_forward">Ke hadapan</string>
+    <string name="browser_copy_link">Salin pautan halaman</string>
+    <string name="browser_share">Kongsi halaman</string>
+    <string name="browser_enable_desktop_mode">Dayakan mod desktop</string>
+    <string name="browser_disable_desktop_mode">Lumpuhkan mod desktop</string>
+    <string name="browser_status_loading">Memuatkan</string>
+    <string name="browser_status_live">Langsung</string>
+    <string name="browser_loading_hint">Menyediakan paparan bacaan yang lebih bersih untuk halaman ini…</string>
+
+    <string name="browser_settings_title">Pelayar Dalam Aplikasi</string>
+    <string name="browser_desktop_mode_title">Mod tapak desktop</string>
+    <string name="browser_desktop_mode_summary">Minta susun atur desktop untuk dokumentasi dan forum</string>
+    <string name="browser_controls_title">Tunjukkan kawalan terapung</string>
+    <string name="browser_controls_summary">Paparkan pil navigasi bawah semasa melayari</string>
+    <string name="browser_webview_version_title">Versi WebView</string>
+    <string name="browser_webview_version_unavailable">Tidak tersedia</string>
+    <string name="add_device_name_title">Nama peranti</string>
+    <string name="add_device_name_supporting">Pilih label peranti yang jelas supaya mudah dikenali kemudian.</string>
+    <string name="add_device_name_hint">cth., realme 12 Pro Plus</string>
+    <string name="add_device_groups_title">Kumpulan perisian tegar</string>
+    <string name="add_device_groups_supporting">Susun varian mengikut versi Android, kemudian tambah binaan serantau di dalam setiap kumpulan.</string>
+    <string name="add_device_empty_groups">Belum ada kumpulan perisian tegar. Tambah satu untuk mula membina peranti kustom ini.</string>
+    <string name="add_device_add_group">Tambah kumpulan perisian tegar</string>
+    <string name="add_device_save">Simpan peranti</string>
+    <string name="add_device_edit_group">Edit kumpulan perisian tegar</string>
+    <string name="add_device_delete_group">Padam kumpulan perisian tegar</string>
+    <string name="add_device_variants_title">Varian serantau</string>
+    <string name="add_device_empty_variants">Belum ada varian. Tambah wilayah untuk melengkapkan kumpulan perisian tegar ini.</string>
+    <string name="add_device_add_variant">Tambah varian</string>
+    <string name="add_device_remove_variant">Alih keluar varian</string>
+
+    <string name="notif_download_complete">Muat Turun Selesai</string>
+    <string name="notif_download_failed">Muat Turun Gagal</string>
+    <string name="notif_paused">Dijeda</string>
+    <string name="notif_cancel">Batal</string>
+    <string name="notif_pause">Jeda</string>
+    <string name="notif_resume">Sambung</string>
+    <string name="notif_channel_progress">Kemajuan Muat Turun</string>
+    <string name="notif_channel_progress_desc">Menunjukkan kemajuan muat turun aktif</string>
+    <string name="notif_channel_alerts">Status Muat Turun</string>
+    <string name="notif_channel_alerts_desc">Pemberitahuan untuk muat turun yang selesai atau gagal</string>
+    <string name="notif_error_link_expired">Pautan tamat tempoh. Sila cuba lagi dalam aplikasi.</string>
+    <string name="notif_error_not_found">Fail tidak ditemui pada pelayan.</string>
+    <string name="notif_error_no_network">Tiada sambungan internet.</string>
+    <string name="notif_error_unknown">Ralat tidak diketahui. Sila cuba lagi.</string>
+
+    <string name="extract_partition_title">Ekstrak Partisi</string>
+    <string name="extract">Ekstrak</string>
+    <string name="or_label">atau</string>
+
+    <string name="settings_section_appearance">Rupa Paras</string>
+    <string name="settings_app_theme">Tema Aplikasi</string>
+    <string name="theme_option_light">Cerah</string>
+    <string name="theme_option_dark">Gelap</string>
+    <string name="theme_option_auto">Automatik</string>
+    <string name="theme_option_system">Sistem</string>
+    <string name="settings_section_general">Umum</string>
+    <string name="settings_auto_check_updates">Semak Kemas Kini Automatik</string>
+    <string name="settings_auto_check_updates_desc">Beritahu semasa permulaan jika kemas kini tersedia</string>
+    <string name="settings_app_language">Bahasa Aplikasi</string>
+    <string name="settings_app_language_desc">Pilih bahasa pilihan anda untuk aplikasi</string>
+    <string name="language_option_system">Lalai Sistem</string>
+    <string name="settings_advanced_mode">Mod Lanjutan</string>
+    <string name="settings_advanced_mode_desc">Buka kunci ciri eksperimental</string>
+    <string name="settings_arb_detection">Pengesanan ARB</string>
+    <string name="settings_arb_detection_desc">Dayakan semakan Anti-Rollback untuk kemas kini</string>
+    <string name="settings_section_data">Pengurusan Data</string>
+    <string name="settings_export_backup">Eksport Sandaran</string>
+    <string name="settings_export_backup_desc">Simpan peranti ke storan</string>
+    <string name="settings_import_backup">Import Sandaran</string>
+    <string name="settings_import_backup_desc">Pulihkan dari fail</string>
+    <string name="settings_section_information">Maklumat</string>
+    <string name="toast_arb_detection_enabled">Pengesanan ARB Didayakan</string>
+    <string name="toast_arb_detection_disabled">Pengesanan ARB Dilumpuhkan</string>
+
+    <string name="tools_header_title">Alatan\nOTA</string>
+    <string name="tools_header_subtitle">Buka halaman khusus untuk kueri manual, ekstraksi partisi, resolusi pautan, atau semakan ARB.</string>
+    <string name="tools_arb_checker_title">Pemeriksa ARB</string>
+    <string name="tools_arb_checker_desc">Periksa metadata anti-rollback dari URL OTA penuh atau ZIP yang dimuat turun.</string>
+    <string name="tools_link_resolver_title">Penyelesai Pautan</string>
+    <string name="tools_link_resolver_desc">Selesaikan pautan OTA yang dihalakan semula oleh downloadCheck.</string>
+    <string name="tools_manual_query_title">Kueri Manual</string>
+    <string name="tools_manual_query_desc">Kueri pelayan OTA dengan model, wilayah, pelayan, dan bidang lanjutan anda sendiri.</string>
+    <string name="tools_partition_extraction_title">Ekstraksi Partisi</string>
+    <string name="tools_partition_extraction_desc">Muat partisi dari ZIP OTA tempatan atau URL OTA penuh, kemudian ekstrak imej terpilih.</string>
+
+    <string name="partition_extraction_header_title">Ekstraksi\nPartisi</string>
+    <string name="partition_extraction_header_subtitle">Muat partisi dari URL OTA penuh terus atau ZIP tempatan yang dimuat turun.</string>
+    <string name="partition_extraction_remote_label">Pakej OTA Jauh</string>
+    <string name="hint_paste_ota_url">Tampal URL OTA penuh</string>
+    <string name="partition_extraction_local_zip_label">ZIP OTA Tempatan</string>
+    <string name="partition_extraction_no_zip_selected">Belum ada ZIP dipilih</string>
+    <string name="btn_choose_zip">Pilih ZIP</string>
+    <string name="btn_remove">Alih keluar</string>
+    <string name="partition_extraction_source_hint">Gunakan sama ada URL OTA penuh atau pakej ZIP yang dimuat turun.</string>
+    <string name="partition_extraction_select_partition">Pilih Partisi</string>
+    <string name="partition_loading_msg">Memuatkan partisi…</string>
+    <string name="toast_link_pasted">Pautan ditampal</string>
+    <string name="toast_clipboard_empty">Papan klip kosong</string>
+    <string name="toast_paste_url_or_choose_zip">Tampal URL OTA penuh atau pilih ZIP tempatan terlebih dahulu</string>
+    <string name="toast_partition_extracted">%s.img berjaya diekstrak</string>
+    <string name="toast_extraction_cancelled">Ekstraksi dibatalkan</string>
+    <string name="toast_extraction_failed">Ekstraksi gagal</string>
+
+    <string name="content_desc_more_options">Lagi pilihan</string>
+    <string name="content_desc_mark_favorite">Tanda sebagai kegemaran</string>
+    <string name="label_android_version_colon">Versi Android:</string>
+    <string name="label_os_version_colon">Versi OS:</string>
+    <string name="label_security_patch_colon">Tampalan Keselamatan:</string>
+    <string name="label_size_colon">Saiz:</string>
+    <string name="label_md5_colon">MD5:</string>
+    <string name="btn_view_changelog">Lihat Log Perubahan</string>
+
+    <string name="download_speed_label">Kelajuan</string>
+    <string name="download_remaining_label">Baki</string>
+
+    <string name="content_desc_remove_local_zip">Alih keluar ZIP tempatan</string>
+    <string name="content_desc_add_new_device">Tambah peranti kustom baharu</string>
+
+    <string name="hint_android_version">Versi Android (cth., Android 14)</string>
+    <string name="hint_product_model_example">Model Produk (cth., RMX3840)</string>
+    <string name="hint_product_name_example">Nama Produk (cth., RMX3840IN)</string>
+    <string name="hint_region">Wilayah</string>
+    <string name="hint_ota_version">Versi OTA</string>
+    <string name="hint_req_mode">Mod Req</string>
+    <string name="hint_gray">Kelabu</string>
+    <string name="hint_search_partitions">Cari partisi</string>
+    <string name="hint_paste_download_check_link">Tampal pautan downloadCheck</string>
+    <string name="helper_paste_ota_link">Tampal pautan OTA yang anda mahu selesaikan</string>
+
+    <string name="hint_product_model">Model Produk</string>
+    <string name="hint_product_name">Nama Produk</string>
+    <string name="hint_ver_letter">Huruf Ver</string>
+    <string name="hint_rui_version">Versi RUI</string>
+    <string name="hint_server">Pelayan</string>
+    <string name="hint_imei_optional">IMEI (Pilihan)</string>
+    <string name="hint_language">Bahasa</string>
+    <string name="hint_nv_id_optional">ID NV (Pilihan)</string>
+    <string name="hint_full_ota_url">URL OTA Penuh</string>
+    <string name="hint_resolver_input_link">Pautan input penyelesai</string>
+    <string name="btn_open">Buka</string>
+    <string name="btn_auto_fill">Isi Automatik</string>
+    <string name="btn_check_for_update">Semak Kemas Kini</string>
+
+    <string name="toast_paste_ota_url_first">Tampal URL OTA penuh terlebih dahulu</string>
+    <string name="toast_choose_local_zip_first">Pilih ZIP OTA tempatan terlebih dahulu</string>
+    <string name="toast_resolved_link_copied">Pautan terselaras disalin</string>
+    <string name="toast_could_not_open_resolved_link">Tidak dapat membuka pautan terselaras</string>
+    <string name="toast_device_details_fetched">Butiran peranti diambil</string>
+    <string name="toast_please_fill_required_fields">Sila isi bidang yang diperlukan</string>
+    <string name="toast_link_copied">Pautan disalin</string>
+    <string name="toast_could_not_share_link">Tidak dapat berkongsi pautan</string>
+
+    <string name="ota_details_device">Butiran OTA: %s</string>
+    <string name="unknown">Tidak diketahui</string>
+    <string name="unknown_version">Versi Tidak Diketahui</string>
+
+    <string name="placeholder_library_name">Nama Pustaka</string>
+    <string name="placeholder_apache_license">Apache License 2.0</string>
+
+    <string name="arb_checker_header_title">Pemeriksa\nARB</string>
+    <string name="arb_checker_header_subtitle">Periksa metadata anti-rollback dari pakej OTA jauh atau ZIP yang dimuat turun secara tempatan.</string>
+    <string name="btn_check_arb">Cek ARB</string>
+    <string name="arb_status_label">Status ARB</string>
+    <string name="arb_index_label">Indeks ARB</string>
+    <string name="arb_metadata_version_label">Versi Metadata</string>
+    <string name="arb_source_label">Sumber</string>
+
+    <string name="link_resolver_header_title">Penyelesai\nPautan</string>
+    <string name="link_resolver_header_subtitle">Selesaikan pautan OTA yang dihalakan semula oleh downloadCheck dan salin atau buka sasaran akhir dengan cepat.</string>
+    <string name="btn_resolve_link">Selesaikan Pautan</string>
+
+    <string name="label_android">Android</string>
+    <string name="label_security_patch">Tampalan Keselamatan</string>
+    <string name="label_size">Saiz</string>
+    <string name="label_md5">MD5</string>
+    <string name="btn_changelog">Log Perubahan</string>
+
+    <string name="manual_query_header_title">Alatan\nOTA</string>
+    <string name="manual_query_header_subtitle">Kueri pelayan OTA menggunakan model, wilayah, pelayan, dan bidang lanjutan anda sendiri.</string>
+    <string name="manual_query_local_zip_label">ZIP OTA tempatan yang dimuat turun</string>
+    <string name="manual_query_advanced_options_title">Pilihan Lanjutan</string>
+    <string name="manual_query_advanced_options_desc">ID NV, Mod Req, Gray, Beta</string>
+    <string name="manual_query_beta_channel_title">Saluran Beta</string>
+    <string name="manual_query_beta_channel_desc">Kueri binaan perisian tegar eksperimental</string>
+    <string name="btn_from_url">Dari URL</string>
+    <string name="btn_from_zip">Dari ZIP</string>
+    <string name="btn_auto_fill_label">Isi Automatik</string>
+    <string name="btn_check_for_update_label">Semak Kemas Kini</string>
+
+    <string name="about_btn_check_for_updates">Semak Kemas Kini</string>
+    <string name="about_connect_label">Sambung</string>
+    <string name="about_github_label">GitHub</string>
+    <string name="about_github_desc">Kod sumber</string>
+    <string name="about_telegram_label">Telegram</string>
+    <string name="about_telegram_desc">Saluran</string>
+    <string name="about_paypal_label">PayPal</string>
+    <string name="about_support_dev_desc">Sokong pembangun</string>
+    <string name="about_upi_label">UPI</string>
+    <string name="about_copy_id_desc">Salin ID</string>
+
+    <string name="btn_view_on_github">Lihat di GitHub</string>
+
+    <string name="developer_role">Pembangun &amp; Pereka</string>
+
+    <string name="dialog_add_download_section_title">URL Muat Turun</string>
+    <string name="dialog_add_download_url_hint">Menyokong perisian tegar terus dan pautan ZIP OTA dikongsi.</string>
+
+    <string name="add_device_toolbar_title">Tambah Peranti Kustom</string>
+
+    <string name="placeholder_item_title">Tajuk Item</string>
+    <string name="placeholder_item_value">Nilai Item</string>
+</resources>

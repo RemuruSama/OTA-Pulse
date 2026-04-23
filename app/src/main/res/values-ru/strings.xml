@@ -1,0 +1,379 @@
+<resources>
+    <string name="app_icon_desc">Иконка приложения</string>
+    <string name="title_device">Устройство</string>
+    <string name="title_ota_tools">Инструменты</string>
+    <string name="title_about">О приложении</string>
+    <string name="title_settings">Настройки</string>
+    <string name="title_devices">Устройства</string>
+    <string name="title_downloads">Загрузки</string>
+
+    <string name="light_theme_description">Приложение использует светлую тему.</string>
+    <string name="dark_theme_description">Приложение использует темную тему.</string>
+    <string name="auto_theme_description">Тема будет меняться автоматически в зависимости от режима энергосбережения.</string>
+    <string name="system_theme_description">Тема приложения будет соответствовать системным настройкам вашего устройства.</string>
+
+    <string name="ota_details_title">Детали OTA</string>
+    <string name="button_copy_link">Копировать ссылку</string>
+    <string name="button_download">Скачать</string>
+    <string name="button_view_json">Просмотр JSON</string>
+    <string name="button_download_json">Скачать</string>
+    <string name="button_save_json">Сохранить</string>
+    <string name="json_output_title">Вывод JSON</string>
+    <string name="json_output_unavailable">Вывод JSON недоступен для этого результата.</string>
+    <string name="json_output_saved">JSON сохранен в Загрузки как %s</string>
+    <string name="json_output_save_failed">Не удалось сохранить вывод JSON.</string>
+    <string name="json_output_saved_to_file">JSON сохранен в %s</string>
+    <string name="copy">Копировать</string>
+    <string name="close">Закрыть</string>
+
+    <string name="device_information_header">Информация об устройстве</string>
+    <string name="device_image_content_description">Изображение устройства</string>
+    <string name="device_name_placeholder">Имя устройства</string>
+    <string name="device_model_placeholder">Модель устройства</string>
+    <string name="device_supported">Устройство поддерживается</string>
+    <string name="device_not_supported">Устройство не поддерживается</string>
+    <string name="device_supported_placeholder">Проверка статуса поддержки…</string>
+    <string name="software_info_header">Программное обеспечение</string>
+    <string name="hardware_info_header">Аппаратное обеспечение</string>
+    <string name="android_version">Версия Android</string>
+    <string name="os_version">Версия ОС</string>
+    <string name="ota_version">Версия OTA</string>
+    <string name="incremental_os_version">Инкрементная версия ОС</string>
+    <string name="security_patch_date">Патч безопасности</string>
+    <string name="kernel_version">Версия ядра</string>
+    <string name="amount_of_ram">ОЗУ</string>
+    <string name="system_on_a_chip">Чипсет</string>
+    <string name="processor_frequency">Частота процессора</string>
+    <string name="storage">Память</string>
+    <string name="battery">Батарея</string>
+    <string name="display">Экран</string>
+
+    <string name="search_device_hint">Поиск устройств</string>
+    <string name="close_search_hint">Закрыть поиск</string>
+    <string name="select_region_variant">Выберите регион/вариант</string>
+    <string name="changelog_error">Не удалось открыть ссылку на список изменений.</string>
+    <string name="link_copied">Ссылка скопирована в буфер обмена</string>
+    <string name="no_update_found">Обновлений не найдено</string>
+    <string name="retry">Повторить</string>
+    <string name="add_download">Добавить загрузку</string>
+    <string name="paste_url">Вставить URL</string>
+    <string name="clear_url">Очистить URL</string>
+    <string name="start_download">Начать загрузку</string>
+    <string name="enter_download_url">Введите URL для загрузки</string>
+    <string name="no_url_in_clipboard">URL в буфере обмена не найден</string>
+
+    <string name="about_card_title">Об этом приложении</string>
+    <string name="app_tagline">Всегда в курсе обновлений</string>
+    <string name="made_with">СДЕЛАНО С</string>
+    <string name="about_app_description">Найдите последние обновления OTA для вашего устройства. Поддерживает устройства OnePlus, realme и OPPO. Некоторые модели могут пока не поддерживаться.</string>
+    <string name="created_by_label">Создатель</string>
+    <string name="creator_avatar_desc">Аватар создателя</string>
+    <string name="creator_name">Abhinav Verma</string>
+    <string name="supported_brands">Поддерживаемые бренды</string>
+    <string name="oneplus_logo_desc">Логотип OnePlus</string>
+    <string name="realme_logo_desc">Логотип realme</string>
+    <string name="oppo_logo_desc">Логотип OPPO</string>
+    <string name="github_button_text">GitHub</string>
+    <string name="telegram_button_text">Telegram</string>
+    <string name="check_updates_cta">Проверить обновления</string>
+    <string name="footer_copyright">© 2026 OTA Pulse. Все права защищены.</string>
+
+    <string name="changelog_not_available">Список изменений недоступен.</string>
+    <string name="pause">Пауза</string>
+    <string name="resume">Продолжить</string>
+    <string name="completed">Завершено</string>
+    <string name="delete">Удалить</string>
+    <string name="waiting">Ожидание</string>
+    <string name="package_file_label">Файл пакета</string>
+    <string name="status_downloading">ЗАГРУЗКА</string>
+    <string name="status_paused">ПАУЗА</string>
+    <string name="status_completed">ЗАВЕРШЕНО</string>
+    <string name="status_failed">ОШИБКА</string>
+    <string name="status_cancelled">ОТМЕНЕНО</string>
+    <string name="status_queued">В ОЧЕРЕДИ</string>
+    <string name="status_waiting">ОЖИДАНИЕ</string>
+
+    <string name="donate_card_title">Поддержать разработку</string>
+    <string name="buy_me_a_coffee_button_text">Buy me a coffee</string>
+    <string name="upi_id_copy_label">UPI ID (Нажмите, чтобы скопировать)</string>
+    <string name="upi_id_copied_toast">UPI ID скопирован в буфер обмена</string>
+
+    <string name="settings">Настройки</string>
+    <string name="delete_custom_device_title">Удалить пользовательское устройство?</string>
+    <string name="delete_custom_device_message">Вы уверены, что хотите удалить %s? Это действие нельзя отменить.</string>
+    <string name="cancel">Отмена</string>
+    <string name="permission_denied_download_error">В необходимых разрешениях отказано. Загрузка невозможна.</string>
+    <string name="starting_download_for">Начало загрузки для %s</string>
+    <string name="broad_file_access_prompt">Для загрузок необходим широкий доступ к файлам. Пожалуйста, включите его в настройках.</string>
+    <string name="cannot_proceed_download_missing_permissions">Невозможно продолжить загрузку. Отсутствуют разрешения:</string>
+    <string name="cannot_open_app_settings">Не удалось открыть настройки приложения.</string>
+
+    <string name="file_already_exists">Файл уже существует</string>
+    <string name="file_exists_message">Файл \"%1$s\" уже существует. Хотите удалить его и скачать заново?</string>
+    <string name="delete_and_download">Удалить и скачать</string>
+    <string name="overwrite_dialog_chip">Требуется внимание</string>
+    <string name="overwrite_dialog_risk">Это заменит текущий файл</string>
+    <string name="overwrite_dialog_message">Этот файл уже есть на вашем устройстве. Вы можете сохранить текущую копию или заменить ее новой.</string>
+    <string name="overwrite_dialog_existing_file">Существующий файл</string>
+    <string name="replace_existing_file">Заменить существующий файл</string>
+
+    <string name="permission_needed">Требуется разрешение</string>
+
+    <string name="libraries_title">Библиотеки</string>
+    <string name="libraries_desc">Лицензии открытого ПО</string>
+    <string name="developer_title">Разработчик</string>
+    <string name="developer_desc">Abhinav Verma</string>
+    <string name="contributors_title">Участники</string>
+    <string name="contributors_desc">Вклад сообщества</string>
+
+    <string name="developer_message">Спроектировано и разработано с ❤️.\nСпасибо за использование OTA Pulse!</string>
+    <string name="special_thanks_label">Особая благодарность</string>
+    <string name="open_source_community">Open Source сообщество</string>
+    <string name="contributors_description">Спасибо всем, кто внес свой вклад в этот проект через код, переводы или отзывы.</string>
+
+    <string name="advanced_mode_enabled">Расширенный режим включен. Для полного вступления изменений в силу может потребоваться перезапуск.</string>
+    <string name="advanced_mode_disabled">Расширенный режим выключен. Для полного вступления изменений в силу может потребоваться перезапуск.</string>
+    <string name="import_overwrite_title">Перезаписать пользовательские устройства?</string>
+    <string name="import_overwrite_message">Импорт нового списка перезапишет все существующие пользовательские устройства. Это действие нельзя отменить.</string>
+    <string name="import_action">Импорт</string>
+    <string name="close_action">Закрыть</string>
+
+    <string name="notification_permission_denied">В разрешении на уведомления отказано. Вы можете пропустить обновления загрузки.</string>
+    <string name="storage_permission_granted">Разрешение на доступ к хранилищу предоставлено</string>
+    <string name="storage_permission_required">Разрешение на доступ к хранилищу необходимо для загрузок</string>
+    <string name="update_available_title">Доступна новая версия: %s</string>
+    <string name="update_available_message">Доступно новое обновление!\n\nСписок изменений:\n%s</string>
+    <string name="download_action">Скачать</string>
+    <string name="later_action">Позже</string>
+    <string name="tap_to_view_update">Нажмите, чтобы просмотреть изменения и скачать</string>
+    <string name="notification_permission_title">Разрешение на уведомления</string>
+    <string name="notification_permission_message">OTA Pulse использует уведомления, чтобы держать вас в курсе прогресса загрузки. Пожалуйста, предоставьте это разрешение.</string>
+    <string name="notification_permission_settings_message">Доступ к уведомлениям все еще выключен. Включите его в настройках приложения, чтобы видеть оповещения о прогрессе и завершении загрузки.</string>
+    <string name="notification_permission_settings_snackbar">Включите доступ к уведомлениям в Настройках.</string>
+    <string name="grant_action">Предоставить</string>
+    <string name="support_developer_title">Поддержать разработчика</string>
+    <string name="support_developer_message">Поддержите нашу работу над открытым ПО и помогите OTA Pulse становиться лучше.</string>
+    <string name="support_developer_star_github">Поставить звезду на GitHub</string>
+    <string name="support_developer_donate">Сделать пожертвование</string>
+    <string name="support_developer_maybe_later">Возможно позже</string>
+    <string name="support_developer_image_content_description">Иллюстрация поддержки разработчика</string>
+    <string name="exit_action">Выход</string>
+    <string name="could_not_open_download_link">Не удалось открыть ссылку для скачивания</string>
+    <string name="could_not_open_link">Не удалось открыть ссылку</string>
+    <string name="in_app_browser_title">Браузер</string>
+    <string name="browser_reload">Обновить страницу</string>
+    <string name="browser_open_external">Открыть во внешнем браузере</string>
+    <string name="browser_back">Назад</string>
+    <string name="browser_forward">Вперед</string>
+    <string name="browser_copy_link">Копировать ссылку на страницу</string>
+    <string name="browser_share">Поделиться страницей</string>
+    <string name="browser_enable_desktop_mode">Включить версию для ПК</string>
+    <string name="browser_disable_desktop_mode">Выключить версию для ПК</string>
+    <string name="browser_status_loading">Загрузка</string>
+    <string name="browser_status_live">В эфире</string>
+    <string name="browser_loading_hint">Подготовка страницы для удобного чтения…</string>
+
+    <string name="browser_settings_title">Встроенный браузер</string>
+    <string name="browser_desktop_mode_title">Версия для ПК</string>
+    <string name="browser_desktop_mode_summary">Запрашивать версии для ПК для документации и форумов</string>
+    <string name="browser_controls_title">Показывать плавающие элементы управления</string>
+    <string name="browser_controls_summary">Отображать нижнюю навигационную панель во время просмотра</string>
+    <string name="browser_webview_version_title">Версия WebView</string>
+    <string name="browser_webview_version_unavailable">Недоступно</string>
+    <string name="add_device_name_title">Имя устройства</string>
+    <string name="add_device_name_supporting">Выберите понятное название устройства, чтобы его было легко узнать позже.</string>
+    <string name="add_device_name_hint">например, realme 12 Pro Plus</string>
+    <string name="add_device_groups_title">Группы прошивок</string>
+    <string name="add_device_groups_supporting">Группируйте варианты по версии Android, затем добавляйте региональные сборки в каждую группу.</string>
+    <string name="add_device_empty_groups">Групп прошивок пока нет. Добавьте одну, чтобы начать создание устройства.</string>
+    <string name="add_device_add_group">Добавить группу прошивок</string>
+    <string name="add_device_save">Сохранить устройство</string>
+    <string name="add_device_edit_group">Изменить группу прошивок</string>
+    <string name="add_device_delete_group">Удалить группу прошивок</string>
+    <string name="add_device_variants_title">Региональные варианты</string>
+    <string name="add_device_empty_variants">Вариантов пока нет. Добавьте регион, чтобы завершить эту группу прошивок.</string>
+    <string name="add_device_add_variant">Добавить вариант</string>
+    <string name="add_device_remove_variant">Удалить вариант</string>
+
+    <string name="notif_download_complete">Загрузка завершена</string>
+    <string name="notif_download_failed">Загрузка не удалась</string>
+    <string name="notif_paused">На паузе</string>
+    <string name="notif_cancel">Отмена</string>
+    <string name="notif_pause">Пауза</string>
+    <string name="notif_resume">Продолжить</string>
+    <string name="notif_channel_progress">Прогресс загрузки</string>
+    <string name="notif_channel_progress_desc">Показывает прогресс активных загрузок</string>
+    <string name="notif_channel_alerts">Статус загрузки</string>
+    <string name="notif_channel_alerts_desc">Уведомления о завершенных или неудачных загрузках</string>
+    <string name="notif_error_link_expired">Срок действия ссылки истек. Попробуйте еще раз в приложении.</string>
+    <string name="notif_error_not_found">Файл не найден на сервере.</string>
+    <string name="notif_error_no_network">Нет интернет-соединения.</string>
+    <string name="notif_error_unknown">Неизвестная ошибка. Пожалуйста, повторите попытку.</string>
+
+    <string name="extract_partition_title">Извлечь разделы</string>
+    <string name="extract">Извлечь</string>
+    <string name="or_label">или</string>
+
+    <string name="settings_section_appearance">Внешний вид</string>
+    <string name="settings_app_theme">Тема приложения</string>
+    <string name="theme_option_light">Светлая</string>
+    <string name="theme_option_dark">Темная</string>
+    <string name="theme_option_auto">Авто</string>
+    <string name="theme_option_system">Системная</string>
+    <string name="settings_section_general">Общие</string>
+    <string name="settings_auto_check_updates">Автопроверка обновлений</string>
+    <string name="settings_auto_check_updates_desc">Уведомлять при запуске, если доступно обновление</string>
+    <string name="settings_app_language">Язык приложения</string>
+    <string name="settings_app_language_desc">Выберите предпочитаемый язык для приложения</string>
+    <string name="language_option_system">По умолчанию</string>
+    <string name="settings_advanced_mode">Расширенный режим</string>
+    <string name="settings_advanced_mode_desc">Разблокировать экспериментальные функции</string>
+    <string name="settings_arb_detection">Детекция ARB</string>
+    <string name="settings_arb_detection_desc">Включить проверку Anti-Rollback для обновлений</string>
+    <string name="settings_section_data">Управление данными</string>
+    <string name="settings_export_backup">Экспорт резервной копии</string>
+    <string name="settings_export_backup_desc">Сохранить устройства в память</string>
+    <string name="settings_import_backup">Импорт резервной копии</string>
+    <string name="settings_import_backup_desc">Восстановить из файла</string>
+    <string name="settings_section_information">Информация</string>
+    <string name="toast_arb_detection_enabled">Детекция ARB включена</string>
+    <string name="toast_arb_detection_disabled">Детекция ARB выключена</string>
+
+    <string name="tools_header_title">Инструменты\nOTA</string>
+    <string name="tools_header_subtitle">Откройте специальную страницу для ручных запросов, извлечения разделов, разрешения ссылок или проверки ARB.</string>
+    <string name="tools_arb_checker_title">Проверка ARB</string>
+    <string name="tools_arb_checker_desc">Проверка метаданных anti-rollback из полной ссылки OTA или загруженного ZIP.</string>
+    <string name="tools_link_resolver_title">Разрешение ссылок</string>
+    <string name="tools_link_resolver_desc">Разрешение перенаправленных ссылок OTA downloadCheck.</string>
+    <string name="tools_manual_query_title">Ручной запрос</string>
+    <string name="tools_manual_query_desc">Запрос к серверам OTA с вашей собственной моделью, регионом, сервером и расширенными полями.</string>
+    <string name="tools_partition_extraction_title">Извлечение разделов</string>
+    <string name="tools_partition_extraction_desc">Загрузите разделы из локального OTA ZIP или полной ссылки OTA, затем извлеките выбранные образы.</string>
+
+    <string name="partition_extraction_header_title">Извлечение\nразделов</string>
+    <string name="partition_extraction_header_subtitle">Загрузите разделы из прямой полной ссылки OTA или локального ZIP-пакета.</string>
+    <string name="partition_extraction_remote_label">Удаленный OTA-пакет</string>
+    <string name="hint_paste_ota_url">Вставьте полную ссылку OTA</string>
+    <string name="partition_extraction_local_zip_label">Локальный OTA ZIP</string>
+    <string name="partition_extraction_no_zip_selected">ZIP еще не выбран</string>
+    <string name="btn_choose_zip">Выбрать ZIP</string>
+    <string name="btn_remove">Удалить</string>
+    <string name="partition_extraction_source_hint">Используйте либо полную ссылку OTA, либо загруженный ZIP-пакет.</string>
+    <string name="partition_extraction_select_partition">Выберите раздел</string>
+    <string name="partition_loading_msg">Загрузка разделов…</string>
+    <string name="toast_link_pasted">Ссылка вставлена</string>
+    <string name="toast_clipboard_empty">Буфер обмена пуст</string>
+    <string name="toast_paste_url_or_choose_zip">Сначала вставьте полную ссылку OTA или выберите локальный ZIP</string>
+    <string name="toast_partition_extracted">%s.img успешно извлечен</string>
+    <string name="toast_extraction_cancelled">Извлечение отменено</string>
+    <string name="toast_extraction_failed">Извлечение не удалось</string>
+
+    <string name="content_desc_more_options">Дополнительные опции</string>
+    <string name="content_desc_mark_favorite">Отметить как избранное</string>
+    <string name="label_android_version_colon">Версия Android:</string>
+    <string name="label_os_version_colon">Версия ОС:</string>
+    <string name="label_security_patch_colon">Патч безопасности:</string>
+    <string name="label_size_colon">Размер:</string>
+    <string name="label_md5_colon">MD5:</string>
+    <string name="btn_view_changelog">Список изменений</string>
+
+    <string name="download_speed_label">Скорость</string>
+    <string name="download_remaining_label">Осталось</string>
+
+    <string name="content_desc_remove_local_zip">Удалить локальный ZIP</string>
+    <string name="content_desc_add_new_device">Добавить новое устройство</string>
+
+    <string name="hint_android_version">Версия Android (напр., Android 14)</string>
+    <string name="hint_product_model_example">Модель (напр., RMX3840)</string>
+    <string name="hint_product_name_example">Название продукта (напр., RMX3840IN)</string>
+    <string name="hint_region">Регион</string>
+    <string name="hint_ota_version">Версия OTA</string>
+    <string name="hint_req_mode">Режим запроса</string>
+    <string name="hint_gray">Gray</string>
+    <string name="hint_search_partitions">Поиск разделов</string>
+    <string name="hint_paste_download_check_link">Вставьте ссылку downloadCheck</string>
+    <string name="helper_paste_ota_link">Вставьте ссылку OTA, которую нужно разрешить</string>
+
+    <string name="hint_product_model">Модель продукта</string>
+    <string name="hint_product_name">Название продукта</string>
+    <string name="hint_ver_letter">Буква версии</string>
+    <string name="hint_rui_version">Версия RUI</string>
+    <string name="hint_server">Сервер</string>
+    <string name="hint_imei_optional">IMEI (Опционально)</string>
+    <string name="hint_language">Язык</string>
+    <string name="hint_nv_id_optional">NV ID (Опционально)</string>
+    <string name="hint_full_ota_url">Полная ссылка OTA</string>
+    <string name="hint_resolver_input_link">Входная ссылка для резолвера</string>
+    <string name="btn_open">Открыть</string>
+    <string name="btn_auto_fill">Автозаполнение</string>
+    <string name="btn_check_for_update">Проверить обновления</string>
+
+    <string name="toast_paste_ota_url_first">Сначала вставьте полную ссылку OTA</string>
+    <string name="toast_choose_local_zip_first">Сначала выберите локальный OTA ZIP</string>
+    <string name="toast_resolved_link_copied">Разрешенная ссылка скопирована</string>
+    <string name="toast_could_not_open_resolved_link">Не удалось открыть разрешенную ссылку</string>
+    <string name="toast_device_details_fetched">Детали устройства получены</string>
+    <string name="toast_please_fill_required_fields">Пожалуйста, заполните обязательные поля</string>
+    <string name="toast_link_copied">Ссылка скопирована</string>
+    <string name="toast_could_not_share_link">Не удалось поделиться ссылкой</string>
+
+    <string name="ota_details_device">Детали OTA: %s</string>
+    <string name="unknown">Неизвестно</string>
+    <string name="unknown_version">Неизвестная версия</string>
+
+    <string name="placeholder_library_name">Название библиотеки</string>
+    <string name="placeholder_apache_license">Apache License 2.0</string>
+
+    <string name="arb_checker_header_title">Проверка\nARB</string>
+    <string name="arb_checker_header_subtitle">Проверьте метаданные anti-rollback из удаленного OTA-пакета или локального ZIP-файла.</string>
+    <string name="btn_check_arb">Проверить ARB</string>
+    <string name="arb_status_label">Статус ARB</string>
+    <string name="arb_index_label">Индекс ARB</string>
+    <string name="arb_metadata_version_label">Версия метаданных</string>
+    <string name="arb_source_label">Источник</string>
+
+    <string name="link_resolver_header_title">Разрешение\nссылок</string>
+    <string name="link_resolver_header_subtitle">Разрешение перенаправленных ссылок downloadCheck и быстрое копирование или открытие цели.</string>
+    <string name="btn_resolve_link">Разрешить ссылку</string>
+
+    <string name="label_android">Android</string>
+    <string name="label_security_patch">Патч безопасности</string>
+    <string name="label_size">Размер</string>
+    <string name="label_md5">MD5</string>
+    <string name="btn_changelog">Изменения</string>
+
+    <string name="manual_query_header_title">Инструменты\nOTA</string>
+    <string name="manual_query_header_subtitle">Запрос к серверам OTA с вашей моделью, регионом, сервером и расширенными полями.</string>
+    <string name="manual_query_local_zip_label">Локальный скачанный OTA ZIP</string>
+    <string name="manual_query_advanced_options_title">Расширенные опции</string>
+    <string name="manual_query_advanced_options_desc">NV ID, Режим запроса, Gray, Beta</string>
+    <string name="manual_query_beta_channel_title">Бета-канал</string>
+    <string name="manual_query_beta_channel_desc">Запрос экспериментальных сборок прошивок</string>
+    <string name="btn_from_url">Из ссылки</string>
+    <string name="btn_from_zip">Из ZIP</string>
+    <string name="btn_auto_fill_label">Автозаполнение</string>
+    <string name="btn_check_for_update_label">Проверить обновления</string>
+
+    <string name="about_btn_check_for_updates">Проверить обновления</string>
+    <string name="about_connect_label">Связь</string>
+    <string name="about_github_label">GitHub</string>
+    <string name="about_github_desc">Исходный код</string>
+    <string name="about_telegram_label">Telegram</string>
+    <string name="about_telegram_desc">Канал</string>
+    <string name="about_paypal_label">PayPal</string>
+    <string name="about_support_dev_desc">Поддержать автора</string>
+    <string name="about_upi_label">UPI</string>
+    <string name="about_copy_id_desc">Копировать ID</string>
+
+    <string name="btn_view_on_github">Просмотреть на GitHub</string>
+
+    <string name="developer_role">Разработчик и дизайнер</string>
+
+    <string name="dialog_add_download_section_title">Ссылка для загрузки</string>
+    <string name="dialog_add_download_url_hint">Поддерживаются прямые ссылки на прошивки и OTA ZIP.</string>
+
+    <string name="add_device_toolbar_title">Добавить устройство</string>
+
+    <string name="placeholder_item_title">Заголовок</string>
+    <string name="placeholder_item_value">Значение</string>
+</resources>

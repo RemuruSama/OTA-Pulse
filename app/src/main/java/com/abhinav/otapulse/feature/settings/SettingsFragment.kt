@@ -81,8 +81,61 @@ class SettingsFragment : Fragment() {
         setupArbDetectionSwitch()
         setupBrowserDesktopModeSwitch()
         setupBrowserControlsSwitch()
+        setupLanguageSelection()
         bindWebViewVersion()
         runEnterAnimation()
+    }
+
+    private fun setupLanguageSelection() {
+        val currentLocaleTag = com.abhinav.otapulse.core.common.LocaleHelper.getSelectedLocale(requireContext())
+        binding.currentLanguageValue.text = com.abhinav.otapulse.core.common.LocaleHelper.getDisplayName(requireContext(), currentLocaleTag)
+        
+        binding.languageButton.setHapticClickListener {
+            showLanguageSelectionDialog()
+        }
+    }
+
+    private fun showLanguageSelectionDialog() {
+        val languages = linkedMapOf(
+            "system" to getString(R.string.language_option_system),
+            "ar" to "العربية (Arabic)",
+            "bn" to "বাংলা (Bengali)",
+            "zh" to "简体中文 (Chinese Simplified)",
+            "fr" to "Français (French)",
+            "de" to "Deutsch (German)",
+            "hi" to "हिन्दी (Hindi)",
+            "id" to "Bahasa Indonesia (Indonesian)",
+            "it" to "Italiano (Italian)",
+            "ja" to "日本語 (Japanese)",
+            "ms" to "Bahasa Melayu (Malay)",
+            "pt-BR" to "Português (Brasil)",
+            "pt-PT" to "Português (Portugal)",
+            "ru" to "Русский (Russian)",
+            "es" to "Español (Spanish)",
+            "fil" to "Filipino (Tagalog)",
+            "th" to "ไทย (Thai)",
+            "tr" to "Türkçe (Turkish)",
+            "ur" to "اردو (Urdu)",
+            "vi" to "Tiếng Việt (Vietnamese)",
+            "zh" to "简体中文 (Chinese Simplified)",
+            "zh-TW" to "繁體中文 (Chinese Traditional)"
+        )
+
+        val keys = languages.keys.toTypedArray()
+        val values = languages.values.toTypedArray()
+        val currentLocaleTag = com.abhinav.otapulse.core.common.LocaleHelper.getSelectedLocale(requireContext())
+        val checkedItem = keys.indexOf(currentLocaleTag).coerceAtLeast(0)
+
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.settings_app_language)
+            .setSingleChoiceItems(values, checkedItem) { dialog, which ->
+                val selectedKey = keys[which]
+                com.abhinav.otapulse.core.common.LocaleHelper.applyLocale(requireContext(), selectedKey)
+                dialog.dismiss()
+                // Activity will be recreated automatically by setApplicationLocales
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
     }
 
     private fun runEnterAnimation() {

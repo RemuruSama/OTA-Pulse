@@ -287,6 +287,9 @@
     <string name="settings_section_general">General</string>
     <string name="settings_auto_check_updates">Auto Check Updates</string>
     <string name="settings_auto_check_updates_desc">Notify on startup if update available</string>
+    <string name="settings_app_language">App Language</string>
+    <string name="settings_app_language_desc">Choose your preferred language for the app</string>
+    <string name="language_option_system">System Default</string>
     <string name="settings_advanced_mode">Advanced Mode</string>
     <string name="settings_advanced_mode_desc">Unlock experimental features</string>
     <string name="settings_arb_detection">ARB Detection</string>

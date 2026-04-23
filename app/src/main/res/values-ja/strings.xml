@@ -1,0 +1,379 @@
+<resources>
+    <string name="app_icon_desc">アプリのアイコン</string>
+    <string name="title_device">デバイス</string>
+    <string name="title_ota_tools">ツール</string>
+    <string name="title_about">アプリについて</string>
+    <string name="title_settings">設定</string>
+    <string name="title_devices">デバイスリスト</string>
+    <string name="title_downloads">ダウンロード</string>
+
+    <string name="light_theme_description">ライトテーマを使用しています。</string>
+    <string name="dark_theme_description">ダークテーマを使用しています。</string>
+    <string name="auto_theme_description">バッテリーセーバーモードに基づいてテーマが自動的に切り替わります。</string>
+    <string name="system_theme_description">デバイスのシステム設定に従ってテーマが適用されます。</string>
+
+    <string name="ota_details_title">OTAの詳細</string>
+    <string name="button_copy_link">リンクをコピー</string>
+    <string name="button_download">ダウンロード</string>
+    <string name="button_view_json">JSONを表示</string>
+    <string name="button_download_json">ダウンロード</string>
+    <string name="button_save_json">保存</string>
+    <string name="json_output_title">JSON出力</string>
+    <string name="json_output_unavailable">この結果のJSON出力は利用できません。</string>
+    <string name="json_output_saved">JSONを %s としてダウンロードに保存しました</string>
+    <string name="json_output_save_failed">JSON出力を保存できませんでした。</string>
+    <string name="json_output_saved_to_file">JSONを %s に保存しました</string>
+    <string name="copy">コピー</string>
+    <string name="close">閉じる</string>
+
+    <string name="device_information_header">デバイス情報</string>
+    <string name="device_image_content_description">デバイス画像</string>
+    <string name="device_name_placeholder">デバイス名</string>
+    <string name="device_model_placeholder">デバイスモデル</string>
+    <string name="device_supported">サポートされているデバイス</string>
+    <string name="device_not_supported">サポートされていないデバイス</string>
+    <string name="device_supported_placeholder">サポート状況を確認中…</string>
+    <string name="software_info_header">ソフトウェア情報</string>
+    <string name="hardware_info_header">ハードウェア情報</string>
+    <string name="android_version">Androidバージョン</string>
+    <string name="os_version">OSバージョン</string>
+    <string name="ota_version">OTAバージョン</string>
+    <string name="incremental_os_version">インクリメンタルOSバージョン</string>
+    <string name="security_patch_date">セキュリティパッチ</string>
+    <string name="kernel_version">カーネルバージョン</string>
+    <string name="amount_of_ram">RAM</string>
+    <string name="system_on_a_chip">チップセット</string>
+    <string name="processor_frequency">CPU周波数</string>
+    <string name="storage">ストレージ</string>
+    <string name="battery">バッテリー</string>
+    <string name="display">ディスプレイ</string>
+
+    <string name="search_device_hint">デバイスを検索</string>
+    <string name="close_search_hint">検索を閉じる</string>
+    <string name="select_region_variant">リージョン/バリアントを選択</string>
+    <string name="changelog_error">更新履歴のリンクを開けませんでした。</string>
+    <string name="link_copied">リンクをクリップボードにコピーしました</string>
+    <string name="no_update_found">アップデートは見つかりませんでした</string>
+    <string name="retry">再試行</string>
+    <string name="add_download">ダウンロードを追加</string>
+    <string name="paste_url">URLを貼り付け</string>
+    <string name="clear_url">URLを消去</string>
+    <string name="start_download">ダウンロード開始</string>
+    <string name="enter_download_url">ダウンロードURLを入力</string>
+    <string name="no_url_in_clipboard">クリップボードにURLが見つかりません</string>
+
+    <string name="about_card_title">このアプリについて</string>
+    <string name="app_tagline">常に最新の状態に</string>
+    <string name="made_with">MADE WITH</string>
+    <string name="about_app_description">お使いのデバイスの最新のOTAアップデートを見つけます。OnePlus、realme、OPPOのデバイスをサポートしています。一部のモデルはまだサポートされていない場合があります。</string>
+    <string name="created_by_label">作成者</string>
+    <string name="creator_avatar_desc">作成者のアバター</string>
+    <string name="creator_name">Abhinav Verma</string>
+    <string name="supported_brands">サポートされているブランド</string>
+    <string name="oneplus_logo_desc">OnePlusロゴ</string>
+    <string name="realme_logo_desc">realmeロゴ</string>
+    <string name="oppo_logo_desc">OPPOロゴ</string>
+    <string name="github_button_text">GitHub</string>
+    <string name="telegram_button_text">Telegram</string>
+    <string name="check_updates_cta">アップデートを確認</string>
+    <string name="footer_copyright">© 2026 OTA Pulse. All rights reserved.</string>
+
+    <string name="changelog_not_available">更新履歴は利用できません。</string>
+    <string name="pause">一時停止</string>
+    <string name="resume">再開</string>
+    <string name="completed">完了</string>
+    <string name="delete">削除</string>
+    <string name="waiting">待機中</string>
+    <string name="package_file_label">パッケージファイル</string>
+    <string name="status_downloading">ダウンロード中</string>
+    <string name="status_paused">一時停止中</string>
+    <string name="status_completed">完了</string>
+    <string name="status_failed">失敗</string>
+    <string name="status_cancelled">キャンセル済み</string>
+    <string name="status_queued">待機中</string>
+    <string name="status_waiting">待機中</string>
+
+    <string name="donate_card_title">開発を支援する</string>
+    <string name="buy_me_a_coffee_button_text">Buy me a coffee</string>
+    <string name="upi_id_copy_label">UPI ID (タップしてコピー)</string>
+    <string name="upi_id_copied_toast">UPI IDをクリップボードにコピーしました</string>
+
+    <string name="settings">設定</string>
+    <string name="delete_custom_device_title">カスタムデバイスを削除しますか？</string>
+    <string name="delete_custom_device_message">%s を削除してもよろしいですか？この操作は元に戻せません。</string>
+    <string name="cancel">キャンセル</string>
+    <string name="permission_denied_download_error">必要な権限が拒否されました。ダウンロードできません。</string>
+    <string name="starting_download_for">%s のダウンロードを開始しています</string>
+    <string name="broad_file_access_prompt">ダウンロードにはファイルへの広範なアクセス権限が必要です。設定で有効にしてください。</string>
+    <string name="cannot_proceed_download_missing_permissions">ダウンロードを続行できません。不足している権限：</string>
+    <string name="cannot_open_app_settings">アプリの設定を開けませんでした。</string>
+
+    <string name="file_already_exists">ファイルが既に存在します</string>
+    <string name="file_exists_message">ファイル \"%1$s\" は既に存在します。削除して再ダウンロードしますか？</string>
+    <string name="delete_and_download">削除してダウンロード</string>
+    <string name="overwrite_dialog_chip">注意が必要</string>
+    <string name="overwrite_dialog_risk">現在のファイルが上書きされます</string>
+    <string name="overwrite_dialog_message">このファイルは既にデバイスに存在します。現在のコピーを保持するか、新しいものと置き換えることができます。</string>
+    <string name="overwrite_dialog_existing_file">既存のファイル</string>
+    <string name="replace_existing_file">既存のファイルを置き換える</string>
+
+    <string name="permission_needed">権限が必要です</string>
+
+    <string name="libraries_title">ライブラリ</string>
+    <string name="libraries_desc">オープンソースライセンス</string>
+    <string name="developer_title">開発者</string>
+    <string name="developer_desc">Abhinav Verma</string>
+    <string name="contributors_title">貢献者</string>
+    <string name="contributors_desc">コミュニティによる貢献</string>
+
+    <string name="developer_message">愛を込めて設計・開発されました ❤️。\nOTA Pulseをご利用いただきありがとうございます！</string>
+    <string name="special_thanks_label">特別感謝</string>
+    <string name="open_source_community">オープンソースコミュニティ</string>
+    <string name="contributors_description">コード、翻訳、フィードバックを通じてこのプロジェクトに貢献してくださったすべての方々に感謝します。</string>
+
+    <string name="advanced_mode_enabled">アドバンスドモードが有効になりました。変更を完全に適用するには再起動が必要な場合があります。</string>
+    <string name="advanced_mode_disabled">アドバンスドモードが無効になりました。変更を完全に適用するには再起動が必要な場合があります。</string>
+    <string name="import_overwrite_title">カスタムデバイスを上書きしますか？</string>
+    <string name="import_overwrite_message">新しいリストをインポートすると、既存のすべてのカスタムデバイスが上書きされます。この操作は元に戻せません。</string>
+    <string name="import_action">インポート</string>
+    <string name="close_action">閉じる</string>
+
+    <string name="notification_permission_denied">通知権限が拒否されました。ダウンロードの更新を見逃す可能性があります。</string>
+    <string name="storage_permission_granted">ストレージ権限が許可されました</string>
+    <string name="storage_permission_required">ダウンロードにはストレージ権限が必要です</string>
+    <string name="update_available_title">新しいバージョンが利用可能です: %s</string>
+    <string name="update_available_message">新しいアップデートがあります！\n\n更新履歴:\n%s</string>
+    <string name="download_action">ダウンロード</string>
+    <string name="later_action">後で</string>
+    <string name="tap_to_view_update">タップして更新履歴を表示しダウンロード</string>
+    <string name="notification_permission_title">通知権限</string>
+    <string name="notification_permission_message">OTA Pulseは通知を使用してダウンロードの進行状況をお知らせします。この権限を許可してください。</string>
+    <string name="notification_permission_settings_message">通知アクセスがオフになっています。ダウンロードの進行状況や完了アラートを表示するために、アプリの設定から有効にしてください。</string>
+    <string name="notification_permission_settings_snackbar">設定で通知アクセスを有効にしてください。</string>
+    <string name="grant_action">許可</string>
+    <string name="support_developer_title">開発者を支援</string>
+    <string name="support_developer_message">私たちのオープンソース活動を支援し、OTA Pulseの改善にご協力ください。</string>
+    <string name="support_developer_star_github">GitHubでスターを付ける</string>
+    <string name="support_developer_donate">寄付する</string>
+    <string name="support_developer_maybe_later">また後で</string>
+    <string name="support_developer_image_content_description">開発者支援のイラスト</string>
+    <string name="exit_action">終了</string>
+    <string name="could_not_open_download_link">ダウンロードリンクを開けませんでした</string>
+    <string name="could_not_open_link">リンクを開けませんでした</string>
+    <string name="in_app_browser_title">ブラウザ</string>
+    <string name="browser_reload">ページを再読み込み</string>
+    <string name="browser_open_external">外部ブラウザで開く</string>
+    <string name="browser_back">戻る</string>
+    <string name="browser_forward">進む</string>
+    <string name="browser_copy_link">ページのリンクをコピー</string>
+    <string name="browser_share">ページを共有</string>
+    <string name="browser_enable_desktop_mode">デスクトップモードを有効にする</string>
+    <string name="browser_disable_desktop_mode">デスクトップモードを無効にする</string>
+    <string name="browser_status_loading">読み込み中</string>
+    <string name="browser_status_live">ライブ</string>
+    <string name="browser_loading_hint">このページをより読みやすく準備しています…</string>
+
+    <string name="browser_settings_title">アプリ内ブラウザ</string>
+    <string name="browser_desktop_mode_title">PC版サイトモード</string>
+    <string name="browser_desktop_mode_summary">ドキュメントやフォーラムでデスクトップレイアウトをリクエストする</string>
+    <string name="browser_controls_title">フローティング操作ボタンを表示</string>
+    <string name="browser_controls_summary">閲覧中にボトムナビゲーションピルを表示する</string>
+    <string name="browser_webview_version_title">WebViewのバージョン</string>
+    <string name="browser_webview_version_unavailable">利用不可</string>
+    <string name="add_device_name_title">デバイス名</string>
+    <string name="add_device_name_supporting">後で識別しやすいように、明確なデバイス名を選択してください。</string>
+    <string name="add_device_name_hint">例: realme 12 Pro Plus</string>
+    <string name="add_device_groups_title">ファームウェアグループ</string>
+    <string name="add_device_groups_supporting">Androidバージョンごとにバリアントを整理し、各グループ内にリージョンビルドを追加します。</string>
+    <string name="add_device_empty_groups">ファームウェアグループはまだありません。追加してカスタムデバイスの構築を開始してください。</string>
+    <string name="add_device_add_group">ファームウェアグループを追加</string>
+    <string name="add_device_save">デバイスを保存</string>
+    <string name="add_device_edit_group">ファームウェアグループを編集</string>
+    <string name="add_device_delete_group">ファームウェアグループを削除</string>
+    <string name="add_device_variants_title">リージョンバリアント</string>
+    <string name="add_device_empty_variants">バリアントはまだありません。リージョンを追加してこのファームウェアグループを完成させてください。</string>
+    <string name="add_device_add_variant">バリアントを追加</string>
+    <string name="add_device_remove_variant">バリアントを削除</string>
+
+    <string name="notif_download_complete">ダウンロード完了</string>
+    <string name="notif_download_failed">ダウンロード失敗</string>
+    <string name="notif_paused">一時停止中</string>
+    <string name="notif_cancel">キャンセル</string>
+    <string name="notif_pause">一時停止</string>
+    <string name="notif_resume">再開</string>
+    <string name="notif_channel_progress">ダウンロードの進行状況</string>
+    <string name="notif_channel_progress_desc">進行中のダウンロードを表示します</string>
+    <string name="notif_channel_alerts">ダウンロードステータス</string>
+    <string name="notif_channel_alerts_desc">完了または失敗したダウンロードの通知</string>
+    <string name="notif_error_link_expired">リンクの期限が切れました。アプリ内で再試行してください。</string>
+    <string name="notif_error_not_found">サーバー上にファイルが見つかりませんでした。</string>
+    <string name="notif_error_no_network">インターネット接続がありません。</string>
+    <string name="notif_error_unknown">不明なエラーです。再試行してください。</string>
+
+    <string name="extract_partition_title">パーティションを抽出</string>
+    <string name="extract">抽出</string>
+    <string name="or_label">または</string>
+
+    <string name="settings_section_appearance">外観</string>
+    <string name="settings_app_theme">アプリのテーマ</string>
+    <string name="theme_option_light">ライト</string>
+    <string name="theme_option_dark">ダーク</string>
+    <string name="theme_option_auto">自動</string>
+    <string name="theme_option_system">システムに従う</string>
+    <string name="settings_section_general">全般</string>
+    <string name="settings_auto_check_updates">アップデートの自動確認</string>
+    <string name="settings_auto_check_updates_desc">起動時にアップデートがあるか通知する</string>
+    <string name="settings_app_language">アプリの言語</string>
+    <string name="settings_app_language_desc">アプリの優先言語を選択してください</string>
+    <string name="language_option_system">システムデフォルト</string>
+    <string name="settings_advanced_mode">アドバンスドモード</string>
+    <string name="settings_advanced_mode_desc">実験的な機能をアンロックする</string>
+    <string name="settings_arb_detection">ARB検出</string>
+    <string name="settings_arb_detection_desc">アップデートのアンチロールバック確認を有効にする</string>
+    <string name="settings_section_data">データ管理</string>
+    <string name="settings_export_backup">バックアップをエクスポート</string>
+    <string name="settings_export_backup_desc">デバイスをストレージに保存</string>
+    <string name="settings_import_backup">バックアップをインポート</string>
+    <string name="settings_import_backup_desc">ファイルから復元</string>
+    <string name="settings_section_information">情報</string>
+    <string name="toast_arb_detection_enabled">ARB検出が有効になりました</string>
+    <string name="toast_arb_detection_disabled">ARB検出が無効になりました</string>
+
+    <string name="tools_header_title">OTA\nツール</string>
+    <string name="tools_header_subtitle">手動クエリ、パーティション抽出、リンク解決、またはARBチェック専用ページを開きます。</string>
+    <string name="tools_arb_checker_title">ARBチェッカー</string>
+    <string name="tools_arb_checker_desc">フルOTA URLまたはダウンロードしたZIPからアンチロールバックのメタデータを検査します。</string>
+    <string name="tools_link_resolver_title">リンク解決</string>
+    <string name="tools_link_resolver_desc">downloadCheckのリダイレクトされたOTAリンクを解決します。</string>
+    <string name="tools_manual_query_title">手動クエリ</string>
+    <string name="tools_manual_query_desc">独自のモデル、リージョン、サーバー、およびアドバンスドフィールドを使用してOTAサーバーにクエリを実行します。</string>
+    <string name="tools_partition_extraction_title">パーティション抽出</string>
+    <string name="tools_partition_extraction_desc">ローカルのOTA ZIPまたはフルOTA URLからパーティションを読み込み、選択したイメージを抽出します。</string>
+
+    <string name="partition_extraction_header_title">パーティション\n抽出</string>
+    <string name="partition_extraction_header_subtitle">直接のフルOTA URLまたはダウンロードしたローカルZIPからパーティションを読み込みます。</string>
+    <string name="partition_extraction_remote_label">リモートOTAパッケージ</string>
+    <string name="hint_paste_ota_url">フルOTA URLを貼り付け</string>
+    <string name="partition_extraction_local_zip_label">ローカルOTA ZIP</string>
+    <string name="partition_extraction_no_zip_selected">ZIPが選択されていません</string>
+    <string name="btn_choose_zip">ZIPを選択</string>
+    <string name="btn_remove">削除</string>
+    <string name="partition_extraction_source_hint">フルOTA URLまたはダウンロードしたZIPパッケージのいずれかを使用してください。</string>
+    <string name="partition_extraction_select_partition">パーティションを選択</string>
+    <string name="partition_loading_msg">パーティションを読み込み中…</string>
+    <string name="toast_link_pasted">リンクを貼り付けました</string>
+    <string name="toast_clipboard_empty">クリップボードが空です</string>
+    <string name="toast_paste_url_or_choose_zip">先にフルOTA URLを貼り付けるかローカルZIPを選択してください</string>
+    <string name="toast_partition_extracted">%s.img を正常に抽出しました</string>
+    <string name="toast_extraction_cancelled">抽出がキャンセルされました</string>
+    <string name="toast_extraction_failed">抽出に失敗しました</string>
+
+    <string name="content_desc_more_options">詳細オプション</string>
+    <string name="content_desc_mark_favorite">お気に入りとしてマーク</string>
+    <string name="label_android_version_colon">Androidバージョン:</string>
+    <string name="label_os_version_colon">OSバージョン:</string>
+    <string name="label_security_patch_colon">セキュリティパッチ:</string>
+    <string name="label_size_colon">サイズ:</string>
+    <string name="label_md5_colon">MD5:</string>
+    <string name="btn_view_changelog">更新履歴を表示</string>
+
+    <string name="download_speed_label">速度</string>
+    <string name="download_remaining_label">残り時間</string>
+
+    <string name="content_desc_remove_local_zip">ローカルZIPを削除</string>
+    <string name="content_desc_add_new_device">新しいカスタムデバイスを追加</string>
+
+    <string name="hint_android_version">Androidバージョン (例: Android 14)</string>
+    <string name="hint_product_model_example">製品モデル (例: RMX3840)</string>
+    <string name="hint_product_name_example">製品名 (例: RMX3840IN)</string>
+    <string name="hint_region">リージョン</string>
+    <string name="hint_ota_version">OTAバージョン</string>
+    <string name="hint_req_mode">Req Mode</string>
+    <string name="hint_gray">Gray</string>
+    <string name="hint_search_partitions">パーティションを検索</string>
+    <string name="hint_paste_download_check_link">downloadCheckリンクを貼り付け</string>
+    <string name="helper_paste_ota_link">解決したいOTAリンクを貼り付けてください</string>
+
+    <string name="hint_product_model">製品モデル</string>
+    <string name="hint_product_name">製品名</string>
+    <string name="hint_ver_letter">バージョン文字</string>
+    <string name="hint_rui_version">RUIバージョン</string>
+    <string name="hint_server">サーバー</string>
+    <string name="hint_imei_optional">IMEI (任意)</string>
+    <string name="hint_language">言語</string>
+    <string name="hint_nv_id_optional">NV ID (任意)</string>
+    <string name="hint_full_ota_url">フルOTA URL</string>
+    <string name="hint_resolver_input_link">リゾルバー入力リンク</string>
+    <string name="btn_open">開く</string>
+    <string name="btn_auto_fill">自動入力</string>
+    <string name="btn_check_for_update">アップデートを確認</string>
+
+    <string name="toast_paste_ota_url_first">先にフルOTA URLを貼り付けてください</string>
+    <string name="toast_choose_local_zip_first">先にローカルOTA ZIPを選択してください</string>
+    <string name="toast_resolved_link_copied">解決されたリンクをコピーしました</string>
+    <string name="toast_could_not_open_resolved_link">解決されたリンクを開けませんでした</string>
+    <string name="toast_device_details_fetched">デバイスの詳細を取得しました</string>
+    <string name="toast_please_fill_required_fields">必須項目を入力してください</string>
+    <string name="toast_link_copied">リンクをコピーしました</string>
+    <string name="toast_could_not_share_link">リンクを共有できませんでした</string>
+
+    <string name="ota_details_device">OTAの詳細: %s</string>
+    <string name="unknown">不明</string>
+    <string name="unknown_version">不明なバージョン</string>
+
+    <string name="placeholder_library_name">ライブラリ名</string>
+    <string name="placeholder_apache_license">Apache License 2.0</string>
+
+    <string name="arb_checker_header_title">ARB\nチェッカー</string>
+    <string name="arb_checker_header_subtitle">リモートOTAパッケージまたはローカルにダウンロードされたZIPからアンチロールバックのメタデータを検査します。</string>
+    <string name="btn_check_arb">ARBを確認</string>
+    <string name="arb_status_label">ARBステータス</string>
+    <string name="arb_index_label">ARBインデックス</string>
+    <string name="arb_metadata_version_label">メタデータバージョン</string>
+    <string name="arb_source_label">ソース</string>
+
+    <string name="link_resolver_header_title">リンク\nリゾルバー</string>
+    <string name="link_resolver_header_subtitle">downloadCheckリダイレクトされたOTAリンクを解決し、最終ターゲットを素早くコピーまたは開きます。</string>
+    <string name="btn_resolve_link">リンクを解決</string>
+
+    <string name="label_android">Android</string>
+    <string name="label_security_patch">セキュリティパッチ</string>
+    <string name="label_size">サイズ</string>
+    <string name="label_md5">MD5</string>
+    <string name="btn_changelog">更新履歴</string>
+
+    <string name="manual_query_header_title">OTA\nツール</string>
+    <string name="manual_query_header_subtitle">独自のモデル、リージョン、サーバー、およびアドバンスドフィールドを使用してOTAサーバーにクエリを実行します。</string>
+    <string name="manual_query_local_zip_label">ローカルにダウンロードされたOTA ZIP</string>
+    <string name="manual_query_advanced_options_title">詳細オプション</string>
+    <string name="manual_query_advanced_options_desc">NV ID, Req Mode, Gray, Beta</string>
+    <string name="manual_query_beta_channel_title">ベータチャネル</string>
+    <string name="manual_query_beta_channel_desc">試験的なファームウェアビルドをクエリする</string>
+    <string name="btn_from_url">URLから</string>
+    <string name="btn_from_zip">ZIPから</string>
+    <string name="btn_auto_fill_label">自動入力</string>
+    <string name="btn_check_for_update_label">アップデートを確認</string>
+
+    <string name="about_btn_check_for_updates">アップデートを確認</string>
+    <string name="about_connect_label">連携</string>
+    <string name="about_github_label">GitHub</string>
+    <string name="about_github_desc">ソースコード</string>
+    <string name="about_telegram_label">Telegram</string>
+    <string name="about_telegram_desc">チャンネル</string>
+    <string name="about_paypal_label">PayPal</string>
+    <string name="about_support_dev_desc">開発を支援</string>
+    <string name="about_upi_label">UPI</string>
+    <string name="about_copy_id_desc">IDをコピー</string>
+
+    <string name="btn_view_on_github">GitHubで表示</string>
+
+    <string name="developer_role">開発者 ＆ デザイナー</string>
+
+    <string name="dialog_add_download_section_title">ダウンロードURL</string>
+    <string name="dialog_add_download_url_hint">直接のファームウェアおよび共有されたOTA ZIPリンクをサポートしています。</string>
+
+    <string name="add_device_toolbar_title">カスタムデバイスを追加</string>
+
+    <string name="placeholder_item_title">項目のタイトル</string>
+    <string name="placeholder_item_value">項目の値</string>
+</resources>

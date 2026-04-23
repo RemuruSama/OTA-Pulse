@@ -1,0 +1,379 @@
+<resources>
+    <string name="app_icon_desc">Icon ng App</string>
+    <string name="title_device">Device</string>
+    <string name="title_ota_tools">Tools</string>
+    <string name="title_about">Tungkol</string>
+    <string name="title_settings">Settings</string>
+    <string name="title_devices">Mga Device</string>
+    <string name="title_downloads">Mga Download</string>
+
+    <string name="light_theme_description">Gumagamit ang app ng light theme.</string>
+    <string name="dark_theme_description">Gumagamit ang app ng dark theme.</string>
+    <string name="auto_theme_description">Awtomatikong magbabago ang theme base sa battery saver mode.</string>
+    <string name="system_theme_description">Susunod ang theme ng app sa system settings ng iyong device.</string>
+
+    <string name="ota_details_title">Mga Detalye ng OTA</string>
+    <string name="button_copy_link">Kopyahin ang Link</string>
+    <string name="button_download">I-download</string>
+    <string name="button_view_json">Tingnan ang JSON</string>
+    <string name="button_download_json">I-download</string>
+    <string name="button_save_json">I-save</string>
+    <string name="json_output_title">JSON Output</string>
+    <string name="json_output_unavailable">Hindi available ang JSON output para sa resultang ito.</string>
+    <string name="json_output_saved">Na-save ang JSON sa Downloads bilang %s</string>
+    <string name="json_output_save_failed">Hindi ma-save ang JSON output.</string>
+    <string name="json_output_saved_to_file">Na-save ang JSON sa %s</string>
+    <string name="copy">Kopyahin</string>
+    <string name="close">Isara</string>
+
+    <string name="device_information_header">Impormasyon ng Device</string>
+    <string name="device_image_content_description">Larawan ng Device</string>
+    <string name="device_name_placeholder">Pangalan ng Device</string>
+    <string name="device_model_placeholder">Modelo ng Device</string>
+    <string name="device_supported">Suportado ang Device</string>
+    <string name="device_not_supported">Hindi Suportado ang Device</string>
+    <string name="device_supported_placeholder">Sinusuri ang katayuan ng suporta…</string>
+    <string name="software_info_header">Info ng Software</string>
+    <string name="hardware_info_header">Info ng Hardware</string>
+    <string name="android_version">Bersyon ng Android</string>
+    <string name="os_version">Bersyon ng OS</string>
+    <string name="ota_version">Bersyon ng OTA</string>
+    <string name="incremental_os_version">Incremental na Bersyon ng OS</string>
+    <string name="security_patch_date">Security Patch</string>
+    <string name="kernel_version">Bersyon ng Kernel</string>
+    <string name="amount_of_ram">RAM</string>
+    <string name="system_on_a_chip">Chipset</string>
+    <string name="processor_frequency">Dalas ng Processor</string>
+    <string name="storage">Storage</string>
+    <string name="battery">Baterya</string>
+    <string name="display">Display</string>
+
+    <string name="search_device_hint">Maghanap ng mga device</string>
+    <string name="close_search_hint">Isara ang paghahanap</string>
+    <string name="select_region_variant">Pumili ng Rehiyon/Variant</string>
+    <string name="changelog_error">Hindi mabuksan ang link ng changelog.</string>
+    <string name="link_copied">Kopyado na ang link sa clipboard</string>
+    <string name="no_update_found">Walang nahanap na update</string>
+    <string name="retry">Subukan muli</string>
+    <string name="add_download">Magdagdag ng download</string>
+    <string name="paste_url">I-paste ang URL</string>
+    <string name="clear_url">I-clear ang URL</string>
+    <string name="start_download">Simulan ang Download</string>
+    <string name="enter_download_url">Maglagay ng download URL</string>
+    <string name="no_url_in_clipboard">Walang nahanap na URL sa clipboard</string>
+
+    <string name="about_card_title">Tungkol sa App na Ito</string>
+    <string name="app_tagline">Laging updated</string>
+    <string name="made_with">GAWA SA</string>
+    <string name="about_app_description">Hanapin ang pinakabagong mga OTA update para sa iyong device. Sinusuportahan ang mga OnePlus, realme, at OPPO device. Ang ilang mga modelo ay maaaring hindi pa suportado.</string>
+    <string name="created_by_label">Nilikha ni</string>
+    <string name="creator_avatar_desc">Avatar ng lumikha</string>
+    <string name="creator_name">Abhinav Verma</string>
+    <string name="supported_brands">Mga Suportadong Brand</string>
+    <string name="oneplus_logo_desc">Logo ng OnePlus</string>
+    <string name="realme_logo_desc">Logo ng realme</string>
+    <string name="oppo_logo_desc">Logo ng OPPO</string>
+    <string name="github_button_text">GitHub</string>
+    <string name="telegram_button_text">Telegram</string>
+    <string name="check_updates_cta">Suriin ang mga Update</string>
+    <string name="footer_copyright">© 2026 OTA Pulse. Nakalaan ang lahat ng karapatan.</string>
+
+    <string name="changelog_not_available">Hindi available ang changelog.</string>
+    <string name="pause">I-pause</string>
+    <string name="resume">Ipagpatuloy</string>
+    <string name="completed">Tapos na</string>
+    <string name="delete">I-delete</string>
+    <string name="waiting">Naghihintay</string>
+    <string name="package_file_label">Package file</string>
+    <string name="status_downloading">NAGDO-DOWNLOAD</string>
+    <string name="status_paused">NAKA-PAUSE</string>
+    <string name="status_completed">TAPOS NA</string>
+    <string name="status_failed">NABIGO</string>
+    <string name="status_cancelled">KINANSELA</string>
+    <string name="status_queued">NAKA-QUEUE</string>
+    <string name="status_waiting">NAGHIHINTAY</string>
+
+    <string name="donate_card_title">Suportahan ang Pag-unlad</string>
+    <string name="buy_me_a_coffee_button_text">Buy me a coffee</string>
+    <string name="upi_id_copy_label">UPI ID (I-tap para kopyahin)</string>
+    <string name="upi_id_copied_toast">Kopyado na ang UPI ID sa clipboard</string>
+
+    <string name="settings">Settings</string>
+    <string name="delete_custom_device_title">I-delete ang Custom Device?</string>
+    <string name="delete_custom_device_message">Sigurado ka bang gusto mong i-delete ang %s? Ang aksyong ito ay hindi na maaaring bawiin.</string>
+    <string name="cancel">I-cancel</string>
+    <string name="permission_denied_download_error">Tinanggihan ang mga kinakailangang permiso. Hindi makapag-download.</string>
+    <string name="starting_download_for">Sinisimulan ang download para sa %s</string>
+    <string name="broad_file_access_prompt">Kailangan ng malawak na access sa file para sa mga download. Mangyaring i-enable sa settings.</string>
+    <string name="cannot_proceed_download_missing_permissions">Hindi maipagpatuloy ang download. Kulang sa mga permiso:</string>
+    <string name="cannot_open_app_settings">Hindi mabuksan ang app settings.</string>
+
+    <string name="file_already_exists">Umiiral na ang File</string>
+    <string name="file_exists_message">Ang file na \"%1$s\" ay umiiral na. Gusto mo bang i-delete ito at i-download muli?</string>
+    <string name="delete_and_download">I-delete at I-download</string>
+    <string name="overwrite_dialog_chip">Kailangan ng atensyon</string>
+    <string name="overwrite_dialog_risk">Papalitan nito ang kasalukuyang file</string>
+    <string name="overwrite_dialog_message">Ang file na ito ay nasa iyong device na. Maaari mong panatilihin ang kasalukuyang kopya, o palitan ito ng bago.</string>
+    <string name="overwrite_dialog_existing_file">Umiiral na file</string>
+    <string name="replace_existing_file">Palitan ang Umiiral na File</string>
+
+    <string name="permission_needed">Kailangan ng Permiso</string>
+
+    <string name="libraries_title">Mga Library</string>
+    <string name="libraries_desc">Mga open source na lisensya</string>
+    <string name="developer_title">Developer</string>
+    <string name="developer_desc">Abhinav Verma</string>
+    <string name="contributors_title">Mga Nag-ambag</string>
+    <string name="contributors_desc">Mga ambag ng komunidad</string>
+
+    <string name="developer_message">Idinisenyo at binuo nang may ❤️.\nSalamat sa paggamit ng OTA Pulse!</string>
+    <string name="special_thanks_label">Espesyal na Pasasalamat</string>
+    <string name="open_source_community">Ang Open Source Community</string>
+    <string name="contributors_description">Salamat sa lahat ng nag-ambag sa proyektong ito, sa pamamagitan man ng code, mga pagsasalin, o feedback.</string>
+
+    <string name="advanced_mode_enabled">Naka-enable ang Advanced Mode. Maaaring kailanganin ang restart para sa ganap na epekto ng mga pagbabago.</string>
+    <string name="advanced_mode_disabled">Naka-disable ang Advanced Mode. Maaaring kailanganin ang restart para sa ganap na epekto ng mga pagbabago.</string>
+    <string name="import_overwrite_title">I-overwrite ang mga Custom Device?</string>
+    <string name="import_overwrite_message">Ang pag-import ng bagong listahan ay mag-o-overwrite sa lahat ng iyong umiiral na custom device. Ang aksyong ito ay hindi na maaaring bawiin.</string>
+    <string name="import_action">I-import</string>
+    <string name="close_action">Isara</string>
+
+    <string name="notification_permission_denied">Tinanggihan ang permiso sa notification. Maaari mong makaligtaan ang mga update sa download.</string>
+    <string name="storage_permission_granted">Ibinigay ang permiso sa storage</string>
+    <string name="storage_permission_required">Kailangan ang permiso sa storage para sa mga download</string>
+    <string name="update_available_title">May Bagong Bersyon: %s</string>
+    <string name="update_available_message">May bagong update na available!\n\nChangelog:\n%s</string>
+    <string name="download_action">I-download</string>
+    <string name="later_action">Mamaya na</string>
+    <string name="tap_to_view_update">I-tap para makita ang changelog at i-download</string>
+    <string name="notification_permission_title">Permiso sa Notification</string>
+    <string name="notification_permission_message">Gumagamit ang OTA Pulse ng mga notification para panatilihin kang updated sa progreso ng download. Mangyaring ibigay ang permisong ito.</string>
+    <string name="notification_permission_settings_message">Naka-off pa rin ang access sa notification. I-enable ito sa app settings para lumabas ang mga alerto sa progreso at pagtatapos ng download.</string>
+    <string name="notification_permission_settings_snackbar">I-enable ang access sa notification sa Settings.</string>
+    <string name="grant_action">Ibigay</string>
+    <string name="support_developer_title">Suportahan ang Developer</string>
+    <string name="support_developer_message">Suportahan ang aming open-source na gawain at tulungan ang OTA Pulse na patuloy na mag-improve.</string>
+    <string name="support_developer_star_github">I-star sa GitHub</string>
+    <string name="support_developer_donate">Mag-donate</string>
+    <string name="support_developer_maybe_later">Mamaya na siguro</string>
+    <string name="support_developer_image_content_description">Ilustrasyon ng pagsuporta sa developer</string>
+    <string name="exit_action">Lumabas</string>
+    <string name="could_not_open_download_link">Hindi mabuksan ang download link</string>
+    <string name="could_not_open_link">Hindi mabuksan ang link</string>
+    <string name="in_app_browser_title">Browser</string>
+    <string name="browser_reload">I-reload ang pahina</string>
+    <string name="browser_open_external">Buksan sa external browser</string>
+    <string name="browser_back">Bumalik</string>
+    <string name="browser_forward">Sumulong</string>
+    <string name="browser_copy_link">Kopyahin ang link ng pahina</string>
+    <string name="browser_share">Ibahagi ang pahina</string>
+    <string name="browser_enable_desktop_mode">I-enable ang desktop mode</string>
+    <string name="browser_disable_desktop_mode">I-disable ang desktop mode</string>
+    <string name="browser_status_loading">Naglo-load</string>
+    <string name="browser_status_live">Live</string>
+    <string name="browser_loading_hint">Inihahanda ang mas malinis na view para sa pagbabasa ng pahinang ito…</string>
+
+    <string name="browser_settings_title">In-App Browser</string>
+    <string name="browser_desktop_mode_title">Desktop site mode</string>
+    <string name="browser_desktop_mode_summary">Humingi ng mga desktop layout para sa dokumentasyon at mga forum</string>
+    <string name="browser_controls_title">Ipakita ang mga floating control</string>
+    <string name="browser_controls_summary">Ipakita ang bottom navigation pill habang nagba-browse</string>
+    <string name="browser_webview_version_title">Bersyon ng WebView</string>
+    <string name="browser_webview_version_unavailable">Hindi available</string>
+    <string name="add_device_name_title">Pangalan ng device</string>
+    <string name="add_device_name_supporting">Pumili ng malinaw na label ng device para madaling makilala mamaya.</string>
+    <string name="add_device_name_hint">hal., realme 12 Pro Plus</string>
+    <string name="add_device_groups_title">Mga firmware group</string>
+    <string name="add_device_groups_supporting">Ayusin ang mga variant ayon sa bersyon ng Android, pagkatapos ay idagdag ang mga regional build sa loob ng bawat grupo.</string>
+    <string name="add_device_empty_groups">Wala pang mga firmware group. Magdagdag ng isa para simulan ang pagbuo ng custom device na ito.</string>
+    <string name="add_device_add_group">Magdagdag ng firmware group</string>
+    <string name="add_device_save">I-save ang device</string>
+    <string name="add_device_edit_group">I-edit ang firmware group</string>
+    <string name="add_device_delete_group">I-delete ang firmware group</string>
+    <string name="add_device_variants_title">Mga regional variant</string>
+    <string name="add_device_empty_variants">Wala pang mga variant. Magdagdag ng rehiyon para makumpleto ang firmware group na ito.</string>
+    <string name="add_device_add_variant">Magdagdag ng variant</string>
+    <string name="add_device_remove_variant">Alisin ang variant</string>
+
+    <string name="notif_download_complete">Kumpleto na ang Download</string>
+    <string name="notif_download_failed">Bigo ang Download</string>
+    <string name="notif_paused">Naka-pause</string>
+    <string name="notif_cancel">I-cancel</string>
+    <string name="notif_pause">I-pause</string>
+    <string name="notif_resume">Ipagpatuloy</string>
+    <string name="notif_channel_progress">Progreso ng Download</string>
+    <string name="notif_channel_progress_desc">Nagpapakita ng aktibong progreso ng download</string>
+    <string name="notif_channel_alerts">Katayuan ng Download</string>
+    <string name="notif_channel_alerts_desc">Mga notification para sa mga tapos na o nabigong download</string>
+    <string name="notif_error_link_expired">Expired na ang link. Pakisubukan muli sa app.</string>
+    <string name="notif_error_not_found">Hindi nahanap ang file sa server.</string>
+    <string name="notif_error_no_network">Walang internet connection.</string>
+    <string name="notif_error_unknown">Hindi malamang ralat. Pakisubukan muli.</string>
+
+    <string name="extract_partition_title">I-extract ang mga Partition</string>
+    <string name="extract">I-extract</string>
+    <string name="or_label">o</string>
+
+    <string name="settings_section_appearance">Anyo</string>
+    <string name="settings_app_theme">Theme ng App</string>
+    <string name="theme_option_light">Light</string>
+    <string name="theme_option_dark">Dark</string>
+    <string name="theme_option_auto">Auto</string>
+    <string name="theme_option_system">System</string>
+    <string name="settings_section_general">Pangkalahatan</string>
+    <string name="settings_auto_check_updates">Auto Check para sa mga Update</string>
+    <string name="settings_auto_check_updates_desc">I-notify sa startup kung may available na update</string>
+    <string name="settings_app_language">Wika ng App</string>
+    <string name="settings_app_language_desc">Piliin ang iyong gustong wika para sa app</string>
+    <string name="language_option_system">System Default</string>
+    <string name="settings_advanced_mode">Advanced Mode</string>
+    <string name="settings_advanced_mode_desc">I-unlock ang mga eksperimental na feature</string>
+    <string name="settings_arb_detection">ARB Detection</string>
+    <string name="settings_arb_detection_desc">I-enable ang Anti-Rollback check para sa mga update</string>
+    <string name="settings_section_data">Pamamahala ng Data</string>
+    <string name="settings_export_backup">I-export ang Backup</string>
+    <string name="settings_export_backup_desc">I-save ang mga device sa storage</string>
+    <string name="settings_import_backup">I-import ang Backup</string>
+    <string name="settings_import_backup_desc">I-restore mula sa file</string>
+    <string name="settings_section_information">Impormasyon</string>
+    <string name="toast_arb_detection_enabled">Naka-enable ang ARB Detection</string>
+    <string name="toast_arb_detection_disabled">Naka-disable ang ARB Detection</string>
+
+    <string name="tools_header_title">Mga OTA\nTool</string>
+    <string name="tools_header_subtitle">Magbukas ng dedikadong pahina para sa manual query, partition extraction, link resolving, o ARB checking.</string>
+    <string name="tools_arb_checker_title">ARB Checker</string>
+    <string name="tools_arb_checker_desc">Suriin ang anti-rollback metadata mula sa isang buong OTA URL o nadownload na ZIP.</string>
+    <string name="tools_link_resolver_title">Link Resolver</string>
+    <string name="tools_link_resolver_desc">I-resolve ang downloadCheck redirected na mga OTA link.</string>
+    <string name="tools_manual_query_title">Manual Query</string>
+    <string name="tools_manual_query_desc">Mag-query sa mga OTA server gamit ang iyong sariling modelo, rehiyon, server, at mga advanced field.</string>
+    <string name="tools_partition_extraction_title">Partition Extraction</string>
+    <string name="tools_partition_extraction_desc">I-load ang mga partition mula sa isang lokal na OTA ZIP o isang buong OTA URL, pagkatapos ay i-extract ang mga napiling imahe.</string>
+
+    <string name="partition_extraction_header_title">Partition\nExtraction</string>
+    <string name="partition_extraction_header_subtitle">I-load ang mga partition mula sa isang direktang buong OTA URL o isang nadownload na lokal na ZIP.</string>
+    <string name="partition_extraction_remote_label">Remote OTA Package</string>
+    <string name="hint_paste_ota_url">I-paste ang buong OTA URL</string>
+    <string name="partition_extraction_local_zip_label">Lokal na OTA ZIP</string>
+    <string name="partition_extraction_no_zip_selected">Wala pang napipiling ZIP</string>
+    <string name="btn_choose_zip">Pumili ng ZIP</string>
+    <string name="btn_remove">Alisin</string>
+    <string name="partition_extraction_source_hint">Gumamit ng alinman sa buong OTA URL o nadownload na ZIP package.</string>
+    <string name="partition_extraction_select_partition">Pumili ng Partition</string>
+    <string name="partition_loading_msg">Naglo-load ng mga partition…</string>
+    <string name="toast_link_pasted">Na-paste na ang link</string>
+    <string name="toast_clipboard_empty">Walang laman ang clipboard</string>
+    <string name="toast_paste_url_or_choose_zip">I-paste ang buong OTA URL o pumili muna ng lokal na ZIP</string>
+    <string name="toast_partition_extracted">Matagumpay na na-extract ang %s.img</string>
+    <string name="toast_extraction_cancelled">Kinansela ang extraction</string>
+    <string name="toast_extraction_failed">Bigo ang extraction</string>
+
+    <string name="content_desc_more_options">Higit pang mga opsyon</string>
+    <string name="content_desc_mark_favorite">I-marka bilang paborito</string>
+    <string name="label_android_version_colon">Bersyon ng Android:</string>
+    <string name="label_os_version_colon">Bersyon ng OS:</string>
+    <string name="label_security_patch_colon">Security Patch:</string>
+    <string name="label_size_colon">Laki:</string>
+    <string name="label_md5_colon">MD5:</string>
+    <string name="btn_view_changelog">Tingnan ang Changelog</string>
+
+    <string name="download_speed_label">Bilis</string>
+    <string name="download_remaining_label">Natitira</string>
+
+    <string name="content_desc_remove_local_zip">Alisin ang lokal na ZIP</string>
+    <string name="content_desc_add_new_device">Magdagdag ng bagong custom device</string>
+
+    <string name="hint_android_version">Bersyon ng Android (hal., Android 14)</string>
+    <string name="hint_product_model_example">Modelo ng Produkto (hal., RMX3840)</string>
+    <string name="hint_product_name_example">Pangalan ng Produkto (hal., RMX3840IN)</string>
+    <string name="hint_region">Rehiyon</string>
+    <string name="hint_ota_version">Bersyon ng OTA</string>
+    <string name="hint_req_mode">Req Mode</string>
+    <string name="hint_gray">Gray</string>
+    <string name="hint_search_partitions">Maghanap sa mga partition</string>
+    <string name="hint_paste_download_check_link">I-paste ang downloadCheck link</string>
+    <string name="helper_paste_ota_link">I-paste ang OTA link na gusto mong i-resolve</string>
+
+    <string name="hint_product_model">Modelo ng Produkto</string>
+    <string name="hint_product_name">Pangalan ng Produkto</string>
+    <string name="hint_ver_letter">Ver Letter</string>
+    <string name="hint_rui_version">Bersyon ng RUI</string>
+    <string name="hint_server">Server</string>
+    <string name="hint_imei_optional">IMEI (Opsyonal)</string>
+    <string name="hint_language">Wika</string>
+    <string name="hint_nv_id_optional">NV ID (Opsyonal)</string>
+    <string name="hint_full_ota_url">Buong OTA URL</string>
+    <string name="hint_resolver_input_link">Link ng input ng resolver</string>
+    <string name="btn_open">Buksan</string>
+    <string name="btn_auto_fill">Auto-Fill</string>
+    <string name="btn_check_for_update">Suriin ang Update</string>
+
+    <string name="toast_paste_ota_url_first">I-paste muna ang isang buong OTA URL</string>
+    <string name="toast_choose_local_zip_first">Pumili muna ng isang lokal na OTA ZIP</string>
+    <string name="toast_resolved_link_copied">Kopyado na ang na-resolve na link</string>
+    <string name="toast_could_not_open_resolved_link">Hindi mabuksan ang na-resolve na link</string>
+    <string name="toast_device_details_fetched">Nakuha na ang mga detalye ng device</string>
+    <string name="toast_please_fill_required_fields">Mangyaring punan ang mga kinakailangang field</string>
+    <string name="toast_link_copied">Kopyado na ang link</string>
+    <string name="toast_could_not_share_link">Hindi maibahagi ang link</string>
+
+    <string name="ota_details_device">Mga Detalye ng OTA: %s</string>
+    <string name="unknown">Hindi Alam</string>
+    <string name="unknown_version">Hindi Alam na Bersyon</string>
+
+    <string name="placeholder_library_name">Pangalan ng Library</string>
+    <string name="placeholder_apache_license">Apache License 2.0</string>
+
+    <string name="arb_checker_header_title">ARB\nChecker</string>
+    <string name="arb_checker_header_subtitle">Suriin ang anti-rollback metadata mula sa isang remote OTA package o isang nadownload na lokal na ZIP.</string>
+    <string name="btn_check_arb">Suriin ang ARB</string>
+    <string name="arb_status_label">Katayuan ng ARB</string>
+    <string name="arb_index_label">Index ng ARB</string>
+    <string name="arb_metadata_version_label">Bersyon ng Metadata</string>
+    <string name="arb_source_label">Pinagmulan</string>
+
+    <string name="link_resolver_header_title">Link\nResolver</string>
+    <string name="link_resolver_header_subtitle">I-resolve ang mga downloadCheck-redirected na mga OTA link at mabilis na kopyahin o buksan ang huling target.</string>
+    <string name="btn_resolve_link">I-resolve ang Link</string>
+
+    <string name="label_android">Android</string>
+    <string name="label_security_patch">Security Patch</string>
+    <string name="label_size">Laki</string>
+    <string name="label_md5">MD5</string>
+    <string name="btn_changelog">Changelog</string>
+
+    <string name="manual_query_header_title">Mga OTA\nTool</string>
+    <string name="manual_query_header_subtitle">Mag-query sa mga OTA server gamit ang iyong sariling modelo, rehiyon, server, at mga advanced field.</string>
+    <string name="manual_query_local_zip_label">Nadownload na lokal na OTA ZIP</string>
+    <string name="manual_query_advanced_options_title">Mga Advanced na Opsyon</string>
+    <string name="manual_query_advanced_options_desc">NV ID, Req Mode, Gray, Beta</string>
+    <string name="manual_query_beta_channel_title">Beta Channel</string>
+    <string name="manual_query_beta_channel_desc">Mag-query para sa mga eksperimental na firmware build</string>
+    <string name="btn_from_url">Mula sa URL</string>
+    <string name="btn_from_zip">Mula sa ZIP</string>
+    <string name="btn_auto_fill_label">Auto-Fill</string>
+    <string name="btn_check_for_update_label">Suriin ang Update</string>
+
+    <string name="about_btn_check_for_updates">Suriin ang mga Update</string>
+    <string name="about_connect_label">Kumonekta</string>
+    <string name="about_github_label">GitHub</string>
+    <string name="about_github_desc">Source code</string>
+    <string name="about_telegram_label">Telegram</string>
+    <string name="about_telegram_desc">Channel</string>
+    <string name="about_paypal_label">PayPal</string>
+    <string name="about_support_dev_desc">Suportahan ang dev</string>
+    <string name="about_upi_label">UPI</string>
+    <string name="about_copy_id_desc">Kopyahin ang ID</string>
+
+    <string name="btn_view_on_github">Tingnan sa GitHub</string>
+
+    <string name="developer_role">Developer at Designer</string>
+
+    <string name="dialog_add_download_section_title">URL ng Download</string>
+    <string name="dialog_add_download_url_hint">Sinusuportahan ang direktang firmware at mga nakabahaging link ng OTA ZIP.</string>
+
+    <string name="add_device_toolbar_title">Magdagdag ng Custom Device</string>
+
+    <string name="placeholder_item_title">Pamagat ng Item</string>
+    <string name="placeholder_item_value">Halaga ng Item</string>
+</resources>
