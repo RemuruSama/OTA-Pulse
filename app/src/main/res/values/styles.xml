@@ -46,4 +46,9 @@
         <item name="android:stateListAnimator">@animator/bounce_animation</item>
     </style>
 
+    <style name="Widget.App.MaterialSwitch" parent="Widget.Material3.CompoundButton.MaterialSwitch">
+        <item name="thumbIcon">@drawable/selector_switch_thumb_icon</item>
+        <item name="thumbIconTint">@color/selector_switch_thumb_icon_tint</item>
+    </style>
+
 </resources>

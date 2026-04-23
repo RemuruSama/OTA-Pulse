@@ -40,6 +40,7 @@
         <item name="android:windowLightNavigationBar" tools:targetApi="O_MR1">false</item>
 
         <item name="materialCardViewStyle">@style/Widget.App.MaterialCardView</item>
+        <item name="materialSwitchStyle">@style/Widget.App.MaterialSwitch</item>
     </style>
 
     <style name="Theme.OtaUpdater" parent="Theme.OTAPulse" />

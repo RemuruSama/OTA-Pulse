@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- When checked, thumb is colorOnPrimary (usually white), icon should be colorPrimary (the accent color) -->
+    <item android:color="?attr/colorPrimary" android:state_checked="true" />
+    <!-- When unchecked, thumb is colorOutline (usually dark gray), icon should be colorSurface (usually light/white) -->
+    <item android:color="?attr/colorSurface" android:state_checked="false" />
+</selector>

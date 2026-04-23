@@ -45,6 +45,7 @@
         <item name="materialCardViewStyle">@style/Widget.App.MaterialCardView</item>
         <item name="android:popupMenuStyle">@style/Widget.App.PopupMenu</item>
         <item name="android:listPopupWindowStyle">@style/Widget.App.ListPopupWindow</item>
+        <item name="materialSwitchStyle">@style/Widget.App.MaterialSwitch</item>
     </style>
 
     <style name="Theme.OtaUpdater" parent="Theme.OTAPulse" />
