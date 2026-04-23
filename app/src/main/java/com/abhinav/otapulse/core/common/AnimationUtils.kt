@@ -2,39 +2,49 @@ package com.abhinav.otapulse.core.common
 
 import android.view.View
 import androidx.core.view.isVisible
-import androidx.interpolator.view.animation.FastOutSlowInInterpolator
+import androidx.dynamicanimation.animation.DynamicAnimation
+import androidx.dynamicanimation.animation.SpringAnimation
+import androidx.dynamicanimation.animation.SpringForce
 
 object AnimationUtils {
 
-    private val fastOutSlowIn = FastOutSlowInInterpolator()
-
     /**
-     * Staggered entrance animation: each view fades in and slides up from a
-     * 20 dp offset.  A software layer is promoted for the duration of the
-     * animation so simultaneous alpha + translation composites cheaply on the
-     * GPU and is automatically released when the animation ends.
+     * Enhanced entrance animation using physics-based Spring dynamics.
+     * Each view fades in and slides up from a 24dp offset.
      *
-     * @param views        Views to animate, in stagger order.
-     * @param startDelay   Extra delay before the first view starts (ms).
-     * @param staggerDelay Delay added per subsequent view (ms).
+     * @param views        Views to animate.
+     * @param startDelay   Initial delay before the first view starts (ms).
+     * @param staggerDelay Delay between each view's animation start (ms). Defaults to 0 for simultaneous entrance.
      */
-    fun animateEntrance(views: List<View>, startDelay: Long = 0, staggerDelay: Long = 100) {
+    fun animateEntrance(views: List<View>, startDelay: Long = 0, staggerDelay: Long = 0) {
         views.forEachIndexed { index, view ->
-            // Convert 20 dp → px so displacement is consistent across densities.
-            val offsetPx = 20f * view.resources.displayMetrics.density
-
+            val totalDelay = startDelay + (index * staggerDelay)
+            
+            // Prepare view state
+            val offsetPx = 24f * view.resources.displayMetrics.density
             view.alpha = 0f
             view.translationY = offsetPx
-            view.isVisible = true // Ensure view is visible before animating
+            view.isVisible = true
 
-            view.animate()
-                .alpha(1f)
-                .translationY(0f)
-                .setDuration(500)
-                .setStartDelay(startDelay + (index * staggerDelay))
-                .setInterpolator(fastOutSlowIn)
-                .withLayer()          // hardware layer during animation only
-                .start()
+            val startAnim = Runnable {
+                // 1. Fade in
+                view.animate()
+                    .alpha(1f)
+                    .setDuration(300)
+                    .start()
+
+                // 2. Slide up using Spring Physics
+                SpringAnimation(view, DynamicAnimation.TRANSLATION_Y, 0f).apply {
+                    spring.stiffness = SpringForce.STIFFNESS_LOW
+                    spring.dampingRatio = SpringForce.DAMPING_RATIO_MEDIUM_BOUNCY
+                }.start()
+            }
+
+            if (totalDelay > 0) {
+                view.postDelayed(startAnim, totalDelay)
+            } else {
+                startAnim.run()
+            }
         }
     }
 }

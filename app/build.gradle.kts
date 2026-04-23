@@ -122,6 +122,7 @@ dependencies {
 
     // WorkManager
     implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.androidx.dynamicanimation.ktx)
     implementation(libs.hilt.work)
 
     // Glide
