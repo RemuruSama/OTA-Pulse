@@ -22,7 +22,6 @@ import com.abhinav.otapulse.databinding.DialogDeveloperBinding
 import com.abhinav.otapulse.databinding.FragmentSettingsBinding
 import android.graphics.drawable.AnimatedVectorDrawable
 import com.abhinav.otapulse.core.common.performHapticFeedback
-import com.abhinav.otapulse.core.common.openInAppBrowser
 import com.abhinav.otapulse.core.common.openExternalBrowser
 import com.abhinav.otapulse.core.common.setHapticClickListener
 import com.google.android.material.color.MaterialColors
@@ -148,8 +147,7 @@ class SettingsFragment : Fragment() {
             binding.browserCard,
             binding.dataHeader,
             binding.dataCard,
-            binding.infoHeader,
-            binding.aboutCard
+            binding.infoHeader
         )
         // Filter out nulls in case some views are not bound or don't exist in layout yet
         com.abhinav.otapulse.core.common.AnimationUtils.animateEntrance(viewsToAnimate)
