@@ -379,6 +379,14 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         }
     }
 
+    private fun isMainTab(itemId: Int): Boolean {
+        return itemId == R.id.navigation_update ||
+               itemId == R.id.navigation_devices ||
+               itemId == R.id.navigation_ota_tools ||
+               itemId == R.id.navigation_about ||
+               itemId == R.id.navigation_settings
+    }
+
     private fun navigateToFragment(itemId: Int, addToBackStack: Boolean = true) {
         val selectedFragment: Fragment = when (itemId) {
             DOWNLOADS_SCREEN_ID -> DownloadsFragment()
@@ -398,7 +406,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         }
 
         // Pop any existing back stack entry for tab switches so it never grows unboundedly
-        if (addToBackStack && supportFragmentManager.backStackEntryCount > 0) {
+        if (addToBackStack && isMainTab(itemId) && supportFragmentManager.backStackEntryCount > 0) {
             supportFragmentManager.popBackStack()
         }
 
