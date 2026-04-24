@@ -46,6 +46,18 @@
         <item name="android:stateListAnimator">@animator/bounce_animation</item>
     </style>
 
+    <style name="Widget.App.Button.SupportCompact" parent="Widget.Material3.Button">
+        <item name="android:minHeight">44dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:paddingStart">14dp</item>
+        <item name="android:paddingEnd">14dp</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="iconSize">18dp</item>
+        <item name="android:stateListAnimator">@animator/bounce_animation</item>
+    </style>
+
     <style name="Widget.App.MaterialSwitch" parent="Widget.Material3.CompoundButton.MaterialSwitch">
         <item name="thumbIcon">@drawable/selector_switch_thumb_icon</item>
         <item name="thumbIconTint">@color/selector_switch_thumb_icon_tint</item>

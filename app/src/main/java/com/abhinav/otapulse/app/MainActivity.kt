@@ -303,24 +303,32 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     }
 
     private fun showSupportDeveloperDialog() {
+        val prefs = getSharedPreferences("support_dialog_prefs", Context.MODE_PRIVATE)
+        val lastShown = prefs.getLong("last_shown_time", 0L)
+        val oneDayMs = 24 * 60 * 60 * 1000L
+        if (System.currentTimeMillis() - lastShown < oneDayMs) return
+
         val dialogBinding = DialogSupportDeveloperBinding.inflate(layoutInflater)
         val dialog = MaterialAlertDialogBuilder(this)
             .setView(dialogBinding.root)
+            .setCancelable(false)
             .create()
+        dialog.setCanceledOnTouchOutside(false)
 
-        dialogBinding.btnClose.setHapticClickListener {
+        val dismiss = {
+            prefs.edit().putLong("last_shown_time", System.currentTimeMillis()).apply()
             dialog.dismiss()
         }
-        dialogBinding.btnMaybeLater.setHapticClickListener {
-            dialog.dismiss()
-        }
+
+        dialogBinding.btnClose.setHapticClickListener { dismiss() }
+        dialogBinding.btnMaybeLater.setHapticClickListener { dismiss() }
         dialogBinding.btnStarGithub.setHapticClickListener {
             openExternalBrowser(OTA_PULSE_REPO_URL)
-            dialog.dismiss()
+            dismiss()
         }
         dialogBinding.btnDonate.setHapticClickListener {
             openExternalBrowser(DONATION_URL)
-            dialog.dismiss()
+            dismiss()
         }
 
         dialog.show()
