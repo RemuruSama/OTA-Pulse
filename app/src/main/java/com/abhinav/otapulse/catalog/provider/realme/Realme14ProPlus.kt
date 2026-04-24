@@ -14,7 +14,7 @@ class Realme14ProPlus : DeviceProvider {
         Triple("MEA", "RMX5051", "RMX5051NVA6"),
         Triple("SA", "RMX5051", "RMX5051NV83"),
         Triple("IN", "RMX5051IN", "RMX5051NV1B"),
-        Triple("EU", "RMX5051EEA", "RMX5051NV44"),
+        Triple("EU", "RMX5054EEA", "RMX5054NV44"),
         Triple("TH", "RMX5051", "RMX5051NV39"),
         Triple("LATAM", "RMX5051", "RMX5051NV9A"),
         Triple("BR", "RMX5051", "RMX5051NV9E"),
