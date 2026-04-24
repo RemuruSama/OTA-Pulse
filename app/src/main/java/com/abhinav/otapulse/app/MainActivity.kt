@@ -30,7 +30,6 @@ import com.abhinav.otapulse.databinding.DialogSupportDeveloperBinding
 import com.abhinav.otapulse.feature.downloads.domain.DownloadRepository
 import com.abhinav.otapulse.feature.about.AboutFragment
 import com.abhinav.otapulse.feature.otatools.ui.OtaToolsFragment
-import com.abhinav.otapulse.feature.devices.ui.DeviceFragment
 import com.abhinav.otapulse.feature.devices.ui.DevicesFragment
 import com.abhinav.otapulse.feature.downloads.ui.DownloadsFragment
 import com.abhinav.otapulse.feature.settings.SettingsFragment
@@ -124,7 +123,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
 
         if (savedInstanceState == null) {
             if (!handledIntent) {
-                navigateToFragment(R.id.navigation_device, false)
+                navigateToFragment(R.id.navigation_devices, false)
             }
         } else {
             supportFragmentManager.findFragmentById(R.id.fragment_container)?.let {
@@ -339,7 +338,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
 
         if (!isAdvancedModeEnabled && lastSelectedItemId == R.id.navigation_ota_tools) {
             if (supportFragmentManager.findFragmentById(R.id.fragment_container) is OtaToolsFragment) {
-                navigateToFragment(R.id.navigation_device, false)
+                navigateToFragment(R.id.navigation_devices, false)
             }
         }
     }
@@ -361,7 +360,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
             navigateToFragment(DOWNLOADS_SCREEN_ID)
         }
         binding.bottomNavigation.setOnItemSelectedListener { item ->
-            if (item.itemId == lastSelectedItemId && item.itemId != R.id.navigation_device) return@setOnItemSelectedListener false
+            if (item.itemId == lastSelectedItemId) return@setOnItemSelectedListener false
             if (!item.isVisible) return@setOnItemSelectedListener false
             navigateToFragment(item.itemId)
             true
@@ -370,11 +369,10 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
 
     private fun getTabIndex(itemId: Int): Int {
         return when (itemId) {
-            R.id.navigation_device -> 0
-            R.id.navigation_devices -> 1
-            R.id.navigation_ota_tools -> 2
-            R.id.navigation_about -> 3
-            R.id.navigation_settings -> 4
+            R.id.navigation_devices -> 0
+            R.id.navigation_ota_tools -> 1
+            R.id.navigation_about -> 2
+            R.id.navigation_settings -> 3
             else -> -1
         }
     }
@@ -385,7 +383,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
             R.id.navigation_devices -> DevicesFragment()
             R.id.navigation_ota_tools -> {
                 if (!appSettingsPrefs.getBoolean(SettingsFragment.PREF_ADVANCED_MODE_ENABLED, true)) {
-                    DeviceFragment()
+                    DevicesFragment()
                 } else {
                     OtaToolsFragment()
                 }
@@ -393,7 +391,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
             R.id.navigation_about -> AboutFragment()
             R.id.navigation_settings -> SettingsFragment()
             R.id.navigation_libraries -> LibrariesFragment()
-            else -> DeviceFragment()
+            else -> DevicesFragment()
         }
 
         // Pop any existing back stack entry for tab switches so it never grows unboundedly
@@ -446,7 +444,6 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     private fun updateBottomNavSelection() {
         val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
         val itemId = when (currentFragment) {
-            is DeviceFragment -> R.id.navigation_device
             is DevicesFragment -> R.id.navigation_devices
             is DownloadsFragment -> lastSelectedItemId
             is OtaToolsFragment -> R.id.navigation_ota_tools
@@ -464,7 +461,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
 
     private fun updateToolbarForFragment(fragment: Fragment) {
         // Show FAB on main content tabs, hide on secondary screens
-        val isMainTab = fragment is DeviceFragment || fragment is DevicesFragment || fragment is OtaToolsFragment
+        val isMainTab = fragment is DevicesFragment || fragment is OtaToolsFragment
         if (isMainTab) {
             binding.downloadsFab.show()
         } else {
