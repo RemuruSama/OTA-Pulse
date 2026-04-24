@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">OTA Pulse</string>
     <string name="app_icon_desc">App Icon</string>
-    <string name="app_version" translatable="false">v3.0.4</string>
+    <string name="app_version" translatable="false">v3.0.5</string>
     <string name="title_device">Device</string>
     <string name="title_ota_tools">Tools</string>
     <string name="title_about">About</string>
