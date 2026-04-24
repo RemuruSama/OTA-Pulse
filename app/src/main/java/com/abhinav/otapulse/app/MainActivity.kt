@@ -34,6 +34,7 @@ import com.abhinav.otapulse.feature.devices.ui.DevicesFragment
 import com.abhinav.otapulse.feature.downloads.ui.DownloadsFragment
 import com.abhinav.otapulse.feature.settings.SettingsFragment
 import com.abhinav.otapulse.feature.settings.libraries.LibrariesFragment
+import com.abhinav.otapulse.feature.updates.ui.HomeUpdateFragment
 import com.abhinav.otapulse.core.common.PermissionHelper
 import com.abhinav.otapulse.core.notifications.DownloadNotificationHelper
 import com.abhinav.otapulse.feature.browser.InAppBrowserActivity
@@ -123,7 +124,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
 
         if (savedInstanceState == null) {
             if (!handledIntent) {
-                navigateToFragment(R.id.navigation_devices, false)
+                navigateToFragment(R.id.navigation_update, false)
             }
         } else {
             supportFragmentManager.findFragmentById(R.id.fragment_container)?.let {
@@ -338,7 +339,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
 
         if (!isAdvancedModeEnabled && lastSelectedItemId == R.id.navigation_ota_tools) {
             if (supportFragmentManager.findFragmentById(R.id.fragment_container) is OtaToolsFragment) {
-                navigateToFragment(R.id.navigation_devices, false)
+                navigateToFragment(R.id.navigation_update, false)
             }
         }
     }
@@ -369,10 +370,11 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
 
     private fun getTabIndex(itemId: Int): Int {
         return when (itemId) {
-            R.id.navigation_devices -> 0
-            R.id.navigation_ota_tools -> 1
-            R.id.navigation_about -> 2
-            R.id.navigation_settings -> 3
+            R.id.navigation_update -> 0
+            R.id.navigation_devices -> 1
+            R.id.navigation_ota_tools -> 2
+            R.id.navigation_about -> 3
+            R.id.navigation_settings -> 4
             else -> -1
         }
     }
@@ -380,10 +382,11 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     private fun navigateToFragment(itemId: Int, addToBackStack: Boolean = true) {
         val selectedFragment: Fragment = when (itemId) {
             DOWNLOADS_SCREEN_ID -> DownloadsFragment()
+            R.id.navigation_update -> HomeUpdateFragment()
             R.id.navigation_devices -> DevicesFragment()
             R.id.navigation_ota_tools -> {
                 if (!appSettingsPrefs.getBoolean(SettingsFragment.PREF_ADVANCED_MODE_ENABLED, true)) {
-                    DevicesFragment()
+                    HomeUpdateFragment()
                 } else {
                     OtaToolsFragment()
                 }
@@ -391,7 +394,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
             R.id.navigation_about -> AboutFragment()
             R.id.navigation_settings -> SettingsFragment()
             R.id.navigation_libraries -> LibrariesFragment()
-            else -> DevicesFragment()
+            else -> HomeUpdateFragment()
         }
 
         // Pop any existing back stack entry for tab switches so it never grows unboundedly
@@ -444,6 +447,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     private fun updateBottomNavSelection() {
         val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
         val itemId = when (currentFragment) {
+            is HomeUpdateFragment -> R.id.navigation_update
             is DevicesFragment -> R.id.navigation_devices
             is DownloadsFragment -> lastSelectedItemId
             is OtaToolsFragment -> R.id.navigation_ota_tools
@@ -461,7 +465,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
 
     private fun updateToolbarForFragment(fragment: Fragment) {
         // Show FAB on main content tabs, hide on secondary screens
-        val isMainTab = fragment is DevicesFragment || fragment is OtaToolsFragment
+        val isMainTab = fragment is HomeUpdateFragment || fragment is DevicesFragment || fragment is OtaToolsFragment
         if (isMainTab) {
             binding.downloadsFab.show()
         } else {

@@ -136,6 +136,92 @@ class OtaToolsViewModel @Inject constructor(
         }
     }
 
+    fun sendRequestAcrossServers(
+        model: String,
+        otaVersion: String,
+        ruiVersion: Int,
+        region: String,
+        servers: List<String>,
+        regionsArray: Array<String>,
+        imei: String = "0",
+        beta: Boolean = false,
+        nvId: String? = null,
+        language: String? = "en-EN",
+        reqMode: String? = "manual",
+        gray: Int = 0
+    ) {
+        viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true, result = null, userMessage = null) }
+
+            val dummyDevice = Device(
+                name = "Custom Device",
+                ruiVersion = ruiVersion,
+                imei = imei,
+                beta = beta,
+                imageUrl = null,
+                imageResId = null,
+                firmwareGroups = emptyMap(),
+                isFavorite = false,
+                isCustom = true
+            )
+
+            val appSettingsPrefs = context.getSharedPreferences(
+                com.abhinav.otapulse.feature.settings.SettingsFragment.APP_SETTINGS_PREFS,
+                android.content.Context.MODE_PRIVATE
+            )
+            val isArbDetectionEnabled = appSettingsPrefs.getBoolean(
+                com.abhinav.otapulse.feature.settings.SettingsFragment.PREF_ARB_DETECTION_ENABLED,
+                true
+            )
+
+            var finalResult: Result<OtaUpdate>? = null
+            var matchedServer: String? = null
+
+            for (server in servers) {
+                val regionVariant = RegionVariant(
+                    displayName = region,
+                    productModel = model,
+                    firmwareVersion = otaVersion,
+                    region = server,
+                    nvId = nvId,
+                    language = language
+                )
+
+                val result = fetchOtaDetailsUseCase(dummyDevice, regionVariant, reqMode, gray)
+                val enrichedResult = result.map { ota ->
+                    if (isArbDetectionEnabled) {
+                        val arbInfo = arbLookupService.lookupByUrl(ota.downloadUrl)
+                        if (arbInfo != null) ota.copy(arbStatus = arbInfo.toDisplayString()) else ota
+                    } else {
+                        ota.copy(arbStatus = "N/A")
+                    }
+                }
+
+                if (enrichedResult.isSuccess) {
+                    finalResult = enrichedResult
+                    matchedServer = server
+                    break
+                }
+
+                finalResult = enrichedResult
+            }
+
+            _uiState.update {
+                it.copy(
+                    isLoading = false,
+                    result = finalResult,
+                    deviceName = dummyDevice.name,
+                    regionName = if (matchedServer != null) {
+                        "${region} (Server: $matchedServer)"
+                    } else {
+                        "${region} (Searched: ${servers.joinToString(", ")})"
+                    },
+                    showOtaDetailsDialog = finalResult?.getOrNull()
+                )
+            }
+        }
+    }
+
     fun fetchExtractablePartitions(ota: OtaUpdate) {
         fetchExtractablePartitions(
             source = ota.url,

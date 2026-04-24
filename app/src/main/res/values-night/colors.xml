@@ -37,4 +37,7 @@
     <color name="material_green_500">#81C784</color>
     <color name="material_red_500">#E57373</color>
     <color name="material_red_100">#FFCDD2</color>
+
+    <!-- Custom Glass Background -->
+    <color name="glass_panel_background">#4D000000</color>
 </resources>
