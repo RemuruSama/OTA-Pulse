@@ -230,6 +230,9 @@ class HomeUpdateFragment : Fragment() {
                         binding.progressBar.isVisible = true
                         binding.buttonSubmit.isEnabled = false
                         binding.buttonSubmit.text = ""
+                        
+                        binding.dividerUpdate.isVisible = false
+                        binding.layoutUpdateAvailable.isVisible = false
                     } else {
                         binding.progressBar.isVisible = false
                         binding.buttonSubmit.isEnabled = true
@@ -237,11 +240,21 @@ class HomeUpdateFragment : Fragment() {
                     }
 
                     if (state.result != null) {
-                        state.result.onSuccess {
+                        state.result.onSuccess { ota ->
                             binding.errorCard.isVisible = false
+                            
+                            binding.dividerUpdate.isVisible = true
+                            binding.layoutUpdateAvailable.isVisible = true
+                            binding.tvUpdateVersionValue.text = ota.versionName ?: getString(R.string.unknown_version)
+                            binding.btnViewUpdate.setHapticClickListener {
+                                showResultDialog(ota)
+                            }
                         }.onFailure { error ->
                             binding.errorCard.isVisible = true
                             binding.errorTextView.text = formatErrorMessage(error.message)
+                            
+                            binding.dividerUpdate.isVisible = false
+                            binding.layoutUpdateAvailable.isVisible = false
                         }
                     } else {
                         binding.errorCard.isVisible = false

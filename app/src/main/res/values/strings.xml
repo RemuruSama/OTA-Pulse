@@ -384,6 +384,8 @@
     <string name="btn_open">Open</string>
     <string name="btn_auto_fill">Auto-Fill</string>
     <string name="btn_check_for_update">Check for Update</string>
+    <string name="update_available_label">Update Available</string>
+    <string name="btn_view">View</string>
     <string name="software_update_header_badge" translatable="false">SOFTWARE_UPDATE.sh</string>
     <string name="software_update_header_title">Software\nUpdate</string>
     <string name="software_update_header_subtitle">A focused updater page for quick manual checks using the most important OTA fields only.</string>

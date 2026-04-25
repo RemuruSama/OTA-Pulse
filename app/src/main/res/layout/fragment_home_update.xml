@@ -230,6 +230,75 @@
                                     android:textColor="?attr/colorOnSurface"
                                     tools:text="CPH2487_16.0.3.501(EX01B60P01)" />
 
+                                <!-- New Divider -->
+                                <com.google.android.material.divider.MaterialDivider
+                                    android:id="@+id/divider_update"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="12dp"
+                                    android:visibility="gone"
+                                    app:dividerColor="?attr/colorOutlineVariant"
+                                    app:dividerThickness="1dp"
+                                    tools:visibility="visible"/>
+
+                                <!-- New Update Available Info -->
+                                <androidx.constraintlayout.widget.ConstraintLayout
+                                    android:id="@+id/layout_update_available"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="12dp"
+                                    android:visibility="gone"
+                                    tools:visibility="visible">
+
+                                    <TextView
+                                        android:id="@+id/tv_update_available_label"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:alpha="0.8"
+                                        android:includeFontPadding="false"
+                                        android:text="@string/update_available_label"
+                                        android:textAppearance="?attr/textAppearanceLabelMedium"
+                                        android:textColor="?attr/colorOnSurfaceVariant"
+                                        android:textAllCaps="true"
+                                        android:textStyle="bold"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent"
+                                        app:layout_constraintBottom_toBottomOf="@id/btn_view_update" />
+
+                                    <com.google.android.material.button.MaterialButton
+                                        android:id="@+id/btn_view_update"
+                                        style="@style/Widget.Material3.Button.TonalButton"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="32dp"
+                                        android:text="@string/btn_view"
+                                        android:paddingHorizontal="12dp"
+                                        android:paddingVertical="0dp"
+                                        android:insetTop="0dp"
+                                        android:insetBottom="0dp"
+                                        android:textSize="12sp"
+                                        android:stateListAnimator="@animator/bounce_animation"
+                                        app:cornerRadius="8dp"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent" />
+
+                                    <TextView
+                                        android:id="@+id/tv_update_version_value"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="6dp"
+                                        android:fontFamily="monospace"
+                                        android:includeFontPadding="false"
+                                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                                        android:textColor="?attr/colorOnSurface"
+                                        android:singleLine="true"
+                                        android:ellipsize="end"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintTop_toBottomOf="@id/btn_view_update"
+                                        tools:text="CPH2487_16.0.3.502(EX01)" />
+
+                                </androidx.constraintlayout.widget.ConstraintLayout>
+
                             </LinearLayout>
                         </com.google.android.material.card.MaterialCardView>
 

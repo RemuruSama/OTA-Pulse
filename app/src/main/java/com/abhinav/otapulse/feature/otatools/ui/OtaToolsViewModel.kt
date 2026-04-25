@@ -215,8 +215,7 @@ class OtaToolsViewModel @Inject constructor(
                         "${region} (Server: $matchedServer)"
                     } else {
                         "${region} (Searched: ${servers.joinToString(", ")})"
-                    },
-                    showOtaDetailsDialog = finalResult?.getOrNull()
+                    }
                 )
             }
         }
