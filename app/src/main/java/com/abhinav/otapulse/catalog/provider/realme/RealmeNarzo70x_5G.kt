@@ -16,7 +16,7 @@ class RealmeNarzo70x_5G : DeviceProvider {
     private fun generateRegionalVariants(versionLetter: String): List<RegionVariant> {
         return baseVariants.map { (displayName, productModel, firmwareBase) ->
             val region = when (displayName) {
-                "IN" -> "IN"
+                "IN" -> "EU"
                 else -> "GL"
             }
             RegionVariant(

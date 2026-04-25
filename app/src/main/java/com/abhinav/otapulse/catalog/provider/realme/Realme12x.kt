@@ -10,7 +10,7 @@ class Realme12x : DeviceProvider {
     // The triple contains: Display Name, Product Model, and the base part of the firmware string.
     private val baseVariants = listOf(
         Triple("CN", "RMX3993", "RMX3993NV97"),
-        Triple("IN", "RMX3997IN", "RMX3997NV1B")
+        Triple("IN", "RMX3998IN", "RMX3998NV1B")
     )
 
     // Helper function to generate the full list of variants for a specific version letter (e.g., "A", "C").
@@ -18,7 +18,7 @@ class Realme12x : DeviceProvider {
         return baseVariants.map { (displayName, productModel, firmwareBase) ->
             val region = when (displayName) {
                 "CN" -> "CN"
-                "IN" -> "IN"
+                "IN" -> "EU"
                 else -> "GL"
             }
             RegionVariant(
