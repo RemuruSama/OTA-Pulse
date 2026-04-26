@@ -11,6 +11,8 @@ import com.abhinav.otapulse.feature.devices.domain.FetchOtaDetailsUseCase
 import com.abhinav.otapulse.ota.payload.PartitionInfo
 import com.abhinav.otapulse.core.network.OtaResolver
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -174,52 +176,91 @@ class OtaToolsViewModel @Inject constructor(
                 true
             )
 
-            var finalResult: Result<OtaUpdate>? = null
-            var matchedServer: String? = null
+            // ── Fan-out to ALL servers in parallel, then pick the latest version ──
+            // This guarantees that a stale server can never hide a newer build
+            // that is already live on another server.
+            data class ServerResult(val server: String, val ota: OtaUpdate)
 
-            for (server in servers) {
-                val regionVariant = RegionVariant(
-                    displayName = region,
-                    productModel = model,
-                    firmwareVersion = otaVersion,
-                    region = server,
-                    nvId = nvId,
-                    language = language
-                )
-
-                val result = fetchOtaDetailsUseCase(dummyDevice, regionVariant, reqMode, gray)
-                val enrichedResult = result.map { ota ->
-                    if (isArbDetectionEnabled) {
-                        val arbInfo = arbLookupService.lookupByUrl(ota.downloadUrl)
-                        if (arbInfo != null) ota.copy(arbStatus = arbInfo.toDisplayString()) else ota
-                    } else {
-                        ota.copy(arbStatus = "N/A")
+            val successfulResults: List<ServerResult> = coroutineScope {
+                servers.map { server ->
+                    async {
+                        val regionVariant = RegionVariant(
+                            displayName = region,
+                            productModel = model,
+                            firmwareVersion = otaVersion,
+                            region = server,
+                            nvId = nvId,
+                            language = language
+                        )
+                        runCatching {
+                            fetchOtaDetailsUseCase(dummyDevice, regionVariant, reqMode, gray)
+                                .getOrThrow()
+                                .let { ota ->
+                                    val enriched = if (isArbDetectionEnabled) {
+                                        val arbInfo = arbLookupService.lookupByUrl(ota.downloadUrl)
+                                        if (arbInfo != null) ota.copy(arbStatus = arbInfo.toDisplayString()) else ota
+                                    } else {
+                                        ota.copy(arbStatus = "N/A")
+                                    }
+                                    ServerResult(server, enriched)
+                                }
+                        }.getOrNull()
                     }
-                }
-
-                if (enrichedResult.isSuccess) {
-                    finalResult = enrichedResult
-                    matchedServer = server
-                    break
-                }
-
-                finalResult = enrichedResult
+                }.mapNotNull { it.await() }
             }
+
+            if (successfulResults.isEmpty()) {
+                // All servers failed — surface the last error for UX feedback
+                val lastError = runCatching {
+                    val regionVariant = RegionVariant(
+                        displayName = region,
+                        productModel = model,
+                        firmwareVersion = otaVersion,
+                        region = servers.last(),
+                        nvId = nvId,
+                        language = language
+                    )
+                    fetchOtaDetailsUseCase(dummyDevice, regionVariant, reqMode, gray)
+                }.getOrElse { Result.failure<OtaUpdate>(it) }
+
+                _uiState.update {
+                    it.copy(
+                        isLoading = false,
+                        result = lastError as? Result<OtaUpdate>
+                            ?: Result.failure(Exception("No update found on any server.")),
+                        deviceName = dummyDevice.name,
+                        regionName = "$region (Searched: ${servers.joinToString(", ")})"
+                    )
+                }
+                return@launch
+            }
+
+            // Pick the result with the highest OTA version string.
+            // realOtaVersion encodes a build timestamp in its trailing segment
+            // (e.g. CPH2487_11.H.54_3540_202602261724), so lexicographic max
+            // naturally selects the most recent build.
+            val best = successfulResults.maxWith(compareBy { it.ota.resolvedOtaVersion() })
 
             _uiState.update {
                 it.copy(
                     isLoading = false,
-                    result = finalResult,
+                    result = Result.success(best.ota),
                     deviceName = dummyDevice.name,
-                    regionName = if (matchedServer != null) {
-                        "${region} (Server: $matchedServer)"
-                    } else {
-                        "${region} (Searched: ${servers.joinToString(", ")})"
-                    }
+                    regionName = "$region (Server: ${best.server})",
+                    showOtaDetailsDialog = best.ota
                 )
             }
         }
     }
+
+    /**
+     * Returns the canonical OTA version string used for comparing builds across servers.
+     * Prefers [OtaUpdate.realOtaVersion] and falls back to [OtaUpdate.componentVersion].
+     */
+    private fun OtaUpdate.resolvedOtaVersion(): String =
+        realOtaVersion
+            ?: componentVersion.substringBefore(".")
+                .let { base -> if (base.count { it == '_' } >= 3) base else componentVersion }
 
     fun fetchExtractablePartitions(ota: OtaUpdate) {
         fetchExtractablePartitions(

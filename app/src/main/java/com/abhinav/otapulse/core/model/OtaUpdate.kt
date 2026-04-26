@@ -21,7 +21,8 @@ data class OtaUpdate(
     val arbStatus: String? = null,
     val fileName: String,
     val downloadUrl: String,
-    val rawJson: String? = null
+    val rawJson: String? = null,
+    val realOtaVersion: String? = null
 ) : Parcelable {
     companion object {
         fun fromString(otaUpdateString: String): OtaUpdate? {

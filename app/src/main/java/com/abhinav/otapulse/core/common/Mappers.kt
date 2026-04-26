@@ -55,7 +55,8 @@ fun NetworkComponent.toDomain(): OtaUpdate {
         panelUrl = this.panelUrl,
         fileName = fileName,
         downloadUrl = this.url,
-        rawJson = this.rawJson
+        rawJson = this.rawJson,
+        realOtaVersion = this.realOtaVersion
     )
 }
 

@@ -33,12 +33,14 @@ class DownloadNotificationHelper @Inject constructor(
     companion object {
         private const val CHANNEL_ID_PROGRESS = "ota_pulse_progress"
         private const val CHANNEL_ID_ALERTS = "ota_pulse_alerts"
+        private const val CHANNEL_ID_SOFTWARE_UPDATE = "ota_pulse_software_update"
 
         private const val REQUEST_CODE_PAUSE = 100
         private const val REQUEST_CODE_RESUME = 101
         private const val REQUEST_CODE_CANCEL = 102
         private const val NOTIFICATION_GROUP = "ota_pulse_downloads"
         private const val SUMMARY_ID = 44321
+        private const val SOFTWARE_UPDATE_NOTIFICATION_ID = 301
     }
 
     init {
@@ -64,8 +66,17 @@ class DownloadNotificationHelper @Inject constructor(
                 description = context.getString(R.string.notif_channel_alerts_desc)
             }
 
+            val softwareUpdateChannel = NotificationChannel(
+                CHANNEL_ID_SOFTWARE_UPDATE,
+                context.getString(R.string.notif_channel_software_update),
+                NotificationManager.IMPORTANCE_HIGH
+            ).apply {
+                description = context.getString(R.string.notif_channel_software_update_desc)
+            }
+
             notificationManager.createNotificationChannel(progressChannel)
             notificationManager.createNotificationChannel(alertChannel)
+            notificationManager.createNotificationChannel(softwareUpdateChannel)
         }
     }
 
@@ -211,6 +222,32 @@ class DownloadNotificationHelper @Inject constructor(
             .setAutoCancel(true)
 
         notify(200, builder)
+    }
+
+    fun showSoftwareUpdateNotification(versionName: String) {
+        val title = context.getString(R.string.notif_software_update_available)
+        val contentText = context.getString(R.string.notif_software_update_body, versionName)
+
+        val intent = Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
+        }
+
+        val pendingIntent = PendingIntent.getActivity(
+            context,
+            SOFTWARE_UPDATE_NOTIFICATION_ID,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
+        val builder = NotificationCompat.Builder(context, CHANNEL_ID_SOFTWARE_UPDATE)
+            .setSmallIcon(R.drawable.ic_download)
+            .setContentTitle(title)
+            .setContentText(contentText)
+            .setContentIntent(pendingIntent)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setAutoCancel(true)
+
+        notify(SOFTWARE_UPDATE_NOTIFICATION_ID, builder)
     }
 
     fun showCompletedNotification(downloadInfo: DownloadInfo) {

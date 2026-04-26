@@ -274,6 +274,15 @@
     <string name="notif_error_no_network">No internet connection.</string>
     <string name="notif_error_unknown">Unknown error. Please retry.</string>
 
+    <!-- Software Update Notification -->
+    <string name="notif_channel_software_update">Software Update</string>
+    <string name="notif_channel_software_update_desc">Checks for device software updates in the background</string>
+    <string name="notif_software_update_available">Software Update Available</string>
+    <string name="notif_software_update_body">A new version %s is available for your device</string>
+    <string name="notif_software_update_tap">Tap to check for updates</string>
+    <string name="settings_auto_software_update">Auto Software Update Check</string>
+    <string name="settings_auto_software_update_desc">Periodically check for device OTA updates in the background</string>
+
     <string name="extract_partition_title">Extract Partitions</string>
     <string name="extract">Extract</string>
     <string name="or_label">or</string>

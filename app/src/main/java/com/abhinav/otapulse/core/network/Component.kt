@@ -36,6 +36,7 @@ data class NetworkComponent(
     val osVersion: String?,
     val colorOSVersion: String?,
     val panelUrl: String?,
+    val realOtaVersion: String?,
     val rawJson: String? = null,
     val publishedTime: Long = 0,
     val status: String? = null,

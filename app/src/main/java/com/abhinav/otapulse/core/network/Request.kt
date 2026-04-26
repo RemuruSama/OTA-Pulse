@@ -230,6 +230,7 @@ class Request(
                     osVersion = dataRoot.optString("osVersion"),
                     colorOSVersion = dataRoot.optString("colorOSVersion"),
                     panelUrl = cleanPanelUrl,
+                    realOtaVersion = dataRoot.optString("realOtaVersion").takeIf { it.isNotEmpty() },
                     rawJson = rawJson
                 )
             )

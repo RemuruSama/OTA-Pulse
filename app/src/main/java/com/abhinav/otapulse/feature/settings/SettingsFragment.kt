@@ -51,6 +51,7 @@ class SettingsFragment : Fragment() {
         const val PREF_ARB_DETECTION_ENABLED = "arb_detection_enabled"
         const val PREF_BROWSER_DESKTOP_MODE = "browser_desktop_mode"
         const val PREF_BROWSER_SHOW_CONTROLS = "browser_show_controls"
+        const val PREF_AUTO_SOFTWARE_UPDATE_CHECK = "auto_software_update_check_enabled"
     }
 
     private val exportLauncher = registerForActivityResult(ActivityResultContracts.CreateDocument("application/json")) { uri ->
@@ -77,6 +78,7 @@ class SettingsFragment : Fragment() {
         observeViewModel()
         setupAdvancedModeSwitch()
         setupAutoUpdateSwitch()
+        setupAutoSoftwareUpdateSwitch()
         setupArbDetectionSwitch()
         setupBrowserDesktopModeSwitch()
         setupBrowserControlsSwitch()
@@ -174,6 +176,35 @@ class SettingsFragment : Fragment() {
         binding.autoUpdateSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
             buttonView.performHapticFeedback()
             appSettingsPrefs.edit().putBoolean(PREF_AUTO_UPDATE_CHECK, isChecked).apply()
+        }
+    }
+
+    private fun setupAutoSoftwareUpdateSwitch() {
+        val isEnabled = appSettingsPrefs.getBoolean(PREF_AUTO_SOFTWARE_UPDATE_CHECK, true)
+        binding.autoSoftwareUpdateSwitch.isChecked = isEnabled
+
+        binding.autoSoftwareUpdateSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+            buttonView.performHapticFeedback()
+            appSettingsPrefs.edit().putBoolean(PREF_AUTO_SOFTWARE_UPDATE_CHECK, isChecked).apply()
+
+            val workManager = androidx.work.WorkManager.getInstance(requireContext())
+            if (isChecked) {
+                val constraints = androidx.work.Constraints.Builder()
+                    .setRequiredNetworkType(androidx.work.NetworkType.CONNECTED)
+                    .build()
+                val workRequest = androidx.work.PeriodicWorkRequestBuilder<com.abhinav.otapulse.core.worker.SoftwareUpdateCheckWorker>(
+                    6, java.util.concurrent.TimeUnit.HOURS
+                ).setConstraints(constraints).build()
+                workManager.enqueueUniquePeriodicWork(
+                    com.abhinav.otapulse.core.worker.SoftwareUpdateCheckWorker.WORK_NAME,
+                    androidx.work.ExistingPeriodicWorkPolicy.KEEP,
+                    workRequest
+                )
+            } else {
+                workManager.cancelUniqueWork(
+                    com.abhinav.otapulse.core.worker.SoftwareUpdateCheckWorker.WORK_NAME
+                )
+            }
         }
     }
 
