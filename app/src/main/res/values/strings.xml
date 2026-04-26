@@ -282,6 +282,12 @@
     <string name="notif_software_update_tap">Tap to check for updates</string>
     <string name="settings_auto_software_update">Auto Software Update Check</string>
     <string name="settings_auto_software_update_desc">Periodically check for device OTA updates in the background</string>
+    <string name="settings_battery_optimization">Ignore Battery Optimizations</string>
+    <string name="settings_battery_optimization_desc">Ensure background checks run reliably</string>
+    <string name="settings_battery_optimization_ignored">Ignored (Optimized for background)</string>
+    <string name="battery_optimization_dialog_title">Background Execution</string>
+    <string name="battery_optimization_dialog_message">To reliably check for software updates in the background, OTA Pulse needs to be exempted from battery optimizations. Without this, the system may delay or cancel the update checks.</string>
+    <string name="allow">Allow</string>
 
     <string name="extract_partition_title">Extract Partitions</string>
     <string name="extract">Extract</string>

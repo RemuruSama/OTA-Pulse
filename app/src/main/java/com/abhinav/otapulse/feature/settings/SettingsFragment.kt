@@ -83,6 +83,7 @@ class SettingsFragment : Fragment() {
         setupBrowserDesktopModeSwitch()
         setupBrowserControlsSwitch()
         setupLanguageSelection()
+        setupBatteryOptimization()
         bindWebViewVersion()
         runEnterAnimation()
     }
@@ -194,17 +195,74 @@ class SettingsFragment : Fragment() {
                     .build()
                 val workRequest = androidx.work.PeriodicWorkRequestBuilder<com.abhinav.otapulse.core.worker.SoftwareUpdateCheckWorker>(
                     6, java.util.concurrent.TimeUnit.HOURS
-                ).setConstraints(constraints).build()
+                ).setConstraints(constraints)
+                    .setBackoffCriteria(
+                        androidx.work.BackoffPolicy.EXPONENTIAL,
+                        10000L, // 10 seconds MIN_BACKOFF_MILLIS value
+                        java.util.concurrent.TimeUnit.MILLISECONDS
+                    )
+                    .build()
                 workManager.enqueueUniquePeriodicWork(
                     com.abhinav.otapulse.core.worker.SoftwareUpdateCheckWorker.WORK_NAME,
                     androidx.work.ExistingPeriodicWorkPolicy.KEEP,
                     workRequest
                 )
+
+                val pm = requireContext().getSystemService(Context.POWER_SERVICE) as android.os.PowerManager
+                if (!pm.isIgnoringBatteryOptimizations(requireContext().packageName)) {
+                    showBatteryOptimizationDialog()
+                }
             } else {
                 workManager.cancelUniqueWork(
                     com.abhinav.otapulse.core.worker.SoftwareUpdateCheckWorker.WORK_NAME
                 )
             }
+        }
+    }
+
+    private fun setupBatteryOptimization() {
+        updateBatteryOptimizationUI()
+
+        binding.batteryOptimizationLayout?.setHapticClickListener {
+            val pm = requireContext().getSystemService(Context.POWER_SERVICE) as android.os.PowerManager
+            if (!pm.isIgnoringBatteryOptimizations(requireContext().packageName)) {
+                showBatteryOptimizationDialog()
+            } else {
+                val intent = android.content.Intent(android.provider.Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)
+                startActivity(intent)
+            }
+        }
+    }
+
+    private fun showBatteryOptimizationDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.battery_optimization_dialog_title)
+            .setMessage(R.string.battery_optimization_dialog_message)
+            .setPositiveButton(R.string.allow) { _, _ ->
+                val intent = android.content.Intent(android.provider.Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS)
+                intent.data = android.net.Uri.parse("package:${requireContext().packageName}")
+                startActivity(intent)
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+    }
+
+    private fun updateBatteryOptimizationUI() {
+        val pm = requireContext().getSystemService(Context.POWER_SERVICE) as android.os.PowerManager
+        val isIgnoring = pm.isIgnoringBatteryOptimizations(requireContext().packageName)
+        
+        binding.batteryOptimizationStatus?.text = getString(
+            if (isIgnoring) R.string.settings_battery_optimization_ignored else R.string.settings_battery_optimization_desc
+        )
+        binding.batteryOptimizationIcon?.setImageResource(
+            if (isIgnoring) R.drawable.ic_check_circle else R.drawable.ic_chevron_right
+        )
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (::appSettingsPrefs.isInitialized) {
+            updateBatteryOptimizationUI()
         }
     }
 

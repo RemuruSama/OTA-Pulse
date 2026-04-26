@@ -79,6 +79,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
             if (!isGranted) {
                 Toast.makeText(this, getString(R.string.notification_permission_denied), Toast.LENGTH_LONG).show()
             }
+            checkBatteryOptimization()
         }
 
     private val manageStoragePermissionLauncher = registerForActivityResult(
@@ -261,8 +262,12 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     }
 
     private fun checkNotificationPermission() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            checkBatteryOptimization()
+            return
+        }
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+            checkBatteryOptimization()
             return
         }
 
@@ -286,8 +291,36 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
                     openAppNotificationSettings()
                 }
             }
-            .setNegativeButton(R.string.later_action) { dialog, _ -> dialog.dismiss() }
+            .setNegativeButton(R.string.later_action) { dialog, _ -> 
+                dialog.dismiss()
+                checkBatteryOptimization()
+            }
             .show()
+    }
+
+    private fun checkBatteryOptimization() {
+        val prefs = getSharedPreferences("app_setup_prefs", Context.MODE_PRIVATE)
+        if (prefs.getBoolean("has_prompted_battery_optimization", false)) return
+
+        val isAutoUpdateEnabled = appSettingsPrefs.getBoolean(SettingsFragment.PREF_AUTO_SOFTWARE_UPDATE_CHECK, true)
+        if (!isAutoUpdateEnabled) return
+
+        val pm = getSystemService(Context.POWER_SERVICE) as android.os.PowerManager
+        if (!pm.isIgnoringBatteryOptimizations(packageName)) {
+            MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.battery_optimization_dialog_title)
+                .setMessage(R.string.battery_optimization_dialog_message)
+                .setPositiveButton(R.string.allow) { _, _ ->
+                    prefs.edit().putBoolean("has_prompted_battery_optimization", true).apply()
+                    val intent = Intent(android.provider.Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS)
+                    intent.data = Uri.parse("package:$packageName")
+                    startActivity(intent)
+                }
+                .setNegativeButton(R.string.later_action) { _, _ ->
+                    prefs.edit().putBoolean("has_prompted_battery_optimization", true).apply()
+                }
+                .show()
+        }
     }
 
     private fun openAppNotificationSettings() {

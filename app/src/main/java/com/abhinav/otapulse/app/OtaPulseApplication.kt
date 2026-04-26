@@ -41,7 +41,13 @@ class OtaPulseApplication : Application(), Configuration.Provider {
 
         val workRequest = androidx.work.PeriodicWorkRequestBuilder<com.abhinav.otapulse.core.worker.SoftwareUpdateCheckWorker>(
             6, java.util.concurrent.TimeUnit.HOURS
-        ).setConstraints(constraints).build()
+        ).setConstraints(constraints)
+            .setBackoffCriteria(
+                androidx.work.BackoffPolicy.EXPONENTIAL,
+                10000L, // 10 seconds MIN_BACKOFF_MILLIS value
+                java.util.concurrent.TimeUnit.MILLISECONDS
+            )
+            .build()
 
         androidx.work.WorkManager.getInstance(this).enqueueUniquePeriodicWork(
             com.abhinav.otapulse.core.worker.SoftwareUpdateCheckWorker.WORK_NAME,
