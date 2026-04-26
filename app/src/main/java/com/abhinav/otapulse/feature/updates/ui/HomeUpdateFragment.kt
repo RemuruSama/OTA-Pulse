@@ -215,7 +215,8 @@ class HomeUpdateFragment : Fragment() {
                 nvId = finalNvId.takeIf { it.isNotBlank() },
                 language = "en-EN",
                 reqMode = reqMode,
-                gray = 0
+                gray = 0,
+                autoShowDialog = false
             )
         }
 

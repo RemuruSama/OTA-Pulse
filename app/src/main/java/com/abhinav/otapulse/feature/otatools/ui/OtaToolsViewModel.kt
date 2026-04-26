@@ -82,7 +82,8 @@ class OtaToolsViewModel @Inject constructor(
         nvId: String? = null,
         language: String? = "en-EN",
         reqMode: String? = "manual",
-        gray: Int = 0
+        gray: Int = 0,
+        autoShowDialog: Boolean = true
     ) {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, result = null) }
@@ -132,7 +133,7 @@ class OtaToolsViewModel @Inject constructor(
                     result = enrichedResult,
                     deviceName = dummyDevice.name,
                     regionName = "${regionVariant.displayName} (Server: $server)",
-                    showOtaDetailsDialog = enrichedResult.getOrNull()
+                    showOtaDetailsDialog = if (autoShowDialog) enrichedResult.getOrNull() else null
                 )
             }
         }
@@ -150,7 +151,8 @@ class OtaToolsViewModel @Inject constructor(
         nvId: String? = null,
         language: String? = "en-EN",
         reqMode: String? = "manual",
-        gray: Int = 0
+        gray: Int = 0,
+        autoShowDialog: Boolean = true
     ) {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, result = null, userMessage = null) }
@@ -247,7 +249,7 @@ class OtaToolsViewModel @Inject constructor(
                     result = Result.success(best.ota),
                     deviceName = dummyDevice.name,
                     regionName = "$region (Server: ${best.server})",
-                    showOtaDetailsDialog = best.ota
+                    showOtaDetailsDialog = if (autoShowDialog) best.ota else null
                 )
             }
         }
