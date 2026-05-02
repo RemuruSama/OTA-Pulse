@@ -376,4 +376,12 @@
 
     <string name="placeholder_item_title">Заголовок</string>
     <string name="placeholder_item_value">Значение</string>
+
+    <!-- Home Update Panel -->
+    <string name="software_update_panel_version_label">Версия ПО</string>
+    <string name="btn_view">Просмотр</string>
+    <string name="software_update_panel_chip">Обновление ПО</string>
+    <string name="software_update_panel_device_label">Текущее устройство</string>
+    <string name="software_update_panel_meta_hint">Создано на основе профиля устройства и готово к проверке одним нажатием.</string>
+    <string name="update_available_label">Доступно обновление</string>
 </resources>

@@ -376,4 +376,12 @@
 
     <string name="placeholder_item_title">項目標題</string>
     <string name="placeholder_item_value">項目數值</string>
+
+    <!-- Home Update Panel -->
+    <string name="software_update_panel_version_label">軟體版本</string>
+    <string name="btn_view">檢視</string>
+    <string name="software_update_panel_chip">軟體更新</string>
+    <string name="software_update_panel_device_label">目前裝置</string>
+    <string name="software_update_panel_meta_hint">根據即時裝置設定檔建立，只需點一下即可檢查更新。</string>
+    <string name="update_available_label">有可用更新</string>
 </resources>

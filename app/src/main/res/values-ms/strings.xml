@@ -376,4 +376,12 @@
 
     <string name="placeholder_item_title">Tajuk Item</string>
     <string name="placeholder_item_value">Nilai Item</string>
+
+    <!-- Home Update Panel -->
+    <string name="software_update_panel_version_label">Versi perisian</string>
+    <string name="btn_view">Lihat</string>
+    <string name="software_update_panel_chip">Kemas kini perisian</string>
+    <string name="software_update_panel_device_label">Peranti semasa</string>
+    <string name="software_update_panel_meta_hint">Dibina daripada profil peranti langsung dan sedia untuk semakan satu ketik.</string>
+    <string name="update_available_label">Kemas kini tersedia</string>
 </resources>

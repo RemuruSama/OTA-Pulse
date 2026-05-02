@@ -376,4 +376,12 @@
 
     <string name="placeholder_item_title">Titolo elemento</string>
     <string name="placeholder_item_value">Valore elemento</string>
+
+    <!-- Home Update Panel -->
+    <string name="software_update_panel_version_label">Versione software</string>
+    <string name="btn_view">Visualizza</string>
+    <string name="software_update_panel_chip">Aggiornamento software</string>
+    <string name="software_update_panel_device_label">Dispositivo attuale</string>
+    <string name="software_update_panel_meta_hint">Creato dal profilo del dispositivo e pronto per un controllo con un tocco.</string>
+    <string name="update_available_label">Aggiornamento disponibile</string>
 </resources>

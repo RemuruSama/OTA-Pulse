@@ -376,4 +376,12 @@
 
     <string name="placeholder_item_title">আইটেম শিরোনাম</string>
     <string name="placeholder_item_value">আইটেম ভ্যালু</string>
+
+    <!-- Home Update Panel -->
+    <string name="software_update_panel_version_label">সফটওয়্যার সংস্করণ</string>
+    <string name="btn_view">দেখুন</string>
+    <string name="software_update_panel_chip">সফটওয়্যার আপডেট</string>
+    <string name="software_update_panel_device_label">বর্তমান ডিভাইস</string>
+    <string name="software_update_panel_meta_hint">লাইভ ডিভাইস প্রোফাইল থেকে তৈরি এবং এক-ট্যাপ চেকের জন্য প্রস্তুত।</string>
+    <string name="update_available_label">আপডেট উপলব্ধ</string>
 </resources>

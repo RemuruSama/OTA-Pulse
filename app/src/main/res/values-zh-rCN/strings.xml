@@ -376,4 +376,12 @@
 
     <string name="placeholder_item_title">条目标题</string>
     <string name="placeholder_item_value">条目数值</string>
+
+    <!-- Home Update Panel -->
+    <string name="software_update_panel_version_label">软件版本</string>
+    <string name="btn_view">查看</string>
+    <string name="software_update_panel_chip">软件更新</string>
+    <string name="software_update_panel_device_label">当前设备</string>
+    <string name="software_update_panel_meta_hint">基于实时设备配置文件构建，一键即可检查更新。</string>
+    <string name="update_available_label">有可用更新</string>
 </resources>

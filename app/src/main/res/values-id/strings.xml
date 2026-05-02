@@ -376,4 +376,12 @@
 
     <string name="placeholder_item_title">Judul Item</string>
     <string name="placeholder_item_value">Nilai Item</string>
+
+    <!-- Home Update Panel -->
+    <string name="software_update_panel_version_label">Versi perangkat lunak</string>
+    <string name="btn_view">Lihat</string>
+    <string name="software_update_panel_chip">Pembaruan perangkat lunak</string>
+    <string name="software_update_panel_device_label">Perangkat saat ini</string>
+    <string name="software_update_panel_meta_hint">Dibuat dari profil perangkat langsung dan siap untuk pemeriksaan satu ketukan.</string>
+    <string name="update_available_label">Pembaruan tersedia</string>
 </resources>

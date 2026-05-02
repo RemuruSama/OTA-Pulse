@@ -376,4 +376,12 @@
 
     <string name="placeholder_item_title">आइटम शीर्षक</string>
     <string name="placeholder_item_value">आइटम वैल्यू</string>
+
+    <!-- Home Update Panel -->
+    <string name="software_update_panel_version_label">सॉफ़्टवेयर संस्करण</string>
+    <string name="btn_view">देखें</string>
+    <string name="software_update_panel_chip">सॉफ़्टवेयर अपडेट</string>
+    <string name="software_update_panel_device_label">वर्तमान डिवाइस</string>
+    <string name="software_update_panel_meta_hint">लाइव डिवाइस प्रोफ़ाइल से बनाया गया और एक-टैप जाँच के लिए तैयार।</string>
+    <string name="update_available_label">अपडेट उपलब्ध</string>
 </resources>

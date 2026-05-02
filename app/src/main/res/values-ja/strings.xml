@@ -376,4 +376,12 @@
 
     <string name="placeholder_item_title">項目のタイトル</string>
     <string name="placeholder_item_value">項目の値</string>
+
+    <!-- Home Update Panel -->
+    <string name="software_update_panel_version_label">ソフトウェアバージョン</string>
+    <string name="btn_view">表示</string>
+    <string name="software_update_panel_chip">ソフトウェアアップデート</string>
+    <string name="software_update_panel_device_label">現在のデバイス</string>
+    <string name="software_update_panel_meta_hint">ライブデバイスプロファイルから構築され、ワンタップチェックの準備ができています。</string>
+    <string name="update_available_label">アップデートあり</string>
 </resources>

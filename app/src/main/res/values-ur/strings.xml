@@ -376,4 +376,12 @@
 
     <string name="placeholder_item_title">آئٹم کا عنوان</string>
     <string name="placeholder_item_value">آئٹم کی ویلیو</string>
+
+    <!-- Home Update Panel -->
+    <string name="software_update_panel_version_label">سافٹ ویئر ورژن</string>
+    <string name="btn_view">دیکھیں</string>
+    <string name="software_update_panel_chip">سافٹ ویئر اپ ڈیٹ</string>
+    <string name="software_update_panel_device_label">موجودہ ڈیوائس</string>
+    <string name="software_update_panel_meta_hint">لائیو ڈیوائس پروفائل سے بنایا گیا اور ایک ٹیپ چیک کے لیے تیار۔</string>
+    <string name="update_available_label">اپ ڈیٹ دستیاب ہے</string>
 </resources>

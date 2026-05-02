@@ -376,4 +376,12 @@
 
     <string name="placeholder_item_title">Pamagat ng Item</string>
     <string name="placeholder_item_value">Halaga ng Item</string>
+
+    <!-- Home Update Panel -->
+    <string name="software_update_panel_version_label">Bersyon ng software</string>
+    <string name="btn_view">Tingnan</string>
+    <string name="software_update_panel_chip">Update ng software</string>
+    <string name="software_update_panel_device_label">Kasalukuyang device</string>
+    <string name="software_update_panel_meta_hint">Ginawa mula sa live na profile ng device at handa na para sa isang-tap na pagsusuri.</string>
+    <string name="update_available_label">May available na update</string>
 </resources>

@@ -376,4 +376,12 @@
 
     <string name="placeholder_item_title">Öğe Başlığı</string>
     <string name="placeholder_item_value">Öğe Değeri</string>
+
+    <!-- Home Update Panel -->
+    <string name="software_update_panel_version_label">Yazılım sürümü</string>
+    <string name="btn_view">Görüntüle</string>
+    <string name="software_update_panel_chip">Yazılım güncellemesi</string>
+    <string name="software_update_panel_device_label">Mevcut cihaz</string>
+    <string name="software_update_panel_meta_hint">Canlı cihaz profilinden oluşturuldu ve tek dokunuşla kontrol için hazır.</string>
+    <string name="update_available_label">Güncelleme mevcut</string>
 </resources>
