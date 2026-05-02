@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorSurfaceContainerHigh"
+        android:layoutDirection="locale"
         android:padding="12dp">
 
         <TextView
@@ -18,6 +19,8 @@
             android:layout_height="wrap_content"
             android:textAppearance="?attr/textAppearanceTitleSmall"
             android:textStyle="bold"
+            android:textAlignment="viewStart"
+            android:textDirection="locale"
             app:layout_constraintEnd_toStartOf="@+id/btnViewJsonTop"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -52,6 +55,8 @@
             android:textAppearance="?attr/textAppearanceBodySmall"
             android:textColor="?attr/colorOnSurfaceVariant"
             android:textStyle="bold"
+            android:textAlignment="viewStart"
+            android:textDirection="locale"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvComponentName"
@@ -90,6 +95,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:gravity="start"
                     android:orientation="vertical">
 
                     <TextView
@@ -97,6 +104,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/label_android"
+                        android:textAlignment="viewStart"
                         android:textAppearance="?attr/textAppearanceBodySmall"
                         android:textColor="?attr/colorOnSurfaceVariant" />
 
@@ -104,6 +112,8 @@
                         android:id="@+id/tvAndroidVersion"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textDirection="firstStrong"
+                        android:textAlignment="viewStart"
                         android:textAppearance="?attr/textAppearanceTitleSmall"
                         android:textStyle="bold"
                         tools:text="14" />
@@ -113,6 +123,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:gravity="start"
                     android:orientation="vertical">
 
                     <TextView
@@ -120,6 +131,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/label_security_patch"
+                        android:textAlignment="viewStart"
                         android:textAppearance="?attr/textAppearanceBodySmall"
                         android:textColor="?attr/colorOnSurfaceVariant" />
 
@@ -127,6 +139,8 @@
                         android:id="@+id/tvSecurityPatch"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textDirection="firstStrong"
+                        android:textAlignment="viewStart"
                         android:textAppearance="?attr/textAppearanceTitleSmall"
                         android:textStyle="bold"
                         tools:text="2024-07-05" />
@@ -144,6 +158,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:gravity="start"
                     android:orientation="vertical">
 
                     <TextView
@@ -151,6 +167,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/arb_status_label"
+                        android:textAlignment="viewStart"
                         android:textAppearance="?attr/textAppearanceBodySmall"
                         android:textColor="?attr/colorOnSurfaceVariant" />
 
@@ -158,6 +175,8 @@
                         android:id="@+id/tvArbStatus"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textDirection="firstStrong"
+                        android:textAlignment="viewStart"
                         android:textAppearance="?attr/textAppearanceTitleSmall"
                         android:textStyle="bold"
                         tools:text="Safe" />
@@ -167,6 +186,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:gravity="start"
                     android:orientation="vertical">
 
                     <TextView
@@ -174,6 +194,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/label_size"
+                        android:textAlignment="viewStart"
                         android:textAppearance="?attr/textAppearanceBodySmall"
                         android:textColor="?attr/colorOnSurfaceVariant" />
 
@@ -181,6 +202,8 @@
                         android:id="@+id/tvSize"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textDirection="firstStrong"
+                        android:textAlignment="viewStart"
                         android:textAppearance="?attr/textAppearanceTitleSmall"
                         android:textStyle="bold"
                         tools:text="5.9 GB" />
@@ -197,6 +220,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="start"
                     android:orientation="vertical">
 
                     <TextView
@@ -204,6 +228,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/label_md5"
+                        android:textAlignment="viewStart"
                         android:textAppearance="?attr/textAppearanceBodySmall"
                         android:textColor="?attr/colorOnSurfaceVariant" />
 
@@ -211,6 +236,8 @@
                         android:id="@+id/tvMd5"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textDirection="ltr"
+                        android:textAlignment="viewStart"
                         android:textAppearance="?attr/textAppearanceBodySmall"
                         android:textStyle="bold"
                         tools:text="abcdef1234567890" />
@@ -242,6 +269,7 @@
                 android:insetBottom="0dp"
                 android:maxLines="1"
                 android:text="@string/btn_changelog"
+                android:textAlignment="center"
                 android:textAppearance="?attr/textAppearanceBodyMedium"
                 app:icon="@drawable/ic_open_in_new" />
 
@@ -307,6 +335,8 @@
                     android:textAppearance="?attr/textAppearanceBodyMedium"
                     android:textColor="?attr/colorOnSurfaceVariant"
                     android:textStyle="bold"
+                    android:textAlignment="viewStart"
+                    android:textDirection="locale"
                     app:layout_constrainedWidth="true"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/tvSelectedPartitionSize"
