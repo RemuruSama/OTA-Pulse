@@ -3,6 +3,7 @@ package com.abhinav.otapulse.feature.updates.ui
 import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.net.Uri
 import android.graphics.RenderEffect
 import android.graphics.Shader
@@ -24,9 +25,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.abhinav.otapulse.R
 import com.abhinav.otapulse.catalog.model.RegionData
 import com.abhinav.otapulse.core.common.DeviceUtils
+import com.abhinav.otapulse.core.common.FormatUtils
 import com.abhinav.otapulse.core.common.PermissionHelper
 import com.abhinav.otapulse.core.common.openInAppBrowser
 import com.abhinav.otapulse.core.common.setHapticClickListener
@@ -35,8 +39,10 @@ import com.abhinav.otapulse.core.ui.applyBackgroundBlur
 import com.abhinav.otapulse.databinding.FragmentHomeUpdateBinding
 import com.abhinav.otapulse.feature.otatools.ui.JsonOutputActivity
 import com.abhinav.otapulse.feature.otatools.ui.OtaToolsViewModel
+import com.abhinav.otapulse.ota.payload.PartitionInfo
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -292,8 +298,14 @@ class HomeUpdateFragment : Fragment() {
         val btnShare = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnShare)
         val btnViewJsonTop = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnViewJsonTop)
 
-        val partitionSelectorRow = dialogView.findViewById<View>(R.id.partitionSelectorRow)
-        partitionSelectorRow.isVisible = false
+        val layoutPartitionSelector = dialogView.findViewById<View>(R.id.layoutPartitionSelector)
+        val tvSelectedPartitionName = dialogView.findViewById<TextView>(R.id.tvSelectedPartitionName)
+        val tvSelectedPartitionSize = dialogView.findViewById<TextView>(R.id.tvSelectedPartitionSize)
+        val ivExpand = dialogView.findViewById<View>(R.id.ivExpand)
+        val selectorProgress = dialogView.findViewById<View>(R.id.selectorProgress)
+        val btnExtractSelected = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnExtractSelected)
+        val btnExtractProgress = dialogView.findViewById<com.abhinav.otapulse.core.ui.WavyCircularProgressIndicator>(R.id.btnExtractProgress)
+        val extractionProgressBar = dialogView.findViewById<com.google.android.material.progressindicator.LinearProgressIndicator>(R.id.extractionProgressBar)
 
         val deviceLabel = binding.inputProductModel.text?.toString()?.trim().orEmpty()
             .ifBlank { binding.inputProductName.text?.toString()?.trim().orEmpty() }
@@ -316,6 +328,180 @@ class HomeUpdateFragment : Fragment() {
         tvMd5.text = ota.md5.ifBlank { "N/A" }
         tvSize.text = ota.size
 
+        var selectedPartition: PartitionInfo? = null
+        var popupAlreadyShownForData = false
+        var workInfoJob: kotlinx.coroutines.Job? = null
+        var activeExtractionWorkId: java.util.UUID? = null
+
+        fun resetExtractButton() {
+            btnExtractSelected.isEnabled = selectedPartition != null
+            btnExtractSelected.text = getString(R.string.extract)
+            btnExtractSelected.icon = null
+            extractionProgressBar.isVisible = false
+        }
+
+        fun isShowingCancelState(): Boolean = activeExtractionWorkId != null &&
+            (extractionProgressBar.isVisible || viewModel.uiState.value.isStartingExtraction)
+
+        fun showCancelState(progress: Int? = null, indeterminate: Boolean = false) {
+            btnExtractSelected.isEnabled = true
+            btnExtractSelected.text = if (progress != null && progress in 0..99) {
+                "$progress%"
+            } else {
+                ""
+            }
+            btnExtractSelected.setIconResource(R.drawable.ic_cancel_circle)
+            extractionProgressBar.isIndeterminate = indeterminate
+            extractionProgressBar.isVisible = true
+            if (progress != null) {
+                extractionProgressBar.progress = progress
+            }
+        }
+
+        suspend fun observePartitionProgress(item: PartitionInfo, workId: java.util.UUID) {
+            androidx.work.WorkManager.getInstance(requireContext())
+                .getWorkInfoByIdFlow(workId)
+                .collect { info ->
+
+                    if (info != null) {
+                        viewModel.clearStartingExtraction()
+
+                        if (info.state == androidx.work.WorkInfo.State.SUCCEEDED) {
+                            activeExtractionWorkId = null
+                            resetExtractButton()
+                            Toast.makeText(requireContext(), "${item.name}.img extracted successfully", Toast.LENGTH_SHORT).show()
+                            workInfoJob?.cancel()
+                            return@collect
+                        } else if (info.state == androidx.work.WorkInfo.State.CANCELLED) {
+                            activeExtractionWorkId = null
+                            resetExtractButton()
+                            Toast.makeText(requireContext(), "Extraction cancelled", Toast.LENGTH_SHORT).show()
+                            workInfoJob?.cancel()
+                            return@collect
+                        } else if (info.state == androidx.work.WorkInfo.State.FAILED) {
+                            activeExtractionWorkId = null
+                            resetExtractButton()
+                            Toast.makeText(requireContext(), "Extraction failed", Toast.LENGTH_SHORT).show()
+                            workInfoJob?.cancel()
+                            return@collect
+                        }
+
+                        val progress = info.progress.getInt(com.abhinav.otapulse.arb.worker.PartitionExtractorWorker.PROGRESS_KEY, -1)
+                        if (progress != -1) {
+                            if (progress < 100) {
+                                showCancelState(progress = progress, indeterminate = false)
+                            } else {
+                                resetExtractButton()
+                            }
+                        } else if (!info.state.isFinished) {
+                            showCancelState(indeterminate = true)
+                        }
+                    }
+                }
+        }
+
+        fun showPartitionPopup(partitions: List<PartitionInfo>) {
+            val bottomSheet = com.google.android.material.bottomsheet.BottomSheetDialog(requireContext())
+            val sheetView = layoutInflater.inflate(R.layout.dialog_partition_list, null)
+            val rv = sheetView.findViewById<RecyclerView>(R.id.rvPartitions)
+
+            sheetView.findViewById<TextView>(R.id.tvTitle).text = getString(R.string.partition_extraction_select_partition)
+            sheetView.findViewById<TextView>(R.id.tvCount).text = partitions.size.toString()
+
+            var displayedPartitions = partitions.toMutableList()
+
+            val etSearch = sheetView.findViewById<android.widget.EditText>(R.id.etSearch)
+
+            rv.layoutManager = LinearLayoutManager(requireContext())
+            rv.setHasFixedSize(false)
+            rv.setItemViewCacheSize(20)
+
+            val adapter = object : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+                override fun getItemCount() = displayedPartitions.size
+                override fun onCreateViewHolder(parent: android.view.ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+                    val v = layoutInflater.inflate(R.layout.item_partition_popup, parent, false)
+                    return object : RecyclerView.ViewHolder(v) {}
+                }
+                override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+                    val item = displayedPartitions[position]
+                    val v = holder.itemView
+
+                    val tvName     = v.findViewById<TextView>(R.id.tvPartitionName)
+                    val tvMetadata = v.findViewById<TextView>(R.id.tvPartitionMetadata)
+                    val btnExtractRow = v.findViewById<View>(R.id.btnExtractRow)
+                    val card       = v.findViewById<View>(R.id.cardPartition)
+                    val tvSizeTag  = v.findViewById<TextView>(R.id.tvSizeTag)
+                    val viewAccent = v.findViewById<View>(R.id.viewAccent)
+
+                    tvName.text = item.name
+                    tvMetadata.text = "${item.formattedSize} • ${item.opCount} ops"
+
+                    tvSizeTag.text = FormatUtils.getSizeCategory(item.sizeBytes)
+                    tvSizeTag.backgroundTintList = ColorStateList.valueOf(FormatUtils.getSizeColor(item.sizeBytes))
+                    tvSizeTag.visibility = View.VISIBLE
+
+                    viewAccent.backgroundTintList = ColorStateList.valueOf(FormatUtils.getSizeColor(item.sizeBytes))
+
+                    btnExtractRow.setOnClickListener {
+                        if (checkAndRequestPermissions()) {
+                            val partitionData = viewModel.uiState.value.showPartitionSelectDialog
+                            if (partitionData != null) {
+                                selectedPartition = item
+                                tvSelectedPartitionName.text = item.name
+                                tvSelectedPartitionSize.text = item.formattedSize
+                                btnExtractSelected.isEnabled = true
+                                activeExtractionWorkId = viewModel.extractPartition(
+                                    source = partitionData.source,
+                                    versionName = partitionData.versionName,
+                                    partitionName = item.name,
+                                    regionName = regionName
+                                )
+                                workInfoJob?.cancel()
+                                workInfoJob = viewLifecycleOwner.lifecycleScope.launch {
+                                    observePartitionProgress(item, activeExtractionWorkId ?: return@launch)
+                                }
+                                bottomSheet.dismiss()
+                            }
+                        }
+                    }
+
+                    card.setOnClickListener {
+                        selectedPartition = item
+                        tvSelectedPartitionName.text = item.name
+                        tvSelectedPartitionSize.text = item.formattedSize
+                        btnExtractSelected.isEnabled = true
+                        bottomSheet.dismiss()
+                        workInfoJob?.cancel()
+                        activeExtractionWorkId?.let { workId ->
+                            workInfoJob = viewLifecycleOwner.lifecycleScope.launch {
+                                observePartitionProgress(item, workId)
+                            }
+                        }
+                    }
+                }
+            }
+
+            rv.adapter = adapter
+
+            etSearch.doOnTextChanged { text, _, _, _ ->
+                val query = text?.toString()?.trim().orEmpty()
+                displayedPartitions = if (query.isEmpty()) {
+                    partitions.toMutableList()
+                } else {
+                    partitions.filter { it.name.contains(query, ignoreCase = true) }.toMutableList()
+                }
+                adapter.notifyDataSetChanged()
+            }
+
+            bottomSheet.setContentView(sheetView)
+            bottomSheet.behavior.apply {
+                state = com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
+                skipCollapsed = true
+                peekHeight = (resources.displayMetrics.heightPixels * 0.70).toInt()
+            }
+            bottomSheet.show()
+        }
+
         val dialog = MaterialAlertDialogBuilder(requireContext())
             .setView(dialogView)
             .show()
@@ -333,6 +519,66 @@ class HomeUpdateFragment : Fragment() {
             targetDialogWidth,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
+
+        layoutPartitionSelector.setHapticClickListener {
+            val currentState = viewModel.uiState.value
+            if (currentState.showPartitionSelectDialog != null) {
+                showPartitionPopup(currentState.showPartitionSelectDialog.partitions.sortedBy { it.name })
+            } else {
+                popupAlreadyShownForData = false
+                viewModel.fetchExtractablePartitions(ota)
+            }
+        }
+
+        btnExtractSelected.setHapticClickListener {
+            val partition = selectedPartition ?: return@setHapticClickListener
+            val currentState = viewModel.uiState.value
+            val partitionData = currentState.showPartitionSelectDialog
+            if (isShowingCancelState()) {
+                activeExtractionWorkId?.let { viewModel.cancelPartitionExtraction(it, partition.name) }
+            } else if (partitionData != null && checkAndRequestPermissions()) {
+                activeExtractionWorkId = viewModel.extractPartition(
+                    source = partitionData.source,
+                    versionName = partitionData.versionName,
+                    partitionName = partition.name,
+                    regionName = regionName
+                )
+                workInfoJob?.cancel()
+                workInfoJob = viewLifecycleOwner.lifecycleScope.launch {
+                    observePartitionProgress(partition, activeExtractionWorkId ?: return@launch)
+                }
+            }
+        }
+
+        val stateJob = viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiState.collectLatest { state ->
+                selectorProgress.isVisible = state.isFetchingPartitions
+                ivExpand.isVisible = !state.isFetchingPartitions
+
+                state.showPartitionSelectDialog?.let { partitionData ->
+                    if (!popupAlreadyShownForData && !state.isFetchingPartitions) {
+                        popupAlreadyShownForData = true
+                        showPartitionPopup(partitionData.partitions.sortedBy { it.name })
+                    }
+                }
+
+                btnExtractProgress.isVisible = state.isStartingExtraction
+                if (state.isStartingExtraction) {
+                    btnExtractSelected.text = ""
+                    btnExtractSelected.icon = null
+                    btnExtractSelected.isEnabled = false
+                } else if (btnExtractSelected.text.isEmpty()) {
+                    resetExtractButton()
+                }
+            }
+        }
+
+        dialog.setOnDismissListener {
+            stateJob.cancel()
+            workInfoJob?.cancel()
+            activeExtractionWorkId = null
+            viewModel.clearPartitionSelectDialog()
+        }
 
         btnDownloadOta.setHapticClickListener {
             pendingDownload = {
