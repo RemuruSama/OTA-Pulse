@@ -22,3 +22,6 @@ release
 /release
 hs_err_pid*.log
 replay_pid*.log
+
+# AI agent artifacts
+.artifacts/
