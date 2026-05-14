@@ -91,9 +91,14 @@ class SoftwareUpdateCheckWorker @AssistedInject constructor(
 
         Log.d(TAG, "Checking for software update: model=$apiModel, ota=$otaVersionString, region=$region")
 
+        // Read the real RUI version so the correct server URL and
+        // encryption path are used (e.g. RUI 5 = ColorOS 14, RUI 6 = ColorOS 16).
+        val ruiVersion = DeviceUtils.getRuiVersion(fallback = 4)
+        Log.d(TAG, "Device RUI version: $ruiVersion")
+
         val device = Device(
             name = "This Device",
-            ruiVersion = 4,
+            ruiVersion = ruiVersion,
             imei = "0",
             beta = false,
             imageUrl = null,

@@ -38,6 +38,10 @@
     <color name="material_red_500">#F44336</color>
     <color name="material_red_100">#FFCDD2</color>
 
+    <!-- ARB Status Colors -->
+    <color name="arb_safe">#2E7D32</color>
+    <color name="arb_protected">#B00020</color>
+
     <!-- Custom Glass Background -->
     <color name="glass_panel_background">#4DFFFFFF</color>
 </resources>

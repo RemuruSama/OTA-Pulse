@@ -174,7 +174,7 @@ class HomeUpdateFragment : Fragment() {
         }
 
         binding.tvPanelDevice.text = deviceName.ifBlank { getString(R.string.unknown) }
-        binding.tvPanelName.text = name.ifBlank { name.ifBlank { getString(R.string.unknown) } }
+        binding.tvPanelName.text = name.ifBlank { model.ifBlank { getString(R.string.unknown) } }
         binding.tvPanelVersionValue.text = osVersion.ifBlank {
             displayOtaVersion.ifBlank {
                 fallbackOtaVersion.ifBlank { getString(R.string.unknown_version) }
@@ -320,9 +320,9 @@ class HomeUpdateFragment : Fragment() {
         val arbStatusText = ota.arbStatus ?: "N/A"
         tvArbStatus.text = arbStatusText
         if (arbStatusText.equals("Safe", ignoreCase = true)) {
-            tvArbStatus.setTextColor(android.graphics.Color.parseColor("#2E7D32"))
+            tvArbStatus.setTextColor(androidx.core.content.ContextCompat.getColor(requireContext(), R.color.arb_safe))
         } else if (arbStatusText.contains("Protected", ignoreCase = true)) {
-            tvArbStatus.setTextColor(android.graphics.Color.parseColor("#B00020"))
+            tvArbStatus.setTextColor(androidx.core.content.ContextCompat.getColor(requireContext(), R.color.arb_protected))
         }
 
         tvMd5.text = ota.md5.ifBlank { "N/A" }

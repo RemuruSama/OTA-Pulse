@@ -157,10 +157,12 @@ class Request(
         return try {
             when {
                 reqVersion == 2 && properties["rui_version"] as Int >= 2 -> {
+                    val key = v2SymmetricKey
+                        ?: error("decrypt() called before getPayload(); v2SymmetricKey is unset")
                     val bodyObject = JSONObject(responseBody)
                     Crypto.decryptCtrV2(
                         bodyObject.getString("cipher"),
-                        v2SymmetricKey!!,
+                        key,
                         bodyObject.getString("iv")
                     )
                 }
@@ -242,8 +244,15 @@ class Request(
         val headerMap = mutableMapOf<String, String>()
         vabInfo?.optJSONArray("header")?.let { array ->
             for (j in 0 until array.length()) {
-                val parts = array.getString(j).split("=")
-                if (parts.size == 2) headerMap[parts[0]] = parts[1]
+                val entry = array.getString(j)
+                // Use indexOf instead of split so values containing '=' (e.g. Base64
+                // padding or date strings like "2025-04=01") are never truncated.
+                val eqIdx = entry.indexOf('=')
+                if (eqIdx > 0) {
+                    val key = entry.substring(0, eqIdx)
+                    val value = entry.substring(eqIdx + 1)
+                    headerMap[key] = value
+                }
             }
         }
         return headerMap

@@ -211,5 +211,32 @@ object DeviceUtils {
             "Unknown"
         }
     }
+
     fun getKernelVersion(): String = System.getProperty("os.version") ?: "Unknown"
+
+    /**
+     * Reads the real RUI (ColorOS ROM UI) version from system properties.
+     *
+     * Property priority:
+     *  1. ro.build.version.oplusrom.display  → e.g. "6.0" → ruiVersion = 6
+     *  2. ro.build.version.oplusrom          → numeric fallback
+     *  3. ro.oplusrom.version                → older devices
+     *
+     * Returns the integer RUI version, or [fallback] (default 4) if no property is readable.
+     */
+    fun getRuiVersion(fallback: Int = 4): Int {
+        val candidates = listOf(
+            "ro.build.version.oplusrom.display",
+            "ro.build.version.oplusrom",
+            "ro.oplusrom.version"
+        )
+        for (key in candidates) {
+            val raw = getSystemProperty(key).trim()
+            if (raw.isBlank()) continue
+            // Strip trailing ".x" suffix (e.g. "6.0" → "6")
+            val major = raw.substringBefore(".").toIntOrNull()
+            if (major != null && major > 0) return major
+        }
+        return fallback
+    }
 }

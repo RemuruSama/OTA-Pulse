@@ -22,8 +22,11 @@ class BootCompletedReceiver : BroadcastReceiver() {
     }
 
     override fun onReceive(context: Context, intent: Intent) {
-        if (intent.action == Intent.ACTION_BOOT_COMPLETED) {
-            Log.d(TAG, "Device booted, checking if auto software update check is enabled")
+        val action = intent.action
+        if (action == Intent.ACTION_BOOT_COMPLETED ||
+            action == Intent.ACTION_LOCKED_BOOT_COMPLETED
+        ) {
+            Log.d(TAG, "Device booted ($action), checking if auto software update check is enabled")
             scheduleSoftwareUpdateCheck(context)
         }
     }

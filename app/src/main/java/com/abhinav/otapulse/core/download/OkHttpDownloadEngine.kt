@@ -563,7 +563,7 @@ class OkHttpDownloadEngine @Inject constructor(
         private const val TAG = "OkHttpDownloadEngine"
         private const val PREFS_NAME = "okhttp_download_engine"
         private const val KEY_RECORDS = "records"
-        private const val BUFFER_SIZE = 8 * 1024      // 8 KB
+        private const val BUFFER_SIZE = 256 * 1024    // 256 KB — reduces syscall count ~32× vs 8 KB for large OTA files
         private const val PROGRESS_INTERVAL_MS = 500L  // Emit progress every 500 ms
         private const val MAX_RETRIES = 3
         private const val RETRY_DELAY_MS = 1_500L

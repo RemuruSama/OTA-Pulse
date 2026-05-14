@@ -225,9 +225,9 @@ class DevicesFragment : Fragment(R.layout.fragment_devices) {
         val arbStatusText = data.otaUpdate.arbStatus ?: "N/A"
         tvArbStatus.text = arbStatusText
         if (arbStatusText.equals("Safe", ignoreCase = true)) {
-            tvArbStatus.setTextColor(android.graphics.Color.parseColor("#2E7D32"))
+            tvArbStatus.setTextColor(androidx.core.content.ContextCompat.getColor(requireContext(), R.color.arb_safe))
         } else if (arbStatusText.contains("Protected", ignoreCase = true)) {
-            tvArbStatus.setTextColor(android.graphics.Color.parseColor("#B00020"))
+            tvArbStatus.setTextColor(androidx.core.content.ContextCompat.getColor(requireContext(), R.color.arb_protected))
         }
 
         tvMd5.text = data.otaUpdate.md5.ifBlank { "N/A" }
