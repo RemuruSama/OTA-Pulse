@@ -16,6 +16,7 @@ object DeviceCatalog {
 
     private val deviceProviders: List<DeviceProvider> = listOf(
         // OnePlus devices
+        OnePlus15T(),
         OnePlus15RAce6T(),
         OnePlus15(),
         OnePlus13s(),
