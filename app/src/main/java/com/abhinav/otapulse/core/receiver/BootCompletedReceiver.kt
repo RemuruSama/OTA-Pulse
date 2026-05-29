@@ -46,12 +46,18 @@ class BootCompletedReceiver : BroadcastReceiver() {
         }
 
         Log.d(TAG, "Scheduling SoftwareUpdateCheckWorker")
+
+        val intervalHours = prefs.getLong(
+            SettingsFragment.PREF_CHECK_INTERVAL_HOURS,
+            SettingsFragment.DEFAULT_CHECK_INTERVAL_HOURS
+        )
+
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
 
         val workRequest = PeriodicWorkRequestBuilder<SoftwareUpdateCheckWorker>(
-            6, TimeUnit.HOURS
+            intervalHours, TimeUnit.HOURS
         ).setConstraints(constraints)
             .setBackoffCriteria(
                 BackoffPolicy.EXPONENTIAL,

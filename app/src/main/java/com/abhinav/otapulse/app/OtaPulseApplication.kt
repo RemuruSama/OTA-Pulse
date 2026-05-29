@@ -35,12 +35,17 @@ class OtaPulseApplication : Application(), Configuration.Provider {
         )
         if (!isEnabled) return
 
+        val intervalHours = prefs.getLong(
+            com.abhinav.otapulse.feature.settings.SettingsFragment.PREF_CHECK_INTERVAL_HOURS,
+            com.abhinav.otapulse.feature.settings.SettingsFragment.DEFAULT_CHECK_INTERVAL_HOURS
+        )
+
         val constraints = androidx.work.Constraints.Builder()
             .setRequiredNetworkType(androidx.work.NetworkType.CONNECTED)
             .build()
 
         val workRequest = androidx.work.PeriodicWorkRequestBuilder<com.abhinav.otapulse.core.worker.SoftwareUpdateCheckWorker>(
-            6, java.util.concurrent.TimeUnit.HOURS
+            intervalHours, java.util.concurrent.TimeUnit.HOURS
         ).setConstraints(constraints)
             .setBackoffCriteria(
                 androidx.work.BackoffPolicy.EXPONENTIAL,

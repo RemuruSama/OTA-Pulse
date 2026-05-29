@@ -294,6 +294,12 @@
     <string name="notif_software_update_tap">Tap to check for updates</string>
     <string name="settings_auto_software_update">Auto Software Update Check</string>
     <string name="settings_auto_software_update_desc">Periodically check for device OTA updates in the background</string>
+    <string name="settings_check_interval_title">Check Interval</string>
+    <string name="settings_check_interval_1h">Every 1 hour</string>
+    <string name="settings_check_interval_3h">Every 3 hours</string>
+    <string name="settings_check_interval_6h">Every 6 hours</string>
+    <string name="settings_check_interval_12h">Every 12 hours</string>
+    <string name="settings_check_interval_24h">Every 24 hours</string>
     <string name="settings_battery_optimization">Ignore Battery Optimizations</string>
     <string name="settings_battery_optimization_desc">Ensure background checks run reliably</string>
     <string name="settings_battery_optimization_ignored">Ignored (Optimized for background)</string>

@@ -52,6 +52,8 @@ class SettingsFragment : Fragment() {
         const val PREF_BROWSER_DESKTOP_MODE = "browser_desktop_mode"
         const val PREF_BROWSER_SHOW_CONTROLS = "browser_show_controls"
         const val PREF_AUTO_SOFTWARE_UPDATE_CHECK = "auto_software_update_check_enabled"
+        const val PREF_CHECK_INTERVAL_HOURS = "check_interval_hours"
+        const val DEFAULT_CHECK_INTERVAL_HOURS = 6L
         const val PREF_AMOLED_MODE = "amoled_mode"
     }
 
@@ -80,6 +82,7 @@ class SettingsFragment : Fragment() {
         setupAdvancedModeSwitch()
         setupAutoUpdateSwitch()
         setupAutoSoftwareUpdateSwitch()
+        setupCheckIntervalSelector()
         setupArbDetectionSwitch()
         setupBrowserDesktopModeSwitch()
         setupBrowserControlsSwitch()
@@ -191,24 +194,7 @@ class SettingsFragment : Fragment() {
 
             val workManager = androidx.work.WorkManager.getInstance(requireContext())
             if (isChecked) {
-                val constraints = androidx.work.Constraints.Builder()
-                    .setRequiredNetworkType(androidx.work.NetworkType.CONNECTED)
-                    .build()
-                val workRequest = androidx.work.PeriodicWorkRequestBuilder<com.abhinav.otapulse.core.worker.SoftwareUpdateCheckWorker>(
-                    6, java.util.concurrent.TimeUnit.HOURS
-                ).setConstraints(constraints)
-                    .setBackoffCriteria(
-                        androidx.work.BackoffPolicy.EXPONENTIAL,
-                        10000L, // 10 seconds MIN_BACKOFF_MILLIS value
-                        java.util.concurrent.TimeUnit.MILLISECONDS
-                    )
-                    .build()
-                workManager.enqueueUniquePeriodicWork(
-                    com.abhinav.otapulse.core.worker.SoftwareUpdateCheckWorker.WORK_NAME,
-                    androidx.work.ExistingPeriodicWorkPolicy.KEEP,
-                    workRequest
-                )
-
+                enqueueUpdateCheckWork(workManager)
                 val pm = requireContext().getSystemService(Context.POWER_SERVICE) as android.os.PowerManager
                 if (!pm.isIgnoringBatteryOptimizations(requireContext().packageName)) {
                     showBatteryOptimizationDialog()
@@ -218,7 +204,91 @@ class SettingsFragment : Fragment() {
                     com.abhinav.otapulse.core.worker.SoftwareUpdateCheckWorker.WORK_NAME
                 )
             }
+            updateCheckIntervalVisibility(isChecked)
         }
+        updateCheckIntervalVisibility(isEnabled)
+    }
+
+    private fun setupCheckIntervalSelector() {
+        updateCheckIntervalLabel()
+        binding.checkIntervalRow?.setHapticClickListener {
+            showCheckIntervalDialog()
+        }
+    }
+
+    private fun updateCheckIntervalLabel() {
+        val hours = getCheckIntervalHours()
+        val label = when (hours) {
+            1L -> getString(R.string.settings_check_interval_1h)
+            3L -> getString(R.string.settings_check_interval_3h)
+            6L -> getString(R.string.settings_check_interval_6h)
+            12L -> getString(R.string.settings_check_interval_12h)
+            24L -> getString(R.string.settings_check_interval_24h)
+            else -> getString(R.string.settings_check_interval_6h)
+        }
+        binding.checkIntervalValue?.text = label
+    }
+
+    private fun updateCheckIntervalVisibility(isEnabled: Boolean) {
+        binding.checkIntervalRow?.visibility = if (isEnabled) View.VISIBLE else View.GONE
+    }
+
+    private fun showCheckIntervalDialog() {
+        val hourValues = longArrayOf(1, 3, 6, 12, 24)
+        val labels = arrayOf(
+            getString(R.string.settings_check_interval_1h),
+            getString(R.string.settings_check_interval_3h),
+            getString(R.string.settings_check_interval_6h),
+            getString(R.string.settings_check_interval_12h),
+            getString(R.string.settings_check_interval_24h)
+        )
+        val currentHours = getCheckIntervalHours()
+        val checkedItem = hourValues.indexOf(currentHours).coerceAtLeast(0)
+
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.settings_check_interval_title)
+            .setSingleChoiceItems(labels, checkedItem) { dialog, which ->
+                val selectedHours = hourValues[which]
+                appSettingsPrefs.edit().putLong(PREF_CHECK_INTERVAL_HOURS, selectedHours).apply()
+                updateCheckIntervalLabel()
+
+                // Re-enqueue work with new interval
+                val workManager = androidx.work.WorkManager.getInstance(requireContext())
+                enqueueUpdateCheckWork(workManager, replaceExisting = true)
+
+                dialog.dismiss()
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+    }
+
+    private fun getCheckIntervalHours(): Long {
+        return appSettingsPrefs.getLong(PREF_CHECK_INTERVAL_HOURS, DEFAULT_CHECK_INTERVAL_HOURS)
+    }
+
+    private fun enqueueUpdateCheckWork(
+        workManager: androidx.work.WorkManager,
+        replaceExisting: Boolean = false
+    ) {
+        val intervalHours = getCheckIntervalHours()
+        val constraints = androidx.work.Constraints.Builder()
+            .setRequiredNetworkType(androidx.work.NetworkType.CONNECTED)
+            .build()
+        val workRequest = androidx.work.PeriodicWorkRequestBuilder<com.abhinav.otapulse.core.worker.SoftwareUpdateCheckWorker>(
+            intervalHours, java.util.concurrent.TimeUnit.HOURS
+        ).setConstraints(constraints)
+            .setBackoffCriteria(
+                androidx.work.BackoffPolicy.EXPONENTIAL,
+                10000L,
+                java.util.concurrent.TimeUnit.MILLISECONDS
+            )
+            .build()
+        workManager.enqueueUniquePeriodicWork(
+            com.abhinav.otapulse.core.worker.SoftwareUpdateCheckWorker.WORK_NAME,
+            if (replaceExisting) androidx.work.ExistingPeriodicWorkPolicy.UPDATE
+            else androidx.work.ExistingPeriodicWorkPolicy.KEEP,
+            workRequest
+        )
     }
 
     private fun setupBatteryOptimization() {
