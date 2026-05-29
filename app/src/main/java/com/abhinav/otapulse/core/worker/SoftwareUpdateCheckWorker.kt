@@ -151,7 +151,7 @@ class SoftwareUpdateCheckWorker @AssistedInject constructor(
 
         if (serverOtaVersion != currentOtaVersion && serverOtaVersion.isNotBlank()) {
             val displayVersion = latestOta.versionName ?: serverOtaVersion
-            notifyIfNew(serverOtaVersion, displayVersion)
+            notifyIfNew(serverOtaVersion, displayVersion, latestOta, region, device)
         } else {
             Log.d(TAG, "Device is up to date")
         }
@@ -169,7 +169,13 @@ class SoftwareUpdateCheckWorker @AssistedInject constructor(
             ?: componentVersion.substringBefore(".")
                 .let { base -> if (base.count { it == '_' } >= 3) base else componentVersion }
 
-    private fun notifyIfNew(componentVersion: String, displayVersion: String) {
+    private fun notifyIfNew(
+        componentVersion: String,
+        displayVersion: String,
+        otaUpdate: OtaUpdate,
+        region: String,
+        device: Device
+    ) {
         val prefs = applicationContext.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         val lastNotified = prefs.getString(KEY_LAST_NOTIFIED_VERSION, null)
 
@@ -179,7 +185,7 @@ class SoftwareUpdateCheckWorker @AssistedInject constructor(
         }
 
         Log.i(TAG, "New software update available: $displayVersion ($componentVersion)")
-        notificationHelper.showSoftwareUpdateNotification(displayVersion)
+        notificationHelper.showSoftwareUpdateNotification(displayVersion, otaUpdate, region, device)
         prefs.edit().putString(KEY_LAST_NOTIFIED_VERSION, componentVersion).apply()
     }
 
