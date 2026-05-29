@@ -18,8 +18,27 @@ data class DownloadInfo(
     val original: DownloadRecord,
     val otaUpdate: OtaUpdate?,
     val deviceName: String,
-    val regionName: String
+    val regionName: String,
+    val md5Status: Md5Status = Md5Status.NONE
 )
+
+/**
+ * Represents the state of post-download MD5 integrity verification.
+ */
+enum class Md5Status {
+    /** Not yet checked (downloading, queued, etc.) */
+    NONE,
+    /** Hash computation is in progress */
+    VERIFYING,
+    /** Hash matches the expected MD5 from OTA metadata */
+    VERIFIED,
+    /** Hash does not match — file may be corrupted */
+    FAILED,
+    /** No MD5 hash available in OTA metadata (e.g. direct downloads) */
+    SKIPPED,
+    /** File not found or IO error during verification */
+    ERROR
+}
 
 sealed class DownloadState {
     object Idle : DownloadState()

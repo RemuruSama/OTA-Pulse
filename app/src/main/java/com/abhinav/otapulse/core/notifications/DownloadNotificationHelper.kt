@@ -269,6 +269,44 @@ class DownloadNotificationHelper @Inject constructor(
         notify(downloadInfo.id, builder)
     }
 
+    fun showVerifiedNotification(downloadInfo: DownloadInfo) {
+        val title = context.getString(R.string.notif_md5_verified)
+        val contentText = downloadInfo.fileName
+
+        val builder = NotificationCompat.Builder(context, CHANNEL_ID_ALERTS)
+            .setSmallIcon(R.drawable.ic_check_circle)
+            .setContentTitle(title)
+            .setContentText(contentText)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setAutoCancel(true)
+            .setGroup(NOTIFICATION_GROUP)
+            .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY)
+            .setCategory(NotificationCompat.CATEGORY_PROGRESS)
+            .setProgress(0, 0, false)
+
+        showSummaryNotification()
+        notify(downloadInfo.id, builder)
+    }
+
+    fun showMd5FailedNotification(downloadInfo: DownloadInfo) {
+        val title = context.getString(R.string.notif_md5_failed)
+        val contentText = downloadInfo.fileName
+
+        val builder = NotificationCompat.Builder(context, CHANNEL_ID_ALERTS)
+            .setSmallIcon(R.drawable.ic_error_circle)
+            .setContentTitle(title)
+            .setContentText(contentText)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setAutoCancel(true)
+            .setGroup(NOTIFICATION_GROUP)
+            .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY)
+            .setCategory(NotificationCompat.CATEGORY_ERROR)
+            .setProgress(0, 0, false)
+
+        showSummaryNotification()
+        notify(downloadInfo.id, builder)
+    }
+
     fun showErrorNotification(downloadInfo: DownloadInfo) {
         val title = context.getString(R.string.notif_download_failed)
 

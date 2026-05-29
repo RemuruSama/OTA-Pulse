@@ -265,6 +265,14 @@
     <string name="notif_cancel">Cancel</string>
     <string name="notif_pause">Pause</string>
     <string name="notif_resume">Resume</string>
+
+    <!-- MD5 Verification -->
+    <string name="md5_verifying">Verifying…</string>
+    <string name="md5_verified">MD5 Verified</string>
+    <string name="md5_failed">MD5 Failed</string>
+    <string name="md5_error">Verify Error</string>
+    <string name="notif_md5_verified">Download verified ✓</string>
+    <string name="notif_md5_failed">⚠ MD5 mismatch — file may be corrupted</string>
     <string name="notif_channel_progress">Download Progress</string>
     <string name="notif_channel_progress_desc">Shows active download progress</string>
     <string name="notif_channel_alerts">Download Status</string>

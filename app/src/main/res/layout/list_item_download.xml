@@ -89,6 +89,26 @@
                     android:textStyle="bold"
                     tools:text="Size: 5.3 GB" />
             </LinearLayout>
+
+            <Space
+                android:layout_width="8dp"
+                android:layout_height="1dp" />
+
+            <TextView
+                android:id="@+id/md5StatusChipTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_status_chip"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="6dp"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:visibility="gone"
+                android:textAppearance="?attr/textAppearanceLabelMedium"
+                android:textStyle="bold"
+                tools:text="MD5 Verified"
+                tools:visibility="visible" />
         </LinearLayout>
 
         <LinearLayout

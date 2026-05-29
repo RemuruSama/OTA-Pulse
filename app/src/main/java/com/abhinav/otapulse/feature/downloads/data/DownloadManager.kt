@@ -3,6 +3,8 @@ package com.abhinav.otapulse.feature.downloads.data
 import android.content.Context
 import android.os.Environment
 import android.util.Log
+import com.abhinav.otapulse.core.common.Md5Verifier
+import com.abhinav.otapulse.core.common.VerificationResult
 import com.abhinav.otapulse.core.download.DownloadError
 import com.abhinav.otapulse.core.download.DownloadListener
 import com.abhinav.otapulse.core.download.DownloadRecord
@@ -10,6 +12,7 @@ import com.abhinav.otapulse.core.download.DownloadStatus
 import com.abhinav.otapulse.core.download.OkHttpDownloadEngine
 import com.abhinav.otapulse.core.model.DownloadInfo
 import com.abhinav.otapulse.core.model.DownloadState
+import com.abhinav.otapulse.core.model.Md5Status
 import com.abhinav.otapulse.core.model.OtaUpdate
 import com.abhinav.otapulse.core.model.toDownloadInfo
 import com.abhinav.otapulse.core.model.toExtras
@@ -56,6 +59,10 @@ class DownloadManager @Inject constructor(
     // Speed Smoothing Map
     // Stores the calculated "smoothed" speed for each download ID to prevent visual jumping
     private val speedSmoothingMap = ConcurrentHashMap<Int, Long>()
+
+    // MD5 Verification Status Map
+    // Tracks the per-download MD5 verification state for UI display
+    private val md5StatusMap = ConcurrentHashMap<Int, Md5Status>()
 
     // Track automatic retry attempts per download to prevent infinite loops.
     private val autoRetryAttempts = ConcurrentHashMap<Int, AtomicInteger>()
@@ -272,6 +279,7 @@ class DownloadManager @Inject constructor(
         lastProgressUpdateMap.remove(downloadInfo.id)
         speedSmoothingMap.remove(downloadInfo.id)
         autoRetryAttempts.remove(downloadInfo.id)
+        md5StatusMap.remove(downloadInfo.id)
     }
 
     override fun retryDownload(downloadInfo: DownloadInfo) {
@@ -295,6 +303,7 @@ class DownloadManager @Inject constructor(
         lastProgressUpdateMap.remove(downloadInfo.id)
         speedSmoothingMap.remove(downloadInfo.id)
         autoRetryAttempts.remove(downloadInfo.id)
+        md5StatusMap.remove(downloadInfo.id)
     }
 
     /** Checks if the error indicates an expired, invalid, or range-rejected download URL */
@@ -341,7 +350,12 @@ class DownloadManager @Inject constructor(
 
     private fun updateDownloadsList() {
         val downloads = engine.getDownloads()
-        _allDownloads.value = downloads.map { it.toDownloadInfo(smoothedSpeed = speedSmoothingMap[it.id]) }
+        _allDownloads.value = downloads.map {
+            it.toDownloadInfo(
+                smoothedSpeed = speedSmoothingMap[it.id],
+                md5Status = md5StatusMap[it.id] ?: Md5Status.NONE
+            )
+        }
     }
 
     private fun updateSingleDownloadState(record: DownloadRecord, newFilePath: String? = null, smoothedSpeed: Long? = null) {
@@ -353,7 +367,8 @@ class DownloadManager @Inject constructor(
 
         val updatedInfo = record.toDownloadInfo(
             newFilePath = newFilePath ?: record.file,
-            smoothedSpeed = displaySpeed
+            smoothedSpeed = displaySpeed,
+            md5Status = md5StatusMap[record.id] ?: Md5Status.NONE
         )
 
         if (index != -1) {
@@ -410,6 +425,51 @@ class DownloadManager @Inject constructor(
             updateSingleDownloadState(record, newFilePath = record.file)
             notificationHelper.showCompletedNotification(completedDownloadInfo)
             Log.i(TAG, "Download completed: ${record.file}")
+
+            // --- MD5 Verification ---
+            verifyMd5(record)
+        }
+    }
+
+    /**
+     * Runs post-download MD5 integrity verification.
+     * Updates the UI state and notification based on the result.
+     */
+    private suspend fun verifyMd5(record: DownloadRecord) {
+        val otaUpdateString = record.extras["otaUpdate"] ?: ""
+        val otaUpdate = if (otaUpdateString.isBlank()) null else OtaUpdate.fromString(otaUpdateString)
+        val expectedMd5 = otaUpdate?.md5.orEmpty()
+
+        if (expectedMd5.isBlank()) {
+            md5StatusMap[record.id] = Md5Status.SKIPPED
+            updateSingleDownloadState(record, newFilePath = record.file)
+            Log.d(TAG, "MD5 verification skipped for ${record.file} — no hash available")
+            return
+        }
+
+        // Set VERIFYING state so the UI shows a loading indicator
+        md5StatusMap[record.id] = Md5Status.VERIFYING
+        updateSingleDownloadState(record, newFilePath = record.file)
+
+        val file = File(record.file)
+        val result = Md5Verifier.verify(file, expectedMd5)
+
+        val md5Status = when (result) {
+            VerificationResult.VERIFIED -> Md5Status.VERIFIED
+            VerificationResult.FAILED -> Md5Status.FAILED
+            VerificationResult.SKIPPED -> Md5Status.SKIPPED
+            VerificationResult.ERROR -> Md5Status.ERROR
+        }
+
+        md5StatusMap[record.id] = md5Status
+        updateSingleDownloadState(record, newFilePath = record.file)
+
+        // Update the notification with the verification result
+        val downloadInfo = record.toDownloadInfo(newFilePath = record.file, md5Status = md5Status)
+        when (md5Status) {
+            Md5Status.VERIFIED -> notificationHelper.showVerifiedNotification(downloadInfo)
+            Md5Status.FAILED -> notificationHelper.showMd5FailedNotification(downloadInfo)
+            else -> { /* No notification change for SKIPPED/ERROR */ }
         }
     }
 
@@ -437,6 +497,7 @@ class DownloadManager @Inject constructor(
         lastProgressUpdateMap.remove(record.id)
         speedSmoothingMap.remove(record.id)
         autoRetryAttempts.remove(record.id)
+        md5StatusMap.remove(record.id)
     }
 
     override fun onRemoved(record: DownloadRecord) {
@@ -445,6 +506,7 @@ class DownloadManager @Inject constructor(
         lastProgressUpdateMap.remove(record.id)
         speedSmoothingMap.remove(record.id)
         autoRetryAttempts.remove(record.id)
+        md5StatusMap.remove(record.id)
     }
 
     override fun onDeleted(record: DownloadRecord) {
@@ -453,6 +515,7 @@ class DownloadManager @Inject constructor(
         lastProgressUpdateMap.remove(record.id)
         speedSmoothingMap.remove(record.id)
         autoRetryAttempts.remove(record.id)
+        md5StatusMap.remove(record.id)
     }
 
     override fun onAdded(record: DownloadRecord) = updateDownloadsList()

@@ -11,7 +11,8 @@ import java.io.File
  */
 fun DownloadRecord.toDownloadInfo(
     newFilePath: String? = null,
-    smoothedSpeed: Long? = null
+    smoothedSpeed: Long? = null,
+    md5Status: Md5Status = Md5Status.NONE
 ): DownloadInfo {
     val otaUpdateString = extras["otaUpdate"] ?: ""
     val deviceName = extras["deviceName"] ?: ""
@@ -36,6 +37,8 @@ fun DownloadRecord.toDownloadInfo(
         original = this,
         otaUpdate = if (otaUpdateString.isBlank()) null else OtaUpdate.fromString(otaUpdateString),
         deviceName = deviceName,
-        regionName = regionName
+        regionName = regionName,
+        md5Status = md5Status
     )
 }
+

@@ -16,6 +16,7 @@ import com.abhinav.otapulse.core.model.DownloadInfo
 import com.abhinav.otapulse.core.common.FormatUtils
 import com.abhinav.otapulse.core.common.setHapticClickListener
 import com.abhinav.otapulse.core.download.DownloadStatus
+import com.abhinav.otapulse.core.model.Md5Status
 import java.util.concurrent.TimeUnit
 
 class DownloadAdapter(
@@ -77,6 +78,7 @@ class DownloadAdapter(
             binding.fileSizeTextView.text = context.getString(R.string.file_size_format, FormatUtils.formatSize(downloadInfo.totalBytes))
             updateProgress(downloadInfo)
             bindStatus(downloadInfo)
+            bindMd5Status(downloadInfo)
             updateActionButtonWeights(downloadInfo.status)
 
             binding.actionButton.isEnabled = true
@@ -100,13 +102,21 @@ class DownloadAdapter(
                     binding.cancelButton.setHapticClickListener { onCancel(downloadInfo) }
                 }
                 DownloadStatus.COMPLETED -> {
-                    binding.actionButton.text = context.getString(R.string.completed)
-                    binding.actionButton.setIconResource(R.drawable.ic_check_circle)
-                    binding.actionButton.isEnabled = false
-                    binding.cancelButton.visibility = View.VISIBLE
-                    binding.cancelButton.text = context.getString(R.string.delete)
-                    binding.cancelButton.setIconResource(R.drawable.ic_delete)
-                    binding.cancelButton.setHapticClickListener { onDelete(downloadInfo) }
+                    if (downloadInfo.md5Status == Md5Status.VERIFYING) {
+                        // MD5 check still in progress — don't show Completed/Delete yet
+                        binding.actionButton.text = context.getString(R.string.md5_verifying)
+                        binding.actionButton.setIconResource(R.drawable.ic_search)
+                        binding.actionButton.isEnabled = false
+                        binding.cancelButton.visibility = View.GONE
+                    } else {
+                        binding.actionButton.text = context.getString(R.string.completed)
+                        binding.actionButton.setIconResource(R.drawable.ic_check_circle)
+                        binding.actionButton.isEnabled = false
+                        binding.cancelButton.visibility = View.VISIBLE
+                        binding.cancelButton.text = context.getString(R.string.delete)
+                        binding.cancelButton.setIconResource(R.drawable.ic_delete)
+                        binding.cancelButton.setHapticClickListener { onDelete(downloadInfo) }
+                    }
                 }
                 DownloadStatus.FAILED, DownloadStatus.CANCELLED -> {
                     binding.actionButton.text = context.getString(R.string.retry)
@@ -168,7 +178,16 @@ class DownloadAdapter(
             val (label, bgColorAttr, textColorAttr) = when (downloadInfo.status) {
                 DownloadStatus.DOWNLOADING -> Triple(context.getString(R.string.status_downloading), com.google.android.material.R.attr.colorPrimaryContainer, com.google.android.material.R.attr.colorOnPrimaryContainer)
                 DownloadStatus.PAUSED -> Triple(context.getString(R.string.status_paused), com.google.android.material.R.attr.colorSecondaryContainer, com.google.android.material.R.attr.colorOnSecondaryContainer)
-                DownloadStatus.COMPLETED -> Triple(context.getString(R.string.status_completed), com.google.android.material.R.attr.colorTertiaryContainer, com.google.android.material.R.attr.colorOnTertiaryContainer)
+                DownloadStatus.COMPLETED -> {
+                    // Override the chip based on MD5 verification result
+                    when (downloadInfo.md5Status) {
+                        Md5Status.VERIFYING -> Triple(context.getString(R.string.md5_verifying).uppercase(), com.google.android.material.R.attr.colorSurfaceContainerHighest, com.google.android.material.R.attr.colorOnSurface)
+                        Md5Status.VERIFIED -> Triple(context.getString(R.string.md5_verified).uppercase(), com.google.android.material.R.attr.colorTertiaryContainer, com.google.android.material.R.attr.colorOnTertiaryContainer)
+                        Md5Status.FAILED -> Triple(context.getString(R.string.md5_failed).uppercase(), com.google.android.material.R.attr.colorErrorContainer, com.google.android.material.R.attr.colorOnErrorContainer)
+                        Md5Status.ERROR -> Triple(context.getString(R.string.md5_error).uppercase(), com.google.android.material.R.attr.colorErrorContainer, com.google.android.material.R.attr.colorOnErrorContainer)
+                        else -> Triple(context.getString(R.string.status_completed), com.google.android.material.R.attr.colorTertiaryContainer, com.google.android.material.R.attr.colorOnTertiaryContainer)
+                    }
+                }
                 DownloadStatus.FAILED -> Triple(context.getString(R.string.status_failed), com.google.android.material.R.attr.colorErrorContainer, com.google.android.material.R.attr.colorOnErrorContainer)
                 DownloadStatus.CANCELLED -> Triple(context.getString(R.string.status_cancelled), com.google.android.material.R.attr.colorErrorContainer, com.google.android.material.R.attr.colorOnErrorContainer)
                 DownloadStatus.QUEUED, DownloadStatus.ADDED -> Triple(context.getString(R.string.status_queued), com.google.android.material.R.attr.colorSurfaceContainerHighest, com.google.android.material.R.attr.colorOnSurface)
@@ -257,6 +276,12 @@ class DownloadAdapter(
                 minutes > 0 -> context.getString(R.string.eta_minutes_only, if (remainingSeconds >= 30) minutes + 1 else minutes)
                 else -> context.getString(R.string.eta_seconds, seconds)
             }
+        }
+
+        private fun bindMd5Status(downloadInfo: DownloadInfo) {
+            // MD5 status is now shown in the top status chip via bindStatus(),
+            // so the separate chip is hidden to avoid redundancy.
+            binding.md5StatusChipTextView.visibility = View.GONE
         }
     }
 
