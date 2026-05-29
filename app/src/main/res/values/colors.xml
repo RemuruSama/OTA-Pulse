@@ -44,4 +44,13 @@
 
     <!-- Custom Glass Background -->
     <color name="glass_panel_background">#4DFFFFFF</color>
+
+    <!-- AMOLED / True Black Surface Colors -->
+    <color name="amoled_surface">#000000</color>
+    <color name="amoled_on_surface">#E0E0E0</color>
+    <color name="amoled_surface_variant">#121212</color>
+    <color name="amoled_surface_container_low">#050505</color>
+    <color name="amoled_surface_container">#0A0A0A</color>
+    <color name="amoled_surface_container_high">#141414</color>
+    <color name="amoled_surface_container_highest">#1C1C1C</color>
 </resources>

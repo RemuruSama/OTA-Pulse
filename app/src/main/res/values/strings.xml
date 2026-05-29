@@ -14,6 +14,10 @@
     <string name="dark_theme_description">The app is using a dark theme.</string>
     <string name="auto_theme_description">The theme will change automatically based on battery saver mode.</string>
     <string name="system_theme_description">The app\'s theme will follow your device\'s system settings.</string>
+    <string name="amoled_theme_description">True black backgrounds for OLED displays. Saves battery and reduces eye strain.</string>
+
+    <string name="settings_amoled_title">Pure Black (AMOLED)</string>
+    <string name="settings_amoled_desc">Use true black backgrounds to save battery on OLED screens</string>
 
     <string name="ota_details_title">OTA Details</string>
     <string name="button_copy_link">Copy Link</string>

@@ -52,6 +52,7 @@ class SettingsFragment : Fragment() {
         const val PREF_BROWSER_DESKTOP_MODE = "browser_desktop_mode"
         const val PREF_BROWSER_SHOW_CONTROLS = "browser_show_controls"
         const val PREF_AUTO_SOFTWARE_UPDATE_CHECK = "auto_software_update_check_enabled"
+        const val PREF_AMOLED_MODE = "amoled_mode"
     }
 
     private val exportLauncher = registerForActivityResult(ActivityResultContracts.CreateDocument("application/json")) { uri ->
@@ -82,6 +83,7 @@ class SettingsFragment : Fragment() {
         setupArbDetectionSwitch()
         setupBrowserDesktopModeSwitch()
         setupBrowserControlsSwitch()
+        setupAmoledSwitch()
         setupLanguageSelection()
         setupBatteryOptimization()
         bindWebViewVersion()
@@ -377,9 +379,18 @@ class SettingsFragment : Fragment() {
     }
 
     private fun setTheme(nightMode: Int) {
-        AppCompatDelegate.setDefaultNightMode(nightMode)
         val themePrefs = requireActivity().getSharedPreferences("theme_prefs", Context.MODE_PRIVATE)
-        themePrefs.edit().putInt("night_mode", nightMode).apply()
+        // If switching to light mode, auto-disable AMOLED
+        if (nightMode == AppCompatDelegate.MODE_NIGHT_NO) {
+            themePrefs.edit()
+                .putInt("night_mode", nightMode)
+                .putBoolean(PREF_AMOLED_MODE, false)
+                .apply()
+            binding.amoledSwitch?.isChecked = false
+        } else {
+            themePrefs.edit().putInt("night_mode", nightMode).apply()
+        }
+        AppCompatDelegate.setDefaultNightMode(nightMode)
         updateThemeSelection()
     }
 
@@ -406,14 +417,41 @@ class SettingsFragment : Fragment() {
 
     private fun updateThemeDescription(nightMode: Int) {
         binding.themeDescription.visibility = View.VISIBLE
-        val description = when (nightMode) {
-            AppCompatDelegate.MODE_NIGHT_NO -> getString(R.string.light_theme_description)
-            AppCompatDelegate.MODE_NIGHT_YES -> getString(R.string.dark_theme_description)
-            AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY -> getString(R.string.auto_theme_description)
-            AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> getString(R.string.system_theme_description)
-            else -> getString(R.string.system_theme_description)
+        val themePrefs = requireActivity().getSharedPreferences("theme_prefs", Context.MODE_PRIVATE)
+        val isAmoled = themePrefs.getBoolean(PREF_AMOLED_MODE, false)
+        val description = if (isAmoled && nightMode != AppCompatDelegate.MODE_NIGHT_NO) {
+            getString(R.string.amoled_theme_description)
+        } else {
+            when (nightMode) {
+                AppCompatDelegate.MODE_NIGHT_NO -> getString(R.string.light_theme_description)
+                AppCompatDelegate.MODE_NIGHT_YES -> getString(R.string.dark_theme_description)
+                AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY -> getString(R.string.auto_theme_description)
+                AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> getString(R.string.system_theme_description)
+                else -> getString(R.string.system_theme_description)
+            }
         }
         binding.themeDescription.text = description
+    }
+
+    private fun setupAmoledSwitch() {
+        val themePrefs = requireActivity().getSharedPreferences("theme_prefs", Context.MODE_PRIVATE)
+        val isAmoled = themePrefs.getBoolean(PREF_AMOLED_MODE, false)
+        binding.amoledSwitch?.isChecked = isAmoled
+
+        binding.amoledSwitch?.setOnCheckedChangeListener { buttonView, isChecked ->
+            buttonView.performHapticFeedback()
+            themePrefs.edit().putBoolean(PREF_AMOLED_MODE, isChecked).apply()
+            if (isChecked) {
+                // Force dark mode when enabling AMOLED
+                val currentMode = themePrefs.getInt("night_mode", AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+                if (currentMode == AppCompatDelegate.MODE_NIGHT_NO) {
+                    themePrefs.edit().putInt("night_mode", AppCompatDelegate.MODE_NIGHT_YES).apply()
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                }
+            }
+            // Recreate activity to apply / remove the AMOLED overlay
+            requireActivity().recreate()
+        }
     }
 
     private fun createBackupFileName(): String {

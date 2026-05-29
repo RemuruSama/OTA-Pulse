@@ -54,6 +54,16 @@ class InAppBrowserActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
+        // Apply AMOLED overlay if enabled and currently in dark mode
+        val themePrefs = getSharedPreferences("theme_prefs", Context.MODE_PRIVATE)
+        val isAmoled = themePrefs.getBoolean(SettingsFragment.PREF_AMOLED_MODE, false)
+        if (isAmoled) {
+            val uiMode = resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
+            if (uiMode == android.content.res.Configuration.UI_MODE_NIGHT_YES) {
+                theme.applyStyle(R.style.ThemeOverlay_OTAPulse_Amoled, true)
+            }
+        }
+
         binding = ActivityInAppBrowserBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -107,6 +108,12 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         val themePrefs = getSharedPreferences("theme_prefs", Context.MODE_PRIVATE)
         val nightMode = themePrefs.getInt("night_mode", AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         AppCompatDelegate.setDefaultNightMode(nightMode)
+
+        // Apply AMOLED overlay if enabled and currently in dark mode
+        val isAmoled = themePrefs.getBoolean(SettingsFragment.PREF_AMOLED_MODE, false)
+        if (isAmoled && isNightModeActive()) {
+            theme.applyStyle(R.style.ThemeOverlay_OTAPulse_Amoled, true)
+        }
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -544,5 +551,10 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     override fun onDestroy() {
         super.onDestroy()
         appSettingsPrefs.unregisterOnSharedPreferenceChangeListener(this)
+    }
+
+    private fun isNightModeActive(): Boolean {
+        val uiMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        return uiMode == Configuration.UI_MODE_NIGHT_YES
     }
 }

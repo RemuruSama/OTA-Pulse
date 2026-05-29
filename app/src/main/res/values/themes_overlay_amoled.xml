@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+        AMOLED / True Black theme overlay.
+        Applied on top of the dark theme to replace surface colors with pure black,
+        enabling OLED pixel shutdown for battery savings.
+    -->
+    <style name="ThemeOverlay.OTAPulse.Amoled" parent="">
+        <!-- Window -->
+        <item name="android:windowBackground">@color/amoled_surface</item>
+        <item name="android:colorBackground">@color/amoled_surface</item>
+
+        <!-- Surface hierarchy — all pushed to black / near-black -->
+        <item name="colorSurface">@color/amoled_surface</item>
+        <item name="colorOnSurface">@color/amoled_on_surface</item>
+        <item name="colorSurfaceVariant">@color/amoled_surface_variant</item>
+        <item name="colorSurfaceContainerLowest">@color/amoled_surface</item>
+        <item name="colorSurfaceContainerLow">@color/amoled_surface_container_low</item>
+        <item name="colorSurfaceContainer">@color/amoled_surface_container</item>
+        <item name="colorSurfaceContainerHigh">@color/amoled_surface_container_high</item>
+        <item name="colorSurfaceContainerHighest">@color/amoled_surface_container_highest</item>
+    </style>
+</resources>
