@@ -40,6 +40,8 @@ import com.abhinav.otapulse.core.common.PermissionHelper
 import com.abhinav.otapulse.core.notifications.DownloadNotificationHelper
 import com.abhinav.otapulse.feature.browser.InAppBrowserActivity
 import com.abhinav.otapulse.core.common.openExternalBrowser
+import com.abhinav.otapulse.feature.about.WhatsNewBottomSheet
+import com.abhinav.otapulse.feature.settings.AppUpdateRepository
 import io.noties.markwon.Markwon
 
 import com.abhinav.otapulse.core.common.setHapticClickListener
@@ -61,6 +63,9 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
 
     @Inject
     lateinit var permissionHelper: PermissionHelper
+
+    @Inject
+    lateinit var appUpdateRepository: AppUpdateRepository
 
     private lateinit var binding: ActivityMainBinding
     private var lastSelectedItemId = 0
@@ -162,6 +167,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
             binding.root.post {
                 if (!isDestroyed && !isFinishing) {
                     showSupportDeveloperDialog()
+                    showWhatsNewIfNeeded()
                 }
             }
         }
@@ -556,5 +562,33 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     private fun isNightModeActive(): Boolean {
         val uiMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         return uiMode == Configuration.UI_MODE_NIGHT_YES
+    }
+
+    private fun showWhatsNewIfNeeded() {
+        try {
+            val packageInfo = packageManager.getPackageInfo(packageName, 0)
+            val currentVersion = packageInfo.versionName ?: return
+
+            if (!WhatsNewBottomSheet.shouldShow(this, currentVersion)) return
+
+            lifecycleScope.launch {
+                val result = appUpdateRepository.fetchChangelog(currentVersion)
+                result.onSuccess { changelog ->
+                    if (!changelog.isNullOrBlank() && !isDestroyed && !isFinishing) {
+                        WhatsNewBottomSheet.newInstance(currentVersion, changelog)
+                            .show(supportFragmentManager, "whats_new")
+                    } else {
+                        // No changelog found, but still mark as shown to prevent re-trying
+                        WhatsNewBottomSheet.markShown(this@MainActivity, currentVersion)
+                    }
+                }
+                result.onFailure {
+                    // Network error — don't mark as shown, retry next launch
+                    Log.w(TAG, "Failed to fetch What's New changelog", it)
+                }
+            }
+        } catch (e: Exception) {
+            Log.w(TAG, "Failed to check for What's New", e)
+        }
     }
 }

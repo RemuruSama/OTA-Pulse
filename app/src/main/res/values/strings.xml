@@ -213,6 +213,10 @@
     <string name="download_action">Download</string>
     <string name="later_action">Later</string>
     <string name="tap_to_view_update">Tap to view changelog and download</string>
+
+    <string name="whats_new_title">What\'s New in %s</string>
+    <string name="whats_new_dismiss">Got it</string>
+    <string name="whats_new_menu">What\'s New</string>
     <string name="notification_permission_title">Notification Permission</string>
     <string name="notification_permission_message">OTA Pulse uses notifications to keep you informed about download progress. Please grant this permission.</string>
     <string name="notification_permission_settings_message">Notification access is still off. Enable it from app settings so download progress and completion alerts can appear.</string>

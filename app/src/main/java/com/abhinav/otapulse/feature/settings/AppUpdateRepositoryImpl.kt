@@ -101,4 +101,49 @@ class AppUpdateRepositoryImpl @Inject constructor(
         }
         return false // Equal versions
     }
+
+    override suspend fun fetchChangelog(versionTag: String): Result<String?> = withContext(Dispatchers.IO) {
+        // Try tag with "v" prefix first, then without
+        val tags = listOf("v$versionTag", versionTag)
+        for (tag in tags) {
+            val url = "https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/releases/tags/$tag"
+            val request = Request.Builder()
+                .url(url)
+                .header("User-Agent", "OTAPulse/$versionTag")
+                .build()
+            try {
+                client.newCall(request).execute().use { response ->
+                    if (response.isSuccessful) {
+                        val json = Gson().fromJson(response.body.string(), JsonObject::class.java)
+                        val body = json.get("body")?.asString
+                        if (!body.isNullOrBlank()) {
+                            return@withContext Result.success(body)
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                Log.w(TAG, "Failed to fetch changelog for $tag: ${e.message}")
+            }
+        }
+        // Fallback: try "latest" endpoint
+        val latestUrl = "https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/releases/latest"
+        val request = Request.Builder()
+            .url(latestUrl)
+            .header("User-Agent", "OTAPulse/$versionTag")
+            .build()
+        try {
+            client.newCall(request).execute().use { response ->
+                if (response.isSuccessful) {
+                    val json = Gson().fromJson(response.body.string(), JsonObject::class.java)
+                    val body = json.get("body")?.asString
+                    if (!body.isNullOrBlank()) {
+                        return@withContext Result.success(body)
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            Log.w(TAG, "Failed to fetch latest changelog: ${e.message}")
+        }
+        return@withContext Result.success(null)
+    }
 }
