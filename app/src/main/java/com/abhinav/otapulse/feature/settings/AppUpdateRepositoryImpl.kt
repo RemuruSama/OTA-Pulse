@@ -125,25 +125,6 @@ class AppUpdateRepositoryImpl @Inject constructor(
                 Log.w(TAG, "Failed to fetch changelog for $tag: ${e.message}")
             }
         }
-        // Fallback: try "latest" endpoint
-        val latestUrl = "https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/releases/latest"
-        val request = Request.Builder()
-            .url(latestUrl)
-            .header("User-Agent", "OTAPulse/$versionTag")
-            .build()
-        try {
-            client.newCall(request).execute().use { response ->
-                if (response.isSuccessful) {
-                    val json = Gson().fromJson(response.body.string(), JsonObject::class.java)
-                    val body = json.get("body")?.asString
-                    if (!body.isNullOrBlank()) {
-                        return@withContext Result.success(body)
-                    }
-                }
-            }
-        } catch (e: Exception) {
-            Log.w(TAG, "Failed to fetch latest changelog: ${e.message}")
-        }
         return@withContext Result.success(null)
     }
 }
