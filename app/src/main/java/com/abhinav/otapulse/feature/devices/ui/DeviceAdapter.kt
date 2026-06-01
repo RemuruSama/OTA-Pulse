@@ -20,10 +20,7 @@ import com.google.android.material.button.MaterialButton
 
 class DeviceAdapter(
     private val onFetchDetails: (Device, RegionVariant) -> Unit,
-    private val onDownload: (OtaUpdate, Device, RegionVariant) -> Unit,
     private val onToggleFavorite: (String) -> Unit,
-    private val onCopyLink: (String) -> Unit,
-    private val onViewChangelog: (String) -> Unit,
     private val onDeleteCustomDevice: (Device) -> Unit,
     private val onEditCustomDevice: (Device) -> Unit
 ) : ListAdapter<Device, DeviceAdapter.DeviceViewHolder>(DeviceDiffCallback()) {

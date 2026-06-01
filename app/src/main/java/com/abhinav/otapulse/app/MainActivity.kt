@@ -71,6 +71,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     private var lastSelectedItemId = 0
     private var isDownloading: Boolean = false
     private val DOWNLOADS_SCREEN_ID = -1
+    private val OTA_HISTORY_SCREEN_ID = -2
     private lateinit var appSettingsPrefs: SharedPreferences
 
     companion object {
@@ -102,6 +103,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     }
 
     private val viewModel: MainViewModel by viewModels()
+    private val devicesViewModel: com.abhinav.otapulse.feature.devices.ui.DevicesViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -129,9 +131,14 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         observeDownloads()
         handleFirstLaunchPermissions()
 
+        binding.btnGlobalHistory.setHapticClickListener {
+            navigateToFragment(OTA_HISTORY_SCREEN_ID)
+        }
+
         // AUTO UPDATE CHECK
         checkForAppUpdates()
         observeAppUpdates()
+        observeOtaDetailsDialog()
 
         val handledIntent = handleIntent(intent)
 
@@ -193,6 +200,19 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
                     showUpdateDialog(updateInfo)
                     downloadNotificationHelper.showAppUpdateNotification(updateInfo)
                     viewModel.clearUpdateState()
+                }
+            }
+        }
+    }
+
+    private fun observeOtaDetailsDialog() {
+        lifecycleScope.launch {
+            devicesViewModel.uiState.collectLatest { state ->
+                if (state.showOtaDetailsDialog != null) {
+                    if (supportFragmentManager.findFragmentByTag(com.abhinav.otapulse.feature.devices.ui.OtaDetailsDialogFragment.TAG) == null) {
+                        val dialog = com.abhinav.otapulse.feature.devices.ui.OtaDetailsDialogFragment()
+                        dialog.show(supportFragmentManager, com.abhinav.otapulse.feature.devices.ui.OtaDetailsDialogFragment.TAG)
+                    }
                 }
             }
         }
@@ -456,6 +476,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
             R.id.navigation_about -> AboutFragment()
             R.id.navigation_settings -> SettingsFragment()
             R.id.navigation_libraries -> LibrariesFragment()
+            OTA_HISTORY_SCREEN_ID -> com.abhinav.otapulse.feature.history.ui.OtaHistoryFragment()
             else -> HomeUpdateFragment()
         }
 
@@ -492,7 +513,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         }
 
         lastSelectedItemId = itemId
-        if (itemId != DOWNLOADS_SCREEN_ID) {
+        if (itemId != DOWNLOADS_SCREEN_ID && itemId != OTA_HISTORY_SCREEN_ID) {
             binding.bottomNavigation.menu.findItem(itemId)?.isChecked = true
         }
         updateToolbarForFragment(selectedFragment)
@@ -533,6 +554,15 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         } else {
             binding.downloadsFab.hide()
         }
+        
+        val isFullscreenFragment = fragment is com.abhinav.otapulse.feature.history.ui.OtaHistoryFragment || 
+                                   fragment is com.abhinav.otapulse.feature.settings.libraries.LibrariesFragment
+        binding.appBarLayout.visibility = if (isFullscreenFragment) View.GONE else View.VISIBLE
+        
+        val params = binding.contentLayout.layoutParams as androidx.coordinatorlayout.widget.CoordinatorLayout.LayoutParams
+        params.behavior = if (isFullscreenFragment) null else com.google.android.material.appbar.AppBarLayout.ScrollingViewBehavior()
+        binding.contentLayout.requestLayout()
+        
         updateNotificationDotVisibility()
     }
 

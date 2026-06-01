@@ -42,6 +42,12 @@ abstract class RepositoryModule {
         downloadManager: com.abhinav.otapulse.feature.downloads.data.DownloadManager
     ): com.abhinav.otapulse.feature.downloads.domain.DownloadRepository
 
+    @Binds
+    @Singleton
+    abstract fun bindOtaHistoryRepository(
+        impl: com.abhinav.otapulse.feature.history.data.OtaHistoryRepositoryImpl
+    ): com.abhinav.otapulse.feature.history.data.OtaHistoryRepository
+
     companion object {
         @Provides
         @Singleton

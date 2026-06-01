@@ -28,8 +28,8 @@ import javax.inject.Inject
 
 data class OtaDetailsDialogData(
     val otaUpdate: OtaUpdate,
-    val device: Device,
-    val variant: RegionVariant
+    val deviceName: String,
+    val regionName: String
 )
 
 data class PartitionSelectDialogData(
@@ -55,8 +55,8 @@ data class DevicesUiState(
 
 data class PendingDownload(
     val otaUpdate: OtaUpdate,
-    val device: Device,
-    val variant: RegionVariant,
+    val deviceName: String,
+    val regionName: String,
     val targetFile: java.io.File
 )
 
@@ -90,21 +90,21 @@ class DevicesViewModel @Inject constructor(
         loadDevices()
     }
 
-    fun startDownload(otaUpdate: OtaUpdate, device: Device, variant: RegionVariant) {
+    fun startDownload(otaUpdate: OtaUpdate, deviceName: String, regionName: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val targetFile = downloadRepository.getResolvedTargetFile(
                 otaUpdate = otaUpdate,
-                deviceName = device.name,
-                regionName = variant.displayName
+                deviceName = deviceName,
+                regionName = regionName
             )
             if (targetFile.exists()) {
                 _uiState.update {
                     it.copy(
-                        pendingDownload = PendingDownload(otaUpdate, device, variant, targetFile)
+                        pendingDownload = PendingDownload(otaUpdate, deviceName, regionName, targetFile)
                     )
                 }
             } else {
-                enqueueDownloadUseCase(otaUpdate, device, variant)
+                enqueueDownloadUseCase(otaUpdate, deviceName, regionName)
             }
         }
     }
@@ -113,7 +113,7 @@ class DevicesViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             _uiState.value.pendingDownload?.let { pending ->
                 deleteFileUseCase(pending.targetFile)
-                enqueueDownloadUseCase(pending.otaUpdate, pending.device, pending.variant)
+                enqueueDownloadUseCase(pending.otaUpdate, pending.deviceName, pending.regionName)
                 _uiState.update { it.copy(pendingDownload = null) }
             }
         }
@@ -183,7 +183,7 @@ class DevicesViewModel @Inject constructor(
                     if (d.name == device.name) d.copy(isLoadingDetails = false) else d
                 }
 
-                val dialogData = enrichedResult.getOrNull()?.let { OtaDetailsDialogData(it, device, variant) }
+                val dialogData = enrichedResult.getOrNull()?.let { OtaDetailsDialogData(it, device.name, variant.displayName) }
 
                 currentState.copy(
                     devices = updatedDevices,
@@ -191,6 +191,12 @@ class DevicesViewModel @Inject constructor(
                     showOtaDetailsDialog = dialogData
                 )
             }
+        }
+    }
+
+    fun showOtaDetailsFromHistory(entry: com.abhinav.otapulse.core.model.OtaHistoryEntry) {
+        _uiState.update { state ->
+            state.copy(showOtaDetailsDialog = OtaDetailsDialogData(entry.otaUpdate, entry.deviceName, entry.region))
         }
     }
 

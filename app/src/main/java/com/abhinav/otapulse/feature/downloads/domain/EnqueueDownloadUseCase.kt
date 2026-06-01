@@ -9,11 +9,11 @@ import javax.inject.Inject
 class EnqueueDownloadUseCase @Inject constructor(
     private val downloadRepository: DownloadRepository
 ) {
-    operator fun invoke(otaUpdate: OtaUpdate, device: Device, variant: RegionVariant) {
+    operator fun invoke(otaUpdate: OtaUpdate, deviceName: String, regionName: String) {
         downloadRepository.enqueueDownload(
             otaUpdate = otaUpdate,
-            deviceName = device.name,
-            regionName = variant.displayName
+            deviceName = deviceName,
+            regionName = regionName
         )
     }
 }

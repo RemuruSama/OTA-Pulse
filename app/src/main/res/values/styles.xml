@@ -63,4 +63,13 @@
         <item name="thumbIconTint">@color/selector_switch_thumb_icon_tint</item>
     </style>
 
+    <style name="DialogFadeAnimation" parent="@android:style/Animation.Dialog">
+        <item name="android:windowEnterAnimation">@anim/dialog_fade_in</item>
+        <item name="android:windowExitAnimation">@anim/dialog_fade_out</item>
+    </style>
+
+    <style name="Theme.App.Dialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="android:windowAnimationStyle">@style/DialogFadeAnimation</item>
+    </style>
+
 </resources>

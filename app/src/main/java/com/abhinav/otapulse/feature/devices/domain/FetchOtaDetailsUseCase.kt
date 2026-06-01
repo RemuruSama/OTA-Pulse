@@ -12,7 +12,10 @@ import javax.inject.Inject
 /**
  * Unified use case to fetch OTA details for both manual queries and predefined devices.
  */
-class FetchOtaDetailsUseCase @Inject constructor(private val otaRepository: OtaRepository) {
+class FetchOtaDetailsUseCase @Inject constructor(
+    private val otaRepository: OtaRepository,
+    private val otaHistoryRepository: com.abhinav.otapulse.feature.history.data.OtaHistoryRepository
+) {
     suspend operator fun invoke(
         device: Device,
         variant: RegionVariant,
@@ -54,7 +57,16 @@ class FetchOtaDetailsUseCase @Inject constructor(private val otaRepository: OtaR
         // 4. Fetch and Map — repository now returns List<OtaUpdate> directly
         return otaRepository.fetchOtaUpdate(otaRequest).mapCatching { updates ->
             if (updates.isNotEmpty()) {
-                updates.first()
+                val bestUpdate = updates.first()
+                otaHistoryRepository.logOtaUpdate(
+                    com.abhinav.otapulse.core.model.OtaHistoryEntry(
+                        timestamp = System.currentTimeMillis(),
+                        deviceName = device.name,
+                        region = variant.displayName.ifBlank { variant.region },
+                        otaUpdate = bestUpdate
+                    )
+                )
+                bestUpdate
             } else {
                 throw Exception("Server returned empty component list.")
             }
