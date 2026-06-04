@@ -384,4 +384,21 @@
     <string name="software_update_panel_device_label">อุปกรณ์ปัจจุบัน</string>
     <string name="software_update_panel_meta_hint">สร้างจากโปรไฟล์อุปกรณ์จริงและพร้อมตรวจสอบด้วยการแตะเพียงครั้งเดียว</string>
     <string name="update_available_label">มีอัปเดตใหม่</string>
+
+    <string name="settings_amoled_title">สีดำล้วน (AMOLED)</string>
+    <string name="settings_amoled_desc">ใช้พื้นหลังสีดำแท้เพื่อประหยัดแบตเตอรี่บนหน้าจอ OLED</string>
+    <string name="settings_auto_software_update">ตรวจสอบอัปเดตซอฟต์แวร์อัตโนมัติ</string>
+    <string name="settings_auto_software_update_desc">ตรวจสอบอัปเดต OTA เป็นระยะๆ ในเบื้องหลัง</string>
+    <string name="settings_check_interval_title">ช่วงเวลาตรวจสอบ</string>
+    <string name="settings_check_interval_1h">ทุก 1 ชั่วโมง</string>
+    <string name="settings_check_interval_3h">ทุก 3 ชั่วโมง</string>
+    <string name="settings_check_interval_6h">ทุก 6 ชั่วโมง</string>
+    <string name="settings_check_interval_12h">ทุก 12 ชั่วโมง</string>
+    <string name="settings_check_interval_24h">ทุก 24 ชั่วโมง</string>
+    <string name="settings_battery_optimization">ละเว้นการเพิ่มประสิทธิภาพแบตเตอรี่</string>
+    <string name="settings_battery_optimization_desc">ตรวจสอบให้แน่ใจว่าการตรวจสอบเบื้องหลังทำงานได้อย่างเสถียร</string>
+    <string name="settings_battery_optimization_ignored">ละเว้น (ปรับให้เหมาะสมสำหรับเบื้องหลัง)</string>
+    <string name="battery_optimization_dialog_title">การดำเนินการเบื้องหลัง</string>
+    <string name="battery_optimization_dialog_message">เพื่อตรวจสอบอัปเดตซอฟต์แวร์อย่างเสถียรในเบื้องหลัง จะต้องยกเว้น OTA Pulse จากการเพิ่มประสิทธิภาพแบตเตอรี่</string>
+    <string name="allow">อนุญาต</string>
 </resources>

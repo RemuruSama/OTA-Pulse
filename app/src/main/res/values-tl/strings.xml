@@ -384,4 +384,21 @@
     <string name="software_update_panel_device_label">Kasalukuyang device</string>
     <string name="software_update_panel_meta_hint">Ginawa mula sa live na profile ng device at handa na para sa isang-tap na pagsusuri.</string>
     <string name="update_available_label">May available na update</string>
+
+    <string name="settings_amoled_title">Purong Itim (AMOLED)</string>
+    <string name="settings_amoled_desc">Gumamit ng totoong itim na background upang makatipid ng baterya</string>
+    <string name="settings_auto_software_update">Awtomatikong Pagsusuri ng Update</string>
+    <string name="settings_auto_software_update_desc">Regular na suriin ang mga update sa background</string>
+    <string name="settings_check_interval_title">Interval ng Pagsusuri</string>
+    <string name="settings_check_interval_1h">Bawat 1 oras</string>
+    <string name="settings_check_interval_3h">Bawat 3 oras</string>
+    <string name="settings_check_interval_6h">Bawat 6 na oras</string>
+    <string name="settings_check_interval_12h">Bawat 12 oras</string>
+    <string name="settings_check_interval_24h">Bawat 24 na oras</string>
+    <string name="settings_battery_optimization">Huwag pansinin ang pag-optimize ng baterya</string>
+    <string name="settings_battery_optimization_desc">Siguraduhing tumatakbo ang mga pagsusuri sa background</string>
+    <string name="settings_battery_optimization_ignored">Hindi pinansin (Na-optimize)</string>
+    <string name="battery_optimization_dialog_title">Pagpapatupad sa Background</string>
+    <string name="battery_optimization_dialog_message">Upang mapagkakatiwalaang suriin ang mga update sa software sa background, dapat itong malibre sa pag-optimize ng baterya.</string>
+    <string name="allow">Payagan</string>
 </resources>

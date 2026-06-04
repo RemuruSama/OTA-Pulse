@@ -384,4 +384,21 @@
     <string name="software_update_panel_device_label">वर्तमान डिवाइस</string>
     <string name="software_update_panel_meta_hint">लाइव डिवाइस प्रोफ़ाइल से बनाया गया और एक-टैप जाँच के लिए तैयार।</string>
     <string name="update_available_label">अपडेट उपलब्ध</string>
+
+    <string name="settings_amoled_title">प्योर ब्लैक (AMOLED)</string>
+    <string name="settings_amoled_desc">OLED स्क्रीन पर बैटरी बचाने के लिए असली काले बैकग्राउंड का उपयोग करें</string>
+    <string name="settings_auto_software_update">ऑटो सॉफ्टवेयर अपडेट चेक</string>
+    <string name="settings_auto_software_update_desc">बैकग्राउंड में समय-समय पर OTA अपडेट की जांच करें</string>
+    <string name="settings_check_interval_title">जांच अंतराल</string>
+    <string name="settings_check_interval_1h">हर 1 घंटे में</string>
+    <string name="settings_check_interval_3h">हर 3 घंटे में</string>
+    <string name="settings_check_interval_6h">हर 6 घंटे में</string>
+    <string name="settings_check_interval_12h">हर 12 घंटे में</string>
+    <string name="settings_check_interval_24h">हर 24 घंटे में</string>
+    <string name="settings_battery_optimization">बैटरी ऑप्टिमाइज़ेशन पर ध्यान न दें</string>
+    <string name="settings_battery_optimization_desc">सुनिश्चित करें कि बैकग्राउंड जांच मज़बूती से चले</string>
+    <string name="settings_battery_optimization_ignored">नज़रअंदाज़ किया गया (बैकग्राउंड के लिए ऑप्टिमाइज़्ड)</string>
+    <string name="battery_optimization_dialog_title">बैकग्राउंड निष्पादन</string>
+    <string name="battery_optimization_dialog_message">बैकग्राउंड में सॉफ्टवेयर अपडेट की मज़बूती से जांच करने के लिए, OTA Pulse को बैटरी ऑप्टिमाइज़ेशन से छूट दी जानी चाहिए।</string>
+    <string name="allow">अनुमति दें</string>
 </resources>

@@ -211,7 +211,7 @@ class SettingsFragment : Fragment() {
 
     private fun setupCheckIntervalSelector() {
         updateCheckIntervalLabel()
-        binding.checkIntervalRow?.setHapticClickListener {
+        binding.checkIntervalRow.setHapticClickListener {
             showCheckIntervalDialog()
         }
     }
@@ -226,11 +226,11 @@ class SettingsFragment : Fragment() {
             24L -> getString(R.string.settings_check_interval_24h)
             else -> getString(R.string.settings_check_interval_6h)
         }
-        binding.checkIntervalValue?.text = label
+        binding.checkIntervalValue.text = label
     }
 
     private fun updateCheckIntervalVisibility(isEnabled: Boolean) {
-        binding.checkIntervalRow?.visibility = if (isEnabled) View.VISIBLE else View.GONE
+        binding.checkIntervalRow.visibility = if (isEnabled) View.VISIBLE else View.GONE
     }
 
     private fun showCheckIntervalDialog() {
@@ -294,7 +294,7 @@ class SettingsFragment : Fragment() {
     private fun setupBatteryOptimization() {
         updateBatteryOptimizationUI()
 
-        binding.batteryOptimizationLayout?.setHapticClickListener {
+        binding.batteryOptimizationLayout.setHapticClickListener {
             val pm = requireContext().getSystemService(Context.POWER_SERVICE) as android.os.PowerManager
             if (!pm.isIgnoringBatteryOptimizations(requireContext().packageName)) {
                 showBatteryOptimizationDialog()
@@ -322,10 +322,10 @@ class SettingsFragment : Fragment() {
         val pm = requireContext().getSystemService(Context.POWER_SERVICE) as android.os.PowerManager
         val isIgnoring = pm.isIgnoringBatteryOptimizations(requireContext().packageName)
         
-        binding.batteryOptimizationStatus?.text = getString(
+        binding.batteryOptimizationStatus.text = getString(
             if (isIgnoring) R.string.settings_battery_optimization_ignored else R.string.settings_battery_optimization_desc
         )
-        binding.batteryOptimizationIcon?.setImageResource(
+        binding.batteryOptimizationIcon.setImageResource(
             if (isIgnoring) R.drawable.ic_check_circle else R.drawable.ic_chevron_right
         )
     }
@@ -456,7 +456,7 @@ class SettingsFragment : Fragment() {
                 .putInt("night_mode", nightMode)
                 .putBoolean(PREF_AMOLED_MODE, false)
                 .apply()
-            binding.amoledSwitch?.isChecked = false
+            binding.amoledSwitch.isChecked = false
         } else {
             themePrefs.edit().putInt("night_mode", nightMode).apply()
         }
@@ -506,9 +506,9 @@ class SettingsFragment : Fragment() {
     private fun setupAmoledSwitch() {
         val themePrefs = requireActivity().getSharedPreferences("theme_prefs", Context.MODE_PRIVATE)
         val isAmoled = themePrefs.getBoolean(PREF_AMOLED_MODE, false)
-        binding.amoledSwitch?.isChecked = isAmoled
+        binding.amoledSwitch.isChecked = isAmoled
 
-        binding.amoledSwitch?.setOnCheckedChangeListener { buttonView, isChecked ->
+        binding.amoledSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
             buttonView.performHapticFeedback()
             themePrefs.edit().putBoolean(PREF_AMOLED_MODE, isChecked).apply()
             if (isChecked) {

@@ -384,4 +384,21 @@
     <string name="software_update_panel_device_label">বর্তমান ডিভাইস</string>
     <string name="software_update_panel_meta_hint">লাইভ ডিভাইস প্রোফাইল থেকে তৈরি এবং এক-ট্যাপ চেকের জন্য প্রস্তুত।</string>
     <string name="update_available_label">আপডেট উপলব্ধ</string>
+
+    <string name="settings_amoled_title">পিওর ব্ল্যাক (AMOLED)</string>
+    <string name="settings_amoled_desc">OLED স্ক্রিনে ব্যাটারি বাঁচাতে আসল কালো ব্যাকগ্রাউন্ড ব্যবহার করুন</string>
+    <string name="settings_auto_software_update">স্বয়ংক্রিয় সফ্টওয়্যার আপডেট চেক</string>
+    <string name="settings_auto_software_update_desc">ব্যাকগ্রাউন্ডে নিয়মিত ডিভাইসের OTA আপডেটগুলি পরীক্ষা করুন</string>
+    <string name="settings_check_interval_title">চেক করার ব্যবধান</string>
+    <string name="settings_check_interval_1h">প্রতি ১ ঘণ্টা</string>
+    <string name="settings_check_interval_3h">প্রতি ৩ ঘণ্টা</string>
+    <string name="settings_check_interval_6h">প্রতি ৬ ঘণ্টা</string>
+    <string name="settings_check_interval_12h">প্রতি ১২ ঘণ্টা</string>
+    <string name="settings_check_interval_24h">প্রতি ২৪ ঘণ্টা</string>
+    <string name="settings_battery_optimization">ব্যাটারি অপ্টিমাইজেশন এড়িয়ে চলুন</string>
+    <string name="settings_battery_optimization_desc">নিশ্চিত করুন ব্যাকগ্রাউন্ড চেক নির্ভরযোগ্যভাবে কাজ করে</string>
+    <string name="settings_battery_optimization_ignored">এড়ানো হয়েছে (ব্যাকগ্রাউন্ডের জন্য অপ্টিমাইজ করা)</string>
+    <string name="battery_optimization_dialog_title">ব্যাকগ্রাউন্ড এক্সিকিউশন</string>
+    <string name="battery_optimization_dialog_message">সফ্টওয়্যার আপডেট নির্ভরযোগ্যভাবে চেক করার জন্য, OTA Pulse কে ব্যাটারি অপ্টিমাইজেশন থেকে বাদ দিতে হবে।</string>
+    <string name="allow">অনুমতি দিন</string>
 </resources>

@@ -384,4 +384,21 @@
     <string name="software_update_panel_device_label">Appareil actuel</string>
     <string name="software_update_panel_meta_hint">Construit à partir du profil de l\u0027appareil et prêt pour une vérification en un clic.</string>
     <string name="update_available_label">Mise à jour disponible</string>
+
+    <string name="settings_amoled_title">Noir Pur (AMOLED)</string>
+    <string name="settings_amoled_desc">Utilisez de vrais fonds noirs pour économiser la batterie</string>
+    <string name="settings_auto_software_update">Vérification automatique des mises à jour</string>
+    <string name="settings_auto_software_update_desc">Rechercher périodiquement des mises à jour OTA en arrière-plan</string>
+    <string name="settings_check_interval_title">Intervalle de vérification</string>
+    <string name="settings_check_interval_1h">Toutes les 1 heure</string>
+    <string name="settings_check_interval_3h">Toutes les 3 heures</string>
+    <string name="settings_check_interval_6h">Toutes les 6 heures</string>
+    <string name="settings_check_interval_12h">Toutes les 12 heures</string>
+    <string name="settings_check_interval_24h">Toutes les 24 heures</string>
+    <string name="settings_battery_optimization">Ignorer les optimisations de batterie</string>
+    <string name="settings_battery_optimization_desc">Assurez-vous que les vérifications s\'exécutent de manière fiable</string>
+    <string name="settings_battery_optimization_ignored">Ignoré (Optimisé pour l\'arrière-plan)</string>
+    <string name="battery_optimization_dialog_title">Exécution en arrière-plan</string>
+    <string name="battery_optimization_dialog_message">Pour rechercher des mises à jour logicielles de manière fiable en arrière-plan, OTA Pulse doit être exempté des optimisations de batterie.</string>
+    <string name="allow">Autoriser</string>
 </resources>

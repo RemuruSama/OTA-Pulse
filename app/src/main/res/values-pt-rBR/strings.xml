@@ -384,4 +384,21 @@
     <string name="software_update_panel_device_label">Dispositivo atual</string>
     <string name="software_update_panel_meta_hint">Criado a partir do perfil do dispositivo e pronto para verificação com um toque.</string>
     <string name="update_available_label">Atualização disponível</string>
+
+    <string name="settings_amoled_title">Preto Puro (AMOLED)</string>
+    <string name="settings_amoled_desc">Use fundos pretos verdadeiros para economizar bateria em telas OLED</string>
+    <string name="settings_auto_software_update">Verificação automática de atualização</string>
+    <string name="settings_auto_software_update_desc">Verifique periodicamente as atualizações OTA em segundo plano</string>
+    <string name="settings_check_interval_title">Intervalo de verificação</string>
+    <string name="settings_check_interval_1h">A cada 1 hora</string>
+    <string name="settings_check_interval_3h">A cada 3 horas</string>
+    <string name="settings_check_interval_6h">A cada 6 horas</string>
+    <string name="settings_check_interval_12h">A cada 12 horas</string>
+    <string name="settings_check_interval_24h">A cada 24 horas</string>
+    <string name="settings_battery_optimization">Ignorar otimizações de bateria</string>
+    <string name="settings_battery_optimization_desc">Garanta que as verificações em segundo plano sejam executadas de forma confiável</string>
+    <string name="settings_battery_optimization_ignored">Ignorado (Otimizado para segundo plano)</string>
+    <string name="battery_optimization_dialog_title">Execução em segundo plano</string>
+    <string name="battery_optimization_dialog_message">Para verificar de forma confiável as atualizações de software em segundo plano, o OTA Pulse deve estar isento das otimizações de bateria.</string>
+    <string name="allow">Permitir</string>
 </resources>

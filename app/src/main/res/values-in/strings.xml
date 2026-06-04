@@ -384,4 +384,21 @@
     <string name="software_update_panel_device_label">Perangkat saat ini</string>
     <string name="software_update_panel_meta_hint">Dibuat dari profil perangkat langsung dan siap untuk pemeriksaan satu ketukan.</string>
     <string name="update_available_label">Pembaruan tersedia</string>
+
+    <string name="settings_amoled_title">Hitam Murni (AMOLED)</string>
+    <string name="settings_amoled_desc">Gunakan latar belakang hitam pekat untuk menghemat baterai</string>
+    <string name="settings_auto_software_update">Pemeriksaan Pembaruan Otomatis</string>
+    <string name="settings_auto_software_update_desc">Periksa pembaruan OTA secara berkala di latar belakang</string>
+    <string name="settings_check_interval_title">Interval Pemeriksaan</string>
+    <string name="settings_check_interval_1h">Setiap 1 jam</string>
+    <string name="settings_check_interval_3h">Setiap 3 jam</string>
+    <string name="settings_check_interval_6h">Setiap 6 jam</string>
+    <string name="settings_check_interval_12h">Setiap 12 jam</string>
+    <string name="settings_check_interval_24h">Setiap 24 jam</string>
+    <string name="settings_battery_optimization">Abaikan Pengoptimalan Baterai</string>
+    <string name="settings_battery_optimization_desc">Pastikan pemeriksaan latar belakang berjalan dengan andal</string>
+    <string name="settings_battery_optimization_ignored">Diabaikan (Dioptimalkan untuk latar belakang)</string>
+    <string name="battery_optimization_dialog_title">Eksekusi Latar Belakang</string>
+    <string name="battery_optimization_dialog_message">Untuk memeriksa pembaruan perangkat lunak secara andal di latar belakang, OTA Pulse harus dikecualikan dari pengoptimalan baterai.</string>
+    <string name="allow">Izinkan</string>
 </resources>

@@ -384,4 +384,21 @@
     <string name="software_update_panel_device_label">Текущее устройство</string>
     <string name="software_update_panel_meta_hint">Создано на основе профиля устройства и готово к проверке одним нажатием.</string>
     <string name="update_available_label">Доступно обновление</string>
+
+    <string name="settings_amoled_title">Чистый черный (AMOLED)</string>
+    <string name="settings_amoled_desc">Используйте настоящий черный фон для экономии заряда батареи на экранах OLED</string>
+    <string name="settings_auto_software_update">Автоматическая проверка обновлений</string>
+    <string name="settings_auto_software_update_desc">Периодически проверять обновления OTA в фоновом режиме</string>
+    <string name="settings_check_interval_title">Интервал проверки</string>
+    <string name="settings_check_interval_1h">Каждые 1 час</string>
+    <string name="settings_check_interval_3h">Каждые 3 часа</string>
+    <string name="settings_check_interval_6h">Каждые 6 часов</string>
+    <string name="settings_check_interval_12h">Каждые 12 часов</string>
+    <string name="settings_check_interval_24h">Каждые 24 часа</string>
+    <string name="settings_battery_optimization">Игнорировать оптимизацию батареи</string>
+    <string name="settings_battery_optimization_desc">Обеспечить надежную работу фоновых проверок</string>
+    <string name="settings_battery_optimization_ignored">Игнорируется (Оптимизировано для фона)</string>
+    <string name="battery_optimization_dialog_title">Выполнение в фоновом режиме</string>
+    <string name="battery_optimization_dialog_message">Для надежной проверки обновлений программного обеспечения в фоновом режиме OTA Pulse необходимо исключить из оптимизации батареи.</string>
+    <string name="allow">Разрешить</string>
 </resources>

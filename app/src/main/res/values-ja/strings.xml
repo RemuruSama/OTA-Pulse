@@ -384,4 +384,21 @@
     <string name="software_update_panel_device_label">現在のデバイス</string>
     <string name="software_update_panel_meta_hint">ライブデバイスプロファイルから構築され、ワンタップチェックの準備ができています。</string>
     <string name="update_available_label">アップデートあり</string>
+
+    <string name="settings_amoled_title">ピュアブラック (AMOLED)</string>
+    <string name="settings_amoled_desc">OLED画面でバッテリーを節約するために真の黒の背景を使用する</string>
+    <string name="settings_auto_software_update">ソフトウェアの自動更新チェック</string>
+    <string name="settings_auto_software_update_desc">バックグラウンドで定期的にOTA更新をチェックする</string>
+    <string name="settings_check_interval_title">チェック間隔</string>
+    <string name="settings_check_interval_1h">1時間ごと</string>
+    <string name="settings_check_interval_3h">3時間ごと</string>
+    <string name="settings_check_interval_6h">6時間ごと</string>
+    <string name="settings_check_interval_12h">12時間ごと</string>
+    <string name="settings_check_interval_24h">24時間ごと</string>
+    <string name="settings_battery_optimization">バッテリーの最適化を無視する</string>
+    <string name="settings_battery_optimization_desc">バックグラウンドチェックが確実に行われるようにする</string>
+    <string name="settings_battery_optimization_ignored">無視（バックグラウンド用に最適化）</string>
+    <string name="battery_optimization_dialog_title">バックグラウンド実行</string>
+    <string name="battery_optimization_dialog_message">バックグラウンドでソフトウェアの更新を確実に確認するには、OTA Pulseをバッテリーの最適化から除外する必要があります。</string>
+    <string name="allow">許可する</string>
 </resources>

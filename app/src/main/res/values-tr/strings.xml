@@ -384,4 +384,21 @@
     <string name="software_update_panel_device_label">Mevcut cihaz</string>
     <string name="software_update_panel_meta_hint">Canlı cihaz profilinden oluşturuldu ve tek dokunuşla kontrol için hazır.</string>
     <string name="update_available_label">Güncelleme mevcut</string>
+
+    <string name="settings_amoled_title">Saf Siyah (AMOLED)</string>
+    <string name="settings_amoled_desc">OLED ekranlarda pil tasarrufu sağlamak için gerçek siyah arka planlar kullanın</string>
+    <string name="settings_auto_software_update">Otomatik Yazılım Güncelleme Kontrolü</string>
+    <string name="settings_auto_software_update_desc">Arka planda düzenli olarak cihazın OTA güncellemelerini kontrol et</string>
+    <string name="settings_check_interval_title">Kontrol Aralığı</string>
+    <string name="settings_check_interval_1h">Her 1 saatte bir</string>
+    <string name="settings_check_interval_3h">Her 3 saatte bir</string>
+    <string name="settings_check_interval_6h">Her 6 saatte bir</string>
+    <string name="settings_check_interval_12h">Her 12 saatte bir</string>
+    <string name="settings_check_interval_24h">Her 24 saatte bir</string>
+    <string name="settings_battery_optimization">Pil Optimizasyonlarını Yoksay</string>
+    <string name="settings_battery_optimization_desc">Arka plan kontrollerinin güvenilir bir şekilde çalışmasını sağla</string>
+    <string name="settings_battery_optimization_ignored">Yoksayıldı (Arka plan için optimize edildi)</string>
+    <string name="battery_optimization_dialog_title">Arka Plan Yürütmesi</string>
+    <string name="battery_optimization_dialog_message">Yazılım güncellemelerini arka planda güvenilir bir şekilde kontrol etmek için OTA Pulse pil optimizasyonlarından muaf tutulmalıdır.</string>
+    <string name="allow">İzin Ver</string>
 </resources>

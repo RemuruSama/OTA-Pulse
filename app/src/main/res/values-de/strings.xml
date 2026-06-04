@@ -384,4 +384,21 @@
     <string name="software_update_panel_device_label">Aktuelles Gerät</string>
     <string name="software_update_panel_meta_hint">Aus dem Live-Geräteprofil erstellt und bereit für eine Ein-Tipp-Prüfung.</string>
     <string name="update_available_label">Update verfügbar</string>
+
+    <string name="settings_amoled_title">Reines Schwarz (AMOLED)</string>
+    <string name="settings_amoled_desc">Verwenden Sie echte schwarze Hintergründe, um Batterie auf OLED-Bildschirmen zu sparen</string>
+    <string name="settings_auto_software_update">Automatische Software-Update-Prüfung</string>
+    <string name="settings_auto_software_update_desc">Regelmäßig im Hintergrund nach OTA-Updates suchen</string>
+    <string name="settings_check_interval_title">Prüfintervall</string>
+    <string name="settings_check_interval_1h">Alle 1 Stunde</string>
+    <string name="settings_check_interval_3h">Alle 3 Stunden</string>
+    <string name="settings_check_interval_6h">Alle 6 Stunden</string>
+    <string name="settings_check_interval_12h">Alle 12 Stunden</string>
+    <string name="settings_check_interval_24h">Alle 24 Stunden</string>
+    <string name="settings_battery_optimization">Batterieoptimierungen ignorieren</string>
+    <string name="settings_battery_optimization_desc">Stellen Sie sicher, dass Hintergrundprüfungen zuverlässig ausgeführt werden</string>
+    <string name="settings_battery_optimization_ignored">Ignoriert (Für Hintergrund optimiert)</string>
+    <string name="battery_optimization_dialog_title">Hintergrundausführung</string>
+    <string name="battery_optimization_dialog_message">Um zuverlässig nach Software-Updates im Hintergrund zu suchen, muss OTA Pulse von den Batterieoptimierungen ausgenommen werden.</string>
+    <string name="allow">Zulassen</string>
 </resources>

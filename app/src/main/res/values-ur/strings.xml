@@ -384,4 +384,21 @@
     <string name="software_update_panel_device_label">موجودہ ڈیوائس</string>
     <string name="software_update_panel_meta_hint">لائیو ڈیوائس پروفائل سے بنایا گیا اور ایک ٹیپ چیک کے لیے تیار۔</string>
     <string name="update_available_label">اپ ڈیٹ دستیاب ہے</string>
+
+    <string name="settings_amoled_title">پیور بلیک (AMOLED)</string>
+    <string name="settings_amoled_desc">OLED اسکرینز پر بیٹری بچانے کے لیے اصلی سیاہ پس منظر استعمال کریں</string>
+    <string name="settings_auto_software_update">خودکار سافٹ ویئر اپ ڈیٹ چیک</string>
+    <string name="settings_auto_software_update_desc">پس منظر میں وقتاً فوقتاً ڈیوائس کے OTA اپ ڈیٹس چیک کریں</string>
+    <string name="settings_check_interval_title">چیک کا وقفہ</string>
+    <string name="settings_check_interval_1h">ہر 1 گھنٹے بعد</string>
+    <string name="settings_check_interval_3h">ہر 3 گھنٹے بعد</string>
+    <string name="settings_check_interval_6h">ہر 6 گھنٹے بعد</string>
+    <string name="settings_check_interval_12h">ہر 12 گھنٹے بعد</string>
+    <string name="settings_check_interval_24h">ہر 24 گھنٹے بعد</string>
+    <string name="settings_battery_optimization">بیٹری آپٹیمائزیشن کو نظر انداز کریں</string>
+    <string name="settings_battery_optimization_desc">یقینی بنائیں کہ پس منظر میں چیک قابل اعتماد طریقے سے چلتے ہیں</string>
+    <string name="settings_battery_optimization_ignored">نظر انداز کر دیا گیا (پس منظر کے لیے آپٹیمائزڈ)</string>
+    <string name="battery_optimization_dialog_title">پس منظر میں عمل درآمد</string>
+    <string name="battery_optimization_dialog_message">پس منظر میں سافٹ ویئر اپ ڈیٹس کو قابل اعتماد طریقے سے چیک کرنے کے لیے، OTA Pulse کو بیٹری آپٹیمائزیشن سے مستثنیٰ قرار دیا جانا چاہیے۔ اس کے بغیر، سسٹم اپ ڈیٹ چیکس میں تاخیر یا انہیں منسوخ کر سکتا ہے۔</string>
+    <string name="allow">اجازت دیں</string>
 </resources>

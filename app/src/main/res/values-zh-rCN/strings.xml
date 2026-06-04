@@ -384,4 +384,21 @@
     <string name="software_update_panel_device_label">当前设备</string>
     <string name="software_update_panel_meta_hint">基于实时设备配置文件构建，一键即可检查更新。</string>
     <string name="update_available_label">有可用更新</string>
+
+    <string name="settings_amoled_title">纯黑 (AMOLED)</string>
+    <string name="settings_amoled_desc">在OLED屏幕上使用真正的黑色背景以节省电池</string>
+    <string name="settings_auto_software_update">自动软件更新检查</string>
+    <string name="settings_auto_software_update_desc">在后台定期检查设备的OTA更新</string>
+    <string name="settings_check_interval_title">检查间隔</string>
+    <string name="settings_check_interval_1h">每1小时</string>
+    <string name="settings_check_interval_3h">每3小时</string>
+    <string name="settings_check_interval_6h">每6小时</string>
+    <string name="settings_check_interval_12h">每12小时</string>
+    <string name="settings_check_interval_24h">每24小时</string>
+    <string name="settings_battery_optimization">忽略电池优化</string>
+    <string name="settings_battery_optimization_desc">确保后台检查可靠运行</string>
+    <string name="settings_battery_optimization_ignored">已忽略（后台优化）</string>
+    <string name="battery_optimization_dialog_title">后台执行</string>
+    <string name="battery_optimization_dialog_message">为了在后台可靠地检查软件更新，必须将OTA Pulse从电池优化中排除。</string>
+    <string name="allow">允许</string>
 </resources>

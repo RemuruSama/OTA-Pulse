@@ -22,6 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="20dp"
+            android:textAlignment="viewStart"
             android:text="@string/title_settings"
             android:textAppearance="?attr/textAppearanceDisplaySmall"
             android:textColor="?attr/colorOnSurface"
@@ -58,6 +59,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_app_theme"
+                        android:textAlignment="viewStart"
                         android:textAppearance="?attr/textAppearanceTitleMedium"
                         android:textColor="?attr/colorOnSurface"
                         android:layout_marginBottom="4dp"/>
@@ -67,6 +69,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/system_theme_description"
+                        android:textAlignment="viewStart"
                         android:textAppearance="?attr/textAppearanceBodyMedium"
                         android:textColor="?attr/colorOnSurfaceVariant"
                         android:layout_marginBottom="16dp"/>
@@ -75,8 +78,8 @@
                     <GridLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:columnCount="4"
-                        android:rowCount="1"
+                        android:columnCount="2"
+                        android:rowCount="2"
                         android:useDefaultMargins="false"
                         android:alignmentMode="alignMargins">
 
@@ -88,6 +91,7 @@
                             android:layout_columnWeight="1"
                             android:layout_rowWeight="1"
                             android:layout_marginEnd="6dp"
+                            android:layout_marginBottom="6dp"
                             app:cardCornerRadius="16dp"
                             android:background="@drawable/settings_card_selector"
                             app:cardBackgroundColor="@android:color/transparent"
@@ -100,7 +104,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
-                                android:padding="12dp"
+                                android:padding="16dp"
                                 android:gravity="center">
                                 <ImageView
                                     android:layout_width="24dp"
@@ -108,7 +112,7 @@
                                     android:src="@drawable/ic_light_mode"
                                     app:tint="@color/settings_card_content_selector"
                                     android:duplicateParentState="true"
-                                    android:layout_marginBottom="6dp"/>
+                                    android:layout_marginBottom="8dp"/>
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -127,7 +131,7 @@
                             android:layout_columnWeight="1"
                             android:layout_rowWeight="1"
                             android:layout_marginStart="6dp"
-                            android:layout_marginEnd="6dp"
+                            android:layout_marginBottom="6dp"
                             app:cardCornerRadius="16dp"
                             android:background="@drawable/settings_card_selector"
                             app:cardBackgroundColor="@android:color/transparent"
@@ -140,7 +144,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
-                                android:padding="12dp"
+                                android:padding="16dp"
                                 android:gravity="center">
                                 <ImageView
                                     android:layout_width="24dp"
@@ -148,7 +152,7 @@
                                     android:src="@drawable/ic_dark_mode"
                                     app:tint="@color/settings_card_content_selector"
                                     android:duplicateParentState="true"
-                                    android:layout_marginBottom="6dp"/>
+                                    android:layout_marginBottom="8dp"/>
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -166,8 +170,8 @@
                             android:layout_height="wrap_content"
                             android:layout_columnWeight="1"
                             android:layout_rowWeight="1"
-                            android:layout_marginStart="6dp"
                             android:layout_marginEnd="6dp"
+                            android:layout_marginTop="6dp"
                             app:cardCornerRadius="16dp"
                             android:background="@drawable/settings_card_selector"
                             app:cardBackgroundColor="@android:color/transparent"
@@ -180,7 +184,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
-                                android:padding="12dp"
+                                android:padding="16dp"
                                 android:gravity="center">
                                 <ImageView
                                     android:layout_width="24dp"
@@ -188,7 +192,7 @@
                                     android:src="@drawable/ic_auto_mode"
                                     app:tint="@color/settings_card_content_selector"
                                     android:duplicateParentState="true"
-                                    android:layout_marginBottom="6dp"/>
+                                    android:layout_marginBottom="8dp"/>
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -207,6 +211,7 @@
                             android:layout_columnWeight="1"
                             android:layout_rowWeight="1"
                             android:layout_marginStart="6dp"
+                            android:layout_marginTop="6dp"
                             app:cardCornerRadius="16dp"
                             android:background="@drawable/settings_card_selector"
                             app:cardBackgroundColor="@android:color/transparent"
@@ -219,7 +224,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
-                                android:padding="12dp"
+                                android:padding="16dp"
                                 android:gravity="center">
                                 <ImageView
                                     android:layout_width="24dp"
@@ -227,7 +232,7 @@
                                     android:src="@drawable/ic_system_default"
                                     app:tint="@color/settings_card_content_selector"
                                     android:duplicateParentState="true"
-                                    android:layout_marginBottom="6dp"/>
+                                    android:layout_marginBottom="8dp"/>
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -238,6 +243,50 @@
                             </LinearLayout>
                         </com.google.android.material.card.MaterialCardView>
                     </GridLayout>
+
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="4dp"
+                        android:layout_marginTop="12dp" />
+
+                    <!-- AMOLED Toggle -->
+                    <LinearLayout
+                        android:id="@+id/amoledRow"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingTop="12dp">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:layout_marginEnd="16dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/settings_amoled_title"
+                                android:textAlignment="viewStart"
+                                android:textAppearance="?attr/textAppearanceTitleMedium"
+                                android:textColor="?attr/colorOnSurface"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/settings_amoled_desc"
+                                android:textAlignment="viewStart"
+                                android:textAppearance="?attr/textAppearanceBodyMedium"
+                                android:textColor="?attr/colorOnSurfaceVariant"/>
+                        </LinearLayout>
+
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            android:id="@+id/amoledSwitch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -290,6 +339,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/settings_app_language"
+                                android:textAlignment="viewStart"
                                 android:textAppearance="?attr/textAppearanceTitleMedium"
                                 android:textColor="?attr/colorOnSurface"/>
                             <TextView
@@ -297,6 +347,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/language_option_system"
+                                android:textAlignment="viewStart"
                                 android:textAppearance="?attr/textAppearanceBodyMedium"
                                 android:textColor="?attr/colorOnSurfaceVariant"/>
                         </LinearLayout>
@@ -332,12 +383,14 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/settings_auto_check_updates"
+                                android:textAlignment="viewStart"
                                 android:textAppearance="?attr/textAppearanceTitleMedium"
                                 android:textColor="?attr/colorOnSurface"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/settings_auto_check_updates_desc"
+                                android:textAlignment="viewStart"
                                 android:textAppearance="?attr/textAppearanceBodyMedium"
                                 android:textColor="?attr/colorOnSurfaceVariant"/>
                         </LinearLayout>
@@ -372,12 +425,14 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/settings_auto_software_update"
+                                android:textAlignment="viewStart"
                                 android:textAppearance="?attr/textAppearanceTitleMedium"
                                 android:textColor="?attr/colorOnSurface"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/settings_auto_software_update_desc"
+                                android:textAlignment="viewStart"
                                 android:textAppearance="?attr/textAppearanceBodyMedium"
                                 android:textColor="?attr/colorOnSurfaceVariant"/>
                         </LinearLayout>
@@ -386,6 +441,50 @@
                             android:id="@+id/autoSoftwareUpdateSwitch"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
+                    </LinearLayout>
+
+                    <!-- Check Interval Selector -->
+                    <LinearLayout
+                        android:id="@+id/checkIntervalRow"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingHorizontal="16dp"
+                        android:paddingBottom="16dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:layout_marginEnd="16dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/settings_check_interval_title"
+                                android:textAlignment="viewStart"
+                                android:textAppearance="?attr/textAppearanceBodyMedium"
+                                android:textColor="?attr/colorOnSurface"/>
+                            <TextView
+                                android:id="@+id/checkIntervalValue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAlignment="viewStart"
+                                android:textAppearance="?attr/textAppearanceBodySmall"
+                                android:textColor="?attr/colorOnSurfaceVariant"/>
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_chevron_right"
+                            android:importantForAccessibility="no"
+                            app:tint="?attr/colorOnSurfaceVariant"/>
                     </LinearLayout>
 
                     <com.google.android.material.divider.MaterialDivider
@@ -412,12 +511,14 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/settings_advanced_mode"
+                                android:textAlignment="viewStart"
                                 android:textAppearance="?attr/textAppearanceTitleMedium"
                                 android:textColor="?attr/colorOnSurface"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/settings_advanced_mode_desc"
+                                android:textAlignment="viewStart"
                                 android:textAppearance="?attr/textAppearanceBodyMedium"
                                 android:textColor="?attr/colorOnSurfaceVariant"/>
                         </LinearLayout>
@@ -452,12 +553,14 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/settings_arb_detection"
+                                android:textAlignment="viewStart"
                                 android:textAppearance="?attr/textAppearanceTitleMedium"
                                 android:textColor="?attr/colorOnSurface"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/settings_arb_detection_desc"
+                                android:textAlignment="viewStart"
                                 android:textAppearance="?attr/textAppearanceBodyMedium"
                                 android:textColor="?attr/colorOnSurfaceVariant"/>
                         </LinearLayout>
@@ -466,6 +569,55 @@
                             android:id="@+id/arbDetectionSwitch"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
+                    </LinearLayout>
+
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"/>
+
+                    <!-- Battery Optimization -->
+                    <LinearLayout
+                        android:id="@+id/batteryOptimizationLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="16dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:layout_marginEnd="16dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/settings_battery_optimization"
+                                android:textAlignment="viewStart"
+                                android:textAppearance="?attr/textAppearanceTitleMedium"
+                                android:textColor="?attr/colorOnSurface"/>
+                            <TextView
+                                android:id="@+id/batteryOptimizationStatus"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/settings_battery_optimization_desc"
+                                android:textAlignment="viewStart"
+                                android:textAppearance="?attr/textAppearanceBodyMedium"
+                                android:textColor="?attr/colorOnSurfaceVariant"/>
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/batteryOptimizationIcon"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_chevron_right"
+                            app:tint="?attr/colorOnSurfaceVariant"/>
                     </LinearLayout>
 
                 </LinearLayout>
@@ -514,12 +666,14 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/browser_desktop_mode_title"
+                                android:textAlignment="viewStart"
                                 android:textAppearance="?attr/textAppearanceTitleMedium"
                                 android:textColor="?attr/colorOnSurface"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/browser_desktop_mode_summary"
+                                android:textAlignment="viewStart"
                                 android:textAppearance="?attr/textAppearanceBodyMedium"
                                 android:textColor="?attr/colorOnSurfaceVariant"/>
                         </LinearLayout>
@@ -553,12 +707,14 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/browser_controls_title"
+                                android:textAlignment="viewStart"
                                 android:textAppearance="?attr/textAppearanceTitleMedium"
                                 android:textColor="?attr/colorOnSurface"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/browser_controls_summary"
+                                android:textAlignment="viewStart"
                                 android:textAppearance="?attr/textAppearanceBodyMedium"
                                 android:textColor="?attr/colorOnSurfaceVariant"/>
                         </LinearLayout>
@@ -592,6 +748,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/browser_webview_version_title"
+                                android:textAlignment="viewStart"
                                 android:textAppearance="?attr/textAppearanceTitleMedium"
                                 android:textColor="?attr/colorOnSurface"/>
                             <TextView
@@ -599,6 +756,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/browser_webview_version_unavailable"
+                                android:textAlignment="viewStart"
                                 android:textAppearance="?attr/textAppearanceBodyMedium"
                                 android:textColor="?attr/colorOnSurfaceVariant"/>
                         </LinearLayout>
@@ -663,12 +821,14 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/settings_export_backup"
+                                android:textAlignment="viewStart"
                                 android:textAppearance="?attr/textAppearanceTitleMedium"
                                 android:textColor="?attr/colorOnSurface"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/settings_export_backup_desc"
+                                android:textAlignment="viewStart"
                                 android:textAppearance="?attr/textAppearanceBodyMedium"
                                 android:textColor="?attr/colorOnSurfaceVariant"/>
                         </LinearLayout>
@@ -714,12 +874,14 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/settings_import_backup"
+                                android:textAlignment="viewStart"
                                 android:textAppearance="?attr/textAppearanceTitleMedium"
                                 android:textColor="?attr/colorOnSurface"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/settings_import_backup_desc"
+                                android:textAlignment="viewStart"
                                 android:textAppearance="?attr/textAppearanceBodyMedium"
                                 android:textColor="?attr/colorOnSurfaceVariant"/>
                         </LinearLayout>
@@ -788,12 +950,14 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/libraries_title"
+                                android:textAlignment="viewStart"
                                 android:textAppearance="?attr/textAppearanceTitleMedium"
                                 android:textColor="?attr/colorOnSurface"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/libraries_desc"
+                                android:textAlignment="viewStart"
                                 android:textAppearance="?attr/textAppearanceBodyMedium"
                                 android:textColor="?attr/colorOnSurfaceVariant"/>
                         </LinearLayout>
@@ -839,12 +1003,14 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/developer_title"
+                                android:textAlignment="viewStart"
                                 android:textAppearance="?attr/textAppearanceTitleMedium"
                                 android:textColor="?attr/colorOnSurface"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/developer_desc"
+                                android:textAlignment="viewStart"
                                 android:textAppearance="?attr/textAppearanceBodyMedium"
                                 android:textColor="?attr/colorOnSurfaceVariant"/>
                         </LinearLayout>
@@ -893,12 +1059,14 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/contributors_title"
+                                android:textAlignment="viewStart"
                                 android:textAppearance="?attr/textAppearanceTitleMedium"
                                 android:textColor="?attr/colorOnSurface"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/contributors_desc"
+                                android:textAlignment="viewStart"
                                 android:textAppearance="?attr/textAppearanceBodyMedium"
                                 android:textColor="?attr/colorOnSurfaceVariant"/>
                         </LinearLayout>
@@ -912,6 +1080,9 @@
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
+
+
+
 
 
     </LinearLayout>

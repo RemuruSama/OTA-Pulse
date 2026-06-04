@@ -384,4 +384,21 @@
     <string name="software_update_panel_device_label">الجهاز الحالي</string>
     <string name="software_update_panel_meta_hint">تم إنشاؤه من ملف تعريف الجهاز الفعلي وجاهز للتحقق بنقرة واحدة.</string>
     <string name="update_available_label">يتوفر تحديث</string>
+
+    <string name="settings_amoled_title">أسود نقي (AMOLED)</string>
+    <string name="settings_amoled_desc">استخدم خلفيات سوداء حقيقية لتوفير البطارية على شاشات OLED</string>
+    <string name="settings_auto_software_update">فحص تحديث البرنامج التلقائي</string>
+    <string name="settings_auto_software_update_desc">تحقق بشكل دوري من تحديثات OTA للجهاز في الخلفية</string>
+    <string name="settings_check_interval_title">فترة التحقق</string>
+    <string name="settings_check_interval_1h">كل ساعة</string>
+    <string name="settings_check_interval_3h">كل 3 ساعات</string>
+    <string name="settings_check_interval_6h">كل 6 ساعات</string>
+    <string name="settings_check_interval_12h">كل 12 ساعة</string>
+    <string name="settings_check_interval_24h">كل 24 ساعة</string>
+    <string name="settings_battery_optimization">تجاهل تحسينات البطارية</string>
+    <string name="settings_battery_optimization_desc">ضمان تشغيل عمليات الفحص في الخلفية بشكل موثوق</string>
+    <string name="settings_battery_optimization_ignored">تم التجاهل (محسن للخلفية)</string>
+    <string name="battery_optimization_dialog_title">التنفيذ في الخلفية</string>
+    <string name="battery_optimization_dialog_message">للتحقق بشكل موثوق من تحديثات البرامج في الخلفية، يجب استثناء OTA Pulse من تحسينات البطارية. بدون ذلك، قد يقوم النظام بتأخير أو إلغاء عمليات التحقق من التحديث.</string>
+    <string name="allow">سماح</string>
 </resources>

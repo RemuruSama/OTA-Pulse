@@ -384,4 +384,21 @@
     <string name="software_update_panel_device_label">Thiết bị hiện tại</string>
     <string name="software_update_panel_meta_hint">Được tạo từ hồ sơ thiết bị thực và sẵn sàng kiểm tra chỉ bằng một chạm.</string>
     <string name="update_available_label">Có bản cập nhật</string>
+
+    <string name="settings_amoled_title">Đen thuần (AMOLED)</string>
+    <string name="settings_amoled_desc">Sử dụng nền đen thực sự để tiết kiệm pin trên màn hình OLED</string>
+    <string name="settings_auto_software_update">Tự động kiểm tra bản cập nhật</string>
+    <string name="settings_auto_software_update_desc">Định kỳ kiểm tra các bản cập nhật OTA trong nền</string>
+    <string name="settings_check_interval_title">Khoảng thời gian kiểm tra</string>
+    <string name="settings_check_interval_1h">Mỗi 1 giờ</string>
+    <string name="settings_check_interval_3h">Mỗi 3 giờ</string>
+    <string name="settings_check_interval_6h">Mỗi 6 giờ</string>
+    <string name="settings_check_interval_12h">Mỗi 12 giờ</string>
+    <string name="settings_check_interval_24h">Mỗi 24 giờ</string>
+    <string name="settings_battery_optimization">Bỏ qua tối ưu hóa pin</string>
+    <string name="settings_battery_optimization_desc">Đảm bảo kiểm tra nền chạy đáng tin cậy</string>
+    <string name="settings_battery_optimization_ignored">Đã bỏ qua (Tối ưu hóa cho nền)</string>
+    <string name="battery_optimization_dialog_title">Thực thi nền</string>
+    <string name="battery_optimization_dialog_message">Để kiểm tra bản cập nhật phần mềm một cách đáng tin cậy ở chế độ nền, OTA Pulse phải được miễn các tối ưu hóa pin.</string>
+    <string name="allow">Cho phép</string>
 </resources>
