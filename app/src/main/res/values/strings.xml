@@ -289,6 +289,7 @@
     <string name="notif_error_not_found">File not found on server.</string>
     <string name="notif_error_no_network">No internet connection.</string>
     <string name="notif_error_unknown">Unknown error. Please retry.</string>
+    <string name="notif_downloading_background">Downloading in background…</string>
 
     <!-- Software Update Notification -->
     <string name="notif_channel_software_update">Software Update</string>

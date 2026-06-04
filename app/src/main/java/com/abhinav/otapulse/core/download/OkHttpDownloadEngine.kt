@@ -79,6 +79,10 @@ class OkHttpDownloadEngine @Inject constructor(
 
     // ── Public API ────────────────────────────────────────────────────────────
 
+    /** Returns true if any download is actively running or waiting to start. */
+    fun hasActiveDownloads(): Boolean =
+        records.values.any { it.status == DownloadStatus.DOWNLOADING || it.status == DownloadStatus.QUEUED }
+
     fun addListener(listener: DownloadListener) {
         synchronized(lock) { listeners.add(listener) }
     }
@@ -501,15 +505,9 @@ class OkHttpDownloadEngine @Inject constructor(
         ioScope.launch {
             try {
                 val snapshot = synchronized(lock) { records.values.toList() }
-                // Only persist terminal or paused states to survive process death.
-                val toSave = snapshot.filter {
-                    it.status in setOf(
-                        DownloadStatus.PAUSED,
-                        DownloadStatus.COMPLETED,
-                        DownloadStatus.FAILED,
-                        DownloadStatus.CANCELLED
-                    )
-                }.map { record ->
+                // Persist ALL records so in-progress downloads survive process death.
+                // On reload, DOWNLOADING/QUEUED/ADDED → PAUSED so the user can resume.
+                val toSave = snapshot.map { record ->
                     // Store current byte offset so resume works correctly.
                     val diskBytes = File(record.file).takeIf { it.exists() }?.length() ?: record.downloaded
                     record.copy(downloaded = diskBytes)

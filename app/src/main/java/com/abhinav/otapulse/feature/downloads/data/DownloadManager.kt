@@ -6,6 +6,7 @@ import android.util.Log
 import com.abhinav.otapulse.core.common.Md5Verifier
 import com.abhinav.otapulse.core.common.VerificationResult
 import com.abhinav.otapulse.core.download.DownloadError
+import com.abhinav.otapulse.core.download.DownloadForegroundService
 import com.abhinav.otapulse.core.download.DownloadListener
 import com.abhinav.otapulse.core.download.DownloadRecord
 import com.abhinav.otapulse.core.download.DownloadStatus
@@ -194,6 +195,9 @@ class DownloadManager @Inject constructor(
 
             engine.enqueue(resolvedUrl, finalTargetFile.absolutePath, extras)
             Log.i(TAG, "Enqueued: ${finalTargetFile.absolutePath}")
+
+            // Start foreground service to keep downloads alive in background
+            DownloadForegroundService.start(context)
         }
     }
 
@@ -428,6 +432,9 @@ class DownloadManager @Inject constructor(
 
             // --- MD5 Verification ---
             verifyMd5(record)
+
+            // Stop foreground service if no more active downloads
+            stopForegroundServiceIfIdle()
         }
     }
 
@@ -483,6 +490,9 @@ class DownloadManager @Inject constructor(
 
         autoRetryAttempts.remove(record.id)
         handleDefaultError(record, error, throwable)
+
+        // Stop foreground service if no more active downloads
+        stopForegroundServiceIfIdle()
     }
 
     private fun handleDefaultError(record: DownloadRecord, error: DownloadError, throwable: Throwable?) {
@@ -498,6 +508,9 @@ class DownloadManager @Inject constructor(
         speedSmoothingMap.remove(record.id)
         autoRetryAttempts.remove(record.id)
         md5StatusMap.remove(record.id)
+
+        // Stop foreground service if no more active downloads
+        stopForegroundServiceIfIdle()
     }
 
     override fun onRemoved(record: DownloadRecord) {
@@ -523,6 +536,9 @@ class DownloadManager @Inject constructor(
     override fun onPaused(record: DownloadRecord) {
         updateSingleDownloadState(record)
         notificationHelper.showProgressNotification(record.toDownloadInfo(smoothedSpeed = speedSmoothingMap[record.id]))
+
+        // Stop foreground service if no more active downloads
+        stopForegroundServiceIfIdle()
     }
 
     override fun onResumed(record: DownloadRecord) {
@@ -544,5 +560,14 @@ class DownloadManager @Inject constructor(
          */
         fun isDownloadCheckUrl(url: String): Boolean =
             url.contains("/downloadCheck", ignoreCase = true)
+    }
+
+    /**
+     * Stops the foreground service if no downloads are actively running or queued.
+     */
+    private fun stopForegroundServiceIfIdle() {
+        if (!engine.hasActiveDownloads()) {
+            DownloadForegroundService.stop(context)
+        }
     }
 }
