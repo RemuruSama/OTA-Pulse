@@ -1,5 +1,7 @@
 package com.abhinav.otapulse.ota.network
 
+import kotlinx.coroutines.delay
+
 import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.URL
@@ -27,7 +29,7 @@ class RangeHttpClient(
     }
 
     /** Fetch bytes [start]..[end] inclusive. Enforces HTTP 206 with retry logic. */
-    fun fetchBytes(url: String, start: Long, end: Long): ByteArray {
+    suspend fun fetchBytes(url: String, start: Long, end: Long): ByteArray {
         var lastException: Exception? = null
         var delay = 2000L // Start with 2s delay
         val maxRetries = 5
@@ -44,7 +46,7 @@ class RangeHttpClient(
                     val msg = "Server returned $code for $start-$end"
                     if (attempt < maxRetries) {
                         android.util.Log.w("RangeHttpClient", "$msg, retrying in ${delay}ms... (Attempt ${attempt + 1})")
-                        Thread.sleep(delay)
+                        delay(delay)
                         delay *= 2
                         continue
                     } else {
@@ -60,7 +62,7 @@ class RangeHttpClient(
             } catch (e: Exception) {
                 lastException = e
                 if (attempt < maxRetries) {
-                    Thread.sleep(delay)
+                    delay(delay)
                     delay *= 2
                 } else {
                     throw e

@@ -58,6 +58,14 @@ class ArbChecker @Inject constructor(
             Log.d(TAG, "Attempting ARB extraction from partition: $partitionName")
             
             try {
+                // Check partition size to prevent OOM (limit to 10 MB)
+                val partitionInfo = session.manifest.partitionsList.first { it.partitionName == partitionName }
+                val size = partitionInfo.newPartitionInfo.size
+                if (size > 10 * 1024 * 1024) {
+                    Log.w(TAG, "Partition $partitionName is too large ($size bytes) for in-memory extraction, skipping...")
+                    continue
+                }
+
                 // 3. Extract to memory
                 val output = ByteArrayOutputStream()
                 otaExtractor.extract(session, partitionName, output)

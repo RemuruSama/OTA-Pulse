@@ -47,7 +47,7 @@ class ZipRemoteParser(
 
     // ── Public API ────────────────────────────────────────────────────────────
 
-    fun findEntry(name: String): RemoteZipEntry {
+    suspend fun findEntry(name: String): RemoteZipEntry {
         val tailStart = maxOf(0L, fileSize - TAIL_SIZE)
         val tail = http.fetchBytes(url, tailStart, fileSize - 1)
 
@@ -80,7 +80,7 @@ class ZipRemoteParser(
     /**
      * Resolve the actual central-directory size and offset from a ZIP64 archive.
      */
-    private fun resolveZip64CD(
+    private suspend fun resolveZip64CD(
         tail: ByteArray,
         tailStart: Long,
         eocdPos: Int      // position of EOCD32 within tail[]
@@ -188,7 +188,7 @@ class ZipRemoteParser(
 
     // ── Resolve local file header → data offset ───────────────────────────────
 
-    fun resolveDataOffset(entry: RemoteZipEntry): Long {
+    suspend fun resolveDataOffset(entry: RemoteZipEntry): Long {
         val localHeader = http.fetchBytes(
             url,
             entry.localHeaderOffset,

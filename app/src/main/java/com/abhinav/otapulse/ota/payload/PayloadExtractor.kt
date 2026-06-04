@@ -108,11 +108,12 @@ class PayloadExtractor(
 
             // Fetch the aggregated bundle
             val bundleEnd = bundleStart + bundleLength - 1
+            require(bundleLength <= Int.MAX_VALUE) { "Bundle size exceeds maximum supported buffer size" }
             val bundleData = http.fetchBytes(url, bundleStart, bundleEnd)
 
             // Process each op in the bundle using the shared buffer
             var offsetInBundle = 0
-            for (op in bundleOps) {
+            for ((index, op) in bundleOps.withIndex()) {
                 currentCoroutineContext().ensureActive()
                 val opData = bundleData.copyOfRange(offsetInBundle, offsetInBundle + op.dataLength.toInt())
                 val raw = decompress(opData, op, partitionName)
@@ -120,7 +121,7 @@ class PayloadExtractor(
                 writtenBytes += raw.size
                 
                 offsetInBundle += op.dataLength.toInt()
-                onProgress(writtenBytes, totalBytes, i + bundleOps.indexOf(op))
+                onProgress(writtenBytes, totalBytes, i + index)
             }
 
             // Move pointer to the operation after the bundle
@@ -143,10 +144,10 @@ class PayloadExtractor(
                 data
 
             InstallOperation.Type.REPLACE_BZ ->
-                BZip2CompressorInputStream(stream).readBytes()
+                BZip2CompressorInputStream(stream).use { it.readBytes() }
 
             InstallOperation.Type.REPLACE_XZ ->
-                XZInputStream(stream).readBytes()
+                XZInputStream(stream).use { it.readBytes() }
 
             InstallOperation.Type.ZERO,
             InstallOperation.Type.DISCARD,

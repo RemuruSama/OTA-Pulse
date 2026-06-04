@@ -24,7 +24,9 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.abhinav.otapulse.R
 import com.abhinav.otapulse.databinding.ActivityMainBinding
 import com.abhinav.otapulse.databinding.DialogSupportDeveloperBinding
@@ -195,11 +197,13 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
 
     private fun observeAppUpdates() {
         lifecycleScope.launch {
-            viewModel.appUpdateState.collectLatest { updateInfo ->
-                if (updateInfo != null && !isDestroyed && !isFinishing) {
-                    showUpdateDialog(updateInfo)
-                    downloadNotificationHelper.showAppUpdateNotification(updateInfo)
-                    viewModel.clearUpdateState()
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.appUpdateState.collectLatest { updateInfo ->
+                    if (updateInfo != null && !isDestroyed && !isFinishing) {
+                        showUpdateDialog(updateInfo)
+                        downloadNotificationHelper.showAppUpdateNotification(updateInfo)
+                        viewModel.clearUpdateState()
+                    }
                 }
             }
         }
@@ -207,11 +211,13 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
 
     private fun observeOtaDetailsDialog() {
         lifecycleScope.launch {
-            devicesViewModel.uiState.collectLatest { state ->
-                if (state.showOtaDetailsDialog != null) {
-                    if (supportFragmentManager.findFragmentByTag(com.abhinav.otapulse.feature.devices.ui.OtaDetailsDialogFragment.TAG) == null) {
-                        val dialog = com.abhinav.otapulse.feature.devices.ui.OtaDetailsDialogFragment()
-                        dialog.show(supportFragmentManager, com.abhinav.otapulse.feature.devices.ui.OtaDetailsDialogFragment.TAG)
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                devicesViewModel.uiState.collectLatest { state ->
+                    if (state.showOtaDetailsDialog != null) {
+                        if (supportFragmentManager.findFragmentByTag(com.abhinav.otapulse.feature.devices.ui.OtaDetailsDialogFragment.TAG) == null) {
+                            val dialog = com.abhinav.otapulse.feature.devices.ui.OtaDetailsDialogFragment()
+                            dialog.show(supportFragmentManager, com.abhinav.otapulse.feature.devices.ui.OtaDetailsDialogFragment.TAG)
+                        }
                     }
                 }
             }
@@ -572,9 +578,11 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
 
     private fun observeDownloads() {
         lifecycleScope.launch {
-            downloadRepository.allDownloads.collectLatest { downloads ->
-                isDownloading = downloads.any { it.status == DownloadStatus.DOWNLOADING || it.status == DownloadStatus.QUEUED }
-                updateNotificationDotVisibility()
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                downloadRepository.allDownloads.collectLatest { downloads ->
+                    isDownloading = downloads.any { it.status == DownloadStatus.DOWNLOADING || it.status == DownloadStatus.QUEUED }
+                    updateNotificationDotVisibility()
+                }
             }
         }
     }

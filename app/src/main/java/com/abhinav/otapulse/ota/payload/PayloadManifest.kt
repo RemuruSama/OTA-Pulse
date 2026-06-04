@@ -37,7 +37,7 @@ class PayloadManifest(
         private const val FIXED_HEADER_SIZE = 24L
     }
 
-    fun readHeader(): PayloadHeader {
+    suspend fun readHeader(): PayloadHeader {
         val headerBytes = http.fetchBytes(
             url,
             payloadDataOffset,
@@ -60,7 +60,7 @@ class PayloadManifest(
         return PayloadHeader(version, manifestSize, sigSize, blobOffset)
     }
 
-    fun readManifest(header: PayloadHeader): DeltaArchiveManifest {
+    suspend fun readManifest(header: PayloadHeader): DeltaArchiveManifest {
         val start = payloadDataOffset + FIXED_HEADER_SIZE
         val end   = start + header.manifestSize - 1
         val bytes = http.fetchBytes(url, start, end)

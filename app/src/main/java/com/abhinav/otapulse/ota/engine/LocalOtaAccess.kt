@@ -43,7 +43,9 @@ internal class LocalRangeReader(
 
     override fun fetchBytes(start: Long, endInclusive: Long): ByteArray {
         require(start >= 0L && endInclusive >= start) { "Invalid range: $start-$endInclusive" }
-        val length = (endInclusive - start + 1L).toInt()
+        val lengthLong = endInclusive - start + 1L
+        require(lengthLong <= Int.MAX_VALUE) { "Requested range exceeds maximum buffer size" }
+        val length = lengthLong.toInt()
         val buffer = ByteBuffer.allocate(length)
         channel.position(start)
         while (buffer.hasRemaining()) {
@@ -70,7 +72,9 @@ internal class LocalFileReader(
 
     override fun fetchBytes(start: Long, endInclusive: Long): ByteArray {
         require(start >= 0L && endInclusive >= start) { "Invalid range: $start-$endInclusive" }
-        val length = (endInclusive - start + 1L).toInt()
+        val lengthLong = endInclusive - start + 1L
+        require(lengthLong <= Int.MAX_VALUE) { "Requested range exceeds maximum buffer size" }
+        val length = lengthLong.toInt()
         val buffer = ByteBuffer.allocate(length)
         channel.position(start)
         while (buffer.hasRemaining()) {
@@ -409,6 +413,7 @@ internal class LocalPayloadExtractor(
             }
 
             val bundleData    = reader.fetchBytes(bundleStart, bundleStart + bundleLength - 1)
+            require(bundleLength <= Int.MAX_VALUE) { "Bundle size exceeds maximum supported buffer size" }
             var offsetInBundle = 0
             for ((index, op) in bundleOps.withIndex()) {
                 currentCoroutineContext().ensureActive()
@@ -436,8 +441,8 @@ internal class LocalPayloadExtractor(
         val stream = ByteArrayInputStream(data)
         return when (op.type) {
             InstallOperation.Type.REPLACE    -> data
-            InstallOperation.Type.REPLACE_BZ -> BZip2CompressorInputStream(stream).readBytes()
-            InstallOperation.Type.REPLACE_XZ -> XZInputStream(stream).readBytes()
+            InstallOperation.Type.REPLACE_BZ -> BZip2CompressorInputStream(stream).use { it.readBytes() }
+            InstallOperation.Type.REPLACE_XZ -> XZInputStream(stream).use { it.readBytes() }
             InstallOperation.Type.ZERO,
             InstallOperation.Type.DISCARD,
             InstallOperation.Type.MOVE       -> ByteArray(0)
@@ -563,7 +568,8 @@ internal object LocalMetadataReader {
      * (extremely rare in Realme/OPPO OTAs) or when the ZIP parser fails.
      */
     fun extractPayloadToCache(context: Context, uri: Uri): File {
-        val cacheKey   = uri.toString().hashCode().toUInt().toString(16)
+        val hashBytes = java.security.MessageDigest.getInstance("SHA-256").digest(uri.toString().toByteArray())
+        val cacheKey = hashBytes.joinToString("") { "%02x".format(it) }
         val targetFile = File(context.cacheDir, "selected_ota_payload_$cacheKey.bin")
             .apply { parentFile?.mkdirs() }
         if (targetFile.exists() && targetFile.length() > PAYLOAD_HEADER_SIZE) return targetFile

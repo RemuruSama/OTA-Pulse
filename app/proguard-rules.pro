@@ -4,13 +4,9 @@
 # Keep Gson-serialized model classes
 -keepattributes Signature
 -keepattributes *Annotation*
--keep class com.abhinav.otapulse.domain.model.** { *; }
--keep class com.abhinav.otapulse.util.NetworkComponent { *; }
--keep class com.abhinav.otapulse.util.PredefinedDevice { *; }
--keep class com.abhinav.otapulse.util.RegionVariant { *; }
--keep class com.abhinav.otapulse.util.RegionData { *; }
--keep class com.abhinav.otapulse.util.RequestPayload { *; }
--keep class com.abhinav.otapulse.util.Data$ServerConfig { *; }
+-keep class com.abhinav.otapulse.catalog.model.** { *; }
+-keep class com.abhinav.otapulse.core.model.** { *; }
+-keep class com.abhinav.otapulse.core.network.** { *; }
 
 # Gson specific
 -dontwarn sun.misc.**
