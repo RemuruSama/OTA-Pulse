@@ -39,6 +39,7 @@ object DeviceCatalog {
         OnePlusAce2Pro(),
         OnePlusAceRacingEdition(),
         OnePlusNordCE5(),
+        OnePlusNordCE6(),
         OnePlusNordCE4Lite(),
         OnePlusNordCE4(),
         OnePlusNordCE3Lite(),
