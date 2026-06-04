@@ -26,6 +26,9 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.io.File
+import androidx.core.content.FileProvider
+import android.content.Intent
 
 @AndroidEntryPoint
 class DownloadsFragment : Fragment(R.layout.fragment_downloads) {
@@ -133,7 +136,8 @@ class DownloadsFragment : Fragment(R.layout.fragment_downloads) {
             onResume = { viewModel.resumeDownload(it) },
             onCancel = { viewModel.cancelDownload(it) },
             onRetry = { viewModel.retryDownload(it) },
-            onDelete = { viewModel.deleteDownload(it) }
+            onDelete = { viewModel.deleteDownload(it) },
+            onOpen = { openFile(it) }
         )
         binding.downloadsRecyclerView.apply {
             adapter = downloadAdapter
@@ -158,5 +162,27 @@ class DownloadsFragment : Fragment(R.layout.fragment_downloads) {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun openFile(downloadInfo: com.abhinav.otapulse.core.model.DownloadInfo) {
+        val file = File(downloadInfo.file)
+        if (!file.exists()) {
+            Toast.makeText(requireContext(), "File not found", Toast.LENGTH_SHORT).show()
+            return
+        }
+        try {
+            val uri = FileProvider.getUriForFile(
+                requireContext(),
+                "${requireContext().packageName}.fileprovider",
+                file
+            )
+            val intent = Intent(Intent.ACTION_VIEW).apply {
+                setDataAndType(uri, "application/zip")
+                flags = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_ACTIVITY_NEW_TASK
+            }
+            startActivity(intent)
+        } catch (e: Exception) {
+            Toast.makeText(requireContext(), R.string.could_not_open_link, Toast.LENGTH_SHORT).show()
+        }
     }
 }

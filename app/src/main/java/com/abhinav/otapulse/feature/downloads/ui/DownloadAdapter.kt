@@ -24,7 +24,8 @@ class DownloadAdapter(
     private val onResume: (DownloadInfo) -> Unit,
     private val onCancel: (DownloadInfo) -> Unit,
     private val onRetry: (DownloadInfo) -> Unit,
-    private val onDelete: (DownloadInfo) -> Unit
+    private val onDelete: (DownloadInfo) -> Unit,
+    private val onOpen: (DownloadInfo) -> Unit
 ) : ListAdapter<DownloadInfo, DownloadAdapter.DownloadViewHolder>(DownloadDiffCallback()) {
 
     companion object {
@@ -109,9 +110,10 @@ class DownloadAdapter(
                         binding.actionButton.isEnabled = false
                         binding.cancelButton.visibility = View.GONE
                     } else {
-                        binding.actionButton.text = context.getString(R.string.completed)
-                        binding.actionButton.setIconResource(R.drawable.ic_check_circle)
-                        binding.actionButton.isEnabled = false
+                        binding.actionButton.text = context.getString(R.string.btn_open)
+                        binding.actionButton.setIconResource(R.drawable.ic_open_in_new)
+                        binding.actionButton.isEnabled = true
+                        binding.actionButton.setHapticClickListener { onOpen(downloadInfo) }
                         binding.cancelButton.visibility = View.VISIBLE
                         binding.cancelButton.text = context.getString(R.string.delete)
                         binding.cancelButton.setIconResource(R.drawable.ic_delete)
