@@ -544,6 +544,34 @@
     <string name="placeholder_item_title">Item Title</string>
     <string name="placeholder_item_value">Item Value</string>
 
+    <string name="toast_import_partial_success">Imported %1$d custom devices. Skipped %2$d invalid entries.</string>
+    <string name="toast_import_success">Imported %1$d custom devices successfully!</string>
+    <string name="toast_import_invalid_format">Import failed: Invalid file format.</string>
+    <string name="toast_export_success">Custom devices exported successfully!</string>
+    <string name="toast_export_failed">Export failed: %1$s</string>
+    <string name="toast_import_failed">Import failed: %1$s</string>
+
+    <string name="lang_ar" translatable="false">العربية (Arabic)</string>
+    <string name="lang_bn" translatable="false">বাংলা (Bengali)</string>
+    <string name="lang_zh" translatable="false">简体中文 (Chinese Simplified)</string>
+    <string name="lang_zh_TW" translatable="false">繁體中文 (Chinese Traditional)</string>
+    <string name="lang_fr" translatable="false">Français (French)</string>
+    <string name="lang_de" translatable="false">Deutsch (German)</string>
+    <string name="lang_hi" translatable="false">हिन्दी (Hindi)</string>
+    <string name="lang_id" translatable="false">Bahasa Indonesia (Indonesian)</string>
+    <string name="lang_it" translatable="false">Italiano (Italian)</string>
+    <string name="lang_ja" translatable="false">日本語 (Japanese)</string>
+    <string name="lang_ms" translatable="false">Bahasa Melayu (Malay)</string>
+    <string name="lang_pt_BR" translatable="false">Português (Brasil)</string>
+    <string name="lang_pt_PT" translatable="false">Português (Portugal)</string>
+    <string name="lang_ru" translatable="false">Русский (Russian)</string>
+    <string name="lang_es" translatable="false">Español (Spanish)</string>
+    <string name="lang_fil" translatable="false">Filipino (Tagalog)</string>
+    <string name="lang_th" translatable="false">ไทย (Thai)</string>
+    <string name="lang_tr" translatable="false">Türkçe (Turkish)</string>
+    <string name="lang_ur" translatable="false">اردو (Urdu)</string>
+    <string name="lang_vi" translatable="false">Tiếng Việt (Vietnamese)</string>
+
     <!-- Cursor Decoration (non-translatable) -->
     <string name="cursor_decoration" translatable="false">▮</string>
 </resources>

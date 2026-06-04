@@ -1,7 +1,9 @@
 package com.abhinav.otapulse.feature.settings
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.abhinav.otapulse.R
 import com.abhinav.otapulse.catalog.repository.CustomDeviceManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -17,8 +19,9 @@ data class SettingsUiState(
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
+    application: Application,
     private val customDeviceManager: CustomDeviceManager
-) : ViewModel() {
+) : AndroidViewModel(application) {
 
     private val _uiState = MutableStateFlow(SettingsUiState())
     val uiState = _uiState.asStateFlow()
@@ -32,27 +35,27 @@ class SettingsViewModel @Inject constructor(
             try {
                 val result = customDeviceManager.overwriteDevicesFromJson(json)
                 val message = if (result.skippedCount > 0) {
-                    "Imported ${result.importedCount} custom devices. Skipped ${result.skippedCount} invalid entr${if (result.skippedCount == 1) "y" else "ies"}."
+                    getApplication<Application>().getString(R.string.toast_import_partial_success, result.importedCount, result.skippedCount)
                 } else {
-                    "Imported ${result.importedCount} custom devices successfully!"
+                    getApplication<Application>().getString(R.string.toast_import_success, result.importedCount)
                 }
                 _uiState.update { it.copy(toastMessage = message) }
             } catch (_: IllegalArgumentException) {
-                _uiState.update { it.copy(toastMessage = "Import failed: Invalid file format.") }
+                _uiState.update { it.copy(toastMessage = getApplication<Application>().getString(R.string.toast_import_invalid_format)) }
             }
         }
     }
 
     fun onExportSuccess() {
-        _uiState.update { it.copy(toastMessage = "Custom devices exported successfully!") }
+        _uiState.update { it.copy(toastMessage = getApplication<Application>().getString(R.string.toast_export_success)) }
     }
 
     fun onExportFailed(error: String?) {
-        _uiState.update { it.copy(toastMessage = "Export failed: $error") }
+        _uiState.update { it.copy(toastMessage = getApplication<Application>().getString(R.string.toast_export_failed, error ?: getApplication<Application>().getString(R.string.unknown))) }
     }
 
     fun onImportFailed(error: String?) {
-        _uiState.update { it.copy(toastMessage = "Import failed: $error") }
+        _uiState.update { it.copy(toastMessage = getApplication<Application>().getString(R.string.toast_import_failed, error ?: getApplication<Application>().getString(R.string.unknown))) }
     }
 
     fun clearToastMessage() {
