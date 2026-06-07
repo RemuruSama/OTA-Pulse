@@ -17,49 +17,74 @@ It is meant to help with:
 
 This repository now contains two distinct pieces:
 
-1. the Android product in [app](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app)
-2. a static landing page in [index.html](C:/Users/abhin/AndroidStudioProjects/Otaupdater/index.html) with assets in [OTAPulse](C:/Users/abhin/AndroidStudioProjects/Otaupdater/OTAPulse)
+1. the Android product in [app](app)
+2. a static landing page in [index.html](index.html) with assets in [OTAPulse](OTAPulse)
 
 The rest of this document focuses on the Android app, because that is where the runtime and package boundaries matter most.
 
 ## Build Snapshot
 
-From [app/build.gradle.kts](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/build.gradle.kts):
+From [app/build.gradle.kts](app/build.gradle.kts) and [gradle/libs.versions.toml](gradle/libs.versions.toml):
 
 - single Android application module
 - namespace `com.abhinav.otapulse`
-- Kotlin + Java 17
+- Kotlin 2.3.21 + Java 17
 - `minSdk = 29`
-- `targetSdk = 35`
-- `compileSdk = 36`
-- `versionName = 3.0.3`
+- `targetSdk = 37`
+- `compileSdk = 37`
+- `versionCode = 22`
+- `versionName = 3.0.7`
 - ViewBinding enabled
-- Hilt + KSP
-- WorkManager
-- Fetch
-- OkHttp
-- Glide
-- Markwon
-- Gson
-- Flexbox
-- Protobuf Lite
-- XZ and Commons Compress for OTA payload / extraction work
+- Hilt 2.59.2 + KSP 2.3.4
+- WorkManager 2.11.2 (with Hilt integration)
+- OkHttp 5.3.2 (networking + custom download engine)
+- Glide 5.0.7
+- Markwon 4.6.2 (core)
+- Gson 2.14.0
+- Flexbox 3.0.0
+- Protobuf Lite 4.35.0 (with protobuf Gradle plugin 0.10.0)
+- XZ 1.12 and Commons Compress 1.28.0 for OTA payload / extraction work
+- AndroidX Navigation 2.9.8 (fragment-ktx, ui-ktx)
+- AndroidX Lifecycle 2.10.0 (viewmodel-ktx, livedata-ktx)
+- Coroutines 1.11.0
+- Dynamic Animation (androidx.dynamicanimation.ktx)
 
-**Important Nuance**
+A version catalog exists at `gradle/libs.versions.toml`. Compose BOM entries are declared in the catalog but **not currently used** in `app/build.gradle.kts` dependencies.
+
+**Important Nuances**
 
 - Navigation dependencies exist in Gradle, but the app shell currently uses manual fragment transactions instead of a NavHost-driven flow.
+- The app previously used the Fetch library for downloads. This has been **replaced** by a custom download engine built on OkHttp in `core/download`.
 
 ## App Entry Points
 
-**From** [AndroidManifest.xml](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/AndroidManifest.xml):
+**From** [AndroidManifest.xml](app/src/main/AndroidManifest.xml):
 
-- application class: [OtaPulseApplication.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/app/OtaPulseApplication.kt)
-- launcher activity: [MainActivity.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/app/MainActivity.kt)
-- secondary activity: [InAppBrowserActivity.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/feature/browser/InAppBrowserActivity.kt)
-- secondary activity: [JsonOutputActivity.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/feature/otatools/ui/JsonOutputActivity.kt)
-- shared receiver: [DownloadActionReceiver.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/core/receiver/DownloadActionReceiver.kt)
+- application class: [OtaPulseApplication.kt](app/src/main/java/com/abhinav/otapulse/app/OtaPulseApplication.kt)
+- launcher activity: [MainActivity.kt](app/src/main/java/com/abhinav/otapulse/app/MainActivity.kt) — exported, launcher intent
+- secondary activity: [InAppBrowserActivity.kt](app/src/main/java/com/abhinav/otapulse/feature/browser/InAppBrowserActivity.kt)
+- secondary activity: [JsonOutputActivity.kt](app/src/main/java/com/abhinav/otapulse/feature/otatools/ui/JsonOutputActivity.kt)
+- receiver: [DownloadActionReceiver.kt](app/src/main/java/com/abhinav/otapulse/core/receiver/DownloadActionReceiver.kt) (not exported)
+- receiver: [BootCompletedReceiver.kt](app/src/main/java/com/abhinav/otapulse/core/receiver/BootCompletedReceiver.kt) (exported, handles `BOOT_COMPLETED` + `LOCKED_BOOT_COMPLETED`)
+- service: [DownloadForegroundService.kt](app/src/main/java/com/abhinav/otapulse/core/download/DownloadForegroundService.kt) (foregroundServiceType=dataSync)
+- service: `SystemForegroundService` (WorkManager foreground, foregroundServiceType=dataSync)
+- provider: `FileProvider` with `@xml/file_paths`
+- provider: `InitializationProvider` (removes WorkManagerInitializer for custom init)
+- locale service: `AppLocalesMetadataHolderService` (disabled, auto locale storage)
 
-[OtaPulseApplication.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/app/OtaPulseApplication.kt) wires Hilt and WorkManager, and applies Dynamic Color when available.
+[OtaPulseApplication.kt](app/src/main/java/com/abhinav/otapulse/app/OtaPulseApplication.kt) wires Hilt and WorkManager, and applies Dynamic Color when available.
+
+**Manifest Permissions:**
+
+- `INTERNET`, `ACCESS_NETWORK_STATE`
+- `WRITE_EXTERNAL_STORAGE` (maxSdkVersion 29), `READ_EXTERNAL_STORAGE` (maxSdkVersion 29)
+- `MANAGE_EXTERNAL_STORAGE`
+- `POST_NOTIFICATIONS`
+- `VIBRATE`
+- `WAKE_LOCK`
+- `FOREGROUND_SERVICE`, `FOREGROUND_SERVICE_DATA_SYNC`
+- `RECEIVE_BOOT_COMPLETED`
+- `REQUEST_IGNORE_BATTERY_OPTIMIZATIONS`
 
 ## Top-Level Source Layout
 
@@ -93,9 +118,9 @@ This package is the application shell.
 
 Key files:
 
-- [MainActivity.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/app/MainActivity.kt)
-- [MainViewModel.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/app/MainViewModel.kt)
-- [OtaPulseApplication.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/app/OtaPulseApplication.kt)
+- [MainActivity.kt](app/src/main/java/com/abhinav/otapulse/app/MainActivity.kt) (27 KB)
+- [MainViewModel.kt](app/src/main/java/com/abhinav/otapulse/app/MainViewModel.kt)
+- [OtaPulseApplication.kt](app/src/main/java/com/abhinav/otapulse/app/OtaPulseApplication.kt)
 
 What it owns:
 
@@ -126,74 +151,162 @@ This package owns user-facing product flows. Current feature directories are:
 - `browser`
 - `devices`
 - `downloads`
+- `history`
 - `otatools`
 - `settings`
+- `updates`
 
 #### `feature/devices`
 
 This is the device-browsing side of the app and one of the busiest feature areas.
 
-Representative files:
+Structure:
 
-- [DeviceFragment.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/feature/devices/ui/DeviceFragment.kt)
-- [DevicesFragment.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/feature/devices/ui/DevicesFragment.kt)
-- [DevicesViewModel.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/feature/devices/ui/DevicesViewModel.kt)
-- [FetchOtaUpdateUseCase.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/feature/devices/domain/FetchOtaUpdateUseCase.kt)
+```text
+feature/devices/
+|- domain/
+|  |- FetchOtaDetailsUseCase.kt
+|  |- FetchOtaUpdateUseCase.kt
+|  |- GetDevicesUseCase.kt
+|  `- ToggleFavoriteUseCase.kt
+`- ui/
+   |- AddDeviceFragment.kt
+   |- AddDeviceViewModel.kt
+   |- DeviceAdapter.kt
+   |- DevicesFragment.kt
+   |- DevicesViewModel.kt
+   |- FirmwareGroupAdapter.kt
+   |- OtaDetailsDialogFragment.kt
+   |- OtaViewModel.kt
+   `- RegionVariantEditorAdapter.kt
+```
 
 Responsibilities:
 
-- device browsing
-- search and filtering
-- favorites
-- custom device handling
-- OTA details presentation
+- device browsing, search, and filtering
+- favorites (via `ToggleFavoriteUseCase`)
+- custom device addition (via `AddDeviceFragment` / `AddDeviceViewModel`)
+- OTA details presentation (via `OtaDetailsDialogFragment`)
+- firmware group display
+- region/variant editing
 - entry into extraction-related flows
+
+The domain layer has expanded with dedicated use cases for fetching OTA details, fetching updates, getting the device list, and toggling favorites.
 
 Pressure point:
 
-- `DevicesFragment` still carries a lot of orchestration responsibility and is a likely future split point.
+- `DevicesFragment` still carries significant orchestration responsibility. `OtaDetailsDialogFragment` at 24 KB is substantial and may benefit from future decomposition.
 
 #### `feature/downloads`
 
 This owns the download queue and downloaded file lifecycle.
 
-Representative files:
+Structure:
 
-- [DownloadManager.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/feature/downloads/data/DownloadManager.kt)
-- [DownloadsFragment.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/feature/downloads/ui/DownloadsFragment.kt)
-- [DownloadsViewModel.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/feature/downloads/ui/DownloadsViewModel.kt)
+```text
+feature/downloads/
+|- data/
+|  `- DownloadManager.kt
+|- domain/
+|  |- DeleteFileUseCase.kt
+|  |- DownloadRepository.kt
+|  |- EnqueueDownloadUseCase.kt
+|  |- GetDownloadsUseCase.kt
+|  `- GetTargetFileUseCase.kt
+`- ui/
+   |- DownloadAdapter.kt
+   |- DownloadsFragment.kt
+   `- DownloadsViewModel.kt
+```
 
 Responsibilities:
 
 - enqueue / pause / resume / retry / cancel / delete
-- target path generation under external storage
+- target path generation
 - download-state flow exposure
-- Fetch listener callbacks
 - download progress and completion notifications
+- domain use cases for download operations
 
 Current reality:
 
-- [DownloadManager.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/feature/downloads/data/DownloadManager.kt) acts as both repository implementation and callback hub.
-- It is cohesive, but it is dense and important enough to deserve careful future edits.
+- [DownloadManager.kt](app/src/main/java/com/abhinav/otapulse/feature/downloads/data/DownloadManager.kt) (23 KB) acts as both repository implementation and callback hub. The download engine itself has moved to `core/download`.
+- The domain layer now has proper use case separation.
+
+#### `feature/history`
+
+This is a **new feature** that tracks OTA query history.
+
+Structure:
+
+```text
+feature/history/
+|- data/
+|  |- OtaHistoryRepository.kt
+|  `- OtaHistoryRepositoryImpl.kt
+`- ui/
+   |- OtaHistoryAdapter.kt
+   |- OtaHistoryFragment.kt
+   `- OtaHistoryViewModel.kt
+```
+
+Responsibilities:
+
+- persisting OTA query history entries
+- browsing and displaying past OTA lookups
+- repository pattern with interface + implementation
+
+#### `feature/updates`
+
+This is a **new feature** for the home update experience.
+
+Structure:
+
+```text
+feature/updates/
+`- ui/
+   `- HomeUpdateFragment.kt
+```
+
+Responsibilities:
+
+- Home screen update flow (at 35 KB this is a substantial single-file feature)
+- Primary update discovery and presentation
 
 #### `feature/otatools`
 
 This is the OTA tools hub rather than a single isolated screen.
 
-Representative files:
+Structure:
 
-- [OtaToolsFragment.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/feature/otatools/ui/OtaToolsFragment.kt)
-- [ManualQueryFragment.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/feature/otatools/ui/ManualQueryFragment.kt)
-- [PartitionExtractionFragment.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/feature/otatools/ui/PartitionExtractionFragment.kt)
-- [LinkResolverFragment.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/feature/otatools/ui/LinkResolverFragment.kt)
-- [JsonOutputActivity.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/feature/otatools/ui/JsonOutputActivity.kt)
+```text
+feature/otatools/
+|- data/
+|  `- ArbLookupService.kt
+`- ui/
+   |- ArbCheckerFragment.kt
+   |- JsonOutputActivity.kt
+   |- LinkResolverFragment.kt
+   |- ManualQueryFragment.kt
+   |- OtaToolsFragment.kt
+   `- PartitionExtractionFragment.kt
+```
+
+Plus a single shared ViewModel:
+
+- [OtaToolsViewModel.kt](app/src/main/java/com/abhinav/otapulse/feature/otatools/ui/OtaToolsViewModel.kt) (17 KB)
 
 Included tools:
 
 - Manual Query
 - Partition Extraction
 - Link Resolver
+- ARB Checker (new)
 - JSON output / share flow
+
+Architectural note:
+
+- `ArbCheckerFragment` and `ArbLookupService` are new additions for ARB verification within the tools hub.
+- `ManualQueryFragment` at 44 KB is the largest single fragment in the codebase.
 
 Rule:
 
@@ -203,9 +316,9 @@ Rule:
 
 This feature is easy to miss, but it is real runtime code and should stay documented.
 
-Representative file:
+File:
 
-- [InAppBrowserActivity.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/feature/browser/InAppBrowserActivity.kt)
+- [InAppBrowserActivity.kt](app/src/main/java/com/abhinav/otapulse/feature/browser/InAppBrowserActivity.kt) (12 KB)
 
 Responsibilities:
 
@@ -219,13 +332,21 @@ This belongs in `feature`, not `core`, because it is user-facing product behavio
 
 #### `feature/settings`
 
-This feature owns app preferences, data import/export, and app update behavior.
+This feature owns app preferences, data import/export, app update behavior, and libraries display.
 
-Representative files:
+Structure:
 
-- [SettingsFragment.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/feature/settings/SettingsFragment.kt)
-- [SettingsViewModel.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/feature/settings/SettingsViewModel.kt)
-- [CheckAppUpdateUseCase.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/feature/settings/CheckAppUpdateUseCase.kt)
+```text
+feature/settings/
+|- AppUpdateRepository.kt
+|- AppUpdateRepositoryImpl.kt
+|- CheckAppUpdateUseCase.kt
+|- SettingsFragment.kt
+|- SettingsViewModel.kt
+`- libraries/
+   |- LibrariesAdapter.kt
+   `- LibrariesFragment.kt
+```
 
 Responsibilities:
 
@@ -234,14 +355,19 @@ Responsibilities:
 - browser preferences
 - ARB detection toggle
 - custom-device backup import/export
-- app update checks
-- library / developer / contributors entry points
+- app update checks (via `AppUpdateRepository`)
+- open-source libraries display (via `libraries/`)
 
 #### `feature/about`
 
 This is a lightweight presentation feature.
 
-It should stay simple and avoid becoming a dump site for unrelated project metadata logic.
+Files:
+
+- [AboutFragment.kt](app/src/main/java/com/abhinav/otapulse/feature/about/AboutFragment.kt) (10 KB)
+- [WhatsNewBottomSheet.kt](app/src/main/java/com/abhinav/otapulse/feature/about/WhatsNewBottomSheet.kt)
+
+It should stay simple and avoid becoming a dump site for unrelated project metadata logic. `WhatsNewBottomSheet` presents release notes / changelog.
 
 ### `catalog`
 
@@ -249,23 +375,23 @@ This package owns device definitions and catalog-backed persistence.
 
 Key files:
 
-- [DeviceCatalog.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/catalog/DeviceCatalog.kt)
-- [PredefinedDevice.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/catalog/model/PredefinedDevice.kt)
-- [DeviceRepository.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/catalog/repository/DeviceRepository.kt)
-- [DeviceRepositoryImpl.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/catalog/repository/DeviceRepositoryImpl.kt)
-- [CustomDeviceManager.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/catalog/repository/CustomDeviceManager.kt)
+- [DeviceCatalog.kt](app/src/main/java/com/abhinav/otapulse/catalog/DeviceCatalog.kt)
+- [PredefinedDevice.kt](app/src/main/java/com/abhinav/otapulse/catalog/model/PredefinedDevice.kt)
+- [Region.kt](app/src/main/java/com/abhinav/otapulse/catalog/model/Region.kt)
+- [RegionData.kt](app/src/main/java/com/abhinav/otapulse/catalog/model/RegionData.kt)
+- [DeviceProvider.kt](app/src/main/java/com/abhinav/otapulse/catalog/provider/DeviceProvider.kt)
+- [DeviceRepository.kt](app/src/main/java/com/abhinav/otapulse/catalog/repository/DeviceRepository.kt)
+- [DeviceRepositoryImpl.kt](app/src/main/java/com/abhinav/otapulse/catalog/repository/DeviceRepositoryImpl.kt)
+- [CustomDeviceManager.kt](app/src/main/java/com/abhinav/otapulse/catalog/repository/CustomDeviceManager.kt)
+- [FavoritesManager.kt](app/src/main/java/com/abhinav/otapulse/catalog/repository/FavoritesManager.kt)
 
 Provider groups:
 
-- `provider/oneplus`
-- `provider/realme`
-- `provider/oppo`
+- `provider/oneplus` — 43 files
+- `provider/realme` — 100 files
+- `provider/oppo` — 1 file
 
-Current scale from the source tree:
-
-- 34 OnePlus provider files
-- 99 Realme provider files
-- 1 OPPO provider file
+Catalog models now include `Region` and `RegionData` alongside `PredefinedDevice`. A base `DeviceProvider` interface/class defines the provider contract.
 
 Architectural implication:
 
@@ -282,29 +408,37 @@ Rules:
 
 This package owns OTA engine behavior.
 
-Subpackages:
+Structure:
 
-- `engine`
-- `network`
-- `payload`
-- `resume`
-- `zip`
-
-Representative files:
-
-- [OtaRepository.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/ota/engine/OtaRepository.kt)
-- [OtaRepositoryImpl.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/ota/engine/OtaRepositoryImpl.kt)
-- [OtaExtractor.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/ota/engine/OtaExtractor.kt)
-- [PayloadExtractor.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/ota/payload/PayloadExtractor.kt)
-- [ZipRemoteParser.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/ota/zip/ZipRemoteParser.kt)
+```text
+ota/
+|- engine/
+|  |- LocalOtaAccess.kt
+|  |- OtaExtractor.kt
+|  |- OtaRepository.kt
+|  `- OtaRepositoryImpl.kt
+|- network/
+|  |- OtaApi.kt
+|  |- RangeHttpClient.kt
+|  `- ServerCapabilityChecker.kt
+|- payload/
+|  |- PayloadExtractor.kt
+|  `- PayloadManifest.kt
+|- resume/
+|  `- ExtractionState.kt
+`- zip/
+   `- ZipRemoteParser.kt
+```
 
 What it owns:
 
-- OTA request execution
-- OTA metadata mapping
-- remote ZIP access
-- payload extraction
-- resume-oriented OTA file work
+- OTA request execution (`OtaApi`, `OtaRepository`)
+- local OTA access and extraction (`LocalOtaAccess`, `OtaExtractor`)
+- range-request HTTP support (`RangeHttpClient`)
+- server capability detection (`ServerCapabilityChecker`)
+- remote ZIP access (`ZipRemoteParser`)
+- payload extraction (`PayloadExtractor`, `PayloadManifest`)
+- extraction resume state tracking (`ExtractionState`)
 
 This package is cohesive enough that it could become its own module later, but that split is not necessary yet.
 
@@ -317,11 +451,11 @@ Subpackages:
 - `parser`
 - `worker`
 
-Representative files:
+Files:
 
-- [ArbChecker.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/arb/parser/ArbChecker.kt)
-- [XblConfigParser.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/arb/parser/XblConfigParser.kt)
-- [PartitionExtractorWorker.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/arb/worker/PartitionExtractorWorker.kt)
+- [ArbChecker.kt](app/src/main/java/com/abhinav/otapulse/arb/parser/ArbChecker.kt)
+- [XblConfigParser.kt](app/src/main/java/com/abhinav/otapulse/arb/parser/XblConfigParser.kt)
+- [PartitionExtractorWorker.kt](app/src/main/java/com/abhinav/otapulse/arb/worker/PartitionExtractorWorker.kt)
 
 What it owns:
 
@@ -335,11 +469,12 @@ Rule:
 
 ### `core`
 
-This package owns shared infrastructure.
+This package owns shared infrastructure. It has grown significantly and now includes a custom download engine.
 
 Current subpackages:
 
 - `common`
+- `download`
 - `model`
 - `network`
 - `notifications`
@@ -347,20 +482,90 @@ Current subpackages:
 - `ui`
 - `worker`
 
-Representative files:
+#### `core/common`
 
-- [FormatUtils.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/core/common/FormatUtils.kt)
-- [OtaRequest.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/core/model/OtaRequest.kt)
-- [OtaResolver.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/core/network/OtaResolver.kt)
-- [DownloadNotificationHelper.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/core/notifications/DownloadNotificationHelper.kt)
+Shared utility code:
 
-What belongs here:
+- [AnimationUtils.kt](app/src/main/java/com/abhinav/otapulse/core/common/AnimationUtils.kt)
+- [Crypto.kt](app/src/main/java/com/abhinav/otapulse/core/common/Crypto.kt)
+- [DeviceUtils.kt](app/src/main/java/com/abhinav/otapulse/core/common/DeviceUtils.kt) (9 KB)
+- [FormatUtils.kt](app/src/main/java/com/abhinav/otapulse/core/common/FormatUtils.kt)
+- [HapticUtils.kt](app/src/main/java/com/abhinav/otapulse/core/common/HapticUtils.kt)
+- [InAppBrowser.kt](app/src/main/java/com/abhinav/otapulse/core/common/InAppBrowser.kt)
+- [LocaleHelper.kt](app/src/main/java/com/abhinav/otapulse/core/common/LocaleHelper.kt)
+- [Mappers.kt](app/src/main/java/com/abhinav/otapulse/core/common/Mappers.kt)
+- [Md5Verifier.kt](app/src/main/java/com/abhinav/otapulse/core/common/Md5Verifier.kt)
+- [OtaJsonOutputHelper.kt](app/src/main/java/com/abhinav/otapulse/core/common/OtaJsonOutputHelper.kt)
+- [PermissionHelper.kt](app/src/main/java/com/abhinav/otapulse/core/common/PermissionHelper.kt)
+
+#### `core/download`
+
+Custom download engine (replaces the former Fetch library dependency):
+
+- [DownloadError.kt](app/src/main/java/com/abhinav/otapulse/core/download/DownloadError.kt)
+- [DownloadForegroundService.kt](app/src/main/java/com/abhinav/otapulse/core/download/DownloadForegroundService.kt)
+- [DownloadListener.kt](app/src/main/java/com/abhinav/otapulse/core/download/DownloadListener.kt)
+- [DownloadRecord.kt](app/src/main/java/com/abhinav/otapulse/core/download/DownloadRecord.kt)
+- [DownloadStatus.kt](app/src/main/java/com/abhinav/otapulse/core/download/DownloadStatus.kt)
+- [OkHttpDownloadEngine.kt](app/src/main/java/com/abhinav/otapulse/core/download/OkHttpDownloadEngine.kt) (24 KB)
+
+This is a complete download subsystem: engine, foreground service, status tracking, error handling, and listener callbacks.
+
+#### `core/model`
+
+Shared domain models:
+
+- [AppUpdateInfo.kt](app/src/main/java/com/abhinav/otapulse/core/model/AppUpdateInfo.kt)
+- [Device.kt](app/src/main/java/com/abhinav/otapulse/core/model/Device.kt)
+- [DownloadInfo.kt](app/src/main/java/com/abhinav/otapulse/core/model/DownloadInfo.kt)
+- [DownloadMappers.kt](app/src/main/java/com/abhinav/otapulse/core/model/DownloadMappers.kt)
+- [OtaError.kt](app/src/main/java/com/abhinav/otapulse/core/model/OtaError.kt)
+- [OtaHistoryEntry.kt](app/src/main/java/com/abhinav/otapulse/core/model/OtaHistoryEntry.kt)
+- [OtaRequest.kt](app/src/main/java/com/abhinav/otapulse/core/model/OtaRequest.kt)
+- [OtaUpdate.kt](app/src/main/java/com/abhinav/otapulse/core/model/OtaUpdate.kt)
+- [RegionVariant.kt](app/src/main/java/com/abhinav/otapulse/core/model/RegionVariant.kt)
+
+#### `core/network`
+
+Networking primitives:
+
+- [Component.kt](app/src/main/java/com/abhinav/otapulse/core/network/Component.kt)
+- [CustomOtaRequest.kt](app/src/main/java/com/abhinav/otapulse/core/network/CustomOtaRequest.kt)
+- [Data.kt](app/src/main/java/com/abhinav/otapulse/core/network/Data.kt) (4 KB)
+- [GitHubUpdater.kt](app/src/main/java/com/abhinav/otapulse/core/network/GitHubUpdater.kt)
+- [OtaResolver.kt](app/src/main/java/com/abhinav/otapulse/core/network/OtaResolver.kt)
+- [Request.kt](app/src/main/java/com/abhinav/otapulse/core/network/Request.kt) (13 KB)
+
+#### `core/notifications`
+
+- [DownloadNotificationHelper.kt](app/src/main/java/com/abhinav/otapulse/core/notifications/DownloadNotificationHelper.kt) (18 KB)
+
+#### `core/receiver`
+
+- [BootCompletedReceiver.kt](app/src/main/java/com/abhinav/otapulse/core/receiver/BootCompletedReceiver.kt)
+- [DownloadActionReceiver.kt](app/src/main/java/com/abhinav/otapulse/core/receiver/DownloadActionReceiver.kt)
+
+#### `core/ui`
+
+Shared UI primitives:
+
+- [DialogEffects.kt](app/src/main/java/com/abhinav/otapulse/core/ui/DialogEffects.kt)
+- [WavyCircularProgressIndicator.kt](app/src/main/java/com/abhinav/otapulse/core/ui/WavyCircularProgressIndicator.kt) (10 KB)
+
+#### `core/worker`
+
+- [DownloadWorker.kt](app/src/main/java/com/abhinav/otapulse/core/worker/DownloadWorker.kt)
+- [SoftwareUpdateCheckWorker.kt](app/src/main/java/com/abhinav/otapulse/core/worker/SoftwareUpdateCheckWorker.kt) (9 KB)
+
+What belongs in `core`:
 
 - shared models
-- cross-feature helpers
+- cross-feature helpers and utilities
 - shared notification code
 - networking primitives used by multiple flows
+- the download engine (used by downloads feature + workers)
 - shared receivers and workers
+- shared UI primitives
 
 What does not belong here:
 
@@ -378,17 +583,18 @@ This package wires dependencies.
 
 Key files:
 
-- [AppModule.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/di/AppModule.kt)
-- [RepositoryModule.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/di/RepositoryModule.kt)
+- [AppModule.kt](app/src/main/java/com/abhinav/otapulse/di/AppModule.kt)
+- [RepositoryModule.kt](app/src/main/java/com/abhinav/otapulse/di/RepositoryModule.kt)
+- [Qualifiers.kt](app/src/main/java/com/abhinav/otapulse/di/Qualifiers.kt)
 
 What it currently provides or binds:
 
-- Fetch instance and notification manager hookup
 - Gson
 - `OtaExtractor`
 - `OkHttpClient`
 - favorites and custom-device shared preferences
 - repository bindings for app update, OTA, device catalog, and downloads
+- Hilt qualifier annotations for disambiguating injected types
 
 Rule:
 
@@ -398,33 +604,57 @@ Rule:
 
 The current runtime path is roughly:
 
-1. [OtaPulseApplication.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/app/OtaPulseApplication.kt) initializes Hilt and WorkManager.
-2. [MainActivity.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/main/java/com/abhinav/otapulse/app/MainActivity.kt) owns the shell UI, permission prompts, bottom navigation, and fragment swapping.
+1. [OtaPulseApplication.kt](app/src/main/java/com/abhinav/otapulse/app/OtaPulseApplication.kt) initializes Hilt and WorkManager.
+2. [MainActivity.kt](app/src/main/java/com/abhinav/otapulse/app/MainActivity.kt) owns the shell UI, permission prompts, bottom navigation, and fragment swapping.
 3. Feature UI talks to feature view models, use cases, or repository interfaces.
 4. Device information comes from `catalog`.
 5. OTA request and extraction behavior flows through `ota`.
 6. ARB and extraction safety checks flow through `arb`.
-7. Shared notifications, models, and utility code come from `core`.
+7. Downloads are executed via the custom `core/download` engine running in a foreground service.
+8. Shared notifications, models, and utility code come from `core`.
+9. `BootCompletedReceiver` reschedules background work (e.g., software update checks) after device boot.
+10. `SoftwareUpdateCheckWorker` runs periodic background checks for device firmware updates.
 
 This is not strict layered purity, but it is understandable and productive.
 
 ## Resource Layer
 
-The resource tree is fairly mature and supports several layout buckets:
+The resource tree is mature and supports extensive layout, drawable, and localization buckets:
 
-- `layout`
-- `layout-land`
-- `layout-sw600dp`
-- `layout-w600dp`
-- `values`
-- `values-night`
-- `values-v31`
-- `values-night-v31`
-- `anim`
-- `animator`
-- `menu`
-- `navigation`
-- `xml`
+**Layouts:**
+
+- `layout` — default portrait layouts
+- `layout-land` — landscape overrides
+- `layout-sw600dp` — small-width tablet layouts
+- `layout-w600dp` — width-qualified tablet layouts
+
+**Drawables:**
+
+- `drawable` — vector drawables, shapes, and selectors
+- `drawable-hdpi` through `drawable-xxxhdpi` — density-specific raster assets
+
+**Mipmaps:**
+
+- `mipmap-anydpi`, `mipmap-anydpi-v26` — adaptive icon
+- `mipmap-hdpi` through `mipmap-xxxhdpi` — launcher icons at all density buckets
+
+**Values / Theming:**
+
+- `values` / `values-night` — light and dark theme definitions
+- `values-v31` / `values-night-v31` — Material You overrides for Android 12+
+
+**Localization (20+ locales):**
+
+- `values-ar`, `values-bn`, `values-de`, `values-es`, `values-fil`, `values-fr`, `values-hi`, `values-id`, `values-in`, `values-it`, `values-ja`, `values-ms`, `values-pt`, `values-pt-rBR`, `values-pt-rPT`, `values-ru`, `values-th`, `values-tl`, `values-tr`, `values-ur`, `values-vi`, `values-zh`, `values-zh-rCN`, `values-zh-rTW`
+
+**Other:**
+
+- `anim` — view animations
+- `animator` — property animators
+- `color` — color state lists
+- `menu` — bottom-nav and toolbar menus
+- `navigation` — nav graph resource (not yet driving primary navigation)
+- `xml` — file provider paths, backup rules, and preferences
 
 Important nuance:
 
@@ -436,14 +666,14 @@ Current tests are light.
 
 Unit tests present:
 
-- [ExampleUnitTest.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/test/java/com/abhinav/otapulse/ExampleUnitTest.kt)
-- [CryptoTest.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/test/java/com/abhinav/otapulse/util/CryptoTest.kt)
-- [FormatUtilsTest.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/test/java/com/abhinav/otapulse/util/FormatUtilsTest.kt)
-- [RequestTest.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/test/java/com/abhinav/otapulse/util/RequestTest.kt)
+- [ExampleUnitTest.kt](app/src/test/java/com/abhinav/otapulse/ExampleUnitTest.kt)
+- [CryptoTest.kt](app/src/test/java/com/abhinav/otapulse/util/CryptoTest.kt)
+- [FormatUtilsTest.kt](app/src/test/java/com/abhinav/otapulse/util/FormatUtilsTest.kt)
+- [RequestTest.kt](app/src/test/java/com/abhinav/otapulse/util/RequestTest.kt)
 
 Instrumented tests present:
 
-- [ExampleInstrumentedTest.kt](C:/Users/abhin/AndroidStudioProjects/Otaupdater/app/src/androidTest/java/com/abhinav/otapulse/ExampleInstrumentedTest.kt)
+- [ExampleInstrumentedTest.kt](app/src/androidTest/java/com/abhinav/otapulse/ExampleInstrumentedTest.kt)
 
 Notable leftover:
 
@@ -463,38 +693,51 @@ It owns:
 
 This is efficient today, but it means top-level navigation and shell behavior are tightly coupled.
 
-### 2. `DevicesFragment`
+### 2. `HomeUpdateFragment`
 
-This feature area still looks like one of the largest UI orchestration points in the app.
+At 35 KB in a single file, this is the largest fragment in the codebase. It handles the entire home update flow and is a strong candidate for decomposition into smaller composable pieces.
 
-Likely future wins:
+### 3. `ManualQueryFragment`
 
-- split OTA details dialog logic
-- split extraction-related UI state
-- isolate permission-related branching where possible
+At 44 KB this is the largest single fragment file in the entire project. It carries substantial orchestration and UI logic that could benefit from extraction into helper classes or sub-components.
 
-### 3. `DownloadManager`
+### 4. `OtaDetailsDialogFragment`
+
+At 24 KB this dialog fragment handles a lot of OTA details presentation. Future wins include splitting extraction-related UI state and isolating permission-related branching.
+
+### 5. `DownloadManager`
 
 This class does real work and sits on an important boundary:
 
-- Fetch callback handling
+- download engine callback handling
 - storage path logic
 - notification updates
-- state publication
+- state publication (uses atomic `update` to prevent concurrency issues)
 
 It is a strong candidate for careful incremental decomposition if complexity grows.
 
-### 4. `catalog`
+### 6. `OkHttpDownloadEngine`
 
-The catalog is large by source file count. That is acceptable for now, but it does mean device support is code maintenance rather than data entry.
+At 24 KB this is the core of the custom download system. It handles:
+
+- HTTP range requests
+- resume support
+- progress reporting
+- error handling
+
+This replaced the Fetch library and is critical infrastructure.
+
+### 7. `catalog`
+
+The catalog is large by source file count (144 provider files total). That is acceptable for now, but it does mean device support is code maintenance rather than data entry.
 
 Future option:
 
 - move some provider metadata toward structured assets or generation if scale becomes painful.
 
-### 5. `core`
+### 8. `core`
 
-`core` is healthier than an old-style `util` bucket, but it still needs discipline to stay that way.
+`core` has grown substantially with the addition of the download engine, expanded utilities, and shared UI components. It still needs discipline to stay organized.
 
 Guardrail:
 
@@ -518,11 +761,11 @@ When adding code:
 OTA Pulse stays maintainable when ownership is obvious:
 
 - `app` runs the shell
-- `feature` owns product flows
+- `feature` owns product flows (`about`, `browser`, `devices`, `downloads`, `history`, `otatools`, `settings`, `updates`)
 - `catalog` owns supported devices
 - `ota` owns OTA engine behavior
 - `arb` owns rollback and extraction safety
-- `core` owns shared infrastructure
+- `core` owns shared infrastructure (including the download engine)
 - `di` wires dependencies together
 
 If new code does not clearly belong to one of those owners, stop and decide before adding it.
