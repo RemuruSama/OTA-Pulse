@@ -30,6 +30,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.io.File
 import java.net.URLDecoder
@@ -363,24 +364,26 @@ class DownloadManager @Inject constructor(
     }
 
     private fun updateSingleDownloadState(record: DownloadRecord, newFilePath: String? = null, smoothedSpeed: Long? = null) {
-        val currentDownloads = _allDownloads.value.toMutableList()
-        val index = currentDownloads.indexOfFirst { it.id == record.id }
+        _allDownloads.update { currentDownloads ->
+            val mutableList = currentDownloads.toMutableList()
+            val index = mutableList.indexOfFirst { it.id == record.id }
 
-        // Prefer passed smoothed speed, then map value, then fallback to null (which uses raw)
-        val displaySpeed = smoothedSpeed ?: speedSmoothingMap[record.id]
+            // Prefer passed smoothed speed, then map value, then fallback to null (which uses raw)
+            val displaySpeed = smoothedSpeed ?: speedSmoothingMap[record.id]
 
-        val updatedInfo = record.toDownloadInfo(
-            newFilePath = newFilePath ?: record.file,
-            smoothedSpeed = displaySpeed,
-            md5Status = md5StatusMap[record.id] ?: Md5Status.NONE
-        )
+            val updatedInfo = record.toDownloadInfo(
+                newFilePath = newFilePath ?: record.file,
+                smoothedSpeed = displaySpeed,
+                md5Status = md5StatusMap[record.id] ?: Md5Status.NONE
+            )
 
-        if (index != -1) {
-            currentDownloads[index] = updatedInfo
-        } else {
-            currentDownloads.add(updatedInfo)
+            if (index != -1) {
+                mutableList[index] = updatedInfo
+            } else {
+                mutableList.add(updatedInfo)
+            }
+            mutableList.sortedByDescending { it.original.created }
         }
-        _allDownloads.value = currentDownloads.sortedByDescending { it.original.created }
     }
 
     // --- DownloadListener Callbacks ---

@@ -537,29 +537,30 @@ class ManualQueryFragment : Fragment() {
         }
 
         suspend fun observePartitionProgress(item: PartitionInfo, workId: java.util.UUID) {
-            androidx.work.WorkManager.getInstance(requireContext())
+            val ctx = context ?: return
+            androidx.work.WorkManager.getInstance(ctx)
                 .getWorkInfoByIdFlow(workId)
                 .collect { info ->
-
+                    val innerCtx = context ?: return@collect
                     if (info != null) {
                         viewModel.clearStartingExtraction()
 
                         if (info.state == androidx.work.WorkInfo.State.SUCCEEDED) {
                             activeExtractionWorkId = null
                             resetExtractButton()
-                            Toast.makeText(requireContext(), getString(R.string.toast_partition_extracted, item.name), Toast.LENGTH_SHORT).show()
+                            Toast.makeText(innerCtx, getString(R.string.toast_partition_extracted, item.name), Toast.LENGTH_SHORT).show()
                             workInfoJob?.cancel()
                             return@collect
                         } else if (info.state == androidx.work.WorkInfo.State.CANCELLED) {
                             activeExtractionWorkId = null
                             resetExtractButton()
-                            Toast.makeText(requireContext(), getString(R.string.toast_extraction_cancelled), Toast.LENGTH_SHORT).show()
+                            Toast.makeText(innerCtx, getString(R.string.toast_extraction_cancelled), Toast.LENGTH_SHORT).show()
                             workInfoJob?.cancel()
                             return@collect
                         } else if (info.state == androidx.work.WorkInfo.State.FAILED) {
                             activeExtractionWorkId = null
                             resetExtractButton()
-                            Toast.makeText(requireContext(), getString(R.string.toast_extraction_failed), Toast.LENGTH_SHORT).show()
+                            Toast.makeText(innerCtx, getString(R.string.toast_extraction_failed), Toast.LENGTH_SHORT).show()
                             workInfoJob?.cancel()
                             return@collect
                         }

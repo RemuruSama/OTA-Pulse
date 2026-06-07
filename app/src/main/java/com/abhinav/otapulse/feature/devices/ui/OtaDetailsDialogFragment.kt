@@ -195,29 +195,30 @@ class OtaDetailsDialogFragment : DialogFragment() {
         }
 
         suspend fun observePartitionProgress(item: PartitionInfo, workId: java.util.UUID) {
-            androidx.work.WorkManager.getInstance(requireContext())
+            val ctx = context ?: return
+            androidx.work.WorkManager.getInstance(ctx)
                 .getWorkInfoByIdFlow(workId)
                 .collect { info ->
-
+                    val innerCtx = context ?: return@collect
                     if (info != null) {
                         viewModel.clearStartingExtraction()
 
                         if (info.state == androidx.work.WorkInfo.State.SUCCEEDED) {
                             activeExtractionWorkId = null
                             resetExtractButton()
-                            Toast.makeText(requireContext(), "${item.name}.img extracted successfully", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(innerCtx, "${item.name}.img extracted successfully", Toast.LENGTH_SHORT).show()
                             workInfoJob?.cancel()
                             return@collect
                         } else if (info.state == androidx.work.WorkInfo.State.CANCELLED) {
                             activeExtractionWorkId = null
                             resetExtractButton()
-                            Toast.makeText(requireContext(), "Extraction cancelled", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(innerCtx, "Extraction cancelled", Toast.LENGTH_SHORT).show()
                             workInfoJob?.cancel()
                             return@collect
                         } else if (info.state == androidx.work.WorkInfo.State.FAILED) {
                             activeExtractionWorkId = null
                             resetExtractButton()
-                            Toast.makeText(requireContext(), "Extraction failed", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(innerCtx, "Extraction failed", Toast.LENGTH_SHORT).show()
                             workInfoJob?.cancel()
                             return@collect
                         }

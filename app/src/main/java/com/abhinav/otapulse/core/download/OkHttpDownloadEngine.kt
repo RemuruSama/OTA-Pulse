@@ -314,11 +314,27 @@ class OkHttpDownloadEngine @Inject constructor(
                     return@withContext DownloadResult.FatalError(DownloadError.fromHttpCode(code), null)
                 }
 
+                if (code == 200 && resumeOffset > 0L) {
+                    Log.w(TAG, "[$id] 200 OK instead of 206 Partial Content. Restarting from scratch.")
+                    targetFile.delete()
+                }
+
                 val contentLength = conn.contentLengthLong
                 val totalBytes = when {
                     code == 206 && resumeOffset > 0 -> resumeOffset + contentLength
                     contentLength > 0 -> contentLength
                     else -> -1L
+                }
+
+                if (totalBytes > 0) {
+                    val stat = android.os.StatFs(targetFile.parentFile?.absolutePath ?: "/")
+                    val seekOff = if (code == 206 && resumeOffset > 0) resumeOffset else 0L
+                    val requiredBytes = totalBytes - seekOff
+                    if (stat.availableBytes < requiredBytes) {
+                        Log.e(TAG, "[$id] Insufficient storage. Required: $requiredBytes, Available: ${stat.availableBytes}")
+                        conn.disconnect()
+                        return@withContext DownloadResult.FatalError(DownloadError.INSUFFICIENT_STORAGE, null)
+                    }
                 }
 
                 if (totalBytes > 0) {

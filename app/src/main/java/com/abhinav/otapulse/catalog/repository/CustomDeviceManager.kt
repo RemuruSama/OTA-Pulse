@@ -79,7 +79,7 @@ class CustomDeviceManager @Inject constructor(
             val parseResult = parseDevices(json)
             sharedPreferences.edit()
                 .putString(KEY_CUSTOM_DEVICES, gson.toJson(parseResult.devices))
-                .commit()
+                .apply()
             CustomDeviceImportResult(
                 importedCount = parseResult.devices.size,
                 skippedCount = parseResult.skippedCount

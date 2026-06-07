@@ -10,6 +10,7 @@ enum class DownloadError {
     HTTP_NOT_FOUND,
     /** Generic IO problem (disk full, stream cut, etc.) */
     UNKNOWN_IO_ERROR,
+    INSUFFICIENT_STORAGE,
     UNKNOWN;
 
     companion object {
