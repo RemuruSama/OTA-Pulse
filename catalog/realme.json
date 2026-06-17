@@ -1,2456 +1,10 @@
 [
   {
-    "name": "OnePlus 15T",
-    "ruiVersion": 7,
-    "imei": "",
-    "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dOP15T",
-    "firmwareGroups": {
-      "Android 16": [
-        {
-          "displayName": "CN",
-          "productModel": "PLZ110",
-          "firmwareVersion": "PLZ110NV97_11.A.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ]
-    },
-    "isFavorite": false,
-    "isLoadingDetails": false,
-    "isCustom": false
-  },
-  {
-    "name": "OnePlus 15R/Ace6T",
-    "ruiVersion": 7,
-    "imei": "",
-    "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dOP15",
-    "firmwareGroups": {
-      "Android 16": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2767IN",
-          "firmwareVersion": "CPH2767NV1B_11.A.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "CPH2769",
-          "firmwareVersion": "CPH2769NVA7_11.A.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "CPH2769EEA",
-          "firmwareVersion": "CPH2769NV44_11.A.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "CN",
-          "productModel": "PLR110",
-          "firmwareVersion": "PLR110NV97_11.A.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ]
-    },
-    "isFavorite": false,
-    "isLoadingDetails": false,
-    "isCustom": false
-  },
-  {
-    "name": "OnePlus 15",
-    "ruiVersion": 7,
-    "imei": "",
-    "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dOP15",
-    "firmwareGroups": {
-      "Android 16": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2745IN",
-          "firmwareVersion": "CPH2745NV1B_11.A.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "CPH2747",
-          "firmwareVersion": "CPH2747NVA7_11.A.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "CPH2747EEA",
-          "firmwareVersion": "CPH2747NV44_11.A.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "CN",
-          "productModel": "PLK110",
-          "firmwareVersion": "PLK110NV97_11.A.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ]
-    },
-    "isFavorite": false,
-    "isLoadingDetails": false,
-    "isCustom": false
-  },
-  {
-    "name": "OnePlus 13s",
-    "ruiVersion": 5,
-    "imei": "",
-    "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dOP13",
-    "firmwareGroups": {
-      "Android 15": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2723IN",
-          "firmwareVersion": "CPH2723NV1B_11.A.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "CPH2653",
-          "firmwareVersion": "CPH2653NVA7_11.A.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "CPH2653EEA",
-          "firmwareVersion": "CPH2653NV44_11.A.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 16": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2723IN",
-          "firmwareVersion": "CPH2723NV1B_11.C.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "CPH2653",
-          "firmwareVersion": "CPH2653NVA7_11.F.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "CPH2653EEA",
-          "firmwareVersion": "CPH2653NV44_11.F.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ]
-    },
-    "isFavorite": false,
-    "isLoadingDetails": false,
-    "isCustom": false
-  },
-  {
-    "name": "OnePlus 13T",
-    "ruiVersion": 5,
-    "imei": "",
-    "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dOP13T",
-    "firmwareGroups": {
-      "Android 15": [
-        {
-          "displayName": "CN",
-          "productModel": "PKX110",
-          "firmwareVersion": "PKX110NV97_11.A.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 16": [
-        {
-          "displayName": "CN",
-          "productModel": "PKX110",
-          "firmwareVersion": "PKX110NV97_11.C.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ]
-    },
-    "isFavorite": false,
-    "isLoadingDetails": false,
-    "isCustom": false
-  },
-  {
-    "name": "OnePlus 13R/Ace 5",
-    "ruiVersion": 5,
-    "imei": "",
-    "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dOP13RA5",
-    "firmwareGroups": {
-      "Android 15": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2691IN",
-          "firmwareVersion": "CPH2691NV1B_11.A.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "CPH2645",
-          "firmwareVersion": "CPH2645NVA7_11.A.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "CPH2645EEA",
-          "firmwareVersion": "CPH2645NV44_11.A.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "CN",
-          "productModel": "PKG110",
-          "firmwareVersion": "PKG110NV97_11.A.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 16": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2691IN",
-          "firmwareVersion": "CPH2691NV1B_11.F.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "CPH2645",
-          "firmwareVersion": "CPH2645NVA7_11.F.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "CPH2645EEA",
-          "firmwareVersion": "CPH2645NV44_11.F.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "CN",
-          "productModel": "PKG110",
-          "firmwareVersion": "PKG110NV97_11.F.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ]
-    },
-    "isFavorite": false,
-    "isLoadingDetails": false,
-    "isCustom": false
-  },
-  {
-    "name": "OnePlus 13",
-    "ruiVersion": 5,
-    "imei": "",
-    "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dOP13",
-    "firmwareGroups": {
-      "Android 15": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2649IN",
-          "firmwareVersion": "CPH2649NV1B_11.A.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "CPH2653",
-          "firmwareVersion": "CPH2653NVA7_11.A.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "CPH2653EEA",
-          "firmwareVersion": "CPH2653NV44_11.A.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "CN",
-          "productModel": "PJZ110",
-          "firmwareVersion": "PJZ110NV97_11.A.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 16": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2649IN",
-          "firmwareVersion": "CPH2649NV1B_11.F.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "CPH2653",
-          "firmwareVersion": "CPH2653NVA7_11.F.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "CPH2653EEA",
-          "firmwareVersion": "CPH2653NV44_11.F.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "CN",
-          "productModel": "PJZ110",
-          "firmwareVersion": "PJZ110NV97_11.C.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ]
-    },
-    "isFavorite": false,
-    "isLoadingDetails": false,
-    "isCustom": false
-  },
-  {
-    "name": "OnePlus 12R/Ace 3",
-    "ruiVersion": 5,
-    "imei": "",
-    "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dOP12RA3",
-    "firmwareGroups": {
-      "Android 14": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2585IN",
-          "firmwareVersion": "CPH2585NV1B_11.A.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "CPH2609",
-          "firmwareVersion": "CPH2609NVA7_11.A.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "CPH2609EEA",
-          "firmwareVersion": "CPH2609NV44_11.A.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "CN",
-          "productModel": "PJE110",
-          "firmwareVersion": "PJE110NV97_11.A.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "Genshin Impact",
-          "productModel": "PJE110",
-          "firmwareVersion": "PJE110YSNV97_11.A.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 15": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2585IN",
-          "firmwareVersion": "CPH2585NV1B_11.C.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "CPH2609",
-          "firmwareVersion": "CPH2609NVA7_11.C.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "CPH2609EEA",
-          "firmwareVersion": "CPH2609NV44_11.C.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "CN",
-          "productModel": "PJE110",
-          "firmwareVersion": "PJE110NV97_11.C.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "Genshin Impact",
-          "productModel": "PJE110",
-          "firmwareVersion": "PJE110YSNV97_11.C.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 16": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2585IN",
-          "firmwareVersion": "CPH2585NV1B_11.F.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "CPH2609",
-          "firmwareVersion": "CPH2609NVA7_11.F.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "CPH2609EEA",
-          "firmwareVersion": "CPH2609NV44_11.F.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "CN",
-          "productModel": "PJE110",
-          "firmwareVersion": "PJE110NV97_11.F.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "Genshin Impact",
-          "productModel": "PJE110",
-          "firmwareVersion": "PJE110YSNV97_11.F.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ]
-    },
-    "isFavorite": false,
-    "isLoadingDetails": false,
-    "isCustom": false
-  },
-  {
-    "name": "OnePlus 12",
-    "ruiVersion": 5,
-    "imei": "",
-    "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dOP12",
-    "firmwareGroups": {
-      "Android 14": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2573IN",
-          "firmwareVersion": "CPH2573NV1B_11.A.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "CPH2581",
-          "firmwareVersion": "CPH2581NVA7_11.A.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "CPH2581EEA",
-          "firmwareVersion": "CPH2581NV44_11.A.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "CN",
-          "productModel": "PJD110",
-          "firmwareVersion": "PJD110NV97_11.A.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 15": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2573IN",
-          "firmwareVersion": "CPH2573NV1B_11.C.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "CPH2581",
-          "firmwareVersion": "CPH2581NVA7_11.C.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "CPH2581EEA",
-          "firmwareVersion": "CPH2581NV44_11.C.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "CN",
-          "productModel": "PJD110",
-          "firmwareVersion": "PJD110NV97_11.C.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 16": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2573IN",
-          "firmwareVersion": "CPH2573NV1B_11.F.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "CPH2581",
-          "firmwareVersion": "CPH2581NVA7_11.F.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "CPH2581EEA",
-          "firmwareVersion": "CPH2581NV44_11.F.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "CN",
-          "productModel": "PJD110",
-          "firmwareVersion": "PJD110NV97_11.F.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ]
-    },
-    "isFavorite": false,
-    "isLoadingDetails": false,
-    "isCustom": false
-  },
-  {
-    "name": "OnePlus 11R/Ace 2",
-    "ruiVersion": 5,
-    "imei": "",
-    "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dOP11RA2",
-    "firmwareGroups": {
-      "Android 13": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2487",
-          "firmwareVersion": "CPH2487NV1B_11.A.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "CN",
-          "productModel": "PHK110",
-          "firmwareVersion": "PHK110NV97_11.A.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "Genshin Impact",
-          "productModel": "PHK110",
-          "firmwareVersion": "PHK110YSNV97_11.A.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 14": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2487",
-          "firmwareVersion": "CPH2487NV1B_11.C.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "CN",
-          "productModel": "PHK110",
-          "firmwareVersion": "PHK110NV97_11.C.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "Genshin Impact",
-          "productModel": "PHK110",
-          "firmwareVersion": "PHK110YSNV97_11.C.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 15": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2487",
-          "firmwareVersion": "CPH2487NV1B_11.F.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "CN",
-          "productModel": "PHK110",
-          "firmwareVersion": "PHK110NV97_11.F.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "Genshin Impact",
-          "productModel": "PHK110",
-          "firmwareVersion": "PHK110YSNV97_11.F.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 16": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2487",
-          "firmwareVersion": "CPH2487NV1B_11.H.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "CN",
-          "productModel": "PHK110",
-          "firmwareVersion": "PHK110NV97_11.H.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "Genshin Impact",
-          "productModel": "PHK110",
-          "firmwareVersion": "PHK110YSNV97_11.H.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ]
-    },
-    "isFavorite": false,
-    "isLoadingDetails": false,
-    "isCustom": false
-  },
-  {
-    "name": "OnePlus 11",
-    "ruiVersion": 5,
-    "imei": "",
-    "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dOP11",
-    "firmwareGroups": {
-      "Android 13": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2447",
-          "firmwareVersion": "CPH2447NV1B_11.A.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "CPH2449",
-          "firmwareVersion": "CPH2449NVA7_11.A.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "CPH2449EEA",
-          "firmwareVersion": "CPH2449NV44_11.A.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "CN",
-          "productModel": "PHB110",
-          "firmwareVersion": "PHB110NV97_11.A.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 14": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2447",
-          "firmwareVersion": "CPH2447NV1B_11.C.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "CPH2449",
-          "firmwareVersion": "CPH2449NVA7_11.C.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "CPH2449EEA",
-          "firmwareVersion": "CPH2449NV44_11.C.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "CN",
-          "productModel": "PHB110",
-          "firmwareVersion": "PHB110NV97_11.C.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 15": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2447",
-          "firmwareVersion": "CPH2447NV1B_11.F.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "CPH2449",
-          "firmwareVersion": "CPH2449NVA7_11.F.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "CPH2449EEA",
-          "firmwareVersion": "CPH2449NV44_11.F.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "CN",
-          "productModel": "PHB110",
-          "firmwareVersion": "PHB110NV97_11.F.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 16": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2447",
-          "firmwareVersion": "CPH2447NV1B_11.H.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "CPH2449",
-          "firmwareVersion": "CPH2449NVA7_11.H.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "CPH2449EEA",
-          "firmwareVersion": "CPH2449NV44_11.H.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "CN",
-          "productModel": "PHB110",
-          "firmwareVersion": "PHB110NV97_11.H.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ]
-    },
-    "isFavorite": false,
-    "isLoadingDetails": false,
-    "isCustom": false
-  },
-  {
-    "name": "OnePlus 10T/Ace Pro",
-    "ruiVersion": 5,
-    "imei": "",
-    "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dOP10TAP",
-    "firmwareGroups": {
-      "Android 12": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2413",
-          "firmwareVersion": "CPH2413NV1B_11.A.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "CPH2415",
-          "firmwareVersion": "CPH2415NVA7_11.A.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "CPH2415EEA",
-          "firmwareVersion": "CPH2415NV44_11.A.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "CN",
-          "productModel": "PGP110",
-          "firmwareVersion": "PGP110NV97_11.A.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 13": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2413",
-          "firmwareVersion": "CPH2413NV1B_11.C.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "CPH2415",
-          "firmwareVersion": "CPH2415NVA7_11.C.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "CPH2415EEA",
-          "firmwareVersion": "CPH2415NV44_11.C.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "CN",
-          "productModel": "PGP110",
-          "firmwareVersion": "PGP110NV97_11.C.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 14": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2413",
-          "firmwareVersion": "CPH2413NV1B_11.F.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "CPH2415",
-          "firmwareVersion": "CPH2415NVA7_11.F.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "CPH2415EEA",
-          "firmwareVersion": "CPH2415NV44_11.F.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "CN",
-          "productModel": "PGP110",
-          "firmwareVersion": "PGP110NV97_11.F.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 15": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2413",
-          "firmwareVersion": "CPH2413NV1B_11.H.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "CPH2415",
-          "firmwareVersion": "CPH2415NVA7_11.H.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "CPH2415EEA",
-          "firmwareVersion": "CPH2415NV44_11.H.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "CN",
-          "productModel": "PGP110",
-          "firmwareVersion": "PGP110NV97_11.H.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ]
-    },
-    "isFavorite": false,
-    "isLoadingDetails": false,
-    "isCustom": false
-  },
-  {
-    "name": "OnePlus 10R 80W",
-    "ruiVersion": 5,
-    "imei": "",
-    "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dOP10R80W",
-    "firmwareGroups": {
-      "Android 13": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2423",
-          "firmwareVersion": "CPH2423NV1B_11.C.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "CN",
-          "productModel": "PGKM10",
-          "firmwareVersion": "PGKM10NV97_11.C.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 14": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2423",
-          "firmwareVersion": "CPH2423NV1B_11.F.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "CN",
-          "productModel": "PGKM10",
-          "firmwareVersion": "PGKM10NV97_11.F.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 15": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2423",
-          "firmwareVersion": "CPH2423NV1B_11.F.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "CN",
-          "productModel": "PGKM10",
-          "firmwareVersion": "PGKM10NV97_11.F.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ]
-    },
-    "isFavorite": false,
-    "isLoadingDetails": false,
-    "isCustom": false
-  },
-  {
-    "name": "OnePlus 10R 150W",
-    "ruiVersion": 5,
-    "imei": "",
-    "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dOP10R150W",
-    "firmwareGroups": {
-      "Android 13": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2411",
-          "firmwareVersion": "CPH2411NV1B_11.C.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 14": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2411",
-          "firmwareVersion": "CPH2411NV1B_11.F.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 15": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2411",
-          "firmwareVersion": "CPH2411NV1B_11.F.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ]
-    },
-    "isFavorite": false,
-    "isLoadingDetails": false,
-    "isCustom": false
-  },
-  {
-    "name": "OnePlus 10 Pro",
-    "ruiVersion": 5,
-    "imei": "",
-    "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dOP10P",
-    "firmwareGroups": {
-      "Android 12": [
-        {
-          "displayName": "IN",
-          "productModel": "NE2211",
-          "firmwareVersion": "NE2211NV1B_11.A.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "NE2213",
-          "firmwareVersion": "NE2213NVA7_11.A.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "NE2213EEA",
-          "firmwareVersion": "NE2213NV44_11.A.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "CN",
-          "productModel": "NE2210",
-          "firmwareVersion": "NE2210NV97_11.A.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 13": [
-        {
-          "displayName": "IN",
-          "productModel": "NE2211",
-          "firmwareVersion": "NE2211NV1B_11.C.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "NE2213",
-          "firmwareVersion": "NE2213NVA7_11.C.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "NE2213EEA",
-          "firmwareVersion": "NE2213NV44_11.C.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "CN",
-          "productModel": "NE2210",
-          "firmwareVersion": "NE2210NV97_11.C.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 14": [
-        {
-          "displayName": "IN",
-          "productModel": "NE2211",
-          "firmwareVersion": "NE2211NV1B_11.F.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "NE2213",
-          "firmwareVersion": "NE2213NVA7_11.F.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "NE2213EEA",
-          "firmwareVersion": "NE2213NV44_11.F.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "CN",
-          "productModel": "NE2210",
-          "firmwareVersion": "NE2210NV97_11.F.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 15": [
-        {
-          "displayName": "IN",
-          "productModel": "NE2211",
-          "firmwareVersion": "NE2211NV1B_11.H.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "NE2213",
-          "firmwareVersion": "NE2213NVA7_11.H.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "NE2213EEA",
-          "firmwareVersion": "NE2213NV44_11.H.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "CN",
-          "productModel": "NE2210",
-          "firmwareVersion": "NE2210NV97_11.H.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 16": [
-        {
-          "displayName": "IN",
-          "productModel": "NE2211",
-          "firmwareVersion": "NE2211NV1B_11.J.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "NE2213",
-          "firmwareVersion": "NE2213NVA7_11.J.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "NE2213EEA",
-          "firmwareVersion": "NE2213NV44_11.J.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "CN",
-          "productModel": "NE2210",
-          "firmwareVersion": "NE2210NV97_11.J.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ]
-    },
-    "isFavorite": false,
-    "isLoadingDetails": false,
-    "isCustom": false
-  },
-  {
-    "name": "OnePlus Ace 6",
-    "ruiVersion": 4,
-    "imei": "",
-    "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dOP15",
-    "firmwareGroups": {
-      "Android 16": [
-        {
-          "displayName": "CN",
-          "productModel": "PLQ110",
-          "firmwareVersion": "PLQ110NV97_11.A.43_0001_202601080207",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ]
-    },
-    "isFavorite": false,
-    "isLoadingDetails": false,
-    "isCustom": false
-  },
-  {
-    "name": "OnePlus Ace 5 Pro",
-    "ruiVersion": 5,
-    "imei": "",
-    "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dOPA5P",
-    "firmwareGroups": {
-      "Android 15": [
-        {
-          "displayName": "CN",
-          "productModel": "PKR110",
-          "firmwareVersion": "PKR110NV97_11.A.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 16": [
-        {
-          "displayName": "CN",
-          "productModel": "PKR110",
-          "firmwareVersion": "PKR110NV97_11.C.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ]
-    },
-    "isFavorite": false,
-    "isLoadingDetails": false,
-    "isCustom": false
-  },
-  {
-    "name": "OnePlus Ace 3V",
-    "ruiVersion": 5,
-    "imei": "",
-    "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dOPA3V",
-    "firmwareGroups": {
-      "Android 14": [
-        {
-          "displayName": "CN",
-          "productModel": "PJF110",
-          "firmwareVersion": "PJF110NV97_11.A.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 15": [
-        {
-          "displayName": "CN",
-          "productModel": "PJF110",
-          "firmwareVersion": "PJF110NV97_11.C.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 16": [
-        {
-          "displayName": "CN",
-          "productModel": "PJF110",
-          "firmwareVersion": "PJF110NV97_11.F.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ]
-    },
-    "isFavorite": false,
-    "isLoadingDetails": false,
-    "isCustom": false
-  },
-  {
-    "name": "OnePlus Ace 3 Pro",
-    "ruiVersion": 5,
-    "imei": "",
-    "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dOPA3P",
-    "firmwareGroups": {
-      "Android 14": [
-        {
-          "displayName": "CN",
-          "productModel": "PJX110",
-          "firmwareVersion": "PJX110NV97_11.A.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 15": [
-        {
-          "displayName": "CN",
-          "productModel": "PJX110",
-          "firmwareVersion": "PJX110NV97_11.C.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 16": [
-        {
-          "displayName": "CN",
-          "productModel": "PJX110",
-          "firmwareVersion": "PJX110NV97_11.F.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ]
-    },
-    "isFavorite": false,
-    "isLoadingDetails": false,
-    "isCustom": false
-  },
-  {
-    "name": "OnePlus Ace 2V",
-    "ruiVersion": 5,
-    "imei": "",
-    "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dOPA2V",
-    "firmwareGroups": {
-      "Android 13": [
-        {
-          "displayName": "CN",
-          "productModel": "PHP110",
-          "firmwareVersion": "PHP110NV97_11.A.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 14": [
-        {
-          "displayName": "CN",
-          "productModel": "PHP110",
-          "firmwareVersion": "PHP110NV97_11.C.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 15": [
-        {
-          "displayName": "CN",
-          "productModel": "PHP110",
-          "firmwareVersion": "PHP110NV97_11.F.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 16": [
-        {
-          "displayName": "CN",
-          "productModel": "PHP110",
-          "firmwareVersion": "PHP110NV97_11.H.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ]
-    },
-    "isFavorite": false,
-    "isLoadingDetails": false,
-    "isCustom": false
-  },
-  {
-    "name": "OnePlus Ace 2 Pro",
-    "ruiVersion": 5,
-    "imei": "",
-    "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dOPA2P",
-    "firmwareGroups": {
-      "Android 13": [
-        {
-          "displayName": "CN",
-          "productModel": "PJA110",
-          "firmwareVersion": "PJA110NV97_11.A.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 14": [
-        {
-          "displayName": "CN",
-          "productModel": "PJA110",
-          "firmwareVersion": "PJA110NV97_11.C.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 15": [
-        {
-          "displayName": "CN",
-          "productModel": "PJA110",
-          "firmwareVersion": "PJA110NV97_11.F.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 16": [
-        {
-          "displayName": "CN",
-          "productModel": "PJA110",
-          "firmwareVersion": "PJA110NV97_11.H.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ]
-    },
-    "isFavorite": false,
-    "isLoadingDetails": false,
-    "isCustom": false
-  },
-  {
-    "name": "OnePlus Ace Racing Edition",
-    "ruiVersion": 5,
-    "imei": "",
-    "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dOPARE",
-    "firmwareGroups": {
-      "Android 12": [
-        {
-          "displayName": "CN",
-          "productModel": "PGZ110",
-          "firmwareVersion": "PGZ110NV97_11.A.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 13": [
-        {
-          "displayName": "CN",
-          "productModel": "PGZ110",
-          "firmwareVersion": "PGZ110NV97_11.C.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 14": [
-        {
-          "displayName": "CN",
-          "productModel": "PGZ110",
-          "firmwareVersion": "PGZ110NV97_11.F.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 15": [
-        {
-          "displayName": "CN",
-          "productModel": "PGZ110",
-          "firmwareVersion": "PGZ110NV97_11.H.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ]
-    },
-    "isFavorite": false,
-    "isLoadingDetails": false,
-    "isCustom": false
-  },
-  {
-    "name": "OnePlus Nord CE 5",
-    "ruiVersion": 5,
-    "imei": "",
-    "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dOPN4",
-    "firmwareGroups": {
-      "Android 15": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2717IN",
-          "firmwareVersion": "CPH2717NV1B_11.A.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "CPH2719",
-          "firmwareVersion": "CPH2719NVA7_11.A.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "CPH2719EEA",
-          "firmwareVersion": "CPH2719NV44_11.A.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 16": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2717IN",
-          "firmwareVersion": "CPH2717NV1B_11.C.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "CPH2719",
-          "firmwareVersion": "CPH2719NVA7_11.C.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "CPH2719EEA",
-          "firmwareVersion": "CPH2719NV44_11.C.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ]
-    },
-    "isFavorite": false,
-    "isLoadingDetails": false,
-    "isCustom": false
-  },
-  {
-    "name": "OnePlus Nord CE 6",
-    "ruiVersion": 5,
-    "imei": "",
-    "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dOPN6",
-    "firmwareGroups": {
-      "Android 16": [
-        {
-          "displayName": "GLO",
-          "productModel": "CPH2807",
-          "firmwareVersion": "CPH2807NVA7_11.A.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "IN",
-          "productModel": "CPH2805IN",
-          "firmwareVersion": "CPH2805NV1B_11.A.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ]
-    },
-    "isFavorite": false,
-    "isLoadingDetails": false,
-    "isCustom": false
-  },
-  {
-    "name": "OnePlus Nord CE 6 Lite",
-    "ruiVersion": 5,
-    "imei": "",
-    "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dOPN6L",
-    "firmwareGroups": {
-      "Android 16": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2943IN",
-          "firmwareVersion": "CPH2943NV1B_11.A.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ]
-    },
-    "isFavorite": false,
-    "isLoadingDetails": false,
-    "isCustom": false
-  },
-  {
-    "name": "OnePlus Nord CE 4 Lite",
-    "ruiVersion": 5,
-    "imei": "",
-    "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dOPNCE4L",
-    "firmwareGroups": {
-      "Android 14": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2619IN",
-          "firmwareVersion": "CPH2619NV1B_11.A.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "CPH2621",
-          "firmwareVersion": "CPH2621NVA7_11.A.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "CPH2621EEA",
-          "firmwareVersion": "CPH2621NV44_11.A.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 15": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2619IN",
-          "firmwareVersion": "CPH2619NV1B_11.C.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "CPH2621",
-          "firmwareVersion": "CPH2621NVA7_11.C.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "CPH2621EEA",
-          "firmwareVersion": "CPH2621NV44_11.C.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 16": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2619IN",
-          "firmwareVersion": "CPH2619NV1B_11.F.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "CPH2621",
-          "firmwareVersion": "CPH2621NVA7_11.F.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "CPH2621EEA",
-          "firmwareVersion": "CPH2621NV44_11.F.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ]
-    },
-    "isFavorite": false,
-    "isLoadingDetails": false,
-    "isCustom": false
-  },
-  {
-    "name": "OnePlus Nord CE 4",
-    "ruiVersion": 5,
-    "imei": "",
-    "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dOPNCE4",
-    "firmwareGroups": {
-      "Android 14": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2613IN",
-          "firmwareVersion": "CPH2613NV1B_11.A.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 15": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2613IN",
-          "firmwareVersion": "CPH2613NV1B_11.C.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 16": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2613IN",
-          "firmwareVersion": "CPH2613NV1B_11.F.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ]
-    },
-    "isFavorite": false,
-    "isLoadingDetails": false,
-    "isCustom": false
-  },
-  {
-    "name": "OnePlus Nord CE 3 Lite",
-    "ruiVersion": 5,
-    "imei": "",
-    "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dOPNCE3L",
-    "firmwareGroups": {
-      "Android 13": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2467",
-          "firmwareVersion": "CPH2467NV1B_11.A.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "CPH2465",
-          "firmwareVersion": "CPH2465NVA7_11.A.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "CPH2465EEA",
-          "firmwareVersion": "CPH2465NV44_11.A.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 14": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2467",
-          "firmwareVersion": "CPH2467NV1B_11.C.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "CPH2465",
-          "firmwareVersion": "CPH2465NVA7_11.C.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "CPH2465EEA",
-          "firmwareVersion": "CPH2465NV44_11.C.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 15": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2467",
-          "firmwareVersion": "CPH2467NV1B_11.F.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "CPH2465",
-          "firmwareVersion": "CPH2465NVA7_11.F.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "CPH2465EEA",
-          "firmwareVersion": "CPH2465NV44_11.F.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ]
-    },
-    "isFavorite": false,
-    "isLoadingDetails": false,
-    "isCustom": false
-  },
-  {
-    "name": "OnePlus Nord CE 3",
-    "ruiVersion": 5,
-    "imei": "",
-    "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dOPNCE3",
-    "firmwareGroups": {
-      "Android 13": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2569",
-          "firmwareVersion": "CPH2569NV1B_11.A.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 14": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2569",
-          "firmwareVersion": "CPH2569NV1B_11.C.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 15": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2569",
-          "firmwareVersion": "CPH2569NV1B_11.F.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ]
-    },
-    "isFavorite": false,
-    "isLoadingDetails": false,
-    "isCustom": false
-  },
-  {
-    "name": "OnePlus Nord 5",
-    "ruiVersion": 5,
-    "imei": "",
-    "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dOPN4",
-    "firmwareGroups": {
-      "Android 15": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2707IN",
-          "firmwareVersion": "CPH2707NV1B_11.A.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "CPH2709",
-          "firmwareVersion": "CPH2709NVA7_11.A.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "CPH2709EEA",
-          "firmwareVersion": "CPH2709NV44_11.A.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 16": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2707IN",
-          "firmwareVersion": "CPH2707NV1B_11.C.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "CPH2709",
-          "firmwareVersion": "CPH2709NVA7_11.C.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "CPH2709EEA",
-          "firmwareVersion": "CPH2709NV44_11.C.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ]
-    },
-    "isFavorite": false,
-    "isLoadingDetails": false,
-    "isCustom": false
-  },
-  {
-    "name": "OnePlus Nord 6",
-    "ruiVersion": 6,
-    "imei": "",
-    "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dOPN6",
-    "firmwareGroups": {
-      "Android 16": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2793IN",
-          "firmwareVersion": "CPH2793NV1B_11.A.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "CPH2795",
-          "firmwareVersion": "CPH2795NVA7_11.A.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ]
-    },
-    "isFavorite": false,
-    "isLoadingDetails": false,
-    "isCustom": false
-  },
-  {
-    "name": "OnePlus Nord 4",
-    "ruiVersion": 5,
-    "imei": "",
-    "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dOPN4",
-    "firmwareGroups": {
-      "Android 14": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2661IN",
-          "firmwareVersion": "CPH2661NV1B_11.A.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "CPH2663",
-          "firmwareVersion": "CPH2663NVA7_11.A.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "CPH2663EEA",
-          "firmwareVersion": "CPH2663NV44_11.A.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 15": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2661IN",
-          "firmwareVersion": "CPH2661NV1B_11.C.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "CPH2663",
-          "firmwareVersion": "CPH2663NVA7_11.C.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "CPH2663EEA",
-          "firmwareVersion": "CPH2663NV44_11.C.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 16": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2661IN",
-          "firmwareVersion": "CPH2661NV1B_11.F.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "CPH2663",
-          "firmwareVersion": "CPH2663NVA7_11.F.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "CPH2663EEA",
-          "firmwareVersion": "CPH2663NV44_11.F.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ]
-    },
-    "isFavorite": false,
-    "isLoadingDetails": false,
-    "isCustom": false
-  },
-  {
-    "name": "OnePlus Nord 3",
-    "ruiVersion": 5,
-    "imei": "",
-    "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dOPN3",
-    "firmwareGroups": {
-      "Android 13": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2491",
-          "firmwareVersion": "CPH2491NV1B_11.A.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "CPH2493",
-          "firmwareVersion": "CPH2493NVA7_11.A.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "CPH2493EEA",
-          "firmwareVersion": "CPH2493NV44_11.A.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 14": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2491",
-          "firmwareVersion": "CPH2491NV1B_11.C.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "CPH2493",
-          "firmwareVersion": "CPH2493NVA7_11.C.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "CPH2493EEA",
-          "firmwareVersion": "CPH2493NV44_11.C.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 15": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2491",
-          "firmwareVersion": "CPH2491NV1B_11.F.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "CPH2493",
-          "firmwareVersion": "CPH2493NVA7_11.F.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "CPH2493EEA",
-          "firmwareVersion": "CPH2493NV44_11.F.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 16": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2491",
-          "firmwareVersion": "CPH2491NV1B_11.H.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "CPH2493",
-          "firmwareVersion": "CPH2493NVA7_11.H.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "CPH2493EEA",
-          "firmwareVersion": "CPH2493NV44_11.H.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ]
-    },
-    "isFavorite": false,
-    "isLoadingDetails": false,
-    "isCustom": false
-  },
-  {
-    "name": "OnePlus Pad Go 2 5G",
-    "ruiVersion": 5,
-    "imei": "",
-    "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dOPPG2_5G",
-    "firmwareGroups": {
-      "Android 16": [
-        {
-          "displayName": "IN",
-          "productModel": "OPD2505IN",
-          "firmwareVersion": "OPD2505NV1B_11.A.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "OPD2505",
-          "firmwareVersion": "OPD2505NVA7_11.A.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "OPD2505EEA",
-          "firmwareVersion": "OPD2505NV44_11.A.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ]
-    },
-    "isFavorite": false,
-    "isLoadingDetails": false,
-    "isCustom": false
-  },
-  {
-    "name": "OnePlus Pad Go 2 WiFi",
-    "ruiVersion": 5,
-    "imei": "",
-    "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dOPPG2_WF",
-    "firmwareGroups": {
-      "Android 16": [
-        {
-          "displayName": "IN",
-          "productModel": "OPD2504IN",
-          "firmwareVersion": "OPD2504NV1B_11.A.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "OPD2504",
-          "firmwareVersion": "OPD2504NVA7_11.A.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "OPD2504EEA",
-          "firmwareVersion": "OPD2504NV44_11.A.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ]
-    },
-    "isFavorite": false,
-    "isLoadingDetails": false,
-    "isCustom": false
-  },
-  {
-    "name": "OnePlus Pad Pro",
-    "ruiVersion": 5,
-    "imei": "",
-    "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dOPPP",
-    "firmwareGroups": {
-      "Android 14": [
-        {
-          "displayName": "CN",
-          "productModel": "OPD2404",
-          "firmwareVersion": "OPD2404NV97_11.A.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 15": [
-        {
-          "displayName": "CN",
-          "productModel": "OPD2404",
-          "firmwareVersion": "OPD2404NV97_11.C.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 16": [
-        {
-          "displayName": "CN",
-          "productModel": "OPD2404",
-          "firmwareVersion": "OPD2404NV97_11.F.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ]
-    },
-    "isFavorite": false,
-    "isLoadingDetails": false,
-    "isCustom": false
-  },
-  {
-    "name": "OnePlus Pad 4",
-    "ruiVersion": 5,
-    "imei": "",
-    "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dOPP4",
-    "firmwareGroups": {
-      "Android 16": [
-        {
-          "displayName": "GLO",
-          "productModel": "OPD2514",
-          "firmwareVersion": "OPD2514NVA7_11.A.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "IN",
-          "productModel": "OPD2514IN",
-          "firmwareVersion": "OPD2514NV1B_11.A.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ]
-    },
-    "isFavorite": false,
-    "isLoadingDetails": false,
-    "isCustom": false
-  },
-  {
     "name": "加平板 3 Pro",
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dOPP3P",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=OPP3P",
     "firmwareGroups": {
       "Android 16": [
         {
@@ -2468,379 +22,11 @@
     "isCustom": false
   },
   {
-    "name": "OnePlus Pad 3",
-    "ruiVersion": 5,
-    "imei": "",
-    "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dOPP3",
-    "firmwareGroups": {
-      "Android 15": [
-        {
-          "displayName": "IN",
-          "productModel": "OPD2415IN",
-          "firmwareVersion": "OPD2415NV1B_11.A.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "OPD2415",
-          "firmwareVersion": "OPD2415NVA7_11.A.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "OPD2415EEA",
-          "firmwareVersion": "OPD2415NV44_11.A.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 16": [
-        {
-          "displayName": "IN",
-          "productModel": "OPD2415IN",
-          "firmwareVersion": "OPD2415NV1B_11.C.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "OPD2415",
-          "firmwareVersion": "OPD2415NVA7_11.C.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "OPD2415EEA",
-          "firmwareVersion": "OPD2415NV44_11.C.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ]
-    },
-    "isFavorite": false,
-    "isLoadingDetails": false,
-    "isCustom": false
-  },
-  {
-    "name": "OnePlus Pad 2 Pro",
-    "ruiVersion": 5,
-    "imei": "",
-    "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dOPP2P",
-    "firmwareGroups": {
-      "Android 15": [
-        {
-          "displayName": "CN",
-          "productModel": "OPD2413",
-          "firmwareVersion": "OPD2413NV97_11.A.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 16": [
-        {
-          "displayName": "CN",
-          "productModel": "OPD2413",
-          "firmwareVersion": "OPD2413NV97_11.C.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ]
-    },
-    "isFavorite": false,
-    "isLoadingDetails": false,
-    "isCustom": false
-  },
-  {
-    "name": "OnePlus Pad 2",
-    "ruiVersion": 5,
-    "imei": "",
-    "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dOPP2",
-    "firmwareGroups": {
-      "Android 14": [
-        {
-          "displayName": "IN",
-          "productModel": "OPD2403IN",
-          "firmwareVersion": "OPD2403NV1B_11.A.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "OPD2403",
-          "firmwareVersion": "OPD2403NVA7_11.A.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "OPD2403EEA",
-          "firmwareVersion": "OPD2403NV44_11.A.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 15": [
-        {
-          "displayName": "IN",
-          "productModel": "OPD2403IN",
-          "firmwareVersion": "OPD2403NV1B_11.C.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "OPD2403",
-          "firmwareVersion": "OPD2403NVA7_11.C.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "OPD2403EEA",
-          "firmwareVersion": "OPD2403NV44_11.C.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 16": [
-        {
-          "displayName": "IN",
-          "productModel": "OPD2403IN",
-          "firmwareVersion": "OPD2403NV1B_11.F.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "OPD2403",
-          "firmwareVersion": "OPD2403NVA7_11.F.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "OPD2403EEA",
-          "firmwareVersion": "OPD2403NV44_11.F.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ]
-    },
-    "isFavorite": false,
-    "isLoadingDetails": false,
-    "isCustom": false
-  },
-  {
-    "name": "OnePlus Pad",
-    "ruiVersion": 5,
-    "imei": "",
-    "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dOPP",
-    "firmwareGroups": {
-      "Android 13": [
-        {
-          "displayName": "IN",
-          "productModel": "OPD2203",
-          "firmwareVersion": "OPD2203NV1B_11.A.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "OPD2203",
-          "firmwareVersion": "OPD2203NVA7_11.A.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "OPD2203EEA",
-          "firmwareVersion": "OPD2203NV44_11.A.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 14": [
-        {
-          "displayName": "IN",
-          "productModel": "OPD2203",
-          "firmwareVersion": "OPD2203NV1B_11.C.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "OPD2203",
-          "firmwareVersion": "OPD2203NVA7_11.C.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "OPD2203EEA",
-          "firmwareVersion": "OPD2203NV44_11.C.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 15": [
-        {
-          "displayName": "IN",
-          "productModel": "OPD2203",
-          "firmwareVersion": "OPD2203NV1B_11.F.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "OPD2203",
-          "firmwareVersion": "OPD2203NVA7_11.F.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "OPD2203EEA",
-          "firmwareVersion": "OPD2203NV44_11.F.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 16": [
-        {
-          "displayName": "IN",
-          "productModel": "OPD2203",
-          "firmwareVersion": "OPD2203NV1B_11.H.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "GLO",
-          "productModel": "OPD2203",
-          "firmwareVersion": "OPD2203NVA7_11.H.01_0001_100001010000",
-          "region": "GL",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "OPD2203EEA",
-          "firmwareVersion": "OPD2203NV44_11.H.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ]
-    },
-    "isFavorite": false,
-    "isLoadingDetails": false,
-    "isCustom": false
-  },
-  {
-    "name": "OnePlus Open",
-    "ruiVersion": 5,
-    "imei": "",
-    "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dOPOpen",
-    "firmwareGroups": {
-      "Android 13": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2551IN",
-          "firmwareVersion": "CPH2551NV1B_11.A.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "CPH2551EEA",
-          "firmwareVersion": "CPH2551NV44_11.A.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 14": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2551IN",
-          "firmwareVersion": "CPH2551NV1B_11.C.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "CPH2551EEA",
-          "firmwareVersion": "CPH2551NV44_11.C.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 15": [
-        {
-          "displayName": "IN",
-          "productModel": "CPH2551IN",
-          "firmwareVersion": "CPH2551NV1B_11.F.01_0001_100001010000",
-          "region": "IN",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "EU",
-          "productModel": "CPH2551EEA",
-          "firmwareVersion": "CPH2551NV44_11.F.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ]
-    },
-    "isFavorite": false,
-    "isLoadingDetails": false,
-    "isCustom": false
-  },
-  {
     "name": "realme GT 8 Pro",
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/FFF3E0/E65100?text\u003dGT8P",
+    "imageUrl": "https://placehold.co/100x100/FFF3E0/E65100?text=GT8P",
     "firmwareGroups": {
       "Android 16": [
         {
@@ -2958,7 +144,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/F3E5F5/6A1B9A?text\u003dGT7T",
+    "imageUrl": "https://placehold.co/100x100/F3E5F5/6A1B9A?text=GT7T",
     "firmwareGroups": {
       "Android 15": [
         {
@@ -3166,7 +352,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dRGT7P",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=RGT7P",
     "firmwareGroups": {
       "Android 15": [
         {
@@ -3294,7 +480,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E3F2FD/1565C0?text\u003dGT7",
+    "imageUrl": "https://placehold.co/100x100/E3F2FD/1565C0?text=GT7",
     "firmwareGroups": {
       "Android 15": [
         {
@@ -3502,7 +688,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dRGT6T6SE",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=RGT6T6SE",
     "firmwareGroups": {
       "Android 14": [
         {
@@ -3760,7 +946,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dRGT6",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=RGT6",
     "firmwareGroups": {
       "Android 14": [
         {
@@ -4018,7 +1204,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dRGT5P",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=RGT5P",
     "firmwareGroups": {
       "Android 14": [
         {
@@ -4060,7 +1246,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dRGT5G",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=RGT5G",
     "firmwareGroups": {
       "Android 11": [
         {
@@ -4272,7 +1458,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dRGT5_240W",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=RGT5_240W",
     "firmwareGroups": {
       "Android 13": [
         {
@@ -4324,7 +1510,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dRGT5",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=RGT5",
     "firmwareGroups": {
       "Android 13": [
         {
@@ -4376,7 +1562,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dRGT3N5",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=RGT3N5",
     "firmwareGroups": {
       "Android 13": [
         {
@@ -4556,7 +1742,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dRGT2P",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=RGT2P",
     "firmwareGroups": {
       "Android 12": [
         {
@@ -4992,7 +2178,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dRGT2",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=RGT2",
     "firmwareGroups": {
       "Android 12": [
         {
@@ -5428,7 +2614,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dRGTN6",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=RGTN6",
     "firmwareGroups": {
       "Android 15": [
         {
@@ -5460,7 +2646,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dRGTN6",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=RGTN6",
     "firmwareGroups": {
       "Android 16": [
         {
@@ -5482,7 +2668,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dRGTN6",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=RGTN6",
     "firmwareGroups": {
       "Android 16": [
         {
@@ -5504,7 +2690,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dRGTN6",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=RGTN6",
     "firmwareGroups": {
       "Android 16": [
         {
@@ -5526,7 +2712,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dRGTN6SE",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=RGTN6SE",
     "firmwareGroups": {
       "Android 14": [
         {
@@ -5568,7 +2754,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dRGTN6",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=RGTN6",
     "firmwareGroups": {
       "Android 14": [
         {
@@ -5610,7 +2796,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dRGTN5SE",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=RGTN5SE",
     "firmwareGroups": {
       "Android 13": [
         {
@@ -5694,7 +2880,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dRGTN5240W",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=RGTN5240W",
     "firmwareGroups": {
       "Android 13": [
         {
@@ -5746,7 +2932,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dRGTN3_150W",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=RGTN3_150W",
     "firmwareGroups": {
       "Android 12": [
         {
@@ -5860,7 +3046,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dRGTN3_80W",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=RGTN3_80W",
     "firmwareGroups": {
       "Android 12": [
         {
@@ -6094,7 +3280,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dRGTN2T",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=RGTN2T",
     "firmwareGroups": {
       "Android 13": [
         {
@@ -6116,7 +3302,7 @@
     "ruiVersion": 4,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dRGTN2",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=RGTN2",
     "firmwareGroups": {
       "Android 13": [
         {
@@ -6210,7 +3396,7 @@
     "ruiVersion": 4,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dRX7MGTN",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=RX7MGTN",
     "firmwareGroups": {
       "Android 13": [
         {
@@ -6240,7 +3426,7 @@
     "ruiVersion": 4,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dRGTME",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=RGTME",
     "firmwareGroups": {
       "Android 11": [
         {
@@ -6546,7 +3732,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/FCE4EC/C2185B?text\u003d16+Pro+",
+    "imageUrl": "https://placehold.co/100x100/FCE4EC/C2185B?text=16+Pro+",
     "firmwareGroups": {
       "Android 16": [
         {
@@ -6656,7 +3842,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E8EAF6/3949AB?text\u003d16+Pro",
+    "imageUrl": "https://placehold.co/100x100/E8EAF6/3949AB?text=16+Pro",
     "firmwareGroups": {
       "Android 16": [
         {
@@ -6766,7 +3952,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E1F5FE/0277BD?text\u003d15x+5G",
+    "imageUrl": "https://placehold.co/100x100/E1F5FE/0277BD?text=15x+5G",
     "firmwareGroups": {
       "Android 15": [
         {
@@ -6798,7 +3984,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/F1F8E9/558B2F?text\u003d15T",
+    "imageUrl": "https://placehold.co/100x100/F1F8E9/558B2F?text=15T",
     "firmwareGroups": {
       "Android 15": [
         {
@@ -6846,7 +4032,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/FFFDE7/F9A825?text\u003d15+Pro",
+    "imageUrl": "https://placehold.co/100x100/FFFDE7/F9A825?text=15+Pro",
     "firmwareGroups": {
       "Android 15": [
         {
@@ -7070,7 +4256,7 @@
     "ruiVersion": 6,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003d15_5G",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=15_5G",
     "firmwareGroups": {
       "Android 15": [
         {
@@ -7134,7 +4320,7 @@
     "ruiVersion": 6,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003d14x_5G",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=14x_5G",
     "firmwareGroups": {
       "Android 14": [
         {
@@ -7868,7 +5054,7 @@
     "ruiVersion": 6,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003d13P_5G",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=13P_5G",
     "firmwareGroups": {
       "Android 14": [
         {
@@ -8078,7 +5264,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dR13",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=R13",
     "firmwareGroups": {
       "Android 14": [
         {
@@ -8144,7 +5330,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dR12x",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=R12x",
     "firmwareGroups": {
       "Android 14": [
         {
@@ -8210,7 +5396,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dR12P+",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=R12P+",
     "firmwareGroups": {
       "Android 14": [
         {
@@ -8540,7 +5726,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dR12P",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=R12P",
     "firmwareGroups": {
       "Android 14": [
         {
@@ -8750,7 +5936,7 @@
     "ruiVersion": 6,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003d12P_5G",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=12P_5G",
     "firmwareGroups": {
       "Android 14": [
         {
@@ -9080,7 +6266,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dR12",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=R12",
     "firmwareGroups": {
       "Android 14": [
         {
@@ -9146,7 +6332,7 @@
     "ruiVersion": 6,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003d11x_5G",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=11x_5G",
     "firmwareGroups": {
       "Android 13": [
         {
@@ -9332,7 +6518,7 @@
     "ruiVersion": 6,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003d11P_5G",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=11P_5G",
     "firmwareGroups": {
       "Android 13": [
         {
@@ -9638,7 +6824,7 @@
     "ruiVersion": 6,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003d11PP_5G",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=11PP_5G",
     "firmwareGroups": {
       "Android 13": [
         {
@@ -9968,7 +7154,7 @@
     "ruiVersion": 6,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003d11_5G",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=11_5G",
     "firmwareGroups": {
       "Android 13": [
         {
@@ -10202,7 +7388,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dR10PP",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=R10PP",
     "firmwareGroups": {
       "Android 13": [
         {
@@ -10508,7 +7694,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dR10P",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=R10P",
     "firmwareGroups": {
       "Android 13": [
         {
@@ -10694,7 +7880,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dR10",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=R10",
     "firmwareGroups": {
       "Android 12": [
         {
@@ -10976,7 +8162,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dR9i_5G",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=R9i_5G",
     "firmwareGroups": {
       "Android 12": [
         {
@@ -11090,7 +8276,7 @@
     "ruiVersion": 4,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dR9i",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=R9i",
     "firmwareGroups": {
       "Android 13": [
         {
@@ -11200,7 +8386,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dR9PP",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=R9PP",
     "firmwareGroups": {
       "Android 12": [
         {
@@ -11506,7 +8692,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dR9P5G_Q5",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=R9P5G_Q5",
     "firmwareGroups": {
       "Android 12": [
         {
@@ -11812,7 +8998,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dR9SD_5G",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=R9SD_5G",
     "firmwareGroups": {
       "Android 13": [
         {
@@ -11860,7 +9046,7 @@
     "ruiVersion": 4,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dR9_5GS",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=R9_5GS",
     "firmwareGroups": {
       "Android 13": [
         {
@@ -11882,7 +9068,7 @@
     "ruiVersion": 4,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dR9_5G",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=R9_5G",
     "firmwareGroups": {
       "Android 13": [
         {
@@ -11912,7 +9098,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dR9_4G",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=R9_4G",
     "firmwareGroups": {
       "Android 13": [
         {
@@ -12104,7 +9290,7 @@
     "ruiVersion": 4,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dR8s_5G",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=R8s_5G",
     "firmwareGroups": {
       "Android 13": [
         {
@@ -12126,7 +9312,7 @@
     "ruiVersion": 4,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dR8i",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=R8i",
     "firmwareGroups": {
       "Android 13": [
         {
@@ -12172,7 +9358,7 @@
     "ruiVersion": 4,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dR8P",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=R8P",
     "firmwareGroups": {
       "Android 13": [
         {
@@ -12258,7 +9444,7 @@
     "ruiVersion": 4,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dR8_5G",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=R8_5G",
     "firmwareGroups": {
       "Android 13": [
         {
@@ -12352,7 +9538,7 @@
     "ruiVersion": 4,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dR8",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=R8",
     "firmwareGroups": {
       "Android 13": [
         {
@@ -12430,7 +9616,7 @@
     "ruiVersion": 6,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dC67_5G",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=C67_5G",
     "firmwareGroups": {
       "Android 14": [
         {
@@ -12462,7 +9648,7 @@
     "ruiVersion": 6,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dC65_5G",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=C65_5G",
     "firmwareGroups": {
       "Android 14": [
         {
@@ -12504,7 +9690,7 @@
     "ruiVersion": 6,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dC63_5G",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=C63_5G",
     "firmwareGroups": {
       "Android 14": [
         {
@@ -12546,7 +9732,7 @@
     "ruiVersion": 4,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dC25s",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=C25s",
     "firmwareGroups": {
       "Android 13": [
         {
@@ -12568,7 +9754,7 @@
     "ruiVersion": 4,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dC25",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=C25",
     "firmwareGroups": {
       "Android 13": [
         {
@@ -12590,7 +9776,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dN65_5G",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=N65_5G",
     "firmwareGroups": {
       "Android 14": [
         {
@@ -12848,7 +10034,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dRN55",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=RN55",
     "firmwareGroups": {
       "Android 13": [
         {
@@ -13082,7 +10268,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/F3E5F5/6A1B9A?text\u003dNarzo+90x",
+    "imageUrl": "https://placehold.co/100x100/F3E5F5/6A1B9A?text=Narzo+90x",
     "firmwareGroups": {
       "Android 16": [
         {
@@ -13136,7 +10322,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dRN80x_5G",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=RN80x_5G",
     "firmwareGroups": {
       "Android 15": [
         {
@@ -13168,7 +10354,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dRN80P_5G",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=RN80P_5G",
     "firmwareGroups": {
       "Android 15": [
         {
@@ -13200,7 +10386,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dRN70x_5G",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=RN70x_5G",
     "firmwareGroups": {
       "Android 14": [
         {
@@ -13242,7 +10428,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dRN70T_5G",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=RN70T_5G",
     "firmwareGroups": {
       "Android 14": [
         {
@@ -13284,7 +10470,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dRN70P",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=RN70P",
     "firmwareGroups": {
       "Android 14": [
         {
@@ -13326,7 +10512,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dRN70_5G",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=RN70_5G",
     "firmwareGroups": {
       "Android 14": [
         {
@@ -13368,7 +10554,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dRN60x_5G",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=RN60x_5G",
     "firmwareGroups": {
       "Android 14": [
         {
@@ -13400,7 +10586,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dRN60P",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=RN60P",
     "firmwareGroups": {
       "Android 13": [
         {
@@ -13682,7 +10868,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dRN60",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=RN60",
     "firmwareGroups": {
       "Android 13": [
         {
@@ -13724,7 +10910,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dRN50P",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=RN50P",
     "firmwareGroups": {
       "Android 12": [
         {
@@ -13790,7 +10976,7 @@
     "ruiVersion": 4,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dRN50A",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=RN50A",
     "firmwareGroups": {
       "Android 13": [
         {
@@ -13828,7 +11014,7 @@
     "ruiVersion": 4,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dRN50",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=RN50",
     "firmwareGroups": {
       "Android 13": [
         {
@@ -13914,7 +11100,7 @@
     "ruiVersion": 4,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dRN30_5G",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=RN30_5G",
     "firmwareGroups": {
       "Android 13": [
         {
@@ -13960,7 +11146,7 @@
     "ruiVersion": 6,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E8F5E9/2E7D32?text\u003dP4_5G",
+    "imageUrl": "https://placehold.co/100x100/E8F5E9/2E7D32?text=P4_5G",
     "firmwareGroups": {
       "Android 16": [
         {
@@ -13982,7 +11168,7 @@
     "ruiVersion": 6,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/F3E5F5/6A1B9A?text\u003dP4_Pro_5G",
+    "imageUrl": "https://placehold.co/100x100/F3E5F5/6A1B9A?text=P4_Pro_5G",
     "firmwareGroups": {
       "Android 15": [
         {
@@ -14014,7 +11200,7 @@
     "ruiVersion": 6,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E3F2FD/1565C0?text\u003dP4x_5G",
+    "imageUrl": "https://placehold.co/100x100/E3F2FD/1565C0?text=P4x_5G",
     "firmwareGroups": {
       "Android 15": [
         {
@@ -14046,7 +11232,7 @@
     "ruiVersion": 6,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E8F5E9/2E7D32?text\u003dP4_5G",
+    "imageUrl": "https://placehold.co/100x100/E8F5E9/2E7D32?text=P4_5G",
     "firmwareGroups": {
       "Android 15": [
         {
@@ -14078,7 +11264,7 @@
     "ruiVersion": 6,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dP3x_5G",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=P3x_5G",
     "firmwareGroups": {
       "Android 15": [
         {
@@ -14110,7 +11296,7 @@
     "ruiVersion": 6,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dP3U_5G",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=P3U_5G",
     "firmwareGroups": {
       "Android 16": [
         {
@@ -14132,7 +11318,7 @@
     "ruiVersion": 6,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dP3P_5G",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=P3P_5G",
     "firmwareGroups": {
       "Android 15": [
         {
@@ -14164,7 +11350,7 @@
     "ruiVersion": 6,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dP3_5G",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=P3_5G",
     "firmwareGroups": {
       "Android 15": [
         {
@@ -14372,7 +11558,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dP2P_5G",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=P2P_5G",
     "firmwareGroups": {
       "Android 14": [
         {
@@ -14414,7 +11600,7 @@
     "ruiVersion": 6,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dP1S_5G",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=P1S_5G",
     "firmwareGroups": {
       "Android 14": [
         {
@@ -14456,7 +11642,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dP1P_5G",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=P1P_5G",
     "firmwareGroups": {
       "Android 14": [
         {
@@ -14522,7 +11708,7 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dP1_5G",
+    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=P1_5G",
     "firmwareGroups": {
       "Android 14": [
         {
@@ -14550,282 +11736,6 @@
           "productModel": "RMX3870IN",
           "firmwareVersion": "RMX3870NV1B_11.F.01_0001_100001010000",
           "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ]
-    },
-    "isFavorite": false,
-    "isLoadingDetails": false,
-    "isCustom": false
-  },
-  {
-    "name": "OPPO Find N3",
-    "ruiVersion": 5,
-    "imei": "",
-    "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text\u003dOPFN3",
-    "firmwareGroups": {
-      "Android 13": [
-        {
-          "displayName": "ID",
-          "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV33_11.A.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "SG",
-          "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV2C_11.A.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "TW",
-          "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV1A_11.A.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "MY",
-          "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV38_11.A.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "TH",
-          "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV39_11.A.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "VN",
-          "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV3C_11.A.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "OCA",
-          "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NVA5_11.A.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "CN",
-          "productModel": "PHN110",
-          "firmwareVersion": "PHN110NV97_11.A.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 14": [
-        {
-          "displayName": "ID",
-          "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV33_11.C.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "SG",
-          "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV2C_11.C.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "TW",
-          "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV1A_11.C.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "MY",
-          "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV38_11.C.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "TH",
-          "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV39_11.C.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "VN",
-          "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV3C_11.C.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "OCA",
-          "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NVA5_11.C.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "CN",
-          "productModel": "PHN110",
-          "firmwareVersion": "PHN110NV97_11.C.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 15": [
-        {
-          "displayName": "ID",
-          "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV33_11.F.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "SG",
-          "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV2C_11.F.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "TW",
-          "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV1A_11.F.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "MY",
-          "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV38_11.F.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "TH",
-          "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV39_11.F.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "VN",
-          "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV3C_11.F.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "OCA",
-          "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NVA5_11.F.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "CN",
-          "productModel": "PHN110",
-          "firmwareVersion": "PHN110NV97_11.F.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
-        }
-      ],
-      "Android 16": [
-        {
-          "displayName": "ID",
-          "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV33_11.H.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "SG",
-          "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV2C_11.H.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "TW",
-          "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV1A_11.H.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "MY",
-          "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV38_11.H.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "TH",
-          "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV39_11.H.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "VN",
-          "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV3C_11.H.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "OCA",
-          "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NVA5_11.H.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
-        },
-        {
-          "displayName": "CN",
-          "productModel": "PHN110",
-          "firmwareVersion": "PHN110NV97_11.H.01_0001_100001010000",
-          "region": "CN",
           "reqMode": "manual",
           "gray": 0
         }

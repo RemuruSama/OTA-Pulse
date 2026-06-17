@@ -39,7 +39,11 @@ class DeviceRepositoryImpl @Inject constructor(
     companion object {
         private const val KEY_FAVORITES_SET = "favorites_set"
         private const val KEY_FAVORITES_LEGACY_JSON = "favorites"
-        private const val CATALOG_URL = "https://raw.githubusercontent.com/RemuruSama/OTA-Pulse/main/catalog/devices.json"
+        private val CATALOG_URLS = listOf(
+            "https://raw.githubusercontent.com/RemuruSama/OTA-Pulse/main/catalog/realme.json",
+            "https://raw.githubusercontent.com/RemuruSama/OTA-Pulse/main/catalog/oneplus.json",
+            "https://raw.githubusercontent.com/RemuruSama/OTA-Pulse/main/catalog/oppo.json"
+        )
     }
 
     init {
@@ -53,7 +57,18 @@ class DeviceRepositoryImpl @Inject constructor(
             if (devicesFile.exists()) {
                 devicesFile.readText()
             } else {
-                context.assets.open("devices.json").bufferedReader().use { it.readText() }
+                val realme = context.assets.open("realme.json").bufferedReader().use { it.readText() }
+                val oneplus = context.assets.open("oneplus.json").bufferedReader().use { it.readText() }
+                val oppo = context.assets.open("oppo.json").bufferedReader().use { it.readText() }
+                
+                val type = object : TypeToken<List<PredefinedDevice>>() {}.type
+                val allDevices = mutableListOf<PredefinedDevice>()
+                
+                allDevices.addAll(gson.fromJson(realme, type) ?: emptyList())
+                allDevices.addAll(gson.fromJson(oneplus, type) ?: emptyList())
+                allDevices.addAll(gson.fromJson(oppo, type) ?: emptyList())
+                
+                gson.toJson(allDevices)
             }
         } catch (e: Exception) {
             "[]"
@@ -143,20 +158,31 @@ class DeviceRepositoryImpl @Inject constructor(
     override suspend fun syncCatalog() = withContext(Dispatchers.IO) {
         _isSyncing.value = true
         try {
-            val request = Request.Builder().url(CATALOG_URL).build()
-            val response = okHttpClient.newCall(request).execute()
-            if (response.isSuccessful) {
-                val json = response.body?.string()
-                if (!json.isNullOrBlank()) {
-                    // Verify it's parseable
-                    val type = object : TypeToken<List<PredefinedDevice>>() {}.type
-                    val devices: List<PredefinedDevice> = gson.fromJson(json, type) ?: emptyList()
-                    if (devices.isNotEmpty()) {
-                        devicesFile.writeText(json)
-                        inMemoryFixedDevices = devices
-                        updateDevicesCache()
+            val type = object : TypeToken<List<PredefinedDevice>>() {}.type
+            val allDevices = mutableListOf<PredefinedDevice>()
+
+            // Fetch from all catalog endpoints
+            CATALOG_URLS.forEach { url ->
+                try {
+                    val request = Request.Builder().url(url).build()
+                    val response = okHttpClient.newCall(request).execute()
+                    if (response.isSuccessful) {
+                        val json = response.body?.string()
+                        if (!json.isNullOrBlank()) {
+                            val devices: List<PredefinedDevice> = gson.fromJson(json, type) ?: emptyList()
+                            allDevices.addAll(devices)
+                        }
                     }
+                } catch (e: Exception) {
+                    // Ignore errors for individual requests, continue with others
                 }
+            }
+
+            if (allDevices.isNotEmpty()) {
+                val combinedJson = gson.toJson(allDevices)
+                devicesFile.writeText(combinedJson)
+                inMemoryFixedDevices = allDevices
+                updateDevicesCache()
             }
         } catch (e: Exception) {
             // Silently fail if there's no network or other error
