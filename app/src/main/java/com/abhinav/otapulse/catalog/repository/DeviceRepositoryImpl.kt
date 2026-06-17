@@ -137,7 +137,11 @@ class DeviceRepositoryImpl @Inject constructor(
         updateDevicesCache()
     }
 
+    private val _isSyncing = MutableStateFlow(false)
+    override val isSyncing: kotlinx.coroutines.flow.StateFlow<Boolean> = _isSyncing.asStateFlow()
+
     override suspend fun syncCatalog() = withContext(Dispatchers.IO) {
+        _isSyncing.value = true
         try {
             val request = Request.Builder().url(CATALOG_URL).build()
             val response = okHttpClient.newCall(request).execute()
@@ -156,6 +160,8 @@ class DeviceRepositoryImpl @Inject constructor(
             }
         } catch (e: Exception) {
             // Silently fail if there's no network or other error
+        } finally {
+            _isSyncing.value = false
         }
     }
 }

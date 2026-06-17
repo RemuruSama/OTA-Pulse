@@ -42,6 +42,7 @@ class DevicesFragment : Fragment(R.layout.fragment_devices) {
         _binding = FragmentDevicesBinding.bind(view)
 
         setupRecyclerView()
+        setupSwipeRefresh()
         setupSearch()
         setupBrandTabs()
         setupClickListeners()
@@ -53,9 +54,21 @@ class DevicesFragment : Fragment(R.layout.fragment_devices) {
         val viewsToAnimate = listOfNotNull(
             binding.searchCardView.takeIf { it.isVisible },
             binding.tabCardView.takeIf { it.isVisible },
-            binding.devicesRecyclerView
+            binding.swipeRefreshLayout
         )
         com.abhinav.otapulse.core.common.AnimationUtils.animateEntrance(viewsToAnimate)
+    }
+
+    private fun setupSwipeRefresh() {
+        val colorPrimary = com.google.android.material.color.MaterialColors.getColor(binding.root, androidx.appcompat.R.attr.colorPrimary)
+        val colorSurface = com.google.android.material.color.MaterialColors.getColor(binding.root, com.google.android.material.R.attr.colorSurface)
+        
+        binding.swipeRefreshLayout.setProgressBackgroundColorSchemeColor(colorSurface)
+        binding.swipeRefreshLayout.setColorSchemeColors(colorPrimary)
+
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            viewModel.forceSyncCatalog()
+        }
     }
 
     override fun onResume() {
@@ -99,6 +112,7 @@ class DevicesFragment : Fragment(R.layout.fragment_devices) {
                 viewModel.uiState.collect { state ->
                     deviceAdapter.submitList(state.devices)
                     deviceAdapter.updateOtaDetails(state.otaDetails)
+                    binding.swipeRefreshLayout.isRefreshing = state.isSyncingCatalog
 
                     state.errorMessage?.let {
                         Snackbar.make(binding.root, it, Snackbar.LENGTH_LONG).show()

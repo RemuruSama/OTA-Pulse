@@ -50,7 +50,8 @@ data class DevicesUiState(
     val showOtaDetailsDialog: OtaDetailsDialogData? = null,
     val showPartitionSelectDialog: PartitionSelectDialogData? = null,
     val isFetchingPartitions: Boolean = false,
-    val isStartingExtraction: Boolean = false
+    val isStartingExtraction: Boolean = false,
+    val isSyncingCatalog: Boolean = false
 )
 
 data class PendingDownload(
@@ -84,6 +85,21 @@ class DevicesViewModel @Inject constructor(
 
     init {
         loadDevices()
+        observeSyncStatus()
+    }
+
+    private fun observeSyncStatus() {
+        viewModelScope.launch {
+            deviceRepository.isSyncing.collect { isSyncing ->
+                _uiState.update { it.copy(isSyncingCatalog = isSyncing) }
+            }
+        }
+    }
+
+    fun forceSyncCatalog() {
+        viewModelScope.launch {
+            deviceRepository.syncCatalog()
+        }
     }
 
     fun refreshDevices() {
