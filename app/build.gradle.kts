@@ -141,6 +141,11 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.markwon)
 
+    // Room
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
+
     // ARB extraction - XZ/LZMA decompression
     implementation(libs.commons.compress)
     implementation(libs.xz)

@@ -3,98 +3,122 @@ package com.abhinav.otapulse.feature.history.data
 import android.content.Context
 import android.content.SharedPreferences
 import com.abhinav.otapulse.core.model.OtaHistoryEntry
+import com.abhinav.otapulse.feature.history.data.local.OtaHistoryDao
+import com.abhinav.otapulse.feature.history.data.local.OtaHistoryEntity
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class OtaHistoryRepositoryImpl @Inject constructor(
-    @ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context,
+    private val dao: OtaHistoryDao
 ) : OtaHistoryRepository {
 
     private val prefs: SharedPreferences by lazy {
         context.getSharedPreferences("ota_history_prefs", Context.MODE_PRIVATE)
     }
     private val gson = Gson()
-    private val mutex = Mutex()
-    private val _historyFlow = MutableStateFlow<List<OtaHistoryEntry>>(emptyList())
 
     init {
-        loadHistory()
+        migrateFromSharedPreferences()
     }
 
-    private fun loadHistory() {
-        val json = prefs.getString("history_list", "[]")
-        val type = object : TypeToken<List<OtaHistoryEntry>>() {}.type
-        val list: List<OtaHistoryEntry> = try {
-            gson.fromJson(json, type) ?: emptyList()
-        } catch (e: Exception) {
-            emptyList()
+    private fun migrateFromSharedPreferences() {
+        val json = prefs.getString("history_list", null)
+        if (!json.isNullOrBlank() && json != "[]") {
+            try {
+                val type = object : TypeToken<List<OtaHistoryEntry>>() {}.type
+                val list: List<OtaHistoryEntry> = gson.fromJson(json, type) ?: emptyList()
+                
+                // Fire and forget migration
+                CoroutineScope(Dispatchers.IO).launch {
+                    list.forEach { entry ->
+                        dao.insert(
+                            OtaHistoryEntity(
+                                timestamp = entry.timestamp,
+                                deviceName = entry.deviceName,
+                                region = entry.region,
+                                otaUpdate = entry.otaUpdate.copy(rawJson = null) // strip rawJson on migration
+                            )
+                        )
+                    }
+                    prefs.edit().remove("history_list").apply()
+                }
+            } catch (e: Throwable) {
+                // Ignore parse errors, just clear to prevent further crashes
+                prefs.edit().remove("history_list").apply()
+            }
         }
-        _historyFlow.value = list.sortedByDescending { it.timestamp }
-    }
-
-    private fun saveHistory(list: List<OtaHistoryEntry>) {
-        val sortedList = list.sortedByDescending { it.timestamp }
-        _historyFlow.value = sortedList
-        prefs.edit().putString("history_list", gson.toJson(sortedList)).apply()
     }
 
     override fun getAllHistory(): Flow<List<OtaHistoryEntry>> {
-        return _historyFlow
+        return dao.getAllHistory().map { list ->
+            list.map { entity ->
+                OtaHistoryEntry(
+                    timestamp = entity.timestamp,
+                    deviceName = entity.deviceName,
+                    region = entity.region,
+                    otaUpdate = entity.otaUpdate
+                )
+            }
+        }
     }
 
     override fun getHistoryForDevice(deviceName: String): Flow<List<OtaHistoryEntry>> {
-        return _historyFlow.map { list ->
-            list.filter { it.deviceName == deviceName }
+        return dao.getHistoryForDevice(deviceName).map { list ->
+            list.map { entity ->
+                OtaHistoryEntry(
+                    timestamp = entity.timestamp,
+                    deviceName = entity.deviceName,
+                    region = entity.region,
+                    otaUpdate = entity.otaUpdate
+                )
+            }
         }
     }
 
     override suspend fun logOtaUpdate(entry: OtaHistoryEntry) = withContext(Dispatchers.IO) {
-        mutex.withLock {
-            val currentList = _historyFlow.value.toMutableList()
-            
-            // Check if we already have this exact OTA for this device+region (deduplication)
-            // Use resolvedOtaVersion or manualUrl as unique identifier
-            val isDuplicate = currentList.any { 
-                it.deviceName == entry.deviceName && 
-                it.region == entry.region &&
-                (it.otaUpdate.versionName ?: it.otaUpdate.componentVersion) == (entry.otaUpdate.versionName ?: entry.otaUpdate.componentVersion) 
-            }
+        // Strip rawJson to prevent database bloat
+        val entryToSave = entry.copy(
+            otaUpdate = entry.otaUpdate.copy(rawJson = null)
+        )
+        
+        // Basic deduplication: Check recent history
+        val recentHistory = dao.getRecentHistoryForDeviceAndRegion(entryToSave.deviceName, entryToSave.region)
+        val isDuplicate = recentHistory.any {
+            (it.otaUpdate.versionName ?: it.otaUpdate.componentVersion) == (entryToSave.otaUpdate.versionName ?: entryToSave.otaUpdate.componentVersion)
+        }
 
-            if (!isDuplicate) {
-                currentList.add(entry)
-                // Limit history to say, 500 entries total to prevent SharedPreferences bloat
-                if (currentList.size > 500) {
-                    currentList.sortByDescending { it.timestamp }
-                    saveHistory(currentList.take(500))
-                } else {
-                    saveHistory(currentList)
-                }
-            }
+        if (!isDuplicate) {
+            dao.insert(
+                OtaHistoryEntity(
+                    timestamp = entryToSave.timestamp,
+                    deviceName = entryToSave.deviceName,
+                    region = entryToSave.region,
+                    otaUpdate = entryToSave.otaUpdate
+                )
+            )
         }
     }
 
-    override suspend fun clearHistoryForDevice(deviceName: String) = withContext(Dispatchers.IO) {
-        mutex.withLock {
-            val currentList = _historyFlow.value.toMutableList()
-            currentList.removeAll { it.deviceName == deviceName }
-            saveHistory(currentList)
+    override suspend fun clearHistoryForDevice(deviceName: String) {
+        withContext(Dispatchers.IO) {
+            dao.deleteForDevice(deviceName)
         }
     }
 
-    override suspend fun clearAllHistory() = withContext(Dispatchers.IO) {
-        mutex.withLock {
-            saveHistory(emptyList())
+    override suspend fun clearAllHistory() {
+        withContext(Dispatchers.IO) {
+            dao.clearAll()
         }
     }
 }
