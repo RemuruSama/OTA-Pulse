@@ -1,5 +1,58 @@
 [
   {
+    "name": "realme 16T",
+    "ruiVersion": 5,
+    "imei": "",
+    "beta": false,
+    "firmwareGroups": {
+      "Android 16": [
+        {
+          "displayName": "IN",
+          "productModel": "RMX5268IN",
+          "firmwareVersion": "RMX5268NV1B_11.A.01_0001_100001010000",
+          "region": "EU",
+          "reqMode": "manual",
+          "gray": 0
+        },
+        {
+          "displayName": "VN",
+          "productModel": "RMX5268",
+          "firmwareVersion": "RMX5268NV3C_11.A.01_0001_100001010000",
+          "region": "EU",
+          "reqMode": "manual",
+          "gray": 0
+        },
+        {
+          "displayName": "MEA",
+          "productModel": "RMX5268",
+          "firmwareVersion": "RMX5268NVA6_11.A.01_0001_100001010000",
+          "region": "EU",
+          "reqMode": "manual",
+          "gray": 0
+        },
+        {
+          "displayName": "TH",
+          "productModel": "RMX5268",
+          "firmwareVersion": "RMX5268NV39_11.A.01_0001_100001010000",
+          "region": "EU",
+          "reqMode": "manual",
+          "gray": 0
+        },
+        {
+          "displayName": "MY",
+          "productModel": "RMX5268",
+          "firmwareVersion": "RMX5268NV38_11.A.01_0001_100001010000",
+          "region": "GL",
+          "reqMode": "manual",
+          "gray": 0
+        }
+      ]
+    },
+    "isFavorite": false,
+    "isLoadingDetails": false,
+    "isCustom": false
+  },
+  {
     "name": "加平板 3 Pro",
     "ruiVersion": 5,
     "imei": "",
