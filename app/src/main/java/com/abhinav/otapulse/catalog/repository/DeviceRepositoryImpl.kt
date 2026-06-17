@@ -1,45 +1,72 @@
 package com.abhinav.otapulse.catalog.repository
 
+import android.content.Context
 import android.content.SharedPreferences
-import com.abhinav.otapulse.catalog.repository.CustomDeviceManager
-import com.abhinav.otapulse.di.FavoritesPrefs
-import com.abhinav.otapulse.core.model.Device
-import com.abhinav.otapulse.catalog.repository.DeviceRepository
-import com.abhinav.otapulse.catalog.DeviceCatalog
 import com.abhinav.otapulse.catalog.model.PredefinedDevice
 import com.abhinav.otapulse.core.common.toDomain
+import com.abhinav.otapulse.core.model.Device
+import com.abhinav.otapulse.di.FavoritesPrefs
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.withContext
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class DeviceRepositoryImpl @Inject constructor(
+    @ApplicationContext private val context: Context,
     @FavoritesPrefs private val favoritesPrefs: SharedPreferences,
-    private val customDeviceManager: CustomDeviceManager
+    private val customDeviceManager: CustomDeviceManager,
+    private val okHttpClient: OkHttpClient,
+    private val gson: Gson
 ) : DeviceRepository {
 
     private val _devicesFlow = MutableStateFlow<List<Device>>(emptyList())
-
-    // Mutex prevents concurrent read-modify-write on _devicesFlow
     private val cacheMutex = Mutex()
+    private val devicesFile = File(context.filesDir, "devices.json")
+
+    private var inMemoryFixedDevices: List<PredefinedDevice> = emptyList()
 
     companion object {
         private const val KEY_FAVORITES_SET = "favorites_set"
         private const val KEY_FAVORITES_LEGACY_JSON = "favorites"
+        private const val CATALOG_URL = "https://raw.githubusercontent.com/RemuruSama/OTA-Pulse/main/catalog/devices.json"
     }
 
     init {
         migrateLegacyFavoritesIfNeeded()
+        loadLocalCatalog()
         updateDevicesCache()
     }
 
-    /**
-     * One-time migration from the old JSON-string favorites format to a StringSet.
-     * Runs only if the new key is absent but the old key is present.
-     */
+    private fun loadLocalCatalog() {
+        val json = try {
+            if (devicesFile.exists()) {
+                devicesFile.readText()
+            } else {
+                context.assets.open("devices.json").bufferedReader().use { it.readText() }
+            }
+        } catch (e: Exception) {
+            "[]"
+        }
+
+        try {
+            val type = object : TypeToken<List<PredefinedDevice>>() {}.type
+            inMemoryFixedDevices = gson.fromJson(json, type) ?: emptyList()
+        } catch (e: Exception) {
+            inMemoryFixedDevices = emptyList()
+        }
+    }
+
     private fun migrateLegacyFavoritesIfNeeded() {
         if (favoritesPrefs.contains(KEY_FAVORITES_LEGACY_JSON) &&
             !favoritesPrefs.contains(KEY_FAVORITES_SET)
@@ -65,7 +92,7 @@ class DeviceRepositoryImpl @Inject constructor(
         if (!cacheMutex.tryLock()) return
         try {
             val favorites = getFavorites()
-            val fixedDevices = DeviceCatalog.predefinedDevices.map { it.toDomain() }
+            val fixedDevices = inMemoryFixedDevices.map { it.toDomain() }
             val customDevices = customDeviceManager.getCustomDevices().map { it.toDomain() }
 
             val allDevices = (fixedDevices + customDevices).distinctBy { it.name }
@@ -108,5 +135,27 @@ class DeviceRepositoryImpl @Inject constructor(
     override fun deleteCustomDevice(deviceName: String) {
         customDeviceManager.deleteDevice(deviceName)
         updateDevicesCache()
+    }
+
+    override suspend fun syncCatalog() = withContext(Dispatchers.IO) {
+        try {
+            val request = Request.Builder().url(CATALOG_URL).build()
+            val response = okHttpClient.newCall(request).execute()
+            if (response.isSuccessful) {
+                val json = response.body?.string()
+                if (!json.isNullOrBlank()) {
+                    // Verify it's parseable
+                    val type = object : TypeToken<List<PredefinedDevice>>() {}.type
+                    val devices: List<PredefinedDevice> = gson.fromJson(json, type) ?: emptyList()
+                    if (devices.isNotEmpty()) {
+                        devicesFile.writeText(json)
+                        inMemoryFixedDevices = devices
+                        updateDevicesCache()
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            // Silently fail if there's no network or other error
+        }
     }
 }

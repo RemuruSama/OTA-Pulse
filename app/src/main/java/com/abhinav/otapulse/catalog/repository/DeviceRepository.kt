@@ -15,4 +15,5 @@ interface DeviceRepository {
     fun addCustomDevice(device: PredefinedDevice)
     fun updateCustomDevice(oldName: String, newDevice: PredefinedDevice)
     fun deleteCustomDevice(deviceName: String)
+    suspend fun syncCatalog()
 }
