@@ -162,9 +162,13 @@ class DeviceRepositoryImpl @Inject constructor(
             val allDevices = mutableListOf<PredefinedDevice>()
 
             // Fetch from all catalog endpoints
+            val timestamp = System.currentTimeMillis()
             CATALOG_URLS.forEach { url ->
                 try {
-                    val request = Request.Builder().url(url).build()
+                    val request = Request.Builder()
+                        .url("$url?t=$timestamp")
+                        .cacheControl(okhttp3.CacheControl.FORCE_NETWORK)
+                        .build()
                     val response = okHttpClient.newCall(request).execute()
                     if (response.isSuccessful) {
                         val json = response.body?.string()
