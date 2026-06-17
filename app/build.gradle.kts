@@ -64,6 +64,14 @@ android {
         buildConfig = true
     }
 
+    sourceSets {
+        getByName("main") {
+            assets {
+                srcDirs("../devices")
+            }
+        }
+    }
+
     lint {
         baseline = file("lint-baseline.xml")
         abortOnError = false

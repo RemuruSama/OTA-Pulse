@@ -40,9 +40,9 @@ class DeviceRepositoryImpl @Inject constructor(
         private const val KEY_FAVORITES_SET = "favorites_set"
         private const val KEY_FAVORITES_LEGACY_JSON = "favorites"
         private val CATALOG_URLS = listOf(
-            "https://raw.githubusercontent.com/RemuruSama/OTA-Pulse/main/catalog/realme.json",
-            "https://raw.githubusercontent.com/RemuruSama/OTA-Pulse/main/catalog/oneplus.json",
-            "https://raw.githubusercontent.com/RemuruSama/OTA-Pulse/main/catalog/oppo.json"
+            "https://raw.githubusercontent.com/RemuruSama/OTA-Pulse/main/devices/realme.json",
+            "https://raw.githubusercontent.com/RemuruSama/OTA-Pulse/main/devices/oneplus.json",
+            "https://raw.githubusercontent.com/RemuruSama/OTA-Pulse/main/devices/oppo.json"
         )
     }
 
