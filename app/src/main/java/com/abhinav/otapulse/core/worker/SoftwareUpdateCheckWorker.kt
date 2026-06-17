@@ -101,7 +101,6 @@ class SoftwareUpdateCheckWorker @AssistedInject constructor(
             ruiVersion = ruiVersion,
             imei = "0",
             beta = false,
-            imageUrl = null,
             imageResId = null,
             firmwareGroups = emptyMap(),
             isFavorite = false,

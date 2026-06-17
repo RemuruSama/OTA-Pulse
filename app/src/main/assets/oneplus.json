@@ -4,7 +4,6 @@
     "ruiVersion": 7,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=OP15T",
     "firmwareGroups": {
       "Android 16": [
         {
@@ -26,7 +25,6 @@
     "ruiVersion": 7,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=OP15",
     "firmwareGroups": {
       "Android 16": [
         {
@@ -72,7 +70,6 @@
     "ruiVersion": 7,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=OP15",
     "firmwareGroups": {
       "Android 16": [
         {
@@ -118,7 +115,6 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=OP13",
     "firmwareGroups": {
       "Android 15": [
         {
@@ -182,7 +178,6 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=OP13T",
     "firmwareGroups": {
       "Android 15": [
         {
@@ -214,7 +209,6 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=OP13RA5",
     "firmwareGroups": {
       "Android 15": [
         {
@@ -294,7 +288,6 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=OP13",
     "firmwareGroups": {
       "Android 15": [
         {
@@ -374,7 +367,6 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=OP12RA3",
     "firmwareGroups": {
       "Android 14": [
         {
@@ -512,7 +504,6 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=OP12",
     "firmwareGroups": {
       "Android 14": [
         {
@@ -626,7 +617,6 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=OP11RA2",
     "firmwareGroups": {
       "Android 13": [
         {
@@ -742,7 +732,6 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=OP11",
     "firmwareGroups": {
       "Android 13": [
         {
@@ -890,7 +879,6 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=OP10TAP",
     "firmwareGroups": {
       "Android 12": [
         {
@@ -1038,7 +1026,6 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=OP10R80W",
     "firmwareGroups": {
       "Android 13": [
         {
@@ -1104,7 +1091,6 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=OP10R150W",
     "firmwareGroups": {
       "Android 13": [
         {
@@ -1146,7 +1132,6 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=OP10P",
     "firmwareGroups": {
       "Android 12": [
         {
@@ -1328,7 +1313,6 @@
     "ruiVersion": 4,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=OP15",
     "firmwareGroups": {
       "Android 16": [
         {
@@ -1350,7 +1334,6 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=OPA5P",
     "firmwareGroups": {
       "Android 15": [
         {
@@ -1382,7 +1365,6 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=OPA3V",
     "firmwareGroups": {
       "Android 14": [
         {
@@ -1424,7 +1406,6 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=OPA3P",
     "firmwareGroups": {
       "Android 14": [
         {
@@ -1466,7 +1447,6 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=OPA2V",
     "firmwareGroups": {
       "Android 13": [
         {
@@ -1518,7 +1498,6 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=OPA2P",
     "firmwareGroups": {
       "Android 13": [
         {
@@ -1570,7 +1549,6 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=OPARE",
     "firmwareGroups": {
       "Android 12": [
         {
@@ -1622,7 +1600,6 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=OPN4",
     "firmwareGroups": {
       "Android 15": [
         {
@@ -1686,7 +1663,6 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=OPN6",
     "firmwareGroups": {
       "Android 16": [
         {
@@ -1716,7 +1692,6 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=OPN6L",
     "firmwareGroups": {
       "Android 16": [
         {
@@ -1738,7 +1713,6 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=OPNCE4L",
     "firmwareGroups": {
       "Android 14": [
         {
@@ -1828,7 +1802,6 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=OPNCE4",
     "firmwareGroups": {
       "Android 14": [
         {
@@ -1870,7 +1843,6 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=OPNCE3L",
     "firmwareGroups": {
       "Android 13": [
         {
@@ -1960,7 +1932,6 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=OPNCE3",
     "firmwareGroups": {
       "Android 13": [
         {
@@ -2002,7 +1973,6 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=OPN4",
     "firmwareGroups": {
       "Android 15": [
         {
@@ -2066,7 +2036,6 @@
     "ruiVersion": 6,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=OPN6",
     "firmwareGroups": {
       "Android 16": [
         {
@@ -2096,7 +2065,6 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=OPN4",
     "firmwareGroups": {
       "Android 14": [
         {
@@ -2186,7 +2154,6 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=OPN3",
     "firmwareGroups": {
       "Android 13": [
         {
@@ -2302,7 +2269,6 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=OPPG2_5G",
     "firmwareGroups": {
       "Android 16": [
         {
@@ -2340,7 +2306,6 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=OPPG2_WF",
     "firmwareGroups": {
       "Android 16": [
         {
@@ -2378,7 +2343,6 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=OPPP",
     "firmwareGroups": {
       "Android 14": [
         {
@@ -2420,7 +2384,6 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=OPP4",
     "firmwareGroups": {
       "Android 16": [
         {
@@ -2450,7 +2413,6 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=OPP3",
     "firmwareGroups": {
       "Android 15": [
         {
@@ -2514,7 +2476,6 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=OPP2P",
     "firmwareGroups": {
       "Android 15": [
         {
@@ -2546,7 +2507,6 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=OPP2",
     "firmwareGroups": {
       "Android 14": [
         {
@@ -2636,7 +2596,6 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=OPP",
     "firmwareGroups": {
       "Android 13": [
         {
@@ -2752,7 +2711,6 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=OPOpen",
     "firmwareGroups": {
       "Android 13": [
         {

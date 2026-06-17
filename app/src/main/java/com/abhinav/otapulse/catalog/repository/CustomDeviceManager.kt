@@ -120,7 +120,6 @@ class CustomDeviceManager @Inject constructor(
             ruiVersion = ruiVersion,
             imei = getString("imei").orEmpty(),
             beta = getBoolean("beta") ?: false,
-            imageUrl = getString("imageUrl"),
             imageResId = getInt("imageResId"),
             firmwareGroups = firmwareGroups,
             isFavorite = getBoolean("isFavorite") ?: false,

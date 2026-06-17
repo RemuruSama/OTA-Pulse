@@ -4,7 +4,6 @@
     "ruiVersion": 5,
     "imei": "",
     "beta": false,
-    "imageUrl": "https://placehold.co/100x100/E0F2F1/00796B?text=OPFN3",
     "firmwareGroups": {
       "Android 13": [
         {

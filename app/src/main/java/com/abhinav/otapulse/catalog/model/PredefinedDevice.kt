@@ -12,7 +12,6 @@ data class PredefinedDevice(
     val ruiVersion: Int,
     val imei: String = "",
     val beta: Boolean = false,
-    val imageUrl: String? = null,
     @DrawableRes val imageResId: Int? = null,
     val firmwareGroups: Map<String, List<RegionVariant>>,
     val isFavorite: Boolean = false,

@@ -9,7 +9,6 @@ data class Device(
     val ruiVersion: Int,
     val imei: String,
     val beta: Boolean,
-    val imageUrl: String?,
     val imageResId: Int?,
     val firmwareGroups: Map<String, List<RegionVariant>>,
     val isFavorite: Boolean,
