@@ -36,8 +36,8 @@ android {
         applicationId = "com.abhinav.otapulse"
         minSdk = 29
         targetSdk = 37
-        versionCode = 22
-        versionName = "3.0.7"
+        versionCode = 23
+        versionName = "3.0.8"
         
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
