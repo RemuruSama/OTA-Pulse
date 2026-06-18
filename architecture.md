@@ -15,10 +15,11 @@ It is meant to help with:
 
 ## Repository Shape
 
-This repository now contains two distinct pieces:
+This repository now contains three distinct pieces:
 
 1. the Android product in [app](app)
 2. a static landing page in [index.html](index.html) with assets in [OTAPulse](OTAPulse)
+3. a JSON-driven device catalog in [devices](devices)
 
 The rest of this document focuses on the Android app, because that is where the runtime and package boundaries matter most.
 
@@ -241,6 +242,9 @@ Structure:
 ```text
 feature/history/
 |- data/
+|  |- local/
+|  |  |- OtaHistoryDao.kt
+|  |  `- OtaHistoryEntity.kt
 |  |- OtaHistoryRepository.kt
 |  `- OtaHistoryRepositoryImpl.kt
 `- ui/
@@ -251,7 +255,7 @@ feature/history/
 
 Responsibilities:
 
-- persisting OTA query history entries
+- persisting OTA query history entries using Room Database
 - browsing and displaying past OTA lookups
 - repository pattern with interface + implementation
 
@@ -371,37 +375,34 @@ It should stay simple and avoid becoming a dump site for unrelated project metad
 
 ### `catalog`
 
-This package owns device definitions and catalog-backed persistence.
+This package owns device catalog parsing and user persistence (favorites, custom devices).
 
-Key files:
+Structure:
 
-- [DeviceCatalog.kt](app/src/main/java/com/abhinav/otapulse/catalog/DeviceCatalog.kt)
-- [PredefinedDevice.kt](app/src/main/java/com/abhinav/otapulse/catalog/model/PredefinedDevice.kt)
-- [Region.kt](app/src/main/java/com/abhinav/otapulse/catalog/model/Region.kt)
-- [RegionData.kt](app/src/main/java/com/abhinav/otapulse/catalog/model/RegionData.kt)
-- [DeviceProvider.kt](app/src/main/java/com/abhinav/otapulse/catalog/provider/DeviceProvider.kt)
-- [DeviceRepository.kt](app/src/main/java/com/abhinav/otapulse/catalog/repository/DeviceRepository.kt)
-- [DeviceRepositoryImpl.kt](app/src/main/java/com/abhinav/otapulse/catalog/repository/DeviceRepositoryImpl.kt)
-- [CustomDeviceManager.kt](app/src/main/java/com/abhinav/otapulse/catalog/repository/CustomDeviceManager.kt)
-- [FavoritesManager.kt](app/src/main/java/com/abhinav/otapulse/catalog/repository/FavoritesManager.kt)
-
-Provider groups:
-
-- `provider/oneplus` — 43 files
-- `provider/realme` — 100 files
-- `provider/oppo` — 1 file
-
-Catalog models now include `Region` and `RegionData` alongside `PredefinedDevice`. A base `DeviceProvider` interface/class defines the provider contract.
+```text
+catalog/
+|- model/
+|  |- PredefinedDevice.kt
+|  |- Region.kt
+|  `- RegionData.kt
+`- repository/
+   |- CustomDeviceManager.kt
+   |- DeviceCatalogParser.kt
+   |- DeviceRepository.kt
+   |- DeviceRepositoryImpl.kt
+   `- FavoritesManager.kt
+```
 
 Architectural implication:
 
-- the app is heavily source-driven for supported-device metadata
-- `catalog` is a first-class subsystem, not a helper folder
+- the app is heavily JSON-driven for supported-device metadata, which is stored in the top-level `devices/` folder.
+- `DeviceCatalogParser` parses the `realme.json`, `oneplus.json`, and `oppo.json` files from assets at runtime.
+- `catalog` is a first-class subsystem, not a helper folder.
 
 Rules:
 
-- built-in device definitions stay in `catalog`
-- favorites and custom device persistence stay in `catalog`
+- device JSON modifications happen in the `devices/` top-level directory, not within Android source code.
+- favorites and custom device persistence stay in `catalog/repository`
 - UI should consume catalog outputs rather than re-encoding catalog rules in fragments
 
 ### `ota`
@@ -474,6 +475,7 @@ This package owns shared infrastructure. It has grown significantly and now incl
 Current subpackages:
 
 - `common`
+- `database`
 - `download`
 - `model`
 - `network`
@@ -497,6 +499,13 @@ Shared utility code:
 - [Md5Verifier.kt](app/src/main/java/com/abhinav/otapulse/core/common/Md5Verifier.kt)
 - [OtaJsonOutputHelper.kt](app/src/main/java/com/abhinav/otapulse/core/common/OtaJsonOutputHelper.kt)
 - [PermissionHelper.kt](app/src/main/java/com/abhinav/otapulse/core/common/PermissionHelper.kt)
+
+#### `core/database`
+
+Room Database configuration:
+
+- [AppDatabase.kt](app/src/main/java/com/abhinav/otapulse/core/database/AppDatabase.kt)
+- [Converters.kt](app/src/main/java/com/abhinav/otapulse/core/database/Converters.kt)
 
 #### `core/download`
 
@@ -560,6 +569,7 @@ Shared UI primitives:
 What belongs in `core`:
 
 - shared models
+- database definitions (Room database, type converters)
 - cross-feature helpers and utilities
 - shared notification code
 - networking primitives used by multiple flows
@@ -584,16 +594,18 @@ This package wires dependencies.
 Key files:
 
 - [AppModule.kt](app/src/main/java/com/abhinav/otapulse/di/AppModule.kt)
+- [DatabaseModule.kt](app/src/main/java/com/abhinav/otapulse/di/DatabaseModule.kt)
 - [RepositoryModule.kt](app/src/main/java/com/abhinav/otapulse/di/RepositoryModule.kt)
 - [Qualifiers.kt](app/src/main/java/com/abhinav/otapulse/di/Qualifiers.kt)
 
 What it currently provides or binds:
 
 - Gson
+- Room database and DAOs
 - `OtaExtractor`
 - `OkHttpClient`
 - favorites and custom-device shared preferences
-- repository bindings for app update, OTA, device catalog, and downloads
+- repository bindings for app update, OTA, history, device catalog, and downloads
 - Hilt qualifier annotations for disambiguating injected types
 
 Rule:
@@ -729,11 +741,7 @@ This replaced the Fetch library and is critical infrastructure.
 
 ### 7. `catalog`
 
-The catalog is large by source file count (144 provider files total). That is acceptable for now, but it does mean device support is code maintenance rather than data entry.
-
-Future option:
-
-- move some provider metadata toward structured assets or generation if scale becomes painful.
+The catalog is now JSON-driven, meaning device support is simple data entry in the `devices/` folder rather than code maintenance. The `DeviceCatalogParser` generates complex firmware versions and region mappings at runtime to keep the JSON footprint small.
 
 ### 8. `core`
 
@@ -748,7 +756,7 @@ Guardrail:
 When adding code:
 
 1. Put user-facing flow code in the owning `feature`.
-2. Put device definitions and related persistence in `catalog`.
+2. Put new device definitions in the top-level `devices/` JSON files, and catalog logic/persistence in `catalog/`.
 3. Put OTA engine logic in `ota`.
 4. Put rollback and extraction-safety logic in `arb`.
 5. Put app shell coordination in `app`.
@@ -762,7 +770,7 @@ OTA Pulse stays maintainable when ownership is obvious:
 
 - `app` runs the shell
 - `feature` owns product flows (`about`, `browser`, `devices`, `downloads`, `history`, `otatools`, `settings`, `updates`)
-- `catalog` owns supported devices
+- `catalog` owns parsing supported devices and persistence
 - `ota` owns OTA engine behavior
 - `arb` owns rollback and extraction safety
 - `core` owns shared infrastructure (including the download engine)

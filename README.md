@@ -6,7 +6,7 @@ OTA Pulse is an Android app for discovering, downloading, and inspecting OTA pac
 
 ## What the App Does
 
-- Browse supported devices from built-in catalog (144 device definitions across 3 brands)
+- Browse supported devices from built-in JSON catalog (144+ device definitions across OnePlus, Realme, and OPPO)
 - Mark favorite devices for quick access
 - Fetch and view OTA update metadata
 - Download OTA packages with progress notifications (custom OkHttp download engine)
@@ -43,6 +43,7 @@ OTA Pulse is an Android app for discovering, downloading, and inspecting OTA pac
 - ViewBinding UI
 - Hilt (Dependency Injection)
 - WorkManager (with Hilt integration)
+- Room Database (Local Persistence)
 - OkHttp (Networking + Custom Download Engine)
 - Glide, Markwon, Gson, Flexbox
 - Protobuf Lite
@@ -59,8 +60,9 @@ Otaupdater/
 │     ├─ java/com/abhinav/otapulse/
 │     │  ├─ app/             # Application shell, MainActivity, MainViewModel
 │     │  ├─ arb/             # Anti-rollback & extraction safety
-│     │  ├─ catalog/         # Device definitions & catalog persistence
-│     │  │  └─ provider/     # OnePlus (43), Realme (100), OPPO (1)
+│     │  ├─ catalog/         # Device catalog logic & user persistence
+│     │  │  ├─ model/        # Shared models (PredefinedDevice, Region, etc.)
+│     │  │  └─ repository/   # JSON parsing, favorites, custom devices
 │     │  ├─ core/            # Shared infrastructure
 │     │  │  ├─ common/       # Utilities, crypto, permissions, mappers
 │     │  │  ├─ download/     # Custom OkHttp download engine & foreground service
@@ -85,6 +87,7 @@ Otaupdater/
 ├─ OTAPulse/
 │  ├─ logo/                  # App logo assets
 │  └─ Screenshot/            # Store/README screenshots
+├─ devices/                  # JSON device catalog (oneplus.json, oppo.json, realme.json)
 ├─ gradle/
 │  └─ libs.versions.toml     # Version catalog
 ├─ architecture.md
@@ -121,7 +124,7 @@ KEY_PASSWORD=your_key_password
 
 ## Notes for Contributors
 
-- keep device definitions and provider mappings in `catalog`
+- keep device definitions in the top-level `devices/` JSON files and parser logic in `catalog/`
 - keep user-facing flows in `feature`
 - keep OTA parsing / extraction logic in `ota` and `arb`
 - move code into `core` only when it is genuinely shared
