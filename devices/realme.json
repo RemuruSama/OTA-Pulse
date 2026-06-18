@@ -1,5 +1,73 @@
 [
   {
+    "name": "realme 16 5G",
+    "ruiVersion": 5,
+    "firmwareGroups": {
+      "Android 16": [
+        {
+          "displayName": "IN",
+          "productModel": "RMX5171",
+          "productName": "RMX5171IN"
+        },
+        {
+          "displayName": "VN",
+          "productModel": "RMX5171",
+          "productName": "RMX5171"
+        },
+        {
+          "displayName": "EU",
+          "productModel": "RMX5171",
+          "productName": "RMX5171EEA"
+        },
+        {
+          "displayName": "RU",
+          "productModel": "RMX5171",
+          "productName": "RMX5171RU"
+        },
+        {
+          "displayName": "MEA",
+          "productModel": "RMX5171",
+          "productName": "RMX5171"
+        },
+        {
+          "displayName": "TH",
+          "productModel": "RMX5171",
+          "productName": "RMX5171"
+        },
+        {
+          "displayName": "LATAM",
+          "productModel": "RMX5171",
+          "productName": "RMX5171"
+        },
+        {
+          "displayName": "BR",
+          "productModel": "RMX5171",
+          "productName": "RMX5171"
+        },
+        {
+          "displayName": "TW",
+          "productModel": "RMX5171",
+          "productName": "RMX5171"
+        },
+        {
+          "displayName": "MY",
+          "productModel": "RMX5171",
+          "productName": "RMX5171"
+        },
+        {
+          "displayName": "ID",
+          "productModel": "RMX5171",
+          "productName": "RMX5171"
+        },
+        {
+          "displayName": "KZ",
+          "productModel": "RMX5171",
+          "productName": "RMX5171"
+        }
+      ]
+    }
+  },
+  {
     "name": "realme 16T",
     "ruiVersion": 5,
     "firmwareGroups": {
