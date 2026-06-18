@@ -97,11 +97,11 @@ class OtaApi @Inject constructor(private val httpClient: OkHttpClient) {
 
         val nvIdentifier = variant.nvId ?: regionInfo?.nvid
 
-        Log.d(TAG, "Fetching OTA: Model=${variant.productModel}, Region=${variant.region} (Index=$regionIndex, NV=$nvIdentifier)")
+        Log.d(TAG, "Fetching OTA: Model=${variant.productName}, Region=${variant.region} (Index=$regionIndex, NV=$nvIdentifier)")
 
         val request = Request(
             reqVersion = if (device.ruiVersion == 1) 1 else 2,
-            model = variant.productModel,
+            model = variant.productName,
             firmwareVersion = variant.firmwareVersion,
             region = regionIndex,
             ruiVersion = device.ruiVersion,

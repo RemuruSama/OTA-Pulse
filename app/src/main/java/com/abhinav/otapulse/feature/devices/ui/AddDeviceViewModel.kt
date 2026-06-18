@@ -97,10 +97,20 @@ class AddDeviceViewModel @Inject constructor(
             return
         }
 
+        // We don't need to manually construct firmwareVersion or region anymore, 
+        // the parser / app logic should handle it if missing. But since CustomDeviceManager saves the full object, 
+        // wait, we should just let the CustomDeviceManager save what the user provides, and parser will fill defaults.
+        // Actually, we must save what the user gives us.
+        // If we remove firmwareVersion from JSON, RegionVariant still needs it?
+        // Ah, the parser generates it. What about RegionVariant properties?
+        // I will change RegionVariant to NOT have firmwareVersion and region in the constructor if they are auto-derived?
+        // Wait, the plan was to auto-derive them AT PARSE TIME. So RegionVariant still has them.
+        
         val firmwareBase = productModel + selectedRegion.nvid
         val newVariant = RegionVariant(
             displayName = selectedRegion.displayName,
-            productModel = productName,
+            productModel = productModel,
+            productName = productName,
             firmwareVersion = "${firmwareBase}_11.${versionLetter}.01_0001_100001010000",
             region = selectedRegion.serverCode,
             reqMode = reqMode,

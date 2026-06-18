@@ -102,7 +102,8 @@ class OtaToolsViewModel @Inject constructor(
             // CRITICAL: Decouple 'Region Variant' (NVID) from 'Target Server'
             val regionVariant = RegionVariant(
                 displayName = region,
-                productModel = model,
+                productModel = model, // It's just a dummy, pass model for both
+                productName = model,
                 firmwareVersion = otaVersion,
                 region = server, // Use the manually selected server
                 nvId = nvId,
@@ -187,6 +188,7 @@ class OtaToolsViewModel @Inject constructor(
                         val regionVariant = RegionVariant(
                             displayName = region,
                             productModel = model,
+                            productName = model,
                             firmwareVersion = otaVersion,
                             region = server,
                             nvId = nvId,
@@ -215,6 +217,7 @@ class OtaToolsViewModel @Inject constructor(
                     val regionVariant = RegionVariant(
                         displayName = region,
                         productModel = model,
+                        productName = model,
                         firmwareVersion = otaVersion,
                         region = servers.last(),
                         nvId = nvId,

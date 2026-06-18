@@ -42,7 +42,7 @@ class FetchOtaDetailsUseCase @Inject constructor(
         // 3. Construct Request
         val otaRequest = OtaRequest(
             version = if (device.ruiVersion == 1) 1 else 2,
-            model = variant.productModel,
+            model = variant.productName,
             firmwareVersion = variant.firmwareVersion,
             region = regionId,
             ruiVersion = device.ruiVersion,

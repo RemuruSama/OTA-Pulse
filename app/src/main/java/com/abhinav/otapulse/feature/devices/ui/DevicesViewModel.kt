@@ -344,7 +344,10 @@ class DevicesViewModel @Inject constructor(
         val filteredBySearch = if (query.isBlank()) filteredByBrand else {
             filteredByBrand.filter { device ->
                 device.name.contains(query, ignoreCase = true) ||
-                        device.firmwareGroups.values.flatten().any { it.productModel.contains(query, ignoreCase = true) }
+                        device.firmwareGroups.values.flatten().any { 
+                            it.productModel.contains(query, ignoreCase = true) || 
+                            it.productName.contains(query, ignoreCase = true) 
+                        }
             }
         }
         return filteredBySearch.sortedByDescending { it.isFavorite }

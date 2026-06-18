@@ -115,7 +115,8 @@ class SoftwareUpdateCheckWorker @AssistedInject constructor(
                 async {
                     val regionVariant = RegionVariant(
                         displayName = region,
-                        productModel = apiModel,
+                        productModel = productModel,
+                        productName = apiModel,
                         firmwareVersion = otaVersionString,
                         region = server,
                         nvId = nvId.takeIf { it.isNotBlank() },

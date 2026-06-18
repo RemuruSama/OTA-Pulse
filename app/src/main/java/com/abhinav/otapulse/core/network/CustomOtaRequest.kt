@@ -6,7 +6,7 @@ data class CustomOtaRequest(
     var id: Long = System.currentTimeMillis(),
     var name: String,
     var regionCode: String = "TR",
-    var productModel: String = "",
+    var productName: String = "",
     var otaVersionLetter: String = "C",
     var mode: Int = 0, // 0 for Stable, 1 for Beta
     var imei: String = "",

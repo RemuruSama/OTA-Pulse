@@ -32,7 +32,7 @@ class RegionVariantEditorAdapter(
         fun bind(variant: RegionVariant) {
             binding.variantRegionBadge.text = variant.region
             binding.variantDisplayName.text = variant.displayName
-            binding.variantProductModel.text = variant.productModel
+            binding.variantProductModel.text = variant.productName
             binding.variantFirmwareVersion.text = variant.firmwareVersion
             binding.buttonRemoveVariant.setHapticClickListener {
                 onRemoveClicked(variant)
@@ -42,7 +42,7 @@ class RegionVariantEditorAdapter(
 
     class VariantDiffCallback : DiffUtil.ItemCallback<RegionVariant>() {
         override fun areItemsTheSame(oldItem: RegionVariant, newItem: RegionVariant): Boolean {
-            return oldItem.displayName == newItem.displayName && oldItem.productModel == newItem.productModel
+            return oldItem.displayName == newItem.displayName && oldItem.productName == newItem.productName
         }
 
         override fun areContentsTheSame(oldItem: RegionVariant, newItem: RegionVariant): Boolean {

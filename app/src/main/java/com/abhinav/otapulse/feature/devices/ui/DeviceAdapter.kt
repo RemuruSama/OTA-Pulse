@@ -51,7 +51,7 @@ class DeviceAdapter(
             val currentSelectedVariant = selectedVariants[device.name]
 
             binding.deviceNameTextView.text = device.name
-            binding.deviceModelTextView.text = currentSelectedVariant?.productModel ?: "Select a variant"
+            binding.deviceModelTextView.text = currentSelectedVariant?.productName ?: "Select a variant"
             binding.favoriteButton.setImageResource(if (device.isFavorite) R.drawable.ic_favorite_filled else R.drawable.ic_favorite_outline)
             binding.expandArrow.rotation = if (isExpanded) 180f else 0f
             binding.expandableContentLayout.isVisible = isExpanded

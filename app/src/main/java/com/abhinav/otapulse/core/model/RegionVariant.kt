@@ -7,6 +7,7 @@ import kotlinx.parcelize.Parcelize
 data class RegionVariant(
     val displayName: String,
     val productModel: String,
+    val productName: String,
     val firmwareVersion: String,
     val region: String,
     val nvId: String? = null,

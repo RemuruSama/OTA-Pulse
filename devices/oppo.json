@@ -2,276 +2,199 @@
   {
     "name": "OPPO Find N3",
     "ruiVersion": 5,
-    "imei": "",
-    "beta": false,
     "firmwareGroups": {
       "Android 13": [
         {
           "displayName": "ID",
           "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV33_11.A.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
+          "productName": "CPH2499"
         },
         {
           "displayName": "SG",
           "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV2C_11.A.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
+          "productName": "CPH2499"
         },
         {
           "displayName": "TW",
           "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV1A_11.A.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
+          "productName": "CPH2499"
         },
         {
           "displayName": "MY",
           "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV38_11.A.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
+          "productName": "CPH2499"
         },
         {
           "displayName": "TH",
           "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV39_11.A.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
+          "productName": "CPH2499"
         },
         {
           "displayName": "VN",
           "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV3C_11.A.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
+          "productName": "CPH2499"
         },
         {
           "displayName": "OCA",
           "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NVA5_11.A.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
+          "productName": "CPH2499"
         },
         {
           "displayName": "CN",
           "productModel": "PHN110",
-          "firmwareVersion": "PHN110NV97_11.A.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
+          "productName": "PHN110"
         }
       ],
       "Android 14": [
         {
           "displayName": "ID",
           "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV33_11.C.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
+          "productName": "CPH2499",
+          "versionLetter": "C"
         },
         {
           "displayName": "SG",
           "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV2C_11.C.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
+          "productName": "CPH2499",
+          "versionLetter": "C"
         },
         {
           "displayName": "TW",
           "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV1A_11.C.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
+          "productName": "CPH2499",
+          "versionLetter": "C"
         },
         {
           "displayName": "MY",
           "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV38_11.C.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
+          "productName": "CPH2499",
+          "versionLetter": "C"
         },
         {
           "displayName": "TH",
           "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV39_11.C.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
+          "productName": "CPH2499",
+          "versionLetter": "C"
         },
         {
           "displayName": "VN",
           "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV3C_11.C.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
+          "productName": "CPH2499",
+          "versionLetter": "C"
         },
         {
           "displayName": "OCA",
           "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NVA5_11.C.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
+          "productName": "CPH2499",
+          "versionLetter": "C"
         },
         {
           "displayName": "CN",
           "productModel": "PHN110",
-          "firmwareVersion": "PHN110NV97_11.C.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
+          "productName": "PHN110",
+          "versionLetter": "C"
         }
       ],
       "Android 15": [
         {
           "displayName": "ID",
           "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV33_11.F.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
+          "productName": "CPH2499",
+          "versionLetter": "F"
         },
         {
           "displayName": "SG",
           "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV2C_11.F.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
+          "productName": "CPH2499",
+          "versionLetter": "F"
         },
         {
           "displayName": "TW",
           "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV1A_11.F.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
+          "productName": "CPH2499",
+          "versionLetter": "F"
         },
         {
           "displayName": "MY",
           "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV38_11.F.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
+          "productName": "CPH2499",
+          "versionLetter": "F"
         },
         {
           "displayName": "TH",
           "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV39_11.F.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
+          "productName": "CPH2499",
+          "versionLetter": "F"
         },
         {
           "displayName": "VN",
           "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV3C_11.F.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
+          "productName": "CPH2499",
+          "versionLetter": "F"
         },
         {
           "displayName": "OCA",
           "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NVA5_11.F.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
+          "productName": "CPH2499",
+          "versionLetter": "F"
         },
         {
           "displayName": "CN",
           "productModel": "PHN110",
-          "firmwareVersion": "PHN110NV97_11.F.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
+          "productName": "PHN110",
+          "versionLetter": "F"
         }
       ],
       "Android 16": [
         {
           "displayName": "ID",
           "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV33_11.H.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
+          "productName": "CPH2499",
+          "versionLetter": "H"
         },
         {
           "displayName": "SG",
           "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV2C_11.H.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
+          "productName": "CPH2499",
+          "versionLetter": "H"
         },
         {
           "displayName": "TW",
           "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV1A_11.H.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
+          "productName": "CPH2499",
+          "versionLetter": "H"
         },
         {
           "displayName": "MY",
           "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV38_11.H.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
+          "productName": "CPH2499",
+          "versionLetter": "H"
         },
         {
           "displayName": "TH",
           "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV39_11.H.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
+          "productName": "CPH2499",
+          "versionLetter": "H"
         },
         {
           "displayName": "VN",
           "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NV3C_11.H.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
+          "productName": "CPH2499",
+          "versionLetter": "H"
         },
         {
           "displayName": "OCA",
           "productModel": "CPH2499",
-          "firmwareVersion": "CPH2499NVA5_11.H.01_0001_100001010000",
-          "region": "EU",
-          "reqMode": "manual",
-          "gray": 0
+          "productName": "CPH2499",
+          "versionLetter": "H"
         },
         {
           "displayName": "CN",
           "productModel": "PHN110",
-          "firmwareVersion": "PHN110NV97_11.H.01_0001_100001010000",
-          "region": "CN",
-          "reqMode": "manual",
-          "gray": 0
+          "productName": "PHN110",
+          "versionLetter": "H"
         }
       ]
-    },
-    "isFavorite": false,
-    "isLoadingDetails": false,
-    "isCustom": false
+    }
   }
 ]

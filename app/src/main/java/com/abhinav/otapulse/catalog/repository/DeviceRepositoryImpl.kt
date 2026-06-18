@@ -7,7 +7,6 @@ import com.abhinav.otapulse.core.common.toDomain
 import com.abhinav.otapulse.core.model.Device
 import com.abhinav.otapulse.di.FavoritesPrefs
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -53,30 +52,29 @@ class DeviceRepositoryImpl @Inject constructor(
     }
 
     private fun loadLocalCatalog() {
-        val json = try {
-            if (devicesFile.exists()) {
-                devicesFile.readText()
-            } else {
-                val realme = context.assets.open("realme.json").bufferedReader().use { it.readText() }
-                val oneplus = context.assets.open("oneplus.json").bufferedReader().use { it.readText() }
-                val oppo = context.assets.open("oppo.json").bufferedReader().use { it.readText() }
-                
-                val type = object : TypeToken<List<PredefinedDevice>>() {}.type
-                val allDevices = mutableListOf<PredefinedDevice>()
-                
-                allDevices.addAll(gson.fromJson(realme, type) ?: emptyList())
-                allDevices.addAll(gson.fromJson(oneplus, type) ?: emptyList())
-                allDevices.addAll(gson.fromJson(oppo, type) ?: emptyList())
-                
-                gson.toJson(allDevices)
-            }
-        } catch (e: Exception) {
-            "[]"
-        }
-
         try {
-            val type = object : TypeToken<List<PredefinedDevice>>() {}.type
-            inMemoryFixedDevices = gson.fromJson(json, type) ?: emptyList()
+            if (devicesFile.exists()) {
+                inMemoryFixedDevices = DeviceCatalogParser.parseDevices(
+                    devicesFile.readText()
+                ).devices
+            } else {
+                val assetFiles = listOf("realme.json", "oneplus.json", "oppo.json")
+                val allDevices = mutableListOf<PredefinedDevice>()
+
+                for (fileName in assetFiles) {
+                    try {
+                        val json = context.assets.open(fileName)
+                            .bufferedReader().use { it.readText() }
+                        allDevices.addAll(
+                            DeviceCatalogParser.parseDevices(json).devices
+                        )
+                    } catch (_: Exception) {
+                        // Skip missing or invalid asset files
+                    }
+                }
+
+                inMemoryFixedDevices = allDevices
+            }
         } catch (e: Exception) {
             inMemoryFixedDevices = emptyList()
         }
@@ -158,7 +156,6 @@ class DeviceRepositoryImpl @Inject constructor(
     override suspend fun syncCatalog() = withContext(Dispatchers.IO) {
         _isSyncing.value = true
         try {
-            val type = object : TypeToken<List<PredefinedDevice>>() {}.type
             val allDevices = mutableListOf<PredefinedDevice>()
 
             // Fetch from all catalog endpoints
@@ -173,8 +170,9 @@ class DeviceRepositoryImpl @Inject constructor(
                     if (response.isSuccessful) {
                         val json = response.body?.string()
                         if (!json.isNullOrBlank()) {
-                            val devices: List<PredefinedDevice> = gson.fromJson(json, type) ?: emptyList()
-                            allDevices.addAll(devices)
+                            allDevices.addAll(
+                                DeviceCatalogParser.parseDevices(json).devices
+                            )
                         }
                     }
                 } catch (e: Exception) {
