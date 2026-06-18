@@ -302,26 +302,27 @@ class DevicesViewModel @Inject constructor(
         }
     }
 
-    fun extractPartition(
+    fun extractPartitions(
         url: String,
         versionName: String,
-        partitionName: String,
+        partitionNames: List<String>,
         regionName: String? = null
     ): java.util.UUID {
         val data = androidx.work.workDataOf(
             com.abhinav.otapulse.arb.worker.PartitionExtractorWorker.KEY_URL to url,
             com.abhinav.otapulse.arb.worker.PartitionExtractorWorker.KEY_VERSION_NAME to versionName,
-            com.abhinav.otapulse.arb.worker.PartitionExtractorWorker.KEY_PARTITION_NAME to partitionName,
+            com.abhinav.otapulse.arb.worker.PartitionExtractorWorker.KEY_PARTITION_NAMES to partitionNames.toTypedArray(),
             com.abhinav.otapulse.arb.worker.PartitionExtractorWorker.KEY_REGION_NAME to regionName
         )
 
         val request = androidx.work.OneTimeWorkRequestBuilder<com.abhinav.otapulse.arb.worker.PartitionExtractorWorker>()
             .setInputData(data)
-            .addTag("extraction_$partitionName")
+            .addTag("extraction_${partitionNames.joinToString("_")}")
             .build()
 
         workManager.enqueue(request)
-        _uiState.update { it.copy(isStartingExtraction = true, userMessage = "Starting extraction of $partitionName.img...") }
+        val msg = if (partitionNames.size == 1) "Starting extraction of ${partitionNames.first()}.img..." else "Starting extraction of ${partitionNames.size} partitions..."
+        _uiState.update { it.copy(isStartingExtraction = true, userMessage = msg) }
         return request.id
     }
 
@@ -329,12 +330,13 @@ class DevicesViewModel @Inject constructor(
         _uiState.update { it.copy(isStartingExtraction = false) }
     }
 
-    fun cancelPartitionExtraction(workId: java.util.UUID, partitionName: String) {
+    fun cancelPartitionExtraction(workId: java.util.UUID, partitionNamesStr: String) {
         workManager.cancelWorkById(workId)
+        val msg = if (!partitionNamesStr.contains("_")) "Cancelling extraction of $partitionNamesStr.img..." else "Cancelling extraction of partitions..."
         _uiState.update {
             it.copy(
                 isStartingExtraction = false,
-                userMessage = "Cancelling extraction of $partitionName.img..."
+                userMessage = msg
             )
         }
     }

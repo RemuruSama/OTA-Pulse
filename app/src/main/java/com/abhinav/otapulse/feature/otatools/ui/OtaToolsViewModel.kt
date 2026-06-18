@@ -388,18 +388,19 @@ class OtaToolsViewModel @Inject constructor(
         _uiState.update { it.copy(arbCheckResult = null) }
     }
 
-    fun extractPartition(source: String, versionName: String, partitionName: String, regionName: String? = null): java.util.UUID {
+    fun extractPartitions(source: String, versionName: String, partitionNames: List<String>, regionName: String? = null): java.util.UUID {
         val data = androidx.work.workDataOf(
             com.abhinav.otapulse.arb.worker.PartitionExtractorWorker.KEY_SOURCE to source,
             com.abhinav.otapulse.arb.worker.PartitionExtractorWorker.KEY_URL to source,
             com.abhinav.otapulse.arb.worker.PartitionExtractorWorker.KEY_VERSION_NAME to versionName,
-            com.abhinav.otapulse.arb.worker.PartitionExtractorWorker.KEY_PARTITION_NAME to partitionName,
+            com.abhinav.otapulse.arb.worker.PartitionExtractorWorker.KEY_PARTITION_NAMES to partitionNames.toTypedArray(),
             com.abhinav.otapulse.arb.worker.PartitionExtractorWorker.KEY_REGION_NAME to regionName
         )
 
+        val tagNames = partitionNames.joinToString("_")
         val request = androidx.work.OneTimeWorkRequestBuilder<com.abhinav.otapulse.arb.worker.PartitionExtractorWorker>()
             .setInputData(data)
-            .addTag("extraction_$partitionName")
+            .addTag("extraction_$tagNames")
             .build()
 
         workManager.enqueue(request)

@@ -365,7 +365,7 @@ class ManualQueryFragment : Fragment() {
 
     private var workInfoJob: kotlinx.coroutines.Job? = null
     private var popupAlreadyShownForData = false
-    private var selectedPartition: PartitionInfo? = null
+    private var selectedPartitions: MutableSet<PartitionInfo> = mutableSetOf()
     private var activeExtractionWorkId: java.util.UUID? = null
 
     private fun observeViewModel() {
@@ -512,10 +512,27 @@ class ManualQueryFragment : Fragment() {
         // ── Partition progress observer ───────────────────────────────────────
 
         fun resetExtractButton() {
-            btnExtractSelected.isEnabled = selectedPartition != null
+            btnExtractSelected.isEnabled = selectedPartitions.isNotEmpty()
             btnExtractSelected.text = getString(R.string.extract)
             btnExtractSelected.icon = null
             extractionProgressBar.isVisible = false
+        }
+
+        fun updateSelectedPartitionUI() {
+            if (selectedPartitions.isEmpty()) {
+                tvSelectedPartitionName.text = getString(R.string.partition_extraction_select_partition)
+                tvSelectedPartitionSize.text = ""
+                resetExtractButton()
+            } else {
+                if (selectedPartitions.size == 1) {
+                    tvSelectedPartitionName.text = selectedPartitions.first().name
+                } else {
+                    tvSelectedPartitionName.text = "${selectedPartitions.size} partitions selected"
+                }
+                val totalSize = selectedPartitions.sumOf { it.sizeBytes }
+                tvSelectedPartitionSize.text = FormatUtils.formatSize(totalSize)
+                btnExtractSelected.isEnabled = true
+            }
         }
 
         fun isShowingCancelState(): Boolean = activeExtractionWorkId != null &&
@@ -536,7 +553,7 @@ class ManualQueryFragment : Fragment() {
             }
         }
 
-        suspend fun observePartitionProgress(item: PartitionInfo, workId: java.util.UUID) {
+        suspend fun observePartitionProgress(items: List<PartitionInfo>, workId: java.util.UUID) {
             val ctx = context ?: return
             androidx.work.WorkManager.getInstance(ctx)
                 .getWorkInfoByIdFlow(workId)
@@ -548,7 +565,8 @@ class ManualQueryFragment : Fragment() {
                         if (info.state == androidx.work.WorkInfo.State.SUCCEEDED) {
                             activeExtractionWorkId = null
                             resetExtractButton()
-                            Toast.makeText(innerCtx, getString(R.string.toast_partition_extracted, item.name), Toast.LENGTH_SHORT).show()
+                            val msg = if (items.size == 1) "${items.first().name}.img extracted successfully" else "${items.size} partitions extracted"
+                            Toast.makeText(innerCtx, msg, Toast.LENGTH_SHORT).show()
                             workInfoJob?.cancel()
                             return@collect
                         } else if (info.state == androidx.work.WorkInfo.State.CANCELLED) {
@@ -592,7 +610,32 @@ class ManualQueryFragment : Fragment() {
 
             // Search with mutable display list
             var displayedPartitions = partitions.toMutableList()
+            val dialogSelected = mutableSetOf<PartitionInfo>().apply { addAll(selectedPartitions) }
             val etSearch = sheetView.findViewById<android.widget.EditText>(R.id.etSearch)
+            val btnConfirm = sheetView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnConfirmSelection)
+
+            val updateConfirmButton = {
+                btnConfirm.text = getString(R.string.partition_extraction_confirm_selection, dialogSelected.size)
+                btnConfirm.isEnabled = dialogSelected.isNotEmpty()
+                val btnSelectAll = sheetView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnSelectAll)
+                if (dialogSelected.size == partitions.size) {
+                    btnSelectAll.text = "Deselect All"
+                    btnSelectAll.backgroundTintList = android.content.res.ColorStateList.valueOf(com.google.android.material.color.MaterialColors.getColor(btnSelectAll, com.google.android.material.R.attr.colorErrorContainer))
+                    btnSelectAll.setTextColor(com.google.android.material.color.MaterialColors.getColor(btnSelectAll, com.google.android.material.R.attr.colorOnErrorContainer))
+                } else {
+                    btnSelectAll.text = "Select All"
+                    btnSelectAll.backgroundTintList = android.content.res.ColorStateList.valueOf(com.google.android.material.color.MaterialColors.getColor(btnSelectAll, com.google.android.material.R.attr.colorSecondaryContainer))
+                    btnSelectAll.setTextColor(com.google.android.material.color.MaterialColors.getColor(btnSelectAll, com.google.android.material.R.attr.colorOnSecondaryContainer))
+                }
+            }
+            updateConfirmButton()
+
+            btnConfirm.setOnClickListener {
+                selectedPartitions.clear()
+                selectedPartitions.addAll(dialogSelected)
+                updateSelectedPartitionUI()
+                bottomSheet.dismiss()
+            }
 
             rv.layoutManager = LinearLayoutManager(requireContext())
             rv.setHasFixedSize(false)
@@ -610,7 +653,6 @@ class ManualQueryFragment : Fragment() {
 
                     val tvName        = v.findViewById<TextView>(R.id.tvPartitionName)
                     val tvMetadata    = v.findViewById<TextView>(R.id.tvPartitionMetadata)
-                    val btnExtractRow = v.findViewById<View>(R.id.btnExtractRow)
                     val card          = v.findViewById<View>(R.id.cardPartition)
                     val tvSizeTag     = v.findViewById<TextView>(R.id.tvSizeTag)
                     val viewAccent    = v.findViewById<View>(R.id.viewAccent)
@@ -627,45 +669,37 @@ class ManualQueryFragment : Fragment() {
                     // Left accent bar
                     viewAccent.backgroundTintList = ColorStateList.valueOf(FormatUtils.getSizeColor(item.sizeBytes))
 
-                    // Extract button click
-                    btnExtractRow.setOnClickListener {
-                        if (checkAndRequestPermissions()) {
-                            selectedPartition = item
-                            tvSelectedPartitionName.text = item.name
-                            tvSelectedPartitionSize.text = item.formattedSize
-                            btnExtractSelected.isEnabled = true
-                            activeExtractionWorkId = viewModel.extractPartition(
-                                activePartitionSource(),
-                                activePartitionVersion(),
-                                item.name,
-                                regionName
-                            )
-                            workInfoJob?.cancel()
-                            workInfoJob = viewLifecycleOwner.lifecycleScope.launch {
-                                observePartitionProgress(item, activeExtractionWorkId ?: return@launch)
-                            }
-                            bottomSheet.dismiss()
+                    val cbSelect = v.findViewById<com.google.android.material.checkbox.MaterialCheckBox>(R.id.cbSelect)
+                    cbSelect.isChecked = dialogSelected.contains(item)
+
+                    val toggleSelection = {
+                        if (dialogSelected.contains(item)) {
+                            dialogSelected.remove(item)
+                            cbSelect.isChecked = false
+                        } else {
+                            dialogSelected.add(item)
+                            cbSelect.isChecked = true
                         }
+                        updateConfirmButton()
                     }
 
-                    // Card click: select only
-                    card.setOnClickListener {
-                        selectedPartition = item
-                        tvSelectedPartitionName.text = item.name
-                        tvSelectedPartitionSize.text = item.formattedSize
-                        btnExtractSelected.isEnabled = true
-                        bottomSheet.dismiss()
-                        workInfoJob?.cancel()
-                        activeExtractionWorkId?.let { workId ->
-                            workInfoJob = viewLifecycleOwner.lifecycleScope.launch {
-                                observePartitionProgress(item, workId)
-                            }
-                        }
-                    }
+                    card.setOnClickListener { toggleSelection() }
                 }
             }
 
             rv.adapter = adapter
+            
+            val btnSelectAll = sheetView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnSelectAll)
+            btnSelectAll.setOnClickListener {
+                if (dialogSelected.size == partitions.size) {
+                    dialogSelected.clear()
+                } else {
+                    dialogSelected.clear()
+                    dialogSelected.addAll(partitions)
+                }
+                updateConfirmButton()
+                adapter.notifyDataSetChanged()
+            }
 
             // Wire search
             etSearch.doOnTextChanged { text, _, _, _ ->
@@ -712,19 +746,19 @@ class ManualQueryFragment : Fragment() {
         }
 
         btnExtractSelected.setHapticClickListener {
-            val partition = selectedPartition ?: return@setHapticClickListener
+            if (selectedPartitions.isEmpty()) return@setHapticClickListener
             if (isShowingCancelState()) {
-                activeExtractionWorkId?.let { viewModel.cancelPartitionExtraction(it, partition.name) }
+                activeExtractionWorkId?.let { viewModel.cancelPartitionExtraction(it, selectedPartitions.joinToString("_") { p -> p.name }) }
             } else if (checkAndRequestPermissions()) {
-                activeExtractionWorkId = viewModel.extractPartition(
+                activeExtractionWorkId = viewModel.extractPartitions(
                     activePartitionSource(),
                     activePartitionVersion(),
-                    partition.name,
+                    selectedPartitions.map { it.name },
                     regionName
                 )
                 workInfoJob?.cancel()
                 workInfoJob = viewLifecycleOwner.lifecycleScope.launch {
-                    observePartitionProgress(partition, activeExtractionWorkId ?: return@launch)
+                    observePartitionProgress(selectedPartitions.toList(), activeExtractionWorkId ?: return@launch)
                 }
             }
         }

@@ -101,11 +101,42 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvPartitions"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:clipToPadding="false"
         android:nestedScrollingEnabled="true"
         android:paddingHorizontal="16dp"
         android:paddingTop="8dp"
         android:paddingBottom="16dp" />
+
+    <!-- ── Footer ── -->
+    <LinearLayout
+        android:id="@+id/layoutFooter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="16dp"
+        android:background="?attr/colorSurfaceContainerHigh"
+        android:elevation="8dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSelectAll"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:layout_marginEnd="16dp"
+            android:text="Select All"
+            android:textAllCaps="false" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnConfirmSelection"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_weight="1"
+            android:text="@string/partition_extraction_confirm_selection"
+            android:textAllCaps="false"
+            app:cornerRadius="28dp" />
+    </LinearLayout>
 
 </LinearLayout>

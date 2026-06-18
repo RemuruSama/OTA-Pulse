@@ -575,4 +575,5 @@
 
     <!-- Cursor Decoration (non-translatable) -->
     <string name="cursor_decoration" translatable="false">▮</string>
+    <string name="partition_extraction_confirm_selection">Confirm Selection (%1$d)</string>
 </resources>

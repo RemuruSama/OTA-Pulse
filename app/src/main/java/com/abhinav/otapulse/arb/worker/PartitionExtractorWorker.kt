@@ -21,6 +21,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
 import java.io.File
 
@@ -33,12 +34,13 @@ class PartitionExtractorWorker @AssistedInject constructor(
     companion object {
         const val KEY_SOURCE = "source"
         const val KEY_URL = "url"
-        const val KEY_PARTITION_NAME = "partition_name"
+        const val KEY_PARTITION_NAMES = "partition_names"
         const val KEY_VERSION_NAME = "version_name"
         const val KEY_REGION_NAME = "region_name"
         
         const val PROGRESS_KEY = "progress"
         const val PROGRESS_MAX_KEY = "progress_max"
+        const val CURRENT_PARTITION_KEY = "current_partition"
 
         private const val NOTIFICATION_ID = 4050
         private const val CHANNEL_ID = "partition_extraction_channel"
@@ -52,7 +54,9 @@ class PartitionExtractorWorker @AssistedInject constructor(
         val source = inputData.getString(KEY_SOURCE)
             ?: inputData.getString(KEY_URL)
             ?: return@withContext Result.failure()
-        val partitionName = inputData.getString(KEY_PARTITION_NAME) ?: return@withContext Result.failure()
+        val partitionNames = inputData.getStringArray(KEY_PARTITION_NAMES) ?: return@withContext Result.failure()
+        if (partitionNames.isEmpty()) return@withContext Result.failure()
+
         val versionName = sanitizeFolderSegment(inputData.getString(KEY_VERSION_NAME) ?: "Unknown")
         val regionName = inputData.getString(KEY_REGION_NAME).orEmpty()
         val baseDir = File(Environment.getExternalStorageDirectory(), com.abhinav.otapulse.core.network.Component.OTA_UPDATES_DIR)
@@ -60,68 +64,85 @@ class PartitionExtractorWorker @AssistedInject constructor(
         val regionFolderPrefix = sanitizeFolderSegment(regionName).takeIf { regionName.isNotBlank() }.orEmpty()
         val folderName = if (regionFolderPrefix.isBlank()) versionName else "$regionFolderPrefix-$versionName"
         val targetFolder = File(extractedDir, folderName).also { it.mkdirs() }
-        val outputFile = File(targetFolder, "$partitionName.img")
 
+        val titleName = if (partitionNames.size == 1) partitionNames[0] else "${partitionNames.size} partitions"
         createNotificationChannel()
-        setForeground(createForegroundInfo(partitionName, 0, 100))
+        setForeground(createForegroundInfo(titleName, 0, 100))
 
         try {
-            Log.d("PartitionExtractor", "Starting extraction for $partitionName from $source")
+            Log.d("PartitionExtractor", "Starting extraction for $titleName from $source")
             
             // 1. Open session
             val session = otaExtractor.open(source)
 
             // 2. Extract with progress
-            otaExtractor.extractToFile(session, partitionName, outputFile) { state ->
-                updateProgress(partitionName, state)
+            val totalPartitions = partitionNames.size
+            for ((index, partitionName) in partitionNames.withIndex()) {
+                val outputFile = File(targetFolder, "$partitionName.img")
+                
+                // If cancelled before starting the next partition, throw CancellationException
+                kotlinx.coroutines.yield()
+
+                otaExtractor.extractToFile(session, partitionName, outputFile) { state ->
+                    updateProgress(titleName, partitionName, state, index, totalPartitions)
+                }
+
+                if (totalPartitions > 1) {
+                    showSinglePartitionSuccessNotification(partitionName, index)
+                }
             }
 
             // Finalize
             setProgress(workDataOf(PROGRESS_KEY to 100, PROGRESS_MAX_KEY to 100))
-            showSuccessNotification(partitionName, outputFile.absolutePath)
+            showSuccessNotification(titleName, partitionNames, targetFolder.absolutePath)
 
             Result.success()
         } catch (e: CancellationException) {
-            Log.i("PartitionExtractor", "Extraction cancelled for $partitionName")
-            otaExtractor.clearExtractionState(partitionName)
-            if (outputFile.exists()) {
-                outputFile.delete()
-            }
-            showCancelledNotification(partitionName)
+            Log.i("PartitionExtractor", "Extraction cancelled for $titleName")
+            partitionNames.forEach { otaExtractor.clearExtractionState(it) }
+            showCancelledNotification(titleName)
             throw e
         } catch (e: Exception) {
-            Log.e("PartitionExtractor", "Extraction failed for $partitionName", e)
-            otaExtractor.clearExtractionState(partitionName)
-            showErrorNotification(partitionName)
+            Log.e("PartitionExtractor", "Extraction failed for $titleName", e)
+            partitionNames.forEach { otaExtractor.clearExtractionState(it) }
+            showErrorNotification(titleName)
             Result.failure()
         }
     }
 
-    private suspend fun updateProgress(partitionName: String, state: ExtractionState) {
-        val progress = state.progressPercent
+    private suspend fun updateProgress(titleName: String, currentPartition: String, state: ExtractionState, currentIndex: Int, totalPartitions: Int) {
+        val individualProgress = state.progressPercent
+        val overallProgress = ((currentIndex * 100) + individualProgress) / totalPartitions
+        
         val currentTime = System.currentTimeMillis()
         
         setProgress(workDataOf(
-            PROGRESS_KEY to progress,
-            PROGRESS_MAX_KEY to 100
+            PROGRESS_KEY to overallProgress,
+            PROGRESS_MAX_KEY to 100,
+            CURRENT_PARTITION_KEY to currentPartition
         ))
         
         // Update notification occasionally to avoid spamming SystemUI (2% change AND 1000ms time)
-        if (progress % 2 == 0 && (currentTime - lastNotificationTime >= throttleIntervalMs)) {
+        if (overallProgress % 2 == 0 && (currentTime - lastNotificationTime >= throttleIntervalMs)) {
             lastNotificationTime = currentTime
-            setForeground(createForegroundInfo(partitionName, progress, 100, state.formattedProgress))
+            val contentText = if (totalPartitions > 1) {
+                "$overallProgress% • $currentPartition"
+            } else {
+                "$overallProgress%"
+            }
+            setForeground(createForegroundInfo(titleName, overallProgress, 100, contentText))
         }
     }
 
     private fun createForegroundInfo(
-        partitionName: String, 
+        titleName: String, 
         progress: Int, 
         max: Int, 
         contentText: String? = null
     ): ForegroundInfo {
         val cancelPendingIntent = WorkManager.getInstance(applicationContext)
             .createCancelPendingIntent(id)
-        val title = "Extracting $partitionName.img"
+        val title = "Extracting $titleName"
         val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
             .setContentTitle(title)
             .setContentText(contentText ?: "$progress%")
@@ -158,22 +179,38 @@ class PartitionExtractorWorker @AssistedInject constructor(
         }
     }
 
-    private fun showSuccessNotification(partitionName: String, filePath: String) {
-        val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
+    private fun showSuccessNotification(titleName: String, partitionNames: Array<String>, filePath: String) {
+        val contentText = "$titleName saved successfully"
+        val builder = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
             .setContentTitle("Extraction Complete")
-            .setContentText("$partitionName.img saved successfully")
+            .setContentText(contentText)
             .setSmallIcon(R.drawable.ic_download)
             .setAutoCancel(true)
-            .build()
+
+        if (partitionNames.size > 1) {
+            val namesStr = partitionNames.joinToString(", ")
+            builder.setStyle(NotificationCompat.BigTextStyle().bigText("Extracted: $namesStr"))
+        }
 
         val manager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        manager.notify(NOTIFICATION_ID + 1, notification)
+        manager.notify(NOTIFICATION_ID + 1, builder.build())
     }
 
-    private fun showErrorNotification(partitionName: String) {
+    private fun showSinglePartitionSuccessNotification(partitionName: String, index: Int) {
+        val builder = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
+            .setContentTitle("Partition Extracted")
+            .setContentText("$partitionName saved successfully")
+            .setSmallIcon(R.drawable.ic_download)
+            .setAutoCancel(true)
+
+        val manager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        manager.notify(NOTIFICATION_ID + 10 + index, builder.build())
+    }
+
+    private fun showErrorNotification(titleName: String) {
         val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
             .setContentTitle("Extraction Failed")
-            .setContentText("Failed to extract $partitionName.img")
+            .setContentText("Failed to extract $titleName")
             .setSmallIcon(R.drawable.ic_download)
             .setAutoCancel(true)
             .build()
@@ -182,10 +219,10 @@ class PartitionExtractorWorker @AssistedInject constructor(
         manager.notify(NOTIFICATION_ID + 2, notification)
     }
 
-    private fun showCancelledNotification(partitionName: String) {
+    private fun showCancelledNotification(titleName: String) {
         val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
             .setContentTitle("Extraction Cancelled")
-            .setContentText("$partitionName.img extraction was cancelled")
+            .setContentText("$titleName extraction was cancelled")
             .setSmallIcon(R.drawable.ic_cancel_circle)
             .setAutoCancel(true)
             .build()
