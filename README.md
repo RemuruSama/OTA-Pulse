@@ -25,17 +25,6 @@ OTA Pulse is an Android app for discovering, downloading, and inspecting OTA pac
 - Background software update checks with boot persistence
 - High reliability with robust error handling, leak-free streams, and thread-safe data persistence
 
-## Screenshots
-
-<p align="center">
-  <img src="OTAPulse/Screenshot/homescreen-page.webp" width="160" />
-  <img src="OTAPulse/Screenshot/devicelist-page.webp" width="160" />
-  <img src="OTAPulse/Screenshot/otatools-page.webp" width="160" />
-  <img src="OTAPulse/Screenshot/manualquery-page.webp" width="160" />
-  <img src="OTAPulse/Screenshot/download-page.webp" width="160" />
-  <img src="OTAPulse/Screenshot/settings-page.webp" width="160" />
-</p>
-
 ## Tech Stack
 
 - Kotlin (Android)
