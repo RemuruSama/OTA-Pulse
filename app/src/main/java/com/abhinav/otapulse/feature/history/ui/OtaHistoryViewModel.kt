@@ -49,4 +49,12 @@ class OtaHistoryViewModel @Inject constructor(
             }
         }
     }
+
+    fun importHistory(entries: List<OtaHistoryEntry>) {
+        viewModelScope.launch {
+            entries.forEach { entry ->
+                repository.logOtaUpdate(entry)
+            }
+        }
+    }
 }

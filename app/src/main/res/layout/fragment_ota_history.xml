@@ -44,6 +44,27 @@
                         android:textStyle="bold" />
 
                     <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/btnMoreOptions"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="?attr/colorSurfaceContainerHigh"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="More options">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_more_vert"
+                            app:tint="?attr/colorOnSurfaceVariant" />
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
                         android:id="@+id/btnClearHistory"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
