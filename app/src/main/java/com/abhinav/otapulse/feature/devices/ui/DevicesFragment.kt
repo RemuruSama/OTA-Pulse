@@ -182,6 +182,10 @@ class DevicesFragment : Fragment(R.layout.fragment_devices) {
             }
         }
 
+        val currentBrand = viewModel.uiState.value.selectedBrand
+        val indexToSelect = tabTitles.indexOfFirst { it.equals(currentBrand, ignoreCase = true) }.takeIf { it >= 0 } ?: 0
+        binding.brandTabLayout.getTabAt(indexToSelect)?.select()
+
         binding.brandTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 tab?.customView?.performHapticFeedback()
