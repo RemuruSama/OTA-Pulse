@@ -32,6 +32,7 @@
     <string name="json_output_saved_to_file">Saved JSON to %s</string>
     <string name="copy">Copy</string>
     <string name="close">Close</string>
+    <string name="card_share_error">Could not generate share card</string>
 
     <!-- Strings for fragment_device.xml -->
     <string name="device_information_header">Device Information</string>

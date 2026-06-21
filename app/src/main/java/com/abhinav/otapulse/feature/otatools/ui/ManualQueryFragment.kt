@@ -38,6 +38,8 @@ import com.abhinav.otapulse.core.common.PermissionHelper
 import com.abhinav.otapulse.core.common.openInAppBrowser
 import com.abhinav.otapulse.catalog.model.RegionData
 import com.abhinav.otapulse.core.common.setHapticClickListener
+import com.abhinav.otapulse.core.common.OtaCardData
+import com.abhinav.otapulse.core.common.OtaShareHelper
 import com.abhinav.otapulse.core.ui.applyBackgroundBlur
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -813,31 +815,21 @@ class ManualQueryFragment : Fragment() {
             }
         }
         btnShare.setHapticClickListener {
-            val shareText = """
-                🚀 𝗢𝗧𝗔 𝗣𝘂𝗹𝘀𝗲 | 𝗨𝗽𝗱𝗮𝘁𝗲 𝗔𝗹𝗲𝗿𝘁
-
-                • 𝗩𝗲𝗿: ${ota.versionName ?: "Unknown"}
-                • 𝗥𝗲𝗴𝗶𝗼𝗻: $regionName
-                • 𝗔𝗻𝗱𝗿𝗼𝗶𝗱: ${ota.realAndroidVersion ?: "Unknown"}
-                • 𝗦𝗲𝗰𝘂𝗿𝗶𝘁𝘆 𝗣𝗮𝘁𝗰𝗵: ${ota.securityPatch ?: "Unknown"}
-                • 𝗦𝗶𝘇𝗲: ${ota.size}
-                • 𝗔𝗥𝗕 𝗦𝘁𝗮𝘁𝘂𝘀: ${ota.arbStatus ?: "N/A"}
-
-                ━━━━━━━━━━━━━━━━━
-                • 𝗖𝗵𝗮𝗻𝗴𝗲𝗹𝗼𝗴: ${ota.panelUrl ?: "Not available"}
-
-                ━━━━━━━━━━━━━━━━━
-                • 𝗗𝗼𝘄𝗻𝗹𝗼𝗮𝗱: ${ota.url}
-
-                ━━━━━━━━━━━━━━━━━
-                • @abhinav_v1
-            """.trimIndent()
-            val shareIntent = Intent().apply {
-                action = Intent.ACTION_SEND
-                putExtra(Intent.EXTRA_TEXT, shareText)
-                type = "text/plain"
-            }
-            startActivity(Intent.createChooser(shareIntent, "Share OTA Update for $deviceName"))
+            OtaShareHelper.shareOtaCard(
+                requireContext(),
+                OtaCardData(
+                    deviceName = deviceName,
+                    versionName = ota.versionName,
+                    regionName = regionName,
+                    androidVersion = ota.realAndroidVersion,
+                    securityPatch = ota.securityPatch,
+                    size = ota.size,
+                    arbStatus = ota.arbStatus,
+                    md5 = ota.md5,
+                    downloadUrl = ota.url,
+                    changelogUrl = ota.panelUrl
+                )
+            )
         }
 
         btnViewJsonTop.setHapticClickListener {

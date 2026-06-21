@@ -28,6 +28,8 @@ import com.abhinav.otapulse.core.common.PermissionHelper
 import com.abhinav.otapulse.core.common.openInAppBrowser
 import com.abhinav.otapulse.core.common.setHapticClickListener
 import com.abhinav.otapulse.core.common.toFullRegionName
+import com.abhinav.otapulse.core.common.OtaCardData
+import com.abhinav.otapulse.core.common.OtaShareHelper
 import com.abhinav.otapulse.core.model.OtaUpdate
 import com.abhinav.otapulse.feature.otatools.ui.JsonOutputActivity
 import com.abhinav.otapulse.ota.payload.PartitionInfo
@@ -439,31 +441,21 @@ class OtaDetailsDialogFragment : DialogFragment() {
             }
         }
         btnShare.setHapticClickListener {
-            val shareText = """
-                🚀 𝗢𝗧𝗔 𝗣𝘂𝗹𝘀𝗲 | 𝗨𝗽𝗱𝗮𝘁𝗲 𝗔𝗹𝗲𝗿𝘁
-
-                • 𝗩𝗲𝗿: ${data.otaUpdate.versionName}
-                • 𝗥𝗲𝗴𝗶𝗼𝗻: ${data.regionName.toFullRegionName()}
-                • 𝗔𝗻𝗱𝗿𝗼𝗶𝗱: ${data.otaUpdate.realAndroidVersion}
-                • 𝗦𝗲𝗰𝘂𝗿𝗶𝘁𝘆 𝗣𝗮𝘁𝗰𝗵: ${data.otaUpdate.securityPatch}
-                • 𝗦𝗶𝘇𝗲: ${data.otaUpdate.size}
-                • 𝗔𝗥𝗕 𝗦𝘁𝗮𝘁𝘂𝘀: ${data.otaUpdate.arbStatus ?: "N/A"}
-
-                ━━━━━━━━━━━━━━━━━
-                • 𝗖𝗵𝗮𝗻𝗴𝗲𝗹𝗼𝗴: ${data.otaUpdate.panelUrl ?: "Not available"}
-
-                ━━━━━━━━━━━━━━━━━
-                • 𝗗𝗼𝘄𝗻𝗹𝗼𝗮𝗱: ${data.otaUpdate.url}
-
-                ━━━━━━━━━━━━━━━━━
-                • @abhinav_v1
-            """.trimIndent()
-            val sendIntent = Intent().apply {
-                action = Intent.ACTION_SEND
-                putExtra(Intent.EXTRA_TEXT, shareText)
-                type = "text/plain"
-            }
-            startActivity(Intent.createChooser(sendIntent, "Share OTA Update for ${data.deviceName}"))
+            OtaShareHelper.shareOtaCard(
+                requireContext(),
+                OtaCardData(
+                    deviceName = data.deviceName,
+                    versionName = data.otaUpdate.versionName,
+                    regionName = data.regionName.toFullRegionName(),
+                    androidVersion = data.otaUpdate.realAndroidVersion,
+                    securityPatch = data.otaUpdate.securityPatch,
+                    size = data.otaUpdate.size,
+                    arbStatus = data.otaUpdate.arbStatus,
+                    md5 = data.otaUpdate.md5,
+                    downloadUrl = data.otaUpdate.url,
+                    changelogUrl = data.otaUpdate.panelUrl
+                )
+            )
         }
     }
 
