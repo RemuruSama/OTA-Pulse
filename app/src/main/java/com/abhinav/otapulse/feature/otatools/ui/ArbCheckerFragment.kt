@@ -16,6 +16,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.color.MaterialColors
 import com.abhinav.otapulse.R
 import com.abhinav.otapulse.core.common.setHapticClickListener
 import com.abhinav.otapulse.databinding.FragmentArbCheckerBinding
@@ -168,21 +169,17 @@ class ArbCheckerFragment : Fragment() {
                 state.arbCheckResult?.let { result ->
                     binding.tvArbResultStatus.text = result.arbInfo.toDisplayString()
                     val statusBackground = if (result.arbInfo.isSafe) {
-                        R.color.colorSuccessContainer
+                        ContextCompat.getColor(requireContext(), R.color.colorSuccessContainer)
                     } else {
-                        R.color.colorErrorContainer
+                        MaterialColors.getColor(binding.root, com.google.android.material.R.attr.colorErrorContainer)
                     }
                     val statusForeground = if (result.arbInfo.isSafe) {
-                        R.color.colorOnSuccessContainer
+                        ContextCompat.getColor(requireContext(), R.color.colorOnSuccessContainer)
                     } else {
-                        R.color.colorOnErrorContainer
+                        MaterialColors.getColor(binding.root, com.google.android.material.R.attr.colorOnErrorContainer)
                     }
-                    binding.cardArbResultStatus.setCardBackgroundColor(
-                        ContextCompat.getColor(requireContext(), statusBackground)
-                    )
-                    binding.tvArbResultStatus.setTextColor(
-                        ContextCompat.getColor(requireContext(), statusForeground)
-                    )
+                    binding.cardArbResultStatus.setCardBackgroundColor(statusBackground)
+                    binding.tvArbResultStatus.setTextColor(statusForeground)
                     binding.tvArbResultIndex.text = result.arbInfo.arbIndex.toString()
                     binding.tvArbResultVersion.text = "${result.arbInfo.major}.${result.arbInfo.minor}"
                     binding.tvArbResultSource.text = result.sourceLabel
@@ -200,16 +197,18 @@ class ArbCheckerFragment : Fragment() {
         val isEnabled = hasSelectedSource() && !viewModel.uiState.value.isCheckingArb
         binding.btnCheckArb.isEnabled = isEnabled
         binding.btnCheckArb.backgroundTintList = ColorStateList.valueOf(
-            ContextCompat.getColor(
-                requireContext(),
-                if (isEnabled) R.color.colorErrorContainer else R.color.colorSurfaceContainerHighest
-            )
+            if (isEnabled) {
+                MaterialColors.getColor(binding.root, com.google.android.material.R.attr.colorErrorContainer)
+            } else {
+                MaterialColors.getColor(binding.root, com.google.android.material.R.attr.colorSurfaceContainerHighest)
+            }
         )
         binding.btnCheckArb.setTextColor(
-            ContextCompat.getColor(
-                requireContext(),
-                if (isEnabled) R.color.colorOnErrorContainer else R.color.colorOnSurfaceVariant
-            )
+            if (isEnabled) {
+                MaterialColors.getColor(binding.root, com.google.android.material.R.attr.colorOnErrorContainer)
+            } else {
+                MaterialColors.getColor(binding.root, com.google.android.material.R.attr.colorOnSurfaceVariant)
+            }
         )
     }
 

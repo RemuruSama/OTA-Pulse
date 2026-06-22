@@ -10,8 +10,8 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.enableEdgeToEdge
 import androidx.core.view.ViewCompat
-import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
@@ -44,7 +44,18 @@ class JsonOutputActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+        enableEdgeToEdge()
+
+        // Apply AMOLED overlay if enabled and currently in dark mode
+        val themePrefs = getSharedPreferences("theme_prefs", Context.MODE_PRIVATE)
+        val isAmoled = themePrefs.getBoolean("amoled_mode", false)
+        if (isAmoled) {
+            val uiMode = resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
+            if (uiMode == android.content.res.Configuration.UI_MODE_NIGHT_YES) {
+                theme.applyStyle(R.style.ThemeOverlay_OTAPulse_Amoled, true)
+            }
+        }
+
         binding = DialogJsonOutputBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

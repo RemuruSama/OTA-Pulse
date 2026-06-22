@@ -19,8 +19,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import androidx.activity.enableEdgeToEdge
 import androidx.core.view.ViewCompat
-import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
@@ -45,6 +45,9 @@ import com.abhinav.otapulse.core.common.openExternalBrowser
 import com.abhinav.otapulse.feature.about.WhatsNewBottomSheet
 import com.abhinav.otapulse.feature.settings.AppUpdateRepository
 import io.noties.markwon.Markwon
+
+import com.google.android.material.transition.MaterialFadeThrough
+import com.google.android.material.transition.MaterialSharedAxis
 
 import com.abhinav.otapulse.core.common.setHapticClickListener
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -109,7 +112,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+        enableEdgeToEdge()
 
         appSettingsPrefs = getSharedPreferences(SettingsFragment.APP_SETTINGS_PREFS, Context.MODE_PRIVATE)
         appSettingsPrefs.registerOnSharedPreferenceChangeListener(this)
@@ -486,24 +489,26 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
             else -> HomeUpdateFragment()
         }
 
-        // Pop any existing back stack entry for tab switches so it never grows unboundedly
         if (addToBackStack && isMainTab(itemId) && supportFragmentManager.backStackEntryCount > 0) {
-            supportFragmentManager.popBackStack()
+            // Clear transitions to avoid clashing when popping backstack instantly
+            supportFragmentManager.findFragmentById(R.id.fragment_container)?.apply {
+                returnTransition = null
+                exitTransition = null
+            }
+            supportFragmentManager.popBackStackImmediate(null, androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE)
         }
 
-        val currentIndex = getTabIndex(lastSelectedItemId)
-        val newIndex = getTabIndex(itemId)
+        val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+        val isDeepLink = !isMainTab(itemId)
+
+        // For deep links, we want a MaterialSharedAxis Z-axis transition.
+        // For Top-Level tabs, we use instant switching (no transition) to prevent background flashes.
+        // We use instant switching (no transition) for all tabs and deep links to prevent background flashes in AMOLED mode.
+        // Material transitions (FadeThrough, SharedAxis) inherently crossfade to transparent, exposing the window background.
 
         supportFragmentManager.beginTransaction().apply {
-            setReorderingAllowed(true) // plays enter+exit animations concurrently — fixes blank flash
-            if (currentIndex != -1 && newIndex != -1 && newIndex < currentIndex) {
-                setCustomAnimations(
-                    R.anim.nav_pop_enter,
-                    R.anim.nav_pop_exit,
-                    R.anim.nav_enter,
-                    R.anim.nav_exit
-                )
-            } else {
+            setReorderingAllowed(true) // required for Material shared element and transitions
+            if (isDeepLink && itemId != OTA_HISTORY_SCREEN_ID) {
                 setCustomAnimations(
                     R.anim.nav_enter,
                     R.anim.nav_exit,
@@ -512,7 +517,8 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
                 )
             }
             replace(R.id.fragment_container, selectedFragment)
-            if (addToBackStack) {
+            if (addToBackStack && isDeepLink) {
+                // Only deep links should be added to the back stack for standard bottom nav behavior
                 addToBackStack(null)
             }
             commit()
