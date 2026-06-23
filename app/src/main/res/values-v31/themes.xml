@@ -5,12 +5,7 @@
     Material 3 theme that automatically applies the user's chosen
     system accent colors (Material You).
     -->
-    <style name="Theme.OtaUpdater" parent="Theme.Material3.DayNight.NoActionBar">
-        <!--
-        This attribute tells the system to use the user's wallpaper colors.
-        It's the key to Material You theming.
-        -->
-        <item name="android:windowBackground">?android:attr/colorBackground</item>
+    <style name="Theme.OtaUpdater" parent="Theme.OTAPulse">
         <item name="android:statusBarColor">@android:color/transparent</item>
         <!-- Apply custom MaterialCardView style to remove outlines -->
         <item name="materialCardViewStyle">@style/Widget.App.MaterialCardView</item>

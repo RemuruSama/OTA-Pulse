@@ -18,6 +18,8 @@
 
     <string name="settings_amoled_title">Pure Black (AMOLED)</string>
     <string name="settings_amoled_desc">Use true black backgrounds to save battery on OLED screens</string>
+    <string name="settings_gradient_bg_title">Gradient Background</string>
+    <string name="settings_gradient_bg_desc">Use dynamic gradient instead of solid colors</string>
 
     <string name="ota_details_title">OTA Details</string>
     <string name="button_copy_link">Copy Link</string>

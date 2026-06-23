@@ -55,6 +55,7 @@ class SettingsFragment : Fragment() {
         const val PREF_CHECK_INTERVAL_HOURS = "check_interval_hours"
         const val DEFAULT_CHECK_INTERVAL_HOURS = 6L
         const val PREF_AMOLED_MODE = "amoled_mode"
+        const val PREF_GRADIENT_BACKGROUND = "gradient_background_enabled"
     }
 
     private val exportLauncher = registerForActivityResult(ActivityResultContracts.CreateDocument("application/json")) { uri ->
@@ -87,6 +88,7 @@ class SettingsFragment : Fragment() {
         setupBrowserDesktopModeSwitch()
         setupBrowserControlsSwitch()
         setupAmoledSwitch()
+        setupGradientSwitch()
         setupLanguageSelection()
         setupBatteryOptimization()
         bindWebViewVersion()
@@ -521,6 +523,26 @@ class SettingsFragment : Fragment() {
             }
             // Recreate activity to apply / remove the AMOLED overlay
             requireActivity().recreate()
+        }
+        
+        binding.amoledRow.setOnClickListener {
+            binding.amoledSwitch.isChecked = !binding.amoledSwitch.isChecked
+        }
+    }
+
+    private fun setupGradientSwitch() {
+        val themePrefs = requireActivity().getSharedPreferences("theme_prefs", Context.MODE_PRIVATE)
+        val isGradientEnabled = themePrefs.getBoolean(PREF_GRADIENT_BACKGROUND, true)
+        binding.gradientSwitch.isChecked = isGradientEnabled
+
+        binding.gradientSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+            buttonView.performHapticFeedback()
+            themePrefs.edit().putBoolean(PREF_GRADIENT_BACKGROUND, isChecked).apply()
+            requireActivity().recreate()
+        }
+        
+        binding.gradientRow.setOnClickListener {
+            binding.gradientSwitch.isChecked = !binding.gradientSwitch.isChecked
         }
     }
 

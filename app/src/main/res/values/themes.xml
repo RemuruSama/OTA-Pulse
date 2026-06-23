@@ -2,8 +2,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <style name="Theme.OTAPulse" parent="Theme.Material3.DayNight.NoActionBar">
 
-        <!-- windowBackground used as colorSurfaceContainer -->
-        <item name="android:windowBackground">?attr/colorSurfaceContainer</item>
+        <!-- Window Background using Material 3 Gradient Surface -->
+        <item name="android:windowBackground">@drawable/bg_app_surface_gradient</item>
 
         <!-- UI Standardizations -->
         <item name="android:statusBarColor">@android:color/transparent</item>

@@ -130,6 +130,19 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Set window background to flat color if gradient is disabled
+        val isGradientEnabled = themePrefs.getBoolean(SettingsFragment.PREF_GRADIENT_BACKGROUND, true)
+        if (!isGradientEnabled) {
+            val surfaceColor = com.google.android.material.color.MaterialColors.getColor(binding.root, com.google.android.material.R.attr.colorSurfaceContainer)
+            window.setBackgroundDrawable(android.graphics.drawable.ColorDrawable(surfaceColor))
+        } else {
+            // Apply transparent backgrounds for gradient
+            binding.appBarLayout.setBackgroundColor(android.graphics.Color.TRANSPARENT)
+            binding.appBarLayout.elevation = 0f
+            binding.toolbar.setBackgroundColor(android.graphics.Color.TRANSPARENT)
+            binding.bottomNavigation.setBackgroundColor(android.graphics.Color.TRANSPARENT)
+        }
+
         setupEdgeToEdge()
         setupNavigation()
         updateOtaToolsTabVisibility()

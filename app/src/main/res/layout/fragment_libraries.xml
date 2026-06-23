@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorSurfaceContainerHigh"
+    android:background="@android:color/transparent"
     tools:context=".feature.settings.libraries.LibrariesFragment">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -18,7 +18,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorSurfaceContainerHigh"
+            android:background="@android:color/transparent"
             app:title="Libraries"
             app:titleCentered="false" />
 
