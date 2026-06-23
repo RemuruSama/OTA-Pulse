@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <style name="ShapeAppearanceOverlay.App" parent="" />
 
     <!-- This is the new style to reduce the toolbar's title size. -->
@@ -70,6 +70,9 @@
 
     <style name="Theme.App.Dialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
         <item name="android:windowAnimationStyle">@style/DialogFadeAnimation</item>
+        <item name="android:windowBlurBehindEnabled" tools:targetApi="31">true</item>
+        <item name="android:windowBlurBehindRadius" tools:targetApi="31">16dp</item>
+        <item name="android:backgroundDimAmount">0.45</item>
     </style>
 
 </resources>

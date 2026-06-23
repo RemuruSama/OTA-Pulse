@@ -12,6 +12,7 @@
         <item name="android:windowLightNavigationBar" tools:targetApi="O_MR1">true</item>
 
         <!-- Component Styles -->
+        <item name="materialAlertDialogTheme">@style/Theme.App.Dialog</item>
         <item name="materialCardViewStyle">@style/Widget.App.MaterialCardView</item>
         <item name="android:popupMenuStyle">@style/Widget.App.PopupMenu</item>
         <item name="android:listPopupWindowStyle">@style/Widget.App.ListPopupWindow</item>
