@@ -182,6 +182,8 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
             override fun handleOnBackPressed() {
                 if (supportFragmentManager.backStackEntryCount > 0) {
                     supportFragmentManager.popBackStack()
+                } else if (lastSelectedItemId != R.id.navigation_update) {
+                    binding.bottomNavigation.selectedItemId = R.id.navigation_update
                 } else {
                     finish()
                 }
