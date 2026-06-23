@@ -336,7 +336,7 @@
     <string name="link_resolver_header_subtitle">حل روابط OTA التي تمت إعادة توجيهها بواسطة downloadCheck ونسخ أو فتح الهدف النهائي بسرعة.</string>
     <string name="btn_resolve_link">حل الرابط</string>
 
-    <string name="label_android">أندرويد</string>
+    <string name="label_android">إصدار أندرويد</string>
     <string name="label_security_patch">تحديث الأمان</string>
     <string name="label_size">الحجم</string>
     <string name="label_md5">MD5</string>

@@ -336,7 +336,7 @@
     <string name="link_resolver_header_subtitle">Lösen Sie von downloadCheck weitergeleitete OTA-Links auf und kopieren oder öffnen Sie das Ziel schnell.</string>
     <string name="btn_resolve_link">Link auflösen</string>
 
-    <string name="label_android">Android</string>
+    <string name="label_android">Android-Version</string>
     <string name="label_security_patch">Sicherheitspatch</string>
     <string name="label_size">Größe</string>
     <string name="label_md5">MD5</string>

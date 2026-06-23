@@ -336,7 +336,7 @@
     <string name="link_resolver_header_subtitle">Giải quyết các liên kết OTA bị chuyển hướng downloadCheck và nhanh chóng sao chép hoặc mở mục tiêu cuối cùng.</string>
     <string name="btn_resolve_link">Giải quyết liên kết</string>
 
-    <string name="label_android">Android</string>
+    <string name="label_android">Phiên bản Android</string>
     <string name="label_security_patch">Bản vá bảo mật</string>
     <string name="label_size">Kích thước</string>
     <string name="label_md5">MD5</string>

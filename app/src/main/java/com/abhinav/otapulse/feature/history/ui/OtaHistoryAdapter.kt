@@ -93,8 +93,7 @@ class OtaHistoryAdapter(
 
                 if (hasAndroidVersion) {
                     tvAndroidVersion.visibility = View.VISIBLE
-                    val ver = entry.otaUpdate.realAndroidVersion!!
-                    tvAndroidVersion.text = if (ver.startsWith("Android", ignoreCase = true)) ver else "Android $ver"
+                    tvAndroidVersion.text = entry.otaUpdate.realAndroidVersion?.removePrefix("Android ")?.trim()
                 } else {
                     tvAndroidVersion.visibility = View.GONE
                     itemView.findViewById<ImageView>(R.id.icAndroid).visibility = View.GONE

@@ -336,7 +336,7 @@
     <string name="link_resolver_header_subtitle">downloadCheck-yönlendirmeli OTA bağlantılarını çözün ve son hedefi hızlıca kopyalayın veya açın.</string>
     <string name="btn_resolve_link">Bağlantıyı Çöz</string>
 
-    <string name="label_android">Android</string>
+    <string name="label_android">Android Sürümü</string>
     <string name="label_security_patch">Güvenlik Yaması</string>
     <string name="label_size">Boyut</string>
     <string name="label_md5">MD5</string>

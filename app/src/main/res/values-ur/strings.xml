@@ -336,7 +336,7 @@
     <string name="link_resolver_header_subtitle">downloadCheck-ری ڈائریکٹڈ او ٹی اے لنکس کو حل کریں اور آخری ہدف کو جلدی سے کاپی کریں یا کھولیں۔</string>
     <string name="btn_resolve_link">لنک حل کریں</string>
 
-    <string name="label_android">اینڈرائیڈ</string>
+    <string name="label_android">اینڈرائیڈ ورژن</string>
     <string name="label_security_patch">سیکورٹی پیچ</string>
     <string name="label_size">سائز</string>
     <string name="label_md5">MD5</string>

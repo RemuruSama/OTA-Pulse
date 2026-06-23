@@ -336,7 +336,7 @@
     <string name="link_resolver_header_subtitle">解析 downloadCheck 重新導向的 OTA 連結並快速複製或開啟最終目標。</string>
     <string name="btn_resolve_link">解析連結</string>
 
-    <string name="label_android">Android</string>
+    <string name="label_android">Android 版本</string>
     <string name="label_security_patch">安全性修補程式</string>
     <string name="label_size">大小</string>
     <string name="label_md5">MD5</string>

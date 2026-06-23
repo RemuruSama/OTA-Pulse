@@ -336,7 +336,7 @@
     <string name="link_resolver_header_subtitle">แก้ลิงก์ OTA ที่ถูกเปลี่ยนเส้นทางโดย downloadCheck และคัดลอกหรือเปิดเป้าหมายสุดท้ายอย่างรวดเร็ว</string>
     <string name="btn_resolve_link">แก้ลิงก์</string>
 
-    <string name="label_android">Android</string>
+    <string name="label_android">เวอร์ชัน Android</string>
     <string name="label_security_patch">แพตช์ความปลอดภัย</string>
     <string name="label_size">ขนาด</string>
     <string name="label_md5">MD5</string>

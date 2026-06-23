@@ -236,7 +236,7 @@ class DownloadNotificationHelper @Inject constructor(
         val expandedText = buildString {
             append("Version: ").append(versionName)
             if (!otaUpdate.realAndroidVersion.isNullOrBlank()) {
-                append("\nAndroid: ").append(otaUpdate.realAndroidVersion)
+                append("\nAndroid Version: ").append(otaUpdate.realAndroidVersion?.removePrefix("Android ")?.trim())
             }
             if (otaUpdate.size.isNotBlank()) {
                 append("\nSize: ").append(otaUpdate.size)

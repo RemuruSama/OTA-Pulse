@@ -336,7 +336,7 @@
     <string name="link_resolver_header_subtitle">Resuelve enlaces OTA redireccionados por downloadCheck y copia o abre el destino final rápidamente.</string>
     <string name="btn_resolve_link">Resolver enlace</string>
 
-    <string name="label_android">Android</string>
+    <string name="label_android">Versión de Android</string>
     <string name="label_security_patch">Parche de seguridad</string>
     <string name="label_size">Tamaño</string>
     <string name="label_md5">MD5</string>

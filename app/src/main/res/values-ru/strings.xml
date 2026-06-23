@@ -336,7 +336,7 @@
     <string name="link_resolver_header_subtitle">Разрешение перенаправленных ссылок downloadCheck и быстрое копирование или открытие цели.</string>
     <string name="btn_resolve_link">Разрешить ссылку</string>
 
-    <string name="label_android">Android</string>
+    <string name="label_android">Версия Android</string>
     <string name="label_security_patch">Патч безопасности</string>
     <string name="label_size">Размер</string>
     <string name="label_md5">MD5</string>

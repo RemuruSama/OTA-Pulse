@@ -336,7 +336,7 @@
     <string name="link_resolver_header_subtitle">downloadCheck-রিডাইরেক্ট করা ওটিএ লিঙ্কগুলি সমাধান করুন এবং চূড়ান্ত গন্তব্য দ্রুত কপি বা ওপেন করুন।</string>
     <string name="btn_resolve_link">লিঙ্ক সমাধান করুন</string>
 
-    <string name="label_android">অ্যান্ড্রয়েড</string>
+    <string name="label_android">অ্যান্ড্রয়েড সংস্করণ</string>
     <string name="label_security_patch">সিকিউরিটি প্যাচ</string>
     <string name="label_size">আকার</string>
     <string name="label_md5">MD5</string>

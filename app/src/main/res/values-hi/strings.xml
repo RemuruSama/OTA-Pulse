@@ -336,7 +336,7 @@
     <string name="link_resolver_header_subtitle">downloadCheck-रीडायरेक्टेड ओटीए लिंक को हल करें और अंतिम लक्ष्य को तुरंत कॉपी करें या खोलें।</string>
     <string name="btn_resolve_link">लिंक हल करें</string>
 
-    <string name="label_android">एंड्रॉइड</string>
+    <string name="label_android">एंड्रॉइड वर्जन</string>
     <string name="label_security_patch">सुरक्षा पैच</string>
     <string name="label_size">आकार</string>
     <string name="label_md5">MD5</string>

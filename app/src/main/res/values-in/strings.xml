@@ -336,7 +336,7 @@
     <string name="link_resolver_header_subtitle">Selesaikan tautan OTA yang dialihkan oleh downloadCheck dan salin atau buka target akhir dengan cepat.</string>
     <string name="btn_resolve_link">Selesaikan Tautan</string>
 
-    <string name="label_android">Android</string>
+    <string name="label_android">Versi Android</string>
     <string name="label_security_patch">Patch Keamanan</string>
     <string name="label_size">Ukuran</string>
     <string name="label_md5">MD5</string>

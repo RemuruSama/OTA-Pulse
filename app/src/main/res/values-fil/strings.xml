@@ -336,7 +336,7 @@
     <string name="link_resolver_header_subtitle">I-resolve ang mga downloadCheck-redirected na mga OTA link at mabilis na kopyahin o buksan ang huling target.</string>
     <string name="btn_resolve_link">I-resolve ang Link</string>
 
-    <string name="label_android">Android</string>
+    <string name="label_android">Bersyon ng Android</string>
     <string name="label_security_patch">Security Patch</string>
     <string name="label_size">Laki</string>
     <string name="label_md5">MD5</string>

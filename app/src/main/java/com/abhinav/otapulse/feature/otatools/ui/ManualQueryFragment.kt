@@ -491,7 +491,7 @@ class ManualQueryFragment : Fragment() {
 
         tvComponentName.text = getString(R.string.ota_details_device, deviceName)
         tvVersionName.text = ota.versionName ?: getString(R.string.unknown_version)
-        tvAndroidVersion.text = ota.realAndroidVersion ?: getString(R.string.unknown)
+        tvAndroidVersion.text = ota.realAndroidVersion?.removePrefix("Android ")?.trim() ?: getString(R.string.unknown)
         tvSecurityPatch.text = ota.securityPatch ?: getString(R.string.unknown)
         val arbStatusText = ota.arbStatus ?: "N/A"
         tvArbStatus.text = arbStatusText
@@ -821,7 +821,7 @@ class ManualQueryFragment : Fragment() {
                     deviceName = deviceName,
                     versionName = ota.versionName,
                     regionName = regionName,
-                    androidVersion = ota.realAndroidVersion,
+                    androidVersion = ota.realAndroidVersion?.removePrefix("Android ")?.trim(),
                     securityPatch = ota.securityPatch,
                     size = ota.size,
                     arbStatus = ota.arbStatus,

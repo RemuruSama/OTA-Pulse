@@ -487,7 +487,7 @@
     <string name="btn_resolve_link">Resolve Link</string>
 
     <!-- OTA Details Dialog Labels -->
-    <string name="label_android">Android</string>
+    <string name="label_android">Android Version</string>
     <string name="label_security_patch">Security Patch</string>
     <string name="label_size">Size</string>
     <string name="label_md5">MD5</string>

@@ -151,7 +151,7 @@ class OtaDetailsDialogFragment : DialogFragment() {
         val fullRegionName = data.regionName.toFullRegionName()
         tvComponentName.text = "${getString(R.string.ota_details_title)}: $fullRegionName"
         tvVersionName.text = data.otaUpdate.versionName
-        tvAndroidVersion.text = data.otaUpdate.realAndroidVersion
+        tvAndroidVersion.text = data.otaUpdate.realAndroidVersion?.removePrefix("Android ")?.trim()
         tvSecurityPatch.text = data.otaUpdate.securityPatch
         val arbStatusText = data.otaUpdate.arbStatus ?: "N/A"
         tvArbStatus.text = arbStatusText

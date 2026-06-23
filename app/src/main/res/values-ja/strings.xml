@@ -336,7 +336,7 @@
     <string name="link_resolver_header_subtitle">downloadCheckリダイレクトされたOTAリンクを解決し、最終ターゲットを素早くコピーまたは開きます。</string>
     <string name="btn_resolve_link">リンクを解決</string>
 
-    <string name="label_android">Android</string>
+    <string name="label_android">Androidバージョン</string>
     <string name="label_security_patch">セキュリティパッチ</string>
     <string name="label_size">サイズ</string>
     <string name="label_md5">MD5</string>
