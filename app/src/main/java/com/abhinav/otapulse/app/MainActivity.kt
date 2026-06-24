@@ -141,6 +141,24 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
             binding.appBarLayout.elevation = 0f
             binding.toolbar.setBackgroundColor(android.graphics.Color.TRANSPARENT)
             binding.bottomNavigation.setBackgroundColor(android.graphics.Color.TRANSPARENT)
+
+            // Apply custom bottom nav colors for better visibility on gradient
+            val colorOnSurface = com.google.android.material.color.MaterialColors.getColor(binding.root, com.google.android.material.R.attr.colorOnSurface)
+            val colorPrimaryContainer = com.google.android.material.color.MaterialColors.getColor(binding.root, com.google.android.material.R.attr.colorPrimaryContainer)
+            
+            val states = arrayOf(
+                intArrayOf(android.R.attr.state_checked),
+                intArrayOf(-android.R.attr.state_checked)
+            )
+            val colors = intArrayOf(
+                colorOnSurface,
+                androidx.core.graphics.ColorUtils.setAlphaComponent(colorOnSurface, 153)
+            )
+            val colorStateList = android.content.res.ColorStateList(states, colors)
+            
+            binding.bottomNavigation.itemIconTintList = colorStateList
+            binding.bottomNavigation.itemTextColor = colorStateList
+            binding.bottomNavigation.itemActiveIndicatorColor = android.content.res.ColorStateList.valueOf(colorPrimaryContainer)
         }
 
         setupEdgeToEdge()
