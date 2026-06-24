@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle">
-    <!-- A perfectly smooth top-to-bottom linear gradient.
-         Starts with colorSurface at the top, blends through colorSurfaceContainerHigh,
-         and ends with colorPrimaryContainer at the bottom. -->
-    <gradient
-        android:angle="315"
-        android:startColor="?attr/colorPrimaryContainer"
-        android:centerColor="?attr/colorTertiaryContainer"
-        android:endColor="?attr/colorSecondaryContainer"
-        android:type="linear" />
-</shape>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <!-- A perfectly smooth top-to-bottom linear gradient.
+                 Starts with colorPrimaryContainer at the top, blends through colorTertiaryContainer,
+                 and ends with colorSecondaryContainer at the bottom. -->
+            <gradient
+                android:angle="315"
+                android:startColor="?attr/colorPrimaryContainer"
+                android:centerColor="?attr/colorTertiaryContainer"
+                android:endColor="?attr/colorSecondaryContainer"
+                android:type="linear" />
+        </shape>
+    </item>
+    
+    <!-- Soften the gradient by overlaying a 60% transparent surface color -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/surface_overlay" />
+        </shape>
+    </item>
+</layer-list>

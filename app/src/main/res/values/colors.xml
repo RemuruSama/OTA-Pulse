@@ -43,7 +43,9 @@
     <color name="arb_protected">#B00020</color>
 
     <!-- Custom Glass Background -->
-    <color name="glass_panel_background">#4DFFFFFF</color>
+    <color name="glass_panel_background">#1A000000</color>
+    <color name="card_glass_background">#80FFFFFF</color>
+    <color name="card_glass_stroke">#1A000000</color>
 
     <!-- AMOLED / True Black Surface Colors -->
     <color name="amoled_surface">#000000</color>

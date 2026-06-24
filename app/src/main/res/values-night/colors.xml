@@ -44,4 +44,6 @@
 
     <!-- Custom Glass Background -->
     <color name="glass_panel_background">#4D000000</color>
+    <color name="card_glass_background">#4D000000</color>
+    <color name="card_glass_stroke">#1AFFFFFF</color>
 </resources>
