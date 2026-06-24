@@ -4,11 +4,9 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
-import android.graphics.LinearGradient
 import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.RectF
-import android.graphics.Shader
 import android.graphics.Typeface
 import android.net.Uri
 import android.util.TypedValue
@@ -36,51 +34,181 @@ data class OtaCardData(
 
 /**
  * Generates a visually polished bitmap card summarising an OTA update.
- *
- * The card is rendered entirely with the [Canvas] API so it works offline
- * and automatically adapts to the current Material You / light / dark /
- * AMOLED theme via runtime attribute resolution.
  */
 object OtaCardGenerator {
 
-    // ── Card dimensions (pixels) ────────────────────────────────────────────
-    private const val CARD_WIDTH = 1080
-    private const val CARD_HEIGHT = 720
-    private const val CORNER_RADIUS = 36f
-    private const val PADDING_H = 48f
-    private const val PADDING_V = 40f
-    private const val ACCENT_STRIP_WIDTH = 16f
-    private const val CELL_CORNER = 16f
-    private const val CELL_GAP = 12f
-    private const val CELL_PAD = 16f
+    private const val CARD_WIDTH = 1200
+    private const val CARD_HEIGHT = 1024
+    private const val CORNER_RADIUS = 48f
 
-    // ── Public API ──────────────────────────────────────────────────────────
-
-    /**
-     * Renders a card bitmap, saves it to the app cache, and returns a
-     * content [Uri] that can be shared via [android.content.Intent.ACTION_SEND].
-     */
     fun generate(context: Context, data: OtaCardData): Uri {
         val colors = resolveColors(context)
         val bitmap = Bitmap.createBitmap(CARD_WIDTH, CARD_HEIGHT, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
 
-        drawBackground(canvas, colors)
-        drawLeftAccentStrip(canvas, colors)
+        // Image background
+        val imageBg = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = colors.surfaceContainerHigh }
+        canvas.drawRect(0f, 0f, CARD_WIDTH.toFloat(), CARD_HEIGHT.toFloat(), imageBg)
 
-        var y = PADDING_V
-        y = drawBrand(context, canvas, y, colors)
-        y = drawDeviceInfo(canvas, y, data, colors)
-        y = drawDivider(canvas, y, colors)
-        y = drawStatsRow1(canvas, y, data, colors)
-        y = drawStatsRow2(canvas, y, data, colors)
-        y = drawStatsRow3(canvas, y, data, colors)
-        drawFooter(canvas, colors)
+        // Main card
+        val cardRect = RectF(32f, 32f, CARD_WIDTH - 32f, CARD_HEIGHT - 32f)
+        val cardBg = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = colors.surface }
+        canvas.drawRoundRect(cardRect, CORNER_RADIUS, CORNER_RADIUS, cardBg)
+
+        // Left red accent strip
+        canvas.save()
+        val clipPath = Path().apply { addRoundRect(cardRect, CORNER_RADIUS, CORNER_RADIUS, Path.Direction.CW) }
+        canvas.clipPath(clipPath)
+        val accentPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = colors.primary }
+        canvas.drawRect(cardRect.left, cardRect.top, cardRect.left + 16f, cardRect.bottom, accentPaint)
+        canvas.restore()
+
+        val paddingLeft = cardRect.left + 16f + 48f
+        val paddingRight = cardRect.right - 48f
+
+        // --- Header ---
+        val headerIconRadius = 48f
+        var cy = cardRect.top + 64f + headerIconRadius
+        
+        val logoDrawable = ContextCompat.getDrawable(context, R.mipmap.ic_launcher)
+        if (logoDrawable != null) {
+            val cx = paddingLeft + headerIconRadius
+            logoDrawable.setBounds((cx - headerIconRadius).toInt(), (cy - headerIconRadius).toInt(), (cx + headerIconRadius).toInt(), (cy + headerIconRadius).toInt())
+            logoDrawable.draw(canvas)
+        }
+        
+
+        val titleX = paddingLeft + headerIconRadius * 2 + 32f
+        val titlePaint = textPaint(56f, colors.primary, Typeface.create(Typeface.DEFAULT, Typeface.BOLD))
+        canvas.drawText("OTA Pulse", titleX, cy - 6f, titlePaint)
+        val subtitlePaint = textPaint(32f, colors.onSurfaceVariant)
+        canvas.drawText("Update Alert", titleX, cy + 40f, subtitlePaint)
+
+        // Region pill
+        val pillText = data.regionName
+        val pillTextPaint = textPaint(28f, colors.primary)
+        val regionW = pillTextPaint.measureText(pillText) + 96f
+        val regionH = 64f
+        val regionLeft = paddingRight - regionW
+        val regionTop = cy - regionH / 2
+        val pillBg = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = colors.primaryContainer }
+        canvas.drawRoundRect(regionLeft, regionTop, paddingRight, regionTop + regionH, regionH / 2, regionH / 2, pillBg)
+        val globeDrawable = ContextCompat.getDrawable(context, R.drawable.ic_language)?.mutate()
+        if (globeDrawable != null) {
+            globeDrawable.setTint(colors.primary)
+            val globeSize = 36
+            globeDrawable.setBounds((regionLeft + 24f).toInt(), (cy - globeSize/2).toInt(), (regionLeft + 24f + globeSize).toInt(), (cy + globeSize/2).toInt())
+            globeDrawable.draw(canvas)
+        }
+        val textY = cy - (pillTextPaint.descent() + pillTextPaint.ascent()) / 2
+        canvas.drawText(pillText, regionLeft + 72f, textY, pillTextPaint)
+
+        // --- Divider ---
+        var y = cy + headerIconRadius + 40f
+        val dividerPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = colors.outlineVariant; strokeWidth = 2f }
+        canvas.drawLine(paddingLeft, y, paddingRight, y, dividerPaint)
+
+        // --- Device Info ---
+        cy = y + 40f + headerIconRadius
+        drawCircleIcon(context, canvas, paddingLeft + headerIconRadius, cy, headerIconRadius, R.drawable.ic_device, 56, colors.primaryContainer, colors.primary)
+        
+        val namePaint = textPaint(48f, colors.onSurface, Typeface.create(Typeface.DEFAULT, Typeface.BOLD))
+        canvas.drawText(data.deviceName, titleX, cy - 4f, namePaint)
+        val versionPaint = textPaint(32f, colors.onSurfaceVariant)
+        canvas.drawText(data.versionName ?: "Unknown", titleX, cy + 40f, versionPaint)
+
+        // --- Stats Grid ---
+        y = cy + headerIconRadius + 48f
+        val gap = 24f
+        val cellW = (paddingRight - paddingLeft - gap) / 2f
+        val cellH = 120f
+
+        val androidVer = data.androidVersion?.replace(Regex("(?i)android\\s*"), "")?.trim() ?: "—"
+        val displayAndroidVer = androidVer.ifEmpty { "—" }
+
+        drawGridCell(context, canvas, paddingLeft, y, cellW, cellH, R.drawable.ic_android, "Android Version", displayAndroidVer, colors)
+        drawGridCell(context, canvas, paddingLeft + cellW + gap, y, cellW, cellH, R.drawable.ic_securitypatch, "Security Patch", data.securityPatch ?: "—", colors)
+
+        y += cellH + gap
+        drawGridCell(context, canvas, paddingLeft, y, cellW, cellH, R.drawable.ic_storage, "Size", data.size, colors)
+        
+        val arbText = data.arbStatus ?: "N/A"
+        val arbColor = when {
+            arbText.equals("Safe", ignoreCase = true) -> colors.arbSafe
+            arbText.contains("Protected", ignoreCase = true) -> colors.arbProtected
+            else -> colors.onSurface
+        }
+        drawGridCell(context, canvas, paddingLeft + cellW + gap, y, cellW, cellH, R.drawable.ic_security, "ARB Status", arbText, colors, arbColor)
+
+        y += cellH + gap
+        val md5Display = data.md5.ifBlank { "N/A" }
+        drawGridCell(context, canvas, paddingLeft, y, paddingRight - paddingLeft, cellH, 0, "MD5 Checksum", md5Display, colors)
+
+        // --- Footer ---
+        y += cellH + 48f
+        val footerH = 80f
+
+        val shareIconCx = paddingLeft + 48f
+        val shareIconCy = y + footerH / 2f
+        drawCircleIcon(context, canvas, shareIconCx, shareIconCy, 32f, R.drawable.ic_share_stroke, 36, colors.primaryContainer, colors.primary)
+
+        val footerTextX = shareIconCx + 32f + 24f
+        val text1Paint = textPaint(24f, colors.onSurfaceVariant)
+        canvas.drawText("Shared via OTA Pulse", footerTextX, shareIconCy - 6f, text1Paint)
+        val text2Paint = textPaint(24f, colors.primary)
+        canvas.drawText("@abhinav_v1", footerTextX, shareIconCy + 28f, text2Paint)
 
         return saveBitmap(context, bitmap)
     }
 
-    // ── Color resolution ────────────────────────────────────────────────────
+    private fun drawGridCell(
+        context: Context, canvas: Canvas,
+        x: Float, y: Float, w: Float, h: Float,
+        iconRes: Int, label: String, value: String,
+        colors: CardColors,
+        valueColor: Int? = null
+    ) {
+        val bgPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = colors.surfaceContainer }
+        canvas.drawRoundRect(x, y, x + w, y + h, 32f, 32f, bgPaint)
+        
+        val iconCx = x + 48f
+        val iconCy = y + h / 2f
+        drawCircleIcon(context, canvas, iconCx, iconCy, 32f, iconRes, 36, colors.primaryContainer, colors.primary)
+        
+        val textX = iconCx + 32f + 24f
+        val labelPaint = textPaint(24f, colors.onSurfaceVariant)
+        canvas.drawText(label, textX, y + 44f, labelPaint)
+        
+        val valPaint = textPaint(36f, valueColor ?: colors.onSurface, Typeface.create(Typeface.DEFAULT, Typeface.BOLD))
+        val displayVal = ellipsize(value, valPaint, w - (textX - x) - 24f)
+        canvas.drawText(displayVal, textX, y + h - 24f, valPaint)
+    }
+
+    private fun drawCircleIcon(
+        context: Context, canvas: Canvas, 
+        cx: Float, cy: Float, radius: Float,
+        iconRes: Int, iconSize: Int,
+        bgColor: Int, iconColor: Int
+    ) {
+        val bgPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = bgColor }
+        canvas.drawCircle(cx, cy, radius, bgPaint)
+        
+        if (iconRes != 0) {
+            val drawable = ContextCompat.getDrawable(context, iconRes)?.mutate()
+            if (drawable != null) {
+                drawable.setTint(iconColor)
+                val half = iconSize / 2
+                drawable.setBounds((cx - half).toInt(), (cy - half).toInt(), (cx + half).toInt(), (cy + half).toInt())
+                drawable.draw(canvas)
+            }
+        } else {
+            val hashPaint = textPaint(36f, iconColor, Typeface.create(Typeface.DEFAULT, Typeface.BOLD))
+            hashPaint.textAlign = Paint.Align.CENTER
+            val metrics = hashPaint.fontMetrics
+            val textY = cy - (metrics.ascent + metrics.descent) / 2
+            canvas.drawText("#", cx, textY, hashPaint)
+        }
+    }
 
     private data class CardColors(
         val surface: Int,
@@ -90,7 +218,6 @@ object OtaCardGenerator {
         val onSurfaceVariant: Int,
         val primary: Int,
         val primaryContainer: Int,
-        val onPrimaryContainer: Int,
         val outlineVariant: Int,
         val arbSafe: Int,
         val arbProtected: Int
@@ -109,201 +236,11 @@ object OtaCardGenerator {
             onSurfaceVariant = attr(com.google.android.material.R.attr.colorOnSurfaceVariant, Color.DKGRAY),
             primary = attr(androidx.appcompat.R.attr.colorPrimary, 0xFFBA1A1A.toInt()),
             primaryContainer = attr(com.google.android.material.R.attr.colorPrimaryContainer, 0xFFFFDAD5.toInt()),
-            onPrimaryContainer = attr(com.google.android.material.R.attr.colorOnPrimaryContainer, 0xFF410002.toInt()),
             outlineVariant = attr(com.google.android.material.R.attr.colorOutlineVariant, Color.LTGRAY),
             arbSafe = ContextCompat.getColor(context, R.color.arb_safe),
             arbProtected = ContextCompat.getColor(context, R.color.arb_protected)
         )
     }
-
-    // ── Drawing helpers ─────────────────────────────────────────────────────
-
-    private fun drawBackground(canvas: Canvas, colors: CardColors) {
-        val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = colors.surfaceContainerHigh }
-        canvas.drawRoundRect(0f, 0f, CARD_WIDTH.toFloat(), CARD_HEIGHT.toFloat(), CORNER_RADIUS, CORNER_RADIUS, paint)
-
-        // Subtle border
-        val border = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = colors.outlineVariant
-            style = Paint.Style.STROKE
-            strokeWidth = 2f
-        }
-        canvas.drawRoundRect(1f, 1f, CARD_WIDTH - 1f, CARD_HEIGHT - 1f, CORNER_RADIUS, CORNER_RADIUS, border)
-    }
-
-    private fun drawLeftAccentStrip(canvas: Canvas, colors: CardColors) {
-        // Gradient accent strip on the left, clipped to the card shape
-        canvas.save()
-        val clipPath = Path()
-        clipPath.addRoundRect(0f, 0f, CARD_WIDTH.toFloat(), CARD_HEIGHT.toFloat(), CORNER_RADIUS, CORNER_RADIUS, Path.Direction.CW)
-        canvas.clipPath(clipPath)
-
-        val stripPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            shader = LinearGradient(
-                0f, 0f, 0f, CARD_HEIGHT.toFloat(),
-                colors.primary, adjustAlpha(colors.primary, 0.5f),
-                Shader.TileMode.CLAMP
-            )
-        }
-        canvas.drawRect(0f, 0f, ACCENT_STRIP_WIDTH, CARD_HEIGHT.toFloat(), stripPaint)
-        canvas.restore()
-    }
-
-    private fun drawBrand(context: Context, canvas: Canvas, startY: Float, colors: CardColors): Float {
-        var y = startY + 8f
-
-        // Brand text and layout calculations
-        val text = "OTA Pulse | 𝗨𝗽𝗱𝗮𝘁𝗲 𝗔𝗹𝗲𝗿𝘁"
-        val brandPaint = textPaint(44f, colors.primary, Typeface.create(Typeface.DEFAULT, Typeface.BOLD))
-        val textWidth = brandPaint.measureText(text)
-        
-        val logoSize = 64
-        val gap = 16f
-        val totalWidth = logoSize + gap + textWidth
-        val pulseLeft = (CARD_WIDTH - totalWidth) / 2f
-
-        // Draw app logo
-        val drawable = ContextCompat.getDrawable(context, R.mipmap.ic_launcher)
-        if (drawable != null) {
-            val top = y.toInt() - 10
-            drawable.setBounds(pulseLeft.toInt(), top, (pulseLeft + logoSize).toInt(), top + logoSize)
-            drawable.draw(canvas)
-        }
-
-        canvas.drawText(text, pulseLeft + logoSize + gap, y + 40f, brandPaint)
-
-        return y + 70f
-    }
-
-    private fun drawDeviceInfo(canvas: Canvas, startY: Float, data: OtaCardData, colors: CardColors): Float {
-        var y = startY + 10f
-
-        // Device name
-        val namePaint = textPaint(42f, colors.onSurface, Typeface.create(Typeface.DEFAULT, Typeface.BOLD))
-        val displayName = ellipsize(data.deviceName, namePaint, CARD_WIDTH - PADDING_H * 2)
-        canvas.drawText(displayName, PADDING_H, y + 48f, namePaint)
-        y += 56f
-
-        // Version name
-        val versionPaint = textPaint(30f, colors.onSurfaceVariant)
-        val version = data.versionName ?: "Unknown"
-        val displayVersion = ellipsize(version, versionPaint, CARD_WIDTH - PADDING_H * 2 - 200f)
-        canvas.drawText(displayVersion, PADDING_H, y + 30f, versionPaint)
-
-        // Region pill
-        val regionText = data.regionName
-        val pillPaint = textPaint(24f, colors.onPrimaryContainer)
-        val pillTextWidth = pillPaint.measureText(regionText)
-        val pillH = 32f
-        val pillW = pillTextWidth + 24f
-        val pillX = CARD_WIDTH - PADDING_H - pillW
-        val pillY = y + 8f
-
-        val pillBg = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = colors.primaryContainer }
-        canvas.drawRoundRect(pillX, pillY, pillX + pillW, pillY + pillH, pillH / 2, pillH / 2, pillBg)
-
-        val pillMetrics = pillPaint.fontMetrics
-        val pillTextY = pillY + pillH / 2 - (pillMetrics.ascent + pillMetrics.descent) / 2
-        canvas.drawText(regionText, pillX + 12f, pillTextY, pillPaint)
-
-        y += 42f
-        return y
-    }
-
-    private fun drawDivider(canvas: Canvas, startY: Float, colors: CardColors): Float {
-        val y = startY + 14f
-        val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = colors.outlineVariant
-            strokeWidth = 1.5f
-        }
-        canvas.drawLine(PADDING_H, y, CARD_WIDTH - PADDING_H, y, paint)
-        return y + 18f
-    }
-
-    private fun drawStatsRow1(canvas: Canvas, startY: Float, data: OtaCardData, colors: CardColors): Float {
-        val availableWidth = CARD_WIDTH - PADDING_H * 2
-        val cellW = (availableWidth - CELL_GAP) / 2f
-        val cellH = 90f
-        val y = startY
-
-        val androidVer = data.androidVersion?.replace(Regex("(?i)android\\s*"), "")?.trim() ?: "—"
-        val displayAndroidVer = androidVer.ifEmpty { "—" }
-        
-        drawStatCell(canvas, PADDING_H, y, cellW, cellH, "Android Version", displayAndroidVer, colors)
-        drawStatCell(canvas, PADDING_H + cellW + CELL_GAP, y, cellW, cellH, "Security Patch", data.securityPatch ?: "—", colors)
-
-        return y + cellH + CELL_GAP
-    }
-
-    private fun drawStatsRow2(canvas: Canvas, startY: Float, data: OtaCardData, colors: CardColors): Float {
-        val availableWidth = CARD_WIDTH - PADDING_H * 2
-        val cellW = (availableWidth - CELL_GAP) / 2f
-        val cellH = 90f
-        val y = startY
-
-        drawStatCell(canvas, PADDING_H, y, cellW, cellH, "Size", data.size, colors)
-
-        // ARB status — color-coded
-        val arbText = data.arbStatus ?: "N/A"
-        val arbColor = when {
-            arbText.equals("Safe", ignoreCase = true) -> colors.arbSafe
-            arbText.contains("Protected", ignoreCase = true) -> colors.arbProtected
-            else -> colors.onSurface
-        }
-        drawStatCell(canvas, PADDING_H + cellW + CELL_GAP, y, cellW, cellH, "ARB Status", arbText, colors, valueColor = arbColor)
-
-        return y + cellH + CELL_GAP
-    }
-
-    private fun drawStatsRow3(canvas: Canvas, startY: Float, data: OtaCardData, colors: CardColors): Float {
-        val availableWidth = CARD_WIDTH - PADDING_H * 2
-        val cellH = 90f
-        val y = startY
-
-        // MD5 — full width
-        val md5Display = data.md5.ifBlank { "N/A" }
-        drawStatCell(canvas, PADDING_H, y, availableWidth, cellH, "MD5", md5Display, colors)
-
-        return y + cellH + CELL_GAP
-    }
-
-    private fun drawStatCell(
-        canvas: Canvas,
-        x: Float, y: Float, w: Float, h: Float,
-        label: String, value: String,
-        colors: CardColors,
-        valueColor: Int? = null
-    ) {
-        // Background
-        val bg = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = colors.surfaceContainer }
-        canvas.drawRoundRect(x, y, x + w, y + h, CELL_CORNER, CELL_CORNER, bg)
-
-        // Label
-        val labelPaint = textPaint(24f, colors.onSurfaceVariant)
-        canvas.drawText(label, x + CELL_PAD, y + CELL_PAD + 22f, labelPaint)
-
-        // Value
-        val valPaint = textPaint(32f, valueColor ?: colors.onSurface, Typeface.create(Typeface.DEFAULT, Typeface.BOLD))
-        val displayVal = ellipsize(value, valPaint, w - CELL_PAD * 2)
-        canvas.drawText(displayVal, x + CELL_PAD, y + h - CELL_PAD - 2f, valPaint)
-    }
-
-    private fun drawFooter(canvas: Canvas, colors: CardColors) {
-        val y1 = CARD_HEIGHT - PADDING_V - 22f
-        val y2 = CARD_HEIGHT - PADDING_V + 4f
-
-        val footerPaint = textPaint(24f, colors.onSurfaceVariant)
-        val text1 = "Shared via OTA Pulse"
-        val w1 = footerPaint.measureText(text1)
-        canvas.drawText(text1, (CARD_WIDTH - w1) / 2, y1, footerPaint)
-
-        val handlePaint = textPaint(22f, colors.primary)
-        val text2 = "@abhinav_v1"
-        val w2 = handlePaint.measureText(text2)
-        canvas.drawText(text2, (CARD_WIDTH - w2) / 2, y2, handlePaint)
-    }
-
-    // ── Utilities ───────────────────────────────────────────────────────────
 
     private fun textPaint(sizePx: Float, color: Int, typeface: Typeface = Typeface.DEFAULT): Paint =
         Paint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -322,16 +259,10 @@ object OtaCardGenerator {
         return text.substring(0, end) + ellipsis
     }
 
-    private fun adjustAlpha(color: Int, factor: Float): Int {
-        val alpha = (Color.alpha(color) * factor).toInt().coerceIn(0, 255)
-        return Color.argb(alpha, Color.red(color), Color.green(color), Color.blue(color))
-    }
-
     private fun saveBitmap(context: Context, bitmap: Bitmap): Uri {
         val dir = File(context.cacheDir, "shared_cards")
         dir.mkdirs()
 
-        // Clean up stale cards (older than 1 hour)
         val cutoff = System.currentTimeMillis() - 3_600_000L
         dir.listFiles()?.filter { it.lastModified() < cutoff }?.forEach { it.delete() }
 
