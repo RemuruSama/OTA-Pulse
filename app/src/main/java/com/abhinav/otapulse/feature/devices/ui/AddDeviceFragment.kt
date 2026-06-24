@@ -81,11 +81,6 @@ class AddDeviceFragment : Fragment() {
     }
 
     private fun setupClickListeners() {
-        binding.toolbar.setNavigationOnClickListener {
-            it.performHapticFeedback()
-            parentFragmentManager.popBackStack()
-        }
-
         binding.buttonAddGroup.setHapticClickListener {
             showAddGroupDialog()
         }
@@ -181,6 +176,7 @@ class AddDeviceFragment : Fragment() {
         val productModelInput = dialogView.findViewById<TextInputEditText>(R.id.inputProductModel)
         val productNameInput = dialogView.findViewById<TextInputEditText>(R.id.inputProductName)
         val regionSpinner = dialogView.findViewById<AutoCompleteTextView>(R.id.spinnerRegion)
+        val serverSpinner = dialogView.findViewById<AutoCompleteTextView>(R.id.spinnerServer)
         val versionLetterSpinner = dialogView.findViewById<AutoCompleteTextView>(R.id.spinnerVersionLetter)
         val reqModeSpinner = dialogView.findViewById<AutoCompleteTextView>(R.id.spinnerReqMode)
         val graySpinner = dialogView.findViewById<AutoCompleteTextView>(R.id.spinnerGray)
@@ -188,6 +184,22 @@ class AddDeviceFragment : Fragment() {
         val regionNames = RegionData.regions.map { it.displayName }
         val regionAdapter = ArrayAdapter(requireContext(), R.layout.item_spinner_dropdown, android.R.id.text1, regionNames)
         regionSpinner.setAdapter(regionAdapter)
+
+        val servers = listOf("GL", "CN", "IN", "EU")
+        val serverAdapter = ArrayAdapter(requireContext(), R.layout.item_spinner_dropdown, android.R.id.text1, servers)
+        serverSpinner.setAdapter(serverAdapter)
+        serverSpinner.setText("GL", false)
+
+        regionSpinner.setOnItemClickListener { _, _, position, _ ->
+            val selectedRegionName = regionAdapter.getItem(position)
+            val regionInfo = RegionData.regions.find { it.displayName == selectedRegionName }
+            regionInfo?.let {
+                if (servers.contains(it.serverCode)) {
+                    serverSpinner.setText(it.serverCode, false)
+                }
+            }
+        }
+
         val versionLetters = arrayOf("A", "C", "F", "H", "J")
         val versionLetterAdapter = ArrayAdapter(requireContext(), R.layout.item_spinner_dropdown, android.R.id.text1, versionLetters)
         versionLetterSpinner.setAdapter(versionLetterAdapter)
@@ -209,6 +221,7 @@ class AddDeviceFragment : Fragment() {
             .setPositiveButton("Add") { _, _ ->
                 val selectedRegionName = regionSpinner.text.toString()
                 val selectedRegion = RegionData.regions.find { it.displayName == selectedRegionName }
+                val selectedServer = serverSpinner.text.toString().trim()
                 val selectedReqMode = reqModeSpinner.text.toString().trim().takeIf { it.isNotBlank() } ?: "manual"
                 val selectedGray = graySpinner.text.toString().trim().toIntOrNull() ?: 0
 
@@ -220,7 +233,8 @@ class AddDeviceFragment : Fragment() {
                     versionLetter = versionLetterSpinner.text.toString(),
                     ruiVersion = viewModel.uiState.value.ruiVersion,
                     reqMode = selectedReqMode,
-                    gray = selectedGray
+                    gray = selectedGray,
+                    server = selectedServer
                 )
             }
             .create()

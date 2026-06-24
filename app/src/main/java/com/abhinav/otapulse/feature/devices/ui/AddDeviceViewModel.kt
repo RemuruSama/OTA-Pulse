@@ -87,13 +87,17 @@ class AddDeviceViewModel @Inject constructor(
         _uiState.update { it.copy(firmwareGroups = newGroups) }
     }
 
-    fun addVariantToGroup(androidVersion: String, productModel: String, productName: String, selectedRegion: RegionInfo?, versionLetter: String, ruiVersion: Int, reqMode: String, gray: Int) {
+    fun addVariantToGroup(androidVersion: String, productModel: String, productName: String, selectedRegion: RegionInfo?, versionLetter: String, ruiVersion: Int, reqMode: String, gray: Int, server: String) {
         if (productName.isBlank() || productModel.isBlank() || versionLetter.isBlank()) {
             _uiState.update { it.copy(errorMessage = "All variant fields are required.") }
             return
         }
         if (selectedRegion == null) {
             _uiState.update { it.copy(errorMessage = "A region must be selected.") }
+            return
+        }
+        if (server.isBlank()) {
+            _uiState.update { it.copy(errorMessage = "A server must be selected.") }
             return
         }
 
@@ -112,7 +116,7 @@ class AddDeviceViewModel @Inject constructor(
             productModel = productModel,
             productName = productName,
             firmwareVersion = "${firmwareBase}_11.${versionLetter}.01_0001_100001010000",
-            region = selectedRegion.serverCode,
+            region = server,
             reqMode = reqMode,
             gray = gray
         )
