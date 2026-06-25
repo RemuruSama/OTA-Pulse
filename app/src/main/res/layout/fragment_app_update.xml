@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@android:color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:titleTextAppearance="@style/TextAppearance.App.ToolbarTitle"
+        app:title="@string/title_updater" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:paddingBottom="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomActionBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <ImageView
+                android:id="@+id/ivAppIcon"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_gravity="center_horizontal"
+                android:contentDescription="@string/app_icon_desc"
+                android:src="@mipmap/ic_launcher_round" />
+
+            <TextView
+                android:id="@+id/tvAppTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:text="@string/app_name_full"
+                android:textAppearance="?attr/textAppearanceHeadline5"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvAppVersion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_version_pill"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="4dp"
+                android:textAppearance="?attr/textAppearanceLabelMedium"
+                android:textColor="?attr/colorOnPrimaryContainer"
+                tools:text="Version 3.0.6" />
+
+            <LinearLayout
+                android:id="@+id/changelogSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="32dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:text="Changelog"
+                    android:textAppearance="?attr/textAppearanceTitleMedium"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    app:dividerColor="?attr/colorOutlineVariant" />
+
+                <TextView
+                    android:id="@+id/tvChangelog"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="4dp"
+                    android:textAppearance="?attr/textAppearanceBodyMedium"
+                    tools:text="• Fixed a bug&#10;• Added new feature" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:id="@+id/bottomActionBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:orientation="vertical"
+        android:padding="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/actionButtonsContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnLater"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="56dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:text="Later"
+                    app:cornerRadius="16dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnUpdateNow"
+                    android:layout_width="0dp"
+                    android:layout_height="56dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:text="Update Now"
+                    app:cornerRadius="16dp" />
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCheckUpdate"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="Check for update"
+                android:visibility="gone"
+                app:cornerRadius="16dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnInstallNow"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="Install Now"
+                android:visibility="gone"
+                app:cornerRadius="16dp" />
+
+            <LinearLayout
+                android:id="@+id/downloadProgressContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingVertical="12dp"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvDownloadStatus"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/downloading"
+                        android:textAppearance="?attr/textAppearanceBody1"
+                        android:textColor="?android:attr/textColorPrimary" />
+
+                    <TextView
+                        android:id="@+id/tvDownloadProgress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0%"
+                        android:textAppearance="?attr/textAppearanceBody1"
+                        android:textColor="?android:attr/textColorPrimary"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/updateProgressBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="100"
+                    app:trackCornerRadius="4dp"
+                    app:trackThickness="8dp" />
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/checkUpdateProgressContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/checkUpdateProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true" />
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

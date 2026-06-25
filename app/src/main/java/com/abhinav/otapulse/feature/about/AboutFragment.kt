@@ -113,84 +113,24 @@ class AboutFragment : Fragment() {
     }
 
     private fun setupManualCheckButton() {
-        // Default state: "Check for Updates"
         binding.btnCheckUpdate.setHapticClickListener {
-            if (pendingUpdateInfo != null) {
-                showUpdateDialog(pendingUpdateInfo!!)
-                return@setHapticClickListener
+            val intent = Intent(requireContext(), com.abhinav.otapulse.app.MainActivity::class.java).apply {
+                action = "com.abhinav.otapulse.ACTION_SHOW_UPDATER"
+                flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
             }
-
-            val startTime = System.currentTimeMillis()
-            val minAnimationTime = 3000L // 3 second minimum
-
-            // Manual Check Logic (with Loading UI)
-            binding.btnCheckUpdate.isEnabled = false
-            binding.btnCheckUpdate.text = ""
-            // Fade in progress indicator — withLayer() composites alpha cheaply from GPU texture
-            binding.progressUpdate.apply {
-                indicatorColor = binding.btnCheckUpdate.currentTextColor
-                alpha = 0f
-                visibility = View.VISIBLE
-                animate()
-                    .alpha(1f)
-                    .setDuration(300)
-                    .withLayer()
-                    .start()
-            }
-
-            val currentVersion = binding.versionBadge.text.toString().removePrefix("v")
-
-            GitHubUpdater.checkForUpdate(currentVersion) { updateInfo ->
-                activity?.runOnUiThread {
-                    if (_binding == null) return@runOnUiThread
-
-                    val elapsedTime = System.currentTimeMillis() - startTime
-                    val delay = (minAnimationTime - elapsedTime).coerceAtLeast(0)
-
-                    Handler(Looper.getMainLooper()).postDelayed({
-                        if (_binding == null) return@postDelayed // Re-check binding in case fragment is destroyed during delay
-
-                        // Fade out progress indicator — withLayer() composites alpha cheaply from GPU texture
-                        binding.progressUpdate.animate()
-                            .alpha(0f)
-                            .setDuration(300)
-                            .withLayer()
-                            .withEndAction {
-                                binding.progressUpdate.visibility = View.GONE
-                                binding.btnCheckUpdate.isEnabled = true
-
-                                if (updateInfo != null) {
-                                    pendingUpdateInfo = updateInfo
-                                    applyUpdateAvailableUi(updateInfo)
-                                    showUpdateDialog(updateInfo)
-                                } else {
-                                    binding.btnCheckUpdate.text = "Check for Updates" // Reset text
-                                    Toast.makeText(requireContext(), "You are using the latest version", Toast.LENGTH_SHORT).show()
-                                }
-                            }
-                            .start()
-                    }, delay)
-                }
-            }
+            startActivity(intent)
         }
     }
 
     private fun showUpdateDialog(info: UpdateInfo) {
-        val markwon = Markwon.create(requireContext())
-        val markdownText = markwon.toMarkdown(info.changelog)
-
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle("New Version Available: ${info.version}")
-            .setMessage(markdownText)
-            .setPositiveButton("Download") { _, _ ->
-                try {
-                    openExternalBrowser(info.downloadUrl)
-                } catch (e: Exception) {
-                    Toast.makeText(requireContext(), "Could not open download link", Toast.LENGTH_SHORT).show()
-                }
-            }
-            .setNegativeButton("Later", null)
-            .show()
+        val intent = Intent(requireContext(), com.abhinav.otapulse.app.MainActivity::class.java).apply {
+            action = "com.abhinav.otapulse.ACTION_SHOW_UPDATE_DIALOG"
+            putExtra("update_version", info.version)
+            putExtra("update_url", info.downloadUrl)
+            putExtra("update_changelog", info.changelog)
+            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
+        }
+        startActivity(intent)
     }
 
     private fun setupClickListeners() {

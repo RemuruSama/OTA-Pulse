@@ -44,7 +44,12 @@ import com.abhinav.otapulse.feature.browser.InAppBrowserActivity
 import com.abhinav.otapulse.core.common.openExternalBrowser
 import com.abhinav.otapulse.feature.about.WhatsNewBottomSheet
 import com.abhinav.otapulse.feature.settings.AppUpdateRepository
-import io.noties.markwon.Markwon
+import okhttp3.OkHttpClient
+import java.io.File
+import android.os.Environment
+import androidx.core.content.FileProvider
+import com.abhinav.otapulse.core.network.AppUpdateDownloader
+import com.abhinav.otapulse.feature.settings.ui.AppUpdateFragment
 
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
@@ -72,11 +77,15 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     @Inject
     lateinit var appUpdateRepository: AppUpdateRepository
 
+    @Inject
+    lateinit var okHttpClient: OkHttpClient
+
     private lateinit var binding: ActivityMainBinding
     private var lastSelectedItemId = 0
     private var isDownloading: Boolean = false
     private val DOWNLOADS_SCREEN_ID = -1
     private val OTA_HISTORY_SCREEN_ID = -2
+    private val APP_UPDATE_SCREEN_ID = -3
     private lateinit var appSettingsPrefs: SharedPreferences
 
     companion object {
@@ -171,14 +180,15 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
             navigateToFragment(OTA_HISTORY_SCREEN_ID)
         }
 
-        // AUTO UPDATE CHECK
-        checkForAppUpdates()
         observeAppUpdates()
         observeOtaDetailsDialog()
 
         val handledIntent = handleIntent(intent)
 
         if (savedInstanceState == null) {
+            // AUTO UPDATE CHECK
+            checkForAppUpdates()
+            
             if (!handledIntent) {
                 navigateToFragment(R.id.navigation_update, false)
             }
@@ -236,7 +246,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.appUpdateState.collectLatest { updateInfo ->
                     if (updateInfo != null && !isDestroyed && !isFinishing) {
-                        showUpdateDialog(updateInfo)
+                        navigateToFragment(APP_UPDATE_SCREEN_ID, true, androidx.core.os.bundleOf("arg_update_info" to updateInfo))
                         downloadNotificationHelper.showAppUpdateNotification(updateInfo)
                         viewModel.clearUpdateState()
                     }
@@ -276,32 +286,18 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
                 val url = intent.getStringExtra("update_url") ?: return false
                 val changelog = intent.getStringExtra("update_changelog") ?: return false
                 val info = com.abhinav.otapulse.core.model.AppUpdateInfo(version, url, changelog)
-                showUpdateDialog(info)
+                navigateToFragment(APP_UPDATE_SCREEN_ID, true, androidx.core.os.bundleOf("arg_update_info" to info))
+                return true
+            }
+            "com.abhinav.otapulse.ACTION_SHOW_UPDATER" -> {
+                navigateToFragment(APP_UPDATE_SCREEN_ID, true)
                 return true
             }
         }
         return false
     }
 
-    private fun showUpdateDialog(info: com.abhinav.otapulse.core.model.AppUpdateInfo) {
-        val markwon = Markwon.create(this)
-        val fullMessage = info.changelog
-        val markdownChangelog = markwon.toMarkdown(fullMessage)
 
-        @Suppress("DEPRECATION") // Suppress for older API compat
-        MaterialAlertDialogBuilder(this)
-            .setTitle(getString(R.string.update_available_title, info.version))
-            .setMessage(markdownChangelog)
-            .setPositiveButton(R.string.download_action) { _, _ ->
-                try {
-                    openExternalBrowser(info.downloadUrl)
-                } catch (e: Exception) {
-                    Toast.makeText(this, getString(R.string.could_not_open_download_link), Toast.LENGTH_SHORT).show()
-                }
-            }
-            .setNegativeButton(R.string.later_action, null)
-            .show()
-    }
 
     private fun handleFirstLaunchPermissions() {
         checkStoragePermission()
@@ -503,7 +499,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
                itemId == R.id.navigation_settings
     }
 
-    private fun navigateToFragment(itemId: Int, addToBackStack: Boolean = true) {
+    private fun navigateToFragment(itemId: Int, addToBackStack: Boolean = true, args: Bundle? = null) {
         val selectedFragment: Fragment = when (itemId) {
             DOWNLOADS_SCREEN_ID -> DownloadsFragment()
             R.id.navigation_update -> HomeUpdateFragment()
@@ -519,6 +515,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
             R.id.navigation_settings -> SettingsFragment()
             R.id.navigation_libraries -> LibrariesFragment()
             OTA_HISTORY_SCREEN_ID -> com.abhinav.otapulse.feature.history.ui.OtaHistoryFragment()
+            APP_UPDATE_SCREEN_ID -> AppUpdateFragment().apply { arguments = args }
             else -> HomeUpdateFragment()
         }
 
@@ -601,8 +598,10 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         }
         
         val isFullscreenFragment = fragment is com.abhinav.otapulse.feature.history.ui.OtaHistoryFragment || 
-                                   fragment is com.abhinav.otapulse.feature.settings.libraries.LibrariesFragment
+                                   fragment is com.abhinav.otapulse.feature.settings.libraries.LibrariesFragment ||
+                                   fragment is com.abhinav.otapulse.feature.settings.ui.AppUpdateFragment
         binding.appBarLayout.visibility = if (isFullscreenFragment) View.GONE else View.VISIBLE
+        binding.bottomNavigation.visibility = if (isFullscreenFragment) View.GONE else View.VISIBLE
         
         val params = binding.contentLayout.layoutParams as androidx.coordinatorlayout.widget.CoordinatorLayout.LayoutParams
         params.behavior = if (isFullscreenFragment) null else com.google.android.material.appbar.AppBarLayout.ScrollingViewBehavior()

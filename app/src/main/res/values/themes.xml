@@ -35,4 +35,8 @@
         <item name="shapeAppearance">@style/ShapeAppearance.Material3.Corner.Large</item>
     </style>
 
+    <style name="TextAppearance.App.ToolbarTitle" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>
