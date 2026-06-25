@@ -17,7 +17,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_hero_header"
+            android:background="?attr/colorSurface"
             android:paddingStart="28dp"
             android:paddingEnd="28dp"
             android:paddingTop="36dp"
@@ -137,7 +137,7 @@
                 android:layout_marginTop="14dp"
                 android:clickable="true"
                 android:focusable="true"
-                app:cardBackgroundColor="?attr/colorSurfaceContainerHigh"
+                app:cardBackgroundColor="?attr/colorSurface"
                 app:cardCornerRadius="14dp"
                 app:cardElevation="0dp">
 
@@ -201,7 +201,7 @@
                 android:layout_marginTop="14dp"
                 android:clickable="true"
                 android:focusable="true"
-                app:cardBackgroundColor="?attr/colorSurfaceContainerHigh"
+                app:cardBackgroundColor="?attr/colorSurface"
                 app:cardCornerRadius="14dp"
                 app:cardElevation="0dp">
 
@@ -265,7 +265,7 @@
                 android:layout_marginTop="14dp"
                 android:clickable="true"
                 android:focusable="true"
-                app:cardBackgroundColor="?attr/colorSurfaceContainerHigh"
+                app:cardBackgroundColor="?attr/colorSurface"
                 app:cardCornerRadius="14dp"
                 app:cardElevation="0dp">
 
@@ -329,7 +329,7 @@
                 android:layout_marginTop="14dp"
                 android:clickable="true"
                 android:focusable="true"
-                app:cardBackgroundColor="?attr/colorSurfaceContainerHigh"
+                app:cardBackgroundColor="?attr/colorSurface"
                 app:cardCornerRadius="14dp"
                 app:cardElevation="0dp">
 

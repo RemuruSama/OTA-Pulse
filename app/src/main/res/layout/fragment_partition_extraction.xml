@@ -18,7 +18,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_hero_header"
+            android:background="?attr/colorSurface"
             android:paddingStart="28dp"
             android:paddingEnd="28dp"
             android:paddingTop="36dp"
