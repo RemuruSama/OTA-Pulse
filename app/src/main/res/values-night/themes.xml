@@ -9,7 +9,10 @@
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="O_MR1">false</item>
 
+        <item name="materialAlertDialogTheme">@style/Theme.App.Dialog</item>
         <item name="materialCardViewStyle">@style/Widget.App.MaterialCardView</item>
+        <item name="android:popupMenuStyle">@style/Widget.App.PopupMenu</item>
+        <item name="android:listPopupWindowStyle">@style/Widget.App.ListPopupWindow</item>
         <item name="materialSwitchStyle">@style/Widget.App.MaterialSwitch</item>
     </style>
 
