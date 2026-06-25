@@ -309,8 +309,7 @@ class HomeUpdateFragment : Fragment() {
         val btnExtractProgress = dialogView.findViewById<com.abhinav.otapulse.core.ui.WavyCircularProgressIndicator>(R.id.btnExtractProgress)
         val extractionProgressBar = dialogView.findViewById<com.google.android.material.progressindicator.LinearProgressIndicator>(R.id.extractionProgressBar)
 
-        val deviceLabel = binding.inputProductModel.text?.toString()?.trim().orEmpty()
-            .ifBlank { binding.inputProductName.text?.toString()?.trim().orEmpty() }
+        val deviceLabel = binding.inputProductName.text?.toString()?.trim().orEmpty()
             .ifBlank { getString(R.string.unknown) }
         val regionName = inferRegionFromNvId(binding.inputNvid.text?.toString().orEmpty())
 

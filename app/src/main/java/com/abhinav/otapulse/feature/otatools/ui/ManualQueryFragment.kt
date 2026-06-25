@@ -480,7 +480,7 @@ class ManualQueryFragment : Fragment() {
         val btnExtractProgress = dialogView.findViewById<com.abhinav.otapulse.core.ui.WavyCircularProgressIndicator>(R.id.btnExtractProgress)
         val extractionProgressBar = dialogView.findViewById<com.google.android.material.progressindicator.LinearProgressIndicator>(R.id.extractionProgressBar)
 
-        val deviceName = binding.inputProductModel.text.toString().trim()
+        val deviceName = binding.inputProductName.text.toString().trim()
         val regionName = binding.spinnerRegion.text.toString().trim()
         fun activePartitionSource(): String {
             val partitionData = viewModel.uiState.value.showPartitionSelectDialog
