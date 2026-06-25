@@ -194,9 +194,9 @@ class HomeUpdateFragment : Fragment() {
             val systemNvId = DeviceUtils.getSystemProperty("ro.build.oplus_nv_id")
             val region = inferRegionFromNvId(inputNvId.ifBlank { systemNvId })
             val apiModelParam = if (nameInput.isNotBlank()) nameInput else modelInput
-            val otaVersionString = constructOtaString(modelInput, letter)
+            val baseOtaVersion = getBaseOtaString(modelInput)
 
-            if (modelInput.isBlank() || apiModelParam.isBlank() || region.isBlank() || otaVersionString.isBlank()) {
+            if (modelInput.isBlank() || apiModelParam.isBlank() || region.isBlank()) {
                 Toast.makeText(requireContext(), getString(R.string.toast_please_fill_required_fields), Toast.LENGTH_SHORT).show()
                 return@setHapticClickListener
             }
@@ -211,13 +211,15 @@ class HomeUpdateFragment : Fragment() {
                 serverSearchOrder
             }
 
-            viewModel.sendRequestAcrossServers(
+            val letters = listOf("A", "C", "F", "H", "J")
+
+            viewModel.sendRequestAcrossVersionsAndServers(
                 model = apiModelParam,
-                otaVersion = otaVersionString,
+                baseOtaVersion = baseOtaVersion,
                 ruiVersion = 4,
                 region = region,
                 servers = customSearchOrder,
-                regionsArray = RegionData.regions.map { it.displayName }.toTypedArray(),
+                letters = letters,
                 imei = "0",
                 beta = false,
                 nvId = finalNvId.takeIf { it.isNotBlank() },
@@ -241,32 +243,42 @@ class HomeUpdateFragment : Fragment() {
                         binding.buttonSubmit.text = ""
                         
                         binding.dividerUpdate.isVisible = false
-                        binding.layoutUpdateAvailable.isVisible = false
+                        binding.layoutMultiUpdatesContainer.isVisible = false
                     } else {
                         binding.progressBar.isVisible = false
                         binding.buttonSubmit.isEnabled = true
                         binding.buttonSubmit.text = getString(R.string.btn_check_for_update)
                     }
 
-                    if (state.result != null) {
-                        state.result.onSuccess { ota ->
-                            binding.errorCard.isVisible = false
+                    if (state.multiResults != null && state.multiResults.isNotEmpty()) {
+                        binding.errorCard.isVisible = false
+                        binding.dividerUpdate.isVisible = true
+                        binding.tvOtaFoundLabel.isVisible = true
+                        binding.layoutMultiUpdatesContainer.isVisible = true
+                        binding.layoutMultiUpdatesContainer.removeAllViews()
+
+                        for (ota in state.multiResults) {
+                            val itemView = layoutInflater.inflate(R.layout.item_home_update_result, binding.layoutMultiUpdatesContainer, false)
+                            val tvUpdateVersionValue = itemView.findViewById<TextView>(R.id.tv_update_version_value)
                             
-                            binding.dividerUpdate.isVisible = true
-                            binding.layoutUpdateAvailable.isVisible = true
-                            binding.tvUpdateVersionValue.text = ota.versionName ?: getString(R.string.unknown_version)
-                            binding.btnViewUpdate.setHapticClickListener {
+                            tvUpdateVersionValue.text = ota.versionName ?: getString(R.string.unknown_version)
+                            itemView.setHapticClickListener {
                                 showResultDialog(ota)
                             }
-                        }.onFailure { error ->
-                            binding.errorCard.isVisible = true
-                            binding.errorTextView.text = formatErrorMessage(error.message)
-                            
-                            binding.dividerUpdate.isVisible = false
-                            binding.layoutUpdateAvailable.isVisible = false
+                            binding.layoutMultiUpdatesContainer.addView(itemView)
                         }
+                    } else if (state.result?.isFailure == true) {
+                        val error = state.result.exceptionOrNull()
+                        binding.errorCard.isVisible = true
+                        binding.errorTextView.text = formatErrorMessage(error?.message)
+                        binding.dividerUpdate.isVisible = false
+                        binding.tvOtaFoundLabel.isVisible = false
+                        binding.layoutMultiUpdatesContainer.isVisible = false
                     } else {
                         binding.errorCard.isVisible = false
+                        binding.dividerUpdate.isVisible = false
+                        binding.tvOtaFoundLabel.isVisible = false
+                        binding.layoutMultiUpdatesContainer.isVisible = false
                     }
 
                     state.showOtaDetailsDialog?.let { ota ->
@@ -679,7 +691,7 @@ class HomeUpdateFragment : Fragment() {
         return nvRegion ?: "GLO"
     }
 
-    private fun constructOtaString(rawId: String, letter: String): String {
+    private fun getBaseOtaString(rawId: String): String {
         val suffixesToStrip = listOf("EEA", "IN", "RU", "TR", "CN", "EU", "TW", "MEA", "SA", "SG", "TH", "LATAM", "BR", "MY", "ID", "KZ", "OCA", "VN", "GLO")
             .distinct()
         var baseModel = rawId
@@ -691,7 +703,7 @@ class HomeUpdateFragment : Fragment() {
         }
 
         val cleanBase = baseModel.replace(Regex("NV[0-9A-Z]{2}$", RegexOption.IGNORE_CASE), "")
-        return "${cleanBase}_11.${letter}.01_0001_100001010000"
+        return "${cleanBase}_11"
     }
 
     private fun checkAndRequestPermissions(): Boolean {

@@ -24,6 +24,7 @@ data class OtaToolsUiState(
     val isLoading: Boolean = false,
     val isCheckingArb: Boolean = false,
     val result: Result<OtaUpdate>? = null,
+    val multiResults: List<OtaUpdate>? = null,
     val deviceName: String = "",
     val regionName: String = "",
     val showOtaDetailsDialog: OtaUpdate? = null,
@@ -251,6 +252,116 @@ class OtaToolsViewModel @Inject constructor(
                     deviceName = dummyDevice.name,
                     regionName = "$region (Server: ${best.server})",
                     showOtaDetailsDialog = if (autoShowDialog) best.ota else null
+                )
+            }
+        }
+    }
+
+    fun sendRequestAcrossVersionsAndServers(
+        model: String,
+        baseOtaVersion: String, // E.g., RMX3840_11 or whatever base is before the letter
+        ruiVersion: Int,
+        region: String,
+        servers: List<String>,
+        letters: List<String>, // E.g. listOf("A", "C", "F", "H", "J")
+        imei: String = "0",
+        beta: Boolean = false,
+        nvId: String? = null,
+        language: String? = "en-EN",
+        reqMode: String? = "manual",
+        gray: Int = 0,
+        autoShowDialog: Boolean = true
+    ) {
+        viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true, result = null, multiResults = null, userMessage = null) }
+
+            val dummyDevice = Device(
+                name = "Custom Device",
+                ruiVersion = ruiVersion,
+                imei = imei,
+                beta = beta,
+                imageResId = null,
+                firmwareGroups = emptyMap(),
+                isFavorite = false,
+                isCustom = true
+            )
+
+            val appSettingsPrefs = context.getSharedPreferences(
+                com.abhinav.otapulse.feature.settings.SettingsFragment.APP_SETTINGS_PREFS,
+                android.content.Context.MODE_PRIVATE
+            )
+            val isArbDetectionEnabled = appSettingsPrefs.getBoolean(
+                com.abhinav.otapulse.feature.settings.SettingsFragment.PREF_ARB_DETECTION_ENABLED,
+                true
+            )
+
+            data class ServerResult(val server: String, val letter: String, val ota: OtaUpdate)
+
+            val successfulResults: List<ServerResult> = coroutineScope {
+                letters.flatMap { letter ->
+                    // Construct the full OTA string using the base and the letter
+                    // Example: if base is RMX3840_11, construct to RMX3840_11.A.01_0001_100001010000
+                    val otaVersion = "${baseOtaVersion}.${letter}.01_0001_100001010000"
+                    
+                    servers.map { server ->
+                        async {
+                            val regionVariant = RegionVariant(
+                                displayName = region,
+                                productModel = model,
+                                productName = model,
+                                firmwareVersion = otaVersion,
+                                region = server,
+                                nvId = nvId,
+                                language = language
+                            )
+                            runCatching {
+                                fetchOtaDetailsUseCase(dummyDevice, regionVariant, reqMode, gray)
+                                    .getOrThrow()
+                                    .let { ota ->
+                                        val enriched = if (isArbDetectionEnabled) {
+                                            val arbInfo = arbLookupService.lookupByUrl(ota.downloadUrl)
+                                            if (arbInfo != null) ota.copy(arbStatus = arbInfo.toDisplayString()) else ota
+                                        } else {
+                                            ota.copy(arbStatus = "N/A")
+                                        }
+                                        ServerResult(server, letter, enriched)
+                                    }
+                            }.getOrNull()
+                        }
+                    }
+                }.mapNotNull { it.await() }
+            }
+
+            if (successfulResults.isEmpty()) {
+                // All failed
+                _uiState.update {
+                    it.copy(
+                        isLoading = false,
+                        result = Result.failure(Exception("No update found for any Android version on any server.")),
+                        multiResults = emptyList(),
+                        deviceName = dummyDevice.name,
+                        regionName = "$region (Searched: ${servers.joinToString(", ")})"
+                    )
+                }
+                return@launch
+            }
+
+            // Group by letter, and for each letter find the best result (highest OTA version string)
+            val bestResultsPerLetter = successfulResults
+                .groupBy { it.letter }
+                .map { (_, results) -> results.maxWith(compareBy { it.ota.resolvedOtaVersion() }) }
+                .sortedByDescending { it.letter }
+
+            val bestOverall = bestResultsPerLetter.maxWithOrNull(compareBy { it.ota.resolvedOtaVersion() })
+
+            _uiState.update {
+                it.copy(
+                    isLoading = false,
+                    result = bestOverall?.let { best -> Result.success(best.ota) },
+                    multiResults = bestResultsPerLetter.map { sr -> sr.ota },
+                    deviceName = dummyDevice.name,
+                    regionName = "$region (Multiple Servers)",
+                    showOtaDetailsDialog = null // Don't auto-show if we have multiple results
                 )
             }
         }

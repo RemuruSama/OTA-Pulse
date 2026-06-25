@@ -428,7 +428,7 @@
     <string name="btn_open">Open</string>
     <string name="btn_auto_fill">Auto-Fill</string>
     <string name="btn_check_for_update">Check for Update</string>
-    <string name="update_available_label">Update Available</string>
+    <string name="update_available_label">OTA Found</string>
     <string name="btn_view">View</string>
     <string name="software_update_header_badge" translatable="false">SOFTWARE_UPDATE.sh</string>
     <string name="software_update_header_title">Software\nUpdate</string>
@@ -437,7 +437,7 @@
     <string name="software_update_panel_summary">Enter your build identity, auto-fill from the current device, and query updates with a single primary action.</string>
     <string name="software_update_panel_device_label">Current device</string>
     <string name="software_update_panel_meta_hint">Built from the live device profile and ready for a one-tap check.</string>
-    <string name="software_update_panel_version_label">Software version</string>
+    <string name="software_update_panel_version_label">Current Version</string>
     <string name="software_update_panel_version_badge">Live profile</string>
     <string name="software_update_panel_footer">The updater uses your saved model, version letter, NV ID, and req mode silently in the background.</string>
     <string name="software_update_mode_hint">Search order: %s. Req mode stays editable, while server is chosen automatically in the background.</string>
