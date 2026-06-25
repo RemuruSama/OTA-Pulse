@@ -148,8 +148,12 @@ class OtaDetailsDialogFragment : DialogFragment() {
         val btnExtractProgress = dialogView.findViewById<com.abhinav.otapulse.core.ui.WavyCircularProgressIndicator>(R.id.btnExtractProgress)
         val extractionProgressBar = dialogView.findViewById<com.google.android.material.progressindicator.LinearProgressIndicator>(R.id.extractionProgressBar)
 
-        val fullRegionName = data.regionName.toFullRegionName()
-        tvComponentName.text = "${getString(R.string.ota_details_title)}: $fullRegionName"
+        val titleSuffix = if (data.regionName.isNotBlank()) {
+            data.regionName.toFullRegionName()
+        } else {
+            data.deviceName
+        }
+        tvComponentName.text = "${getString(R.string.ota_details_title)}: $titleSuffix"
         tvVersionName.text = data.otaUpdate.versionName
         tvAndroidVersion.text = data.otaUpdate.realAndroidVersion?.removePrefix("Android ")?.trim()
         tvSecurityPatch.text = data.otaUpdate.securityPatch

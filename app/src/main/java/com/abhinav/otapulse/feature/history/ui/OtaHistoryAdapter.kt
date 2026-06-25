@@ -65,13 +65,23 @@ class OtaHistoryAdapter(
 
         fun bind(entry: OtaHistoryEntry) {
             // Device name
-            tvDeviceName.text = entry.deviceName
+            val isHomeUpdateRecord = entry.deviceName == "Custom Device" || entry.deviceName.startsWith("Custom|")
+            val displayDeviceName = if (entry.deviceName.startsWith("Custom|")) {
+                entry.deviceName.removePrefix("Custom|").ifBlank {
+                    (entry.otaUpdate.versionName ?: entry.otaUpdate.componentVersion).substringBefore("_")
+                }
+            } else if (entry.deviceName == "Custom Device") {
+                (entry.otaUpdate.versionName ?: entry.otaUpdate.componentVersion).substringBefore("_").ifBlank { "Custom Device" }
+            } else {
+                entry.deviceName
+            }
+            tvDeviceName.text = displayDeviceName
 
             // Version
             tvVersion.text = entry.otaUpdate.versionName ?: entry.otaUpdate.componentVersion
 
             // Region chip
-            if (entry.region.isNotBlank()) {
+            if (entry.region.isNotBlank() && !isHomeUpdateRecord) {
                 chipRegion.visibility = View.VISIBLE
                 chipRegion.text = entry.region
             } else {

@@ -323,6 +323,7 @@ class ManualQueryFragment : Fragment() {
 
             viewModel.sendRequest(
                 model = apiModelParam,
+                displayDeviceName = nameInput.ifBlank { modelInput },
                 otaVersion = otaVersionString,
                 ruiVersion = ruiVersion,
                 region = region,
@@ -481,6 +482,8 @@ class ManualQueryFragment : Fragment() {
         val extractionProgressBar = dialogView.findViewById<com.google.android.material.progressindicator.LinearProgressIndicator>(R.id.extractionProgressBar)
 
         val deviceName = binding.inputProductName.text.toString().trim()
+            .ifBlank { binding.inputProductModel.text.toString().trim() }
+            .ifBlank { "Custom Device" }
         val regionName = binding.spinnerRegion.text.toString().trim()
         fun activePartitionSource(): String {
             val partitionData = viewModel.uiState.value.showPartitionSelectDialog

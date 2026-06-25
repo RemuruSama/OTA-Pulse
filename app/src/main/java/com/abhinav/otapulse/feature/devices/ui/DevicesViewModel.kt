@@ -211,8 +211,20 @@ class DevicesViewModel @Inject constructor(
     }
 
     fun showOtaDetailsFromHistory(entry: com.abhinav.otapulse.core.model.OtaHistoryEntry) {
+        val isHomeUpdateRecord = entry.deviceName == "Custom Device" || entry.deviceName.startsWith("Custom|")
+        val resolvedDeviceName = if (entry.deviceName.startsWith("Custom|")) {
+            entry.deviceName.removePrefix("Custom|").ifBlank {
+                (entry.otaUpdate.versionName ?: entry.otaUpdate.componentVersion).substringBefore("_")
+            }
+        } else if (entry.deviceName == "Custom Device") {
+            (entry.otaUpdate.versionName ?: entry.otaUpdate.componentVersion).substringBefore("_").ifBlank { "Custom Device" }
+        } else {
+            entry.deviceName
+        }
+        val regionForDialog = if (isHomeUpdateRecord) "" else entry.region
+
         _uiState.update { state ->
-            state.copy(showOtaDetailsDialog = OtaDetailsDialogData(entry.otaUpdate, entry.deviceName, entry.region))
+            state.copy(showOtaDetailsDialog = OtaDetailsDialogData(entry.otaUpdate, resolvedDeviceName, regionForDialog))
         }
     }
 

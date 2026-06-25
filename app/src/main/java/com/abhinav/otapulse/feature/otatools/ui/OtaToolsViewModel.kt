@@ -72,6 +72,7 @@ class OtaToolsViewModel @Inject constructor(
 
     fun sendRequest(
         model: String,
+        displayDeviceName: String? = null,
         otaVersion: String,
         ruiVersion: Int,
         region: String,
@@ -90,7 +91,7 @@ class OtaToolsViewModel @Inject constructor(
             _uiState.update { it.copy(isLoading = true, result = null) }
 
             val dummyDevice = Device(
-                name = "Custom Device",
+                name = "Custom|" + (displayDeviceName?.takeIf { it.isNotBlank() } ?: model),
                 ruiVersion = ruiVersion,
                 imei = imei,
                 beta = beta,
@@ -259,6 +260,7 @@ class OtaToolsViewModel @Inject constructor(
 
     fun sendRequestAcrossVersionsAndServers(
         model: String,
+        displayDeviceName: String? = null,
         baseOtaVersion: String, // E.g., RMX3840_11 or whatever base is before the letter
         ruiVersion: Int,
         region: String,
@@ -276,7 +278,7 @@ class OtaToolsViewModel @Inject constructor(
             _uiState.update { it.copy(isLoading = true, result = null, multiResults = null, userMessage = null) }
 
             val dummyDevice = Device(
-                name = "Custom Device",
+                name = "Custom|" + (displayDeviceName?.takeIf { it.isNotBlank() } ?: model),
                 ruiVersion = ruiVersion,
                 imei = imei,
                 beta = beta,

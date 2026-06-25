@@ -215,6 +215,7 @@ class HomeUpdateFragment : Fragment() {
 
             viewModel.sendRequestAcrossVersionsAndServers(
                 model = apiModelParam,
+                displayDeviceName = nameInput.ifBlank { modelInput },
                 baseOtaVersion = baseOtaVersion,
                 ruiVersion = 4,
                 region = region,
@@ -322,6 +323,7 @@ class HomeUpdateFragment : Fragment() {
         val extractionProgressBar = dialogView.findViewById<com.google.android.material.progressindicator.LinearProgressIndicator>(R.id.extractionProgressBar)
 
         val deviceLabel = binding.inputProductName.text?.toString()?.trim().orEmpty()
+            .ifBlank { binding.inputProductModel.text?.toString()?.trim().orEmpty() }
             .ifBlank { getString(R.string.unknown) }
         val regionName = inferRegionFromNvId(binding.inputNvid.text?.toString().orEmpty())
 
