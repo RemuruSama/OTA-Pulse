@@ -629,7 +629,7 @@ class HomeUpdateFragment : Fragment() {
 
         btnDownloadOta.setHapticClickListener {
             pendingDownload = {
-                viewModel.startDownload(ota, deviceLabel, regionName)
+                viewModel.startDownload(ota, deviceLabel, regionName, isFromHomeUpdate = true)
                 dialog.dismiss()
             }
             if (checkAndRequestPermissions()) {

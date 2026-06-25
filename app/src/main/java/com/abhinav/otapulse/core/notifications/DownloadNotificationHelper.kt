@@ -130,7 +130,9 @@ class DownloadNotificationHelper @Inject constructor(
                                downloadInfo.otaUpdate.versionName != "Unknown Version" &&
                                downloadInfo.regionName != "External"
 
-        val title = if (isStandardUpdate) {
+        val title = if (downloadInfo.isFromHomeUpdate) {
+            downloadInfo.deviceName
+        } else if (isStandardUpdate) {
             "${downloadInfo.regionName} - ${downloadInfo.otaUpdate.versionName}"
         } else {
             downloadInfo.fileName

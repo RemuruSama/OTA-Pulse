@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.StateFlow
 interface DownloadRepository {
     val allDownloads: StateFlow<List<DownloadInfo>>
     val downloadStates: StateFlow<Map<String, DownloadState>>
-    fun enqueueDownload(otaUpdate: OtaUpdate, deviceName: String, regionName: String)
+    fun enqueueDownload(otaUpdate: OtaUpdate, deviceName: String, regionName: String, isFromHomeUpdate: Boolean = false)
     fun pauseDownload(downloadInfo: DownloadInfo)
     fun resumeDownload(downloadInfo: DownloadInfo)
     fun cancelDownload(downloadInfo: DownloadInfo)

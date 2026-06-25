@@ -19,7 +19,8 @@ data class DownloadInfo(
     val otaUpdate: OtaUpdate?,
     val deviceName: String,
     val regionName: String,
-    val md5Status: Md5Status = Md5Status.NONE
+    val md5Status: Md5Status = Md5Status.NONE,
+    val isFromHomeUpdate: Boolean = false
 )
 
 /**

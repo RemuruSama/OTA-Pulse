@@ -540,9 +540,9 @@ class OtaToolsViewModel @Inject constructor(
         _uiState.update { it.copy(showOtaDetailsDialog = null) }
     }
 
-    fun startDownload(otaUpdate: OtaUpdate, deviceName: String, regionName: String) {
+    fun startDownload(otaUpdate: OtaUpdate, deviceName: String, regionName: String, isFromHomeUpdate: Boolean = false) {
         viewModelScope.launch {
-            downloadRepository.enqueueDownload(otaUpdate, deviceName, regionName)
+            downloadRepository.enqueueDownload(otaUpdate, deviceName, regionName, isFromHomeUpdate)
         }
     }
 }

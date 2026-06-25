@@ -164,7 +164,7 @@ class DownloadManager @Inject constructor(
         }
     }
 
-    override fun enqueueDownload(otaUpdate: OtaUpdate, deviceName: String, regionName: String) {
+    override fun enqueueDownload(otaUpdate: OtaUpdate, deviceName: String, regionName: String, isFromHomeUpdate: Boolean) {
         ioScope.launch {
             Log.d(TAG, "Starting download process for ${otaUpdate.fileName}")
 
@@ -191,7 +191,8 @@ class DownloadManager @Inject constructor(
                 "otaUpdate" to otaUpdateJson,
                 "deviceName" to deviceName,
                 "regionName" to regionName,
-                "originalFileName" to finalTargetFile.name
+                "originalFileName" to finalTargetFile.name,
+                "isFromHomeUpdate" to isFromHomeUpdate.toString()
             ).toExtras()
 
             engine.enqueue(resolvedUrl, finalTargetFile.absolutePath, extras)

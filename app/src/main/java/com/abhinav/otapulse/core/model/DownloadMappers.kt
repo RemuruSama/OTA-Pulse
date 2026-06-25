@@ -17,6 +17,7 @@ fun DownloadRecord.toDownloadInfo(
     val otaUpdateString = extras["otaUpdate"] ?: ""
     val deviceName = extras["deviceName"] ?: ""
     val regionName = extras["regionName"] ?: ""
+    val isFromHomeUpdate = (extras["isFromHomeUpdate"] ?: "false").toBoolean()
 
     val currentActualFilePath = newFilePath ?: this.file
 
@@ -38,7 +39,8 @@ fun DownloadRecord.toDownloadInfo(
         otaUpdate = if (otaUpdateString.isBlank()) null else OtaUpdate.fromString(otaUpdateString),
         deviceName = deviceName,
         regionName = regionName,
-        md5Status = md5Status
+        md5Status = md5Status,
+        isFromHomeUpdate = isFromHomeUpdate
     )
 }
 

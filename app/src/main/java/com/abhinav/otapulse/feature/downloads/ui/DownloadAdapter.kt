@@ -50,7 +50,9 @@ class DownloadAdapter(
         fun bind(downloadInfo: DownloadInfo) {
             val isManualDownload = downloadInfo.deviceName == DIRECT_DOWNLOAD || downloadInfo.deviceName == UNKNOWN_DEVICE
 
-            if (isManualDownload) {
+            if (downloadInfo.isFromHomeUpdate) {
+                binding.deviceInfoTextView.text = downloadInfo.deviceName
+            } else if (isManualDownload) {
                 val infoText = if (downloadInfo.regionName.isNotBlank() && downloadInfo.regionName != UNKNOWN_REGION) {
                     "${downloadInfo.deviceName} (${downloadInfo.regionName})"
                 } else {
