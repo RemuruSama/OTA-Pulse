@@ -45,7 +45,7 @@ object GitHubUpdater {
 
                 if (!response.isSuccessful) {
                     Log.e(TAG, "Network Error: ${response.code}")
-                    onResult(null)
+                    checkForUpdateFallback(currentVersion, httpClient, onResult)
                     return@Thread
                 }
 
@@ -69,14 +69,57 @@ object GitHubUpdater {
                         } else {
                             Log.e(TAG, "No assets (APK) attached to the release!")
                         }
+                    } else {
+                        onResult(null)
+                        return@Thread
                     }
                 }
-                onResult(null)
+                checkForUpdateFallback(currentVersion, httpClient, onResult)
             } catch (e: Exception) {
                 Log.e(TAG, "Exception: ${e.message}", e)
-                onResult(null)
+                checkForUpdateFallback(currentVersion, httpClient, onResult)
             }
         }.start()
+    }
+
+    private fun checkForUpdateFallback(
+        currentVersion: String,
+        httpClient: OkHttpClient,
+        onResult: (UpdateInfo?) -> Unit
+    ) {
+        try {
+            val webUrl = "https://github.com/$REPO_OWNER/$REPO_NAME/releases/latest"
+            val request = Request.Builder()
+                .url(webUrl)
+                .header("User-Agent", "OTAPulse/$currentVersion")
+                .build()
+            httpClient.newCall(request).execute().use { response ->
+                if (response.isSuccessful) {
+                    val tag = response.request.url.pathSegments.lastOrNull().orEmpty()
+                    if (tag.isNotEmpty() && !tag.equals("latest", ignoreCase = true)) {
+                        val cleanLatest = tag.removePrefix("v")
+                        val cleanCurrent = currentVersion.removePrefix("v")
+                        if (isNewerVersion(cleanLatest, cleanCurrent)) {
+                            val assetsUrl = "https://github.com/$REPO_OWNER/$REPO_NAME/releases/expanded_assets/$tag"
+                            val assetsReq = Request.Builder().url(assetsUrl).header("User-Agent", "OTAPulse/$currentVersion").build()
+                            val downloadUrl = runCatching {
+                                httpClient.newCall(assetsReq).execute().use { assetsResp ->
+                                    val html = assetsResp.body.string()
+                                    val match = Regex("""href="([^"]+\.apk)"""", RegexOption.IGNORE_CASE).find(html)
+                                    match?.groupValues?.get(1)?.let { if (it.startsWith("/")) "https://github.com$it" else it }
+                                }
+                            }.getOrNull() ?: "https://github.com/$REPO_OWNER/$REPO_NAME/releases/download/$tag/otapulse_update_$cleanLatest.apk"
+
+                            onResult(UpdateInfo(tag, downloadUrl, "New release $tag available on GitHub."))
+                            return
+                        }
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Fallback check failed: ${e.message}")
+        }
+        onResult(null)
     }
 
     /**

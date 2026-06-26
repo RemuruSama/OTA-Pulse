@@ -146,7 +146,7 @@ class AppUpdateFragment : Fragment(R.layout.fragment_app_update) {
             val startTime = System.currentTimeMillis()
             val minAnimationTime = 1500L
 
-            GitHubUpdater.checkForUpdate(currentVersion.removePrefix("v")) { fetchedInfo ->
+            GitHubUpdater.checkForUpdate(currentVersion.removePrefix("v"), httpClient = okHttpClient) { fetchedInfo ->
                 activity?.runOnUiThread {
                     if (view == null) return@runOnUiThread
 
