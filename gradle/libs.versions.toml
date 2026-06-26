@@ -6,6 +6,7 @@ kotlin = "2.3.21"
 hilt = "2.59.2"
 composeBom = "2026.05.01"
 coreKtx = "1.19.0"
+coreSplashscreen = "1.0.1"
 appcompat = "1.7.1"
 material = "1.14.0"
 lifecycle = "2.10.0"
@@ -40,6 +41,7 @@ protobufPlugin = "0.10.0"
 [libraries]
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplashscreen" }
 androidx-material3 = { module = "androidx.compose.material3:material3" }
 androidx-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 androidx-ui = { module = "androidx.compose.ui:ui" }

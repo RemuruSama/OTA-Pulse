@@ -49,6 +49,7 @@
         <activity
             android:name=".app.MainActivity"
             android:exported="true"
+            android:theme="@style/Theme.OTAPulse.Starting"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

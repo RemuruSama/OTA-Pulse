@@ -21,6 +21,12 @@
 
     <style name="Theme.OtaUpdater" parent="Theme.OTAPulse" />
 
+    <style name="Theme.OTAPulse.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/colorBackground</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+        <item name="postSplashScreenTheme">@style/Theme.OTAPulse</item>
+    </style>
+
     <style name="ShapeAppearanceOverlay.App.CornerSize50Percent">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>

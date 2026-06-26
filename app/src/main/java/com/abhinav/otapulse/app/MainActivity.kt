@@ -50,6 +50,8 @@ import android.os.Environment
 import androidx.core.content.FileProvider
 import com.abhinav.otapulse.core.network.AppUpdateDownloader
 import com.abhinav.otapulse.feature.settings.ui.AppUpdateFragment
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.google.android.material.color.DynamicColors
 
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
@@ -120,6 +122,8 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     private val devicesViewModel: com.abhinav.otapulse.feature.devices.ui.DevicesViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
+        DynamicColors.applyToActivityIfAvailable(this)
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
@@ -145,6 +149,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
             val surfaceColor = com.google.android.material.color.MaterialColors.getColor(binding.root, com.google.android.material.R.attr.colorSurfaceContainer)
             window.setBackgroundDrawable(android.graphics.drawable.ColorDrawable(surfaceColor))
         } else {
+            window.setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.bg_app_surface_gradient))
             // Apply transparent backgrounds for gradient
             binding.appBarLayout.setBackgroundColor(android.graphics.Color.TRANSPARENT)
             binding.appBarLayout.elevation = 0f
