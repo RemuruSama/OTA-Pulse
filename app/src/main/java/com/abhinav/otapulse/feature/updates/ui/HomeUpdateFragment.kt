@@ -658,7 +658,7 @@ class HomeUpdateFragment : Fragment() {
                 OtaCardData(
                     deviceName = deviceLabel,
                     versionName = ota.versionName,
-                    regionName = regionName,
+                    regionName = null,
                     androidVersion = ota.realAndroidVersion?.removePrefix("Android ")?.trim(),
                     securityPatch = ota.securityPatch,
                     size = ota.size,

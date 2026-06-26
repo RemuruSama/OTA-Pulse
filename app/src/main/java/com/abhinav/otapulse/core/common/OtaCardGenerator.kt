@@ -22,7 +22,7 @@ import java.io.FileOutputStream
 data class OtaCardData(
     val deviceName: String,
     val versionName: String?,
-    val regionName: String,
+    val regionName: String? = null,
     val androidVersion: String?,
     val securityPatch: String?,
     val size: String,
@@ -85,23 +85,25 @@ object OtaCardGenerator {
         canvas.drawText("Update Alert", titleX, cy + 40f, subtitlePaint)
 
         // Region pill
-        val pillText = data.regionName
-        val pillTextPaint = textPaint(28f, colors.primary)
-        val regionW = pillTextPaint.measureText(pillText) + 96f
-        val regionH = 64f
-        val regionLeft = paddingRight - regionW
-        val regionTop = cy - regionH / 2
-        val pillBg = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = colors.primaryContainer }
-        canvas.drawRoundRect(regionLeft, regionTop, paddingRight, regionTop + regionH, regionH / 2, regionH / 2, pillBg)
-        val globeDrawable = ContextCompat.getDrawable(context, R.drawable.ic_language)?.mutate()
-        if (globeDrawable != null) {
-            globeDrawable.setTint(colors.primary)
-            val globeSize = 36
-            globeDrawable.setBounds((regionLeft + 24f).toInt(), (cy - globeSize/2).toInt(), (regionLeft + 24f + globeSize).toInt(), (cy + globeSize/2).toInt())
-            globeDrawable.draw(canvas)
+        if (!data.regionName.isNullOrBlank()) {
+            val pillText = data.regionName
+            val pillTextPaint = textPaint(28f, colors.primary)
+            val regionW = pillTextPaint.measureText(pillText) + 96f
+            val regionH = 64f
+            val regionLeft = paddingRight - regionW
+            val regionTop = cy - regionH / 2
+            val pillBg = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = colors.primaryContainer }
+            canvas.drawRoundRect(regionLeft, regionTop, paddingRight, regionTop + regionH, regionH / 2, regionH / 2, pillBg)
+            val globeDrawable = ContextCompat.getDrawable(context, R.drawable.ic_language)?.mutate()
+            if (globeDrawable != null) {
+                globeDrawable.setTint(colors.primary)
+                val globeSize = 36
+                globeDrawable.setBounds((regionLeft + 24f).toInt(), (cy - globeSize/2).toInt(), (regionLeft + 24f + globeSize).toInt(), (cy + globeSize/2).toInt())
+                globeDrawable.draw(canvas)
+            }
+            val textY = cy - (pillTextPaint.descent() + pillTextPaint.ascent()) / 2
+            canvas.drawText(pillText, regionLeft + 72f, textY, pillTextPaint)
         }
-        val textY = cy - (pillTextPaint.descent() + pillTextPaint.ascent()) / 2
-        canvas.drawText(pillText, regionLeft + 72f, textY, pillTextPaint)
 
         // --- Divider ---
         var y = cy + headerIconRadius + 40f
