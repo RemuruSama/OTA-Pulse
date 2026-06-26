@@ -211,7 +211,7 @@ class DevicesViewModel @Inject constructor(
     }
 
     fun showOtaDetailsFromHistory(entry: com.abhinav.otapulse.core.model.OtaHistoryEntry) {
-        val isHomeUpdateRecord = entry.deviceName == "Custom Device" || entry.deviceName.startsWith("Custom|")
+        val isHomeUpdateRecord = entry.deviceName == "Custom Device" || entry.deviceName.startsWith("Custom|") || entry.deviceName.equals("This Device", ignoreCase = true)
         val resolvedDeviceName = if (entry.deviceName.startsWith("Custom|")) {
             entry.deviceName.removePrefix("Custom|").ifBlank {
                 (entry.otaUpdate.versionName ?: entry.otaUpdate.componentVersion).substringBefore("_")

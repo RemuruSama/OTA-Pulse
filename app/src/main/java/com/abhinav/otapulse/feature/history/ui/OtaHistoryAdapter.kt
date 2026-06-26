@@ -65,7 +65,7 @@ class OtaHistoryAdapter(
 
         fun bind(entry: OtaHistoryEntry) {
             // Device name
-            val isHomeUpdateRecord = entry.deviceName == "Custom Device" || entry.deviceName.startsWith("Custom|")
+            val isHomeUpdateRecord = entry.deviceName == "Custom Device" || entry.deviceName.startsWith("Custom|") || entry.deviceName.equals("This Device", ignoreCase = true)
             val displayDeviceName = if (entry.deviceName.startsWith("Custom|")) {
                 entry.deviceName.removePrefix("Custom|").ifBlank {
                     (entry.otaUpdate.versionName ?: entry.otaUpdate.componentVersion).substringBefore("_")

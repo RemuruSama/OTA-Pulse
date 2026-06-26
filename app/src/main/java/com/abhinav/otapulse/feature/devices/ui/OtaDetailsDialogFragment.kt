@@ -23,6 +23,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.abhinav.otapulse.R
+import com.abhinav.otapulse.core.common.DeviceUtils
 import com.abhinav.otapulse.core.common.FormatUtils
 import com.abhinav.otapulse.core.common.PermissionHelper
 import com.abhinav.otapulse.core.common.openInAppBrowser
@@ -148,12 +149,16 @@ class OtaDetailsDialogFragment : DialogFragment() {
         val btnExtractProgress = dialogView.findViewById<com.abhinav.otapulse.core.ui.WavyCircularProgressIndicator>(R.id.btnExtractProgress)
         val extractionProgressBar = dialogView.findViewById<com.google.android.material.progressindicator.LinearProgressIndicator>(R.id.extractionProgressBar)
 
-        val titleSuffix = if (data.regionName.isNotBlank()) {
-            data.regionName.toFullRegionName()
-        } else {
-            data.deviceName
+        val productName = when {
+            data.deviceName.equals("This Device", ignoreCase = true) || data.deviceName.equals("Custom Device", ignoreCase = true) -> {
+                DeviceUtils.getDeviceName()
+            }
+            data.deviceName.startsWith("Custom|") -> {
+                data.deviceName.removePrefix("Custom|").ifBlank { DeviceUtils.getDeviceName() }
+            }
+            else -> data.deviceName
         }
-        tvComponentName.text = "${getString(R.string.ota_details_title)}: $titleSuffix"
+        tvComponentName.text = getString(R.string.ota_details_device, productName)
         tvVersionName.text = data.otaUpdate.versionName
         tvAndroidVersion.text = data.otaUpdate.realAndroidVersion?.removePrefix("Android ")?.trim()
         tvSecurityPatch.text = data.otaUpdate.securityPatch
@@ -432,7 +437,7 @@ class OtaDetailsDialogFragment : DialogFragment() {
         }
 
         btnDownloadOta.setHapticClickListener {
-            handleDownload(data.otaUpdate, data.deviceName, data.regionName)
+            handleDownload(data.otaUpdate, productName, data.regionName)
             dismiss()
         }
         btnCopyLink.setHapticClickListener { copyLinkToClipboard(data.otaUpdate.url) }
@@ -448,9 +453,9 @@ class OtaDetailsDialogFragment : DialogFragment() {
             OtaShareHelper.shareOtaCard(
                 requireContext(),
                 OtaCardData(
-                    deviceName = data.deviceName,
+                    deviceName = productName,
                     versionName = data.otaUpdate.versionName,
-                    regionName = data.regionName.toFullRegionName(),
+                    regionName = if (data.deviceName.equals("This Device", ignoreCase = true) || data.deviceName.equals("Custom Device", ignoreCase = true) || data.deviceName.startsWith("Custom|")) null else data.regionName.takeIf { it.isNotBlank() }?.toFullRegionName(),
                     androidVersion = data.otaUpdate.realAndroidVersion,
                     securityPatch = data.otaUpdate.securityPatch,
                     size = data.otaUpdate.size,
