@@ -83,10 +83,11 @@ class AppUpdateFragment : Fragment(R.layout.fragment_app_update) {
         tvAppVersion.text = "Version: $currentVersion"
 
         val info = updateInfo
+        val contentContainer = view.findViewById<LinearLayout>(R.id.contentContainer)
         if (info != null) {
-            setupUpdateAvailableState(info, tvAppVersion, tvChangelog, changelogSection, actionButtonsContainer, btnCheckUpdate, checkUpdateProgressContainer)
+            setupUpdateAvailableState(info, tvAppVersion, tvChangelog, changelogSection, actionButtonsContainer, btnCheckUpdate, checkUpdateProgressContainer, contentContainer)
         } else {
-            setupCheckForUpdateState(changelogSection, actionButtonsContainer, btnCheckUpdate, checkUpdateProgressContainer, currentVersion, tvAppVersion, tvChangelog)
+            setupCheckForUpdateState(changelogSection, actionButtonsContainer, btnCheckUpdate, checkUpdateProgressContainer, currentVersion, tvAppVersion, tvChangelog, contentContainer)
         }
 
         btnLater.setHapticClickListener {
@@ -107,8 +108,10 @@ class AppUpdateFragment : Fragment(R.layout.fragment_app_update) {
         changelogSection: View,
         actionButtonsContainer: View,
         btnCheckUpdate: View,
-        checkUpdateProgressContainer: View
+        checkUpdateProgressContainer: View,
+        contentContainer: LinearLayout
     ) {
+        contentContainer.gravity = android.view.Gravity.TOP or android.view.Gravity.CENTER_HORIZONTAL
         tvAppVersion.text = "New Version: ${info.version}"
         val markwon = Markwon.create(requireContext())
         markwon.setMarkdown(tvChangelog, info.changelog)
@@ -126,8 +129,10 @@ class AppUpdateFragment : Fragment(R.layout.fragment_app_update) {
         checkUpdateProgressContainer: View,
         currentVersion: String,
         tvAppVersion: TextView,
-        tvChangelog: TextView
+        tvChangelog: TextView,
+        contentContainer: LinearLayout
     ) {
+        contentContainer.gravity = android.view.Gravity.CENTER
         changelogSection.visibility = View.GONE
         actionButtonsContainer.visibility = View.GONE
         btnCheckUpdate.visibility = View.VISIBLE
@@ -154,7 +159,7 @@ class AppUpdateFragment : Fragment(R.layout.fragment_app_update) {
                         if (fetchedInfo != null) {
                             val newInfo = AppUpdateInfo(fetchedInfo.version, fetchedInfo.downloadUrl, fetchedInfo.changelog)
                             updateInfo = newInfo
-                            setupUpdateAvailableState(newInfo, tvAppVersion, tvChangelog, changelogSection, actionButtonsContainer, btnCheckUpdate, checkUpdateProgressContainer)
+                            setupUpdateAvailableState(newInfo, tvAppVersion, tvChangelog, changelogSection, actionButtonsContainer, btnCheckUpdate, checkUpdateProgressContainer, contentContainer)
                         } else {
                             checkUpdateProgressContainer.visibility = View.GONE
                             btnCheckUpdate.visibility = View.GONE // Hide it or keep it? The screenshot doesn't show a button. Let's hide it.
