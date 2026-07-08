@@ -133,6 +133,10 @@ class OtaDetailsDialogFragment : DialogFragment() {
         val tvSize = dialogView.findViewById<TextView>(R.id.tvSize)
         val tvArbStatus = dialogView.findViewById<TextView>(R.id.tvArbStatus)
         val tvMd5 = dialogView.findViewById<TextView>(R.id.tvMd5)
+        val tvNvId = dialogView.findViewById<TextView>(R.id.tvNvId)
+        val tvSeparateSoft = dialogView.findViewById<TextView>(R.id.tvSeparateSoft)
+        val tvPublishedTime = dialogView.findViewById<TextView>(R.id.tvPublishedTime)
+        val tvTargetVersion = dialogView.findViewById<TextView>(R.id.tvTargetVersion)
 
         val btnDownloadOta = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnDownloadOta)
         val btnCopyLink = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnCopyLink)
@@ -174,6 +178,11 @@ class OtaDetailsDialogFragment : DialogFragment() {
         tvMd5.setTextColor(tvAndroidVersion.currentTextColor)
 
         tvSize.text = data.otaUpdate.size
+
+        tvNvId.text = data.otaUpdate.nvId16?.ifBlank { null } ?: "N/A"
+        tvSeparateSoft.text = data.otaUpdate.oplusSeparateSoft?.ifBlank { null } ?: "N/A"
+        tvPublishedTime.text = FormatUtils.formatBuildDate(data.otaUpdate)
+        tvTargetVersion.text = data.otaUpdate.otaTargetVersion?.ifBlank { null } ?: data.otaUpdate.realOtaVersion?.ifBlank { null } ?: "N/A"
 
         var selectedPartitions: MutableSet<PartitionInfo> = mutableSetOf()
         var popupAlreadyShownForData = false
@@ -462,7 +471,11 @@ class OtaDetailsDialogFragment : DialogFragment() {
                     arbStatus = data.otaUpdate.arbStatus,
                     md5 = data.otaUpdate.md5,
                     downloadUrl = data.otaUpdate.url,
-                    changelogUrl = data.otaUpdate.panelUrl
+                    changelogUrl = data.otaUpdate.panelUrl,
+                    nvId = data.otaUpdate.nvId16,
+                    projectId = data.otaUpdate.oplusSeparateSoft,
+                    buildDate = FormatUtils.formatBuildDate(data.otaUpdate),
+                    targetVersion = data.otaUpdate.otaTargetVersion?.ifBlank { null } ?: data.otaUpdate.realOtaVersion?.ifBlank { null }
                 )
             )
         }

@@ -191,12 +191,15 @@ class Request(
             val headerMap = extractHeaderMap(vabInfo)
 
             // Description parsing logic
-            val changelogUrl = dataRoot.optJSONObject("description")?.optString("panelUrl") ?: ""
+            val descriptionObj = dataRoot.optJSONObject("description")
+            val changelogUrl = descriptionObj?.optString("panelUrl") ?: ""
+            val h5Url = descriptionObj?.optString("url") ?: ""
 
             // Clean URLs by aggressively filtering out ANY whitespace character (spaces, tabs, newlines, unicode spaces)
             val cleanManualUrl = componentPackets.optString("manualUrl").filter { !it.isWhitespace() }
             val cleanUrl = componentPackets.getString("url").filter { !it.isWhitespace() }
             val cleanPanelUrl = changelogUrl.filter { !it.isWhitespace() }
+            val cleanH5Url = h5Url.filter { !it.isWhitespace() }
 
             componentsList.add(
                 NetworkComponent(
@@ -217,23 +220,31 @@ class Request(
                     androidVersion = headerMap["android_version"],
                     oplusRomVersion = headerMap["oplus_rom_version"],
                     securityPatch = headerMap["security_patch"] ?: dataRoot.optString("securityPatch").takeIf { it.isNotEmpty() },
-                    securityPatchVendor = headerMap["security_patch_vendor"] ?: dataRoot.optString("securityPatchVendor").takeIf { it.isNotEmpty() },
-                    mainlineVersion = headerMap["mainline_version"],
+                    securityPatchVendor = headerMap["security_patch_vendor"] ?: dataRoot.optString("securityPatchVendor").takeIf { it.isNotEmpty() } ?: headerMap["security_patch"] ?: dataRoot.optString("securityPatch").takeIf { it.isNotEmpty() },
                     versionTypeId = dataRoot.optString("versionTypeId"),
                     versionName = dataRoot.optString("versionName"),
                     // New fields from latest JSON
                     realVersionName = dataRoot.optString("realVersionName"),
                     publishedTime = dataRoot.optLong("publishedTime", 0),
                     status = dataRoot.optString("status"),
-                    secLevel = dataRoot.optString("secLevel"),
                     // Existing fields
                     realAndroidVersion = dataRoot.optString("realAndroidVersion"),
                     realOsVersion = dataRoot.optString("realOsVersion"),
                     osVersion = dataRoot.optString("osVersion"),
                     colorOSVersion = dataRoot.optString("colorOSVersion"),
                     panelUrl = cleanPanelUrl,
-                    realOtaVersion = dataRoot.optString("realOtaVersion").takeIf { it.isNotEmpty() },
-                    rawJson = rawJson
+                    realOtaVersion = dataRoot.optString("realOtaVersion").takeIf { it.isNotEmpty() } ?: dataRoot.optString("otaVersion").takeIf { it.isNotEmpty() },
+                    rawJson = rawJson,
+                    nvId16 = dataRoot.optString("nvId16").takeIf { it.isNotEmpty() },
+                    packetId = componentPackets.optString("id").takeIf { it.isNotEmpty() },
+                    packetType = componentPackets.optString("type").takeIf { it.isNotEmpty() },
+                    forbidOtaLocalUpdate = headerMap["forbid_ota_local_update"],
+                    otaRootOrDebug = headerMap["ota_root_or_debug"],
+                    otaTargetVersion = headerMap["ota_target_version"],
+                    oplusSeparateSoft = headerMap["oplus_separate_soft"],
+                    descriptionUrl = cleanH5Url.takeIf { it.isNotEmpty() },
+                    nightUpdateLimit = dataRoot.optString("nightUpdateLimit").takeIf { it.isNotEmpty() },
+                    versionTypeH5 = dataRoot.optString("versionTypeH5").takeIf { it.isNotEmpty() }
                 )
             )
         }

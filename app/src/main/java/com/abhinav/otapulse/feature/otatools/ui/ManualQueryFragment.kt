@@ -465,6 +465,10 @@ class ManualQueryFragment : Fragment() {
         val tvArbStatus = dialogView.findViewById<TextView>(R.id.tvArbStatus)
         val tvSize = dialogView.findViewById<TextView>(R.id.tvSize)
         val tvMd5 = dialogView.findViewById<TextView>(R.id.tvMd5)
+        val tvNvId = dialogView.findViewById<TextView>(R.id.tvNvId)
+        val tvSeparateSoft = dialogView.findViewById<TextView>(R.id.tvSeparateSoft)
+        val tvPublishedTime = dialogView.findViewById<TextView>(R.id.tvPublishedTime)
+        val tvTargetVersion = dialogView.findViewById<TextView>(R.id.tvTargetVersion)
 
         val btnDownloadOta = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnDownloadOta)
         val btnCopyLink = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnCopyLink)
@@ -508,6 +512,11 @@ class ManualQueryFragment : Fragment() {
         tvMd5.setTextColor(tvAndroidVersion.currentTextColor)
 
         tvSize.text = ota.size
+
+        tvNvId.text = ota.nvId16?.ifBlank { null } ?: "N/A"
+        tvSeparateSoft.text = ota.oplusSeparateSoft?.ifBlank { null } ?: "N/A"
+        tvPublishedTime.text = FormatUtils.formatBuildDate(ota)
+        tvTargetVersion.text = ota.otaTargetVersion?.ifBlank { null } ?: ota.realOtaVersion?.ifBlank { null } ?: "N/A"
 
         // ── Shared helpers ────────────────────────────────────────────────────
 
@@ -830,7 +839,11 @@ class ManualQueryFragment : Fragment() {
                     arbStatus = ota.arbStatus,
                     md5 = ota.md5,
                     downloadUrl = ota.url,
-                    changelogUrl = ota.panelUrl
+                    changelogUrl = ota.panelUrl,
+                    nvId = ota.nvId16,
+                    projectId = ota.oplusSeparateSoft,
+                    buildDate = FormatUtils.formatBuildDate(ota),
+                    targetVersion = ota.otaTargetVersion?.ifBlank { null } ?: ota.realOtaVersion?.ifBlank { null }
                 )
             )
         }

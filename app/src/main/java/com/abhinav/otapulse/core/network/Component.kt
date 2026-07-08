@@ -27,7 +27,6 @@ data class NetworkComponent(
     val oplusRomVersion: String?,
     val securityPatch: String?,
     val securityPatchVendor: String?,
-    val mainlineVersion: String?,
     val versionTypeId: String?,
     val versionName: String?,
     val realVersionName: String?,
@@ -40,5 +39,14 @@ data class NetworkComponent(
     val rawJson: String? = null,
     val publishedTime: Long = 0,
     val status: String? = null,
-    val secLevel: String? = null
+    val nvId16: String? = null,
+    val packetId: String? = null,
+    val packetType: String? = null,
+    val forbidOtaLocalUpdate: String? = null,
+    val otaRootOrDebug: String? = null,
+    val otaTargetVersion: String? = null,
+    val oplusSeparateSoft: String? = null,
+    val descriptionUrl: String? = null,
+    val nightUpdateLimit: String? = null,
+    val versionTypeH5: String? = null
 ) : Parcelable

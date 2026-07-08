@@ -29,7 +29,11 @@ data class OtaCardData(
     val arbStatus: String?,
     val md5: String,
     val downloadUrl: String = "",
-    val changelogUrl: String? = null
+    val changelogUrl: String? = null,
+    val nvId: String? = null,
+    val projectId: String? = null,
+    val buildDate: String? = null,
+    val targetVersion: String? = null
 )
 
 /**
@@ -38,7 +42,7 @@ data class OtaCardData(
 object OtaCardGenerator {
 
     private const val CARD_WIDTH = 1200
-    private const val CARD_HEIGHT = 1024
+    private const val CARD_HEIGHT = 980
     private const val CORNER_RADIUS = 48f
 
     fun generate(context: Context, data: OtaCardData): Uri {
@@ -60,15 +64,15 @@ object OtaCardGenerator {
         val clipPath = Path().apply { addRoundRect(cardRect, CORNER_RADIUS, CORNER_RADIUS, Path.Direction.CW) }
         canvas.clipPath(clipPath)
         val accentPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = colors.primary }
-        canvas.drawRect(cardRect.left, cardRect.top, cardRect.left + 16f, cardRect.bottom, accentPaint)
+        canvas.drawRect(cardRect.left, cardRect.top, cardRect.left + 8f, cardRect.bottom, accentPaint)
         canvas.restore()
 
-        val paddingLeft = cardRect.left + 16f + 48f
+        val paddingLeft = cardRect.left + 8f + 48f
         val paddingRight = cardRect.right - 48f
 
         // --- Header ---
         val headerIconRadius = 48f
-        var cy = cardRect.top + 64f + headerIconRadius
+        var cy = cardRect.top + 48f + headerIconRadius
         
         val logoDrawable = ContextCompat.getDrawable(context, R.mipmap.ic_launcher)
         if (logoDrawable != null) {
@@ -84,25 +88,13 @@ object OtaCardGenerator {
         val subtitlePaint = textPaint(32f, colors.onSurfaceVariant)
         canvas.drawText("Update Alert", titleX, cy + 40f, subtitlePaint)
 
-        // Region pill
-        if (!data.regionName.isNullOrBlank()) {
-            val pillText = data.regionName
-            val pillTextPaint = textPaint(28f, colors.primary)
-            val regionW = pillTextPaint.measureText(pillText) + 96f
-            val regionH = 64f
-            val regionLeft = paddingRight - regionW
-            val regionTop = cy - regionH / 2
-            val pillBg = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = colors.primaryContainer }
-            canvas.drawRoundRect(regionLeft, regionTop, paddingRight, regionTop + regionH, regionH / 2, regionH / 2, pillBg)
-            val globeDrawable = ContextCompat.getDrawable(context, R.drawable.ic_language)?.mutate()
-            if (globeDrawable != null) {
-                globeDrawable.setTint(colors.primary)
-                val globeSize = 36
-                globeDrawable.setBounds((regionLeft + 24f).toInt(), (cy - globeSize/2).toInt(), (regionLeft + 24f + globeSize).toInt(), (cy + globeSize/2).toInt())
-                globeDrawable.draw(canvas)
-            }
-            val textY = cy - (pillTextPaint.descent() + pillTextPaint.ascent()) / 2
-            canvas.drawText(pillText, regionLeft + 72f, textY, pillTextPaint)
+        // --- Top Right Header Pills (Region & Watermark) ---
+        val hasRegion = !data.regionName.isNullOrBlank()
+        if (hasRegion) {
+            drawHeaderPill(context, canvas, paddingRight, cy - 32f, data.regionName!!, R.drawable.ic_language, colors.primaryContainer, colors.primary)
+            drawHeaderPill(context, canvas, paddingRight, cy + 36f, "Shared via OTA Pulse  •  @abhinav_v1", R.drawable.ic_share_stroke, colors.surfaceContainer, colors.primary)
+        } else {
+            drawHeaderPill(context, canvas, paddingRight, cy, "Shared via OTA Pulse  •  @abhinav_v1", R.drawable.ic_share_stroke, colors.surfaceContainer, colors.primary)
         }
 
         // --- Divider ---
@@ -120,47 +112,77 @@ object OtaCardGenerator {
         canvas.drawText(data.versionName ?: "Unknown", titleX, cy + 40f, versionPaint)
 
         // --- Stats Grid ---
-        y = cy + headerIconRadius + 48f
-        val gap = 24f
-        val cellW = (paddingRight - paddingLeft - gap) / 2f
-        val cellH = 120f
+        y = cy + headerIconRadius + 36f
+        val gap = 20f
+        val colW3 = (paddingRight - paddingLeft - 2 * gap) / 3f
+        val cellH = 116f
 
         val androidVer = data.androidVersion?.replace(Regex("(?i)android\\s*"), "")?.trim() ?: "—"
         val displayAndroidVer = androidVer.ifEmpty { "—" }
 
-        drawGridCell(context, canvas, paddingLeft, y, cellW, cellH, R.drawable.ic_android, "Android Version", displayAndroidVer, colors)
-        drawGridCell(context, canvas, paddingLeft + cellW + gap, y, cellW, cellH, R.drawable.ic_securitypatch, "Security Patch", data.securityPatch ?: "—", colors)
+        // Row 1
+        drawGridCell(context, canvas, paddingLeft, y, colW3, cellH, R.drawable.ic_android, "Android", displayAndroidVer, colors)
+        drawGridCell(context, canvas, paddingLeft + colW3 + gap, y, colW3, cellH, R.drawable.ic_securitypatch, "Security Patch", data.securityPatch ?: "—", colors)
+        drawGridCell(context, canvas, paddingLeft + 2 * (colW3 + gap), y, colW3, cellH, R.drawable.ic_storage, "Size", data.size, colors)
 
+        // Row 2
         y += cellH + gap
-        drawGridCell(context, canvas, paddingLeft, y, cellW, cellH, R.drawable.ic_storage, "Size", data.size, colors)
-        
         val arbText = data.arbStatus ?: "N/A"
         val arbColor = when {
             arbText.equals("Safe", ignoreCase = true) -> colors.arbSafe
             arbText.contains("Protected", ignoreCase = true) -> colors.arbProtected
             else -> colors.onSurface
         }
-        drawGridCell(context, canvas, paddingLeft + cellW + gap, y, cellW, cellH, R.drawable.ic_security, "ARB Status", arbText, colors, arbColor)
+        drawGridCell(context, canvas, paddingLeft, y, colW3, cellH, R.drawable.ic_security, "ARB Status", arbText, colors, arbColor)
+        drawGridCell(context, canvas, paddingLeft + colW3 + gap, y, colW3, cellH, R.drawable.ic_tag_stroke, "NV Identifier", data.nvId ?: "N/A", colors)
+        drawGridCell(context, canvas, paddingLeft + 2 * (colW3 + gap), y, colW3, cellH, R.drawable.ic_code, "Project ID", data.projectId ?: "N/A", colors)
 
+        // Row 3
+        y += cellH + gap
+        drawGridCell(context, canvas, paddingLeft, y, colW3, cellH, R.drawable.ic_calendar, "Build Date", data.buildDate ?: "N/A", colors)
+        val targetVerDisplay = data.targetVersion ?: "N/A"
+        drawGridCell(context, canvas, paddingLeft + colW3 + gap, y, 2 * colW3 + gap, cellH, R.drawable.ic_ota_version, "Target Version", targetVerDisplay, colors)
+
+        // Row 4
         y += cellH + gap
         val md5Display = data.md5.ifBlank { "N/A" }
         drawGridCell(context, canvas, paddingLeft, y, paddingRight - paddingLeft, cellH, 0, "MD5 Checksum", md5Display, colors)
 
-        // --- Footer ---
-        y += cellH + 48f
-        val footerH = 80f
-
-        val shareIconCx = paddingLeft + 48f
-        val shareIconCy = y + footerH / 2f
-        drawCircleIcon(context, canvas, shareIconCx, shareIconCy, 32f, R.drawable.ic_share_stroke, 36, colors.primaryContainer, colors.primary)
-
-        val footerTextX = shareIconCx + 32f + 24f
-        val text1Paint = textPaint(24f, colors.onSurfaceVariant)
-        canvas.drawText("Shared via OTA Pulse", footerTextX, shareIconCy - 6f, text1Paint)
-        val text2Paint = textPaint(24f, colors.primary)
-        canvas.drawText("@abhinav_v1", footerTextX, shareIconCy + 28f, text2Paint)
-
         return saveBitmap(context, bitmap)
+    }
+
+    private fun drawHeaderPill(
+        context: Context, canvas: Canvas,
+        rightX: Float, centerY: Float,
+        text: String, iconRes: Int,
+        bgColor: Int, contentColor: Int
+    ) {
+        val paint = textPaint(24f, contentColor, Typeface.create(Typeface.DEFAULT, Typeface.BOLD))
+        val pillH = 56f
+        val pillW = paint.measureText(text) + (if (iconRes != 0) 84f else 48f)
+        val leftX = rightX - pillW
+        val topY = centerY - pillH / 2f
+        val bottomY = centerY + pillH / 2f
+
+        val bgPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = bgColor }
+        canvas.drawRoundRect(leftX, topY, rightX, bottomY, pillH / 2f, pillH / 2f, bgPaint)
+
+        var textX = leftX + 24f
+        if (iconRes != 0) {
+            val drawable = ContextCompat.getDrawable(context, iconRes)?.mutate()
+            if (drawable != null) {
+                drawable.setTint(contentColor)
+                val iconSize = 32
+                val iconCx = leftX + 36f
+                drawable.setBounds((iconCx - iconSize / 2).toInt(), (centerY - iconSize / 2).toInt(), (iconCx + iconSize / 2).toInt(), (centerY + iconSize / 2).toInt())
+                drawable.draw(canvas)
+            }
+            textX = leftX + 64f
+        }
+
+        val fontMetrics = paint.fontMetrics
+        val textY = centerY - (fontMetrics.ascent + fontMetrics.descent) / 2f
+        canvas.drawText(text, textX, textY, paint)
     }
 
     private fun drawGridCell(
@@ -173,16 +195,16 @@ object OtaCardGenerator {
         val bgPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = colors.surfaceContainer }
         canvas.drawRoundRect(x, y, x + w, y + h, 32f, 32f, bgPaint)
         
-        val iconCx = x + 48f
+        val iconCx = x + 40f
         val iconCy = y + h / 2f
-        drawCircleIcon(context, canvas, iconCx, iconCy, 32f, iconRes, 36, colors.primaryContainer, colors.primary)
+        drawCircleIcon(context, canvas, iconCx, iconCy, 28f, iconRes, 32, colors.primaryContainer, colors.primary)
         
-        val textX = iconCx + 32f + 24f
+        val textX = iconCx + 28f + 16f
         val labelPaint = textPaint(24f, colors.onSurfaceVariant)
         canvas.drawText(label, textX, y + 44f, labelPaint)
         
         val valPaint = textPaint(36f, valueColor ?: colors.onSurface, Typeface.create(Typeface.DEFAULT, Typeface.BOLD))
-        val displayVal = ellipsize(value, valPaint, w - (textX - x) - 24f)
+        val displayVal = fitTextOrEllipsize(value, valPaint, w - (textX - x) - 16f)
         canvas.drawText(displayVal, textX, y + h - 24f, valPaint)
     }
 
@@ -250,6 +272,18 @@ object OtaCardGenerator {
             this.textSize = sizePx
             this.typeface = typeface
         }
+
+    private fun fitTextOrEllipsize(text: String, paint: Paint, maxWidth: Float, minTextSize: Float = 22f): String {
+        var currentSize = paint.textSize
+        while (currentSize >= minTextSize && paint.measureText(text) > maxWidth) {
+            currentSize -= 2f
+            paint.textSize = currentSize
+        }
+        if (paint.measureText(text) <= maxWidth) {
+            return text
+        }
+        return ellipsize(text, paint, maxWidth)
+    }
 
     private fun ellipsize(text: String, paint: Paint, maxWidth: Float): String {
         if (paint.measureText(text) <= maxWidth) return text

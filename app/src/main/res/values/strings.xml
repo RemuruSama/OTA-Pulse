@@ -494,6 +494,10 @@
     <string name="label_security_patch">Security Patch</string>
     <string name="label_size">Size</string>
     <string name="label_md5">MD5</string>
+    <string name="label_nv_id">NV Identifier</string>
+    <string name="label_separate_soft">Project ID</string>
+    <string name="label_target_version">Target Version</string>
+    <string name="label_published_time">Build Date</string>
     <string name="btn_changelog">Changelog</string>
 
     <!-- Manual Query Fragment -->
