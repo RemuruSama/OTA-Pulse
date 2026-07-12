@@ -18,7 +18,7 @@ data class UpdateInfo(
 
 object GitHubUpdater {
     private const val TAG = "GitHubUpdater"
-    private const val REPO_OWNER = "RemuruSama"
+    private const val REPO_OWNER = "SayanthRock"
     private const val REPO_NAME = "OTA-Pulse"
 
     /**
@@ -37,7 +37,7 @@ object GitHubUpdater {
 
         val request = Request.Builder()
             .url(url)
-            .header("User-Agent", "OTAPulse/$currentVersion")
+            .header("User-Agent", "OtaRock/$currentVersion")
             .build()
 
         Thread {
@@ -93,7 +93,7 @@ object GitHubUpdater {
             val webUrl = "https://github.com/$REPO_OWNER/$REPO_NAME/releases/latest"
             val request = Request.Builder()
                 .url(webUrl)
-                .header("User-Agent", "OTAPulse/$currentVersion")
+                .header("User-Agent", "OtaRock/$currentVersion")
                 .build()
             httpClient.newCall(request).execute().use { response ->
                 if (response.isSuccessful) {
@@ -103,14 +103,14 @@ object GitHubUpdater {
                         val cleanCurrent = currentVersion.removePrefix("v")
                         if (isNewerVersion(cleanLatest, cleanCurrent)) {
                             val assetsUrl = "https://github.com/$REPO_OWNER/$REPO_NAME/releases/expanded_assets/$tag"
-                            val assetsReq = Request.Builder().url(assetsUrl).header("User-Agent", "OTAPulse/$currentVersion").build()
+                            val assetsReq = Request.Builder().url(assetsUrl).header("User-Agent", "OtaRock/$currentVersion").build()
                             val downloadUrl = runCatching {
                                 httpClient.newCall(assetsReq).execute().use { assetsResp ->
                                     val html = assetsResp.body.string()
                                     val match = Regex("""href="([^"]+\.apk)"""", RegexOption.IGNORE_CASE).find(html)
                                     match?.groupValues?.get(1)?.let { if (it.startsWith("/")) "https://github.com$it" else it }
                                 }
-                            }.getOrNull() ?: "https://github.com/$REPO_OWNER/$REPO_NAME/releases/download/$tag/otapulse_update_$cleanLatest.apk"
+                            }.getOrNull() ?: "https://github.com/$REPO_OWNER/$REPO_NAME/releases/download/$tag/otarock_update_$cleanLatest.apk"
 
                             dispatchResult(UpdateInfo(tag, downloadUrl, "New release $tag available on GitHub."), onResult)
                             return
