@@ -17,7 +17,7 @@ class AppUpdateRepositoryImpl @Inject constructor(
 ) : AppUpdateRepository {
 
     private val TAG = "AppUpdateRepository"
-    private val REPO_OWNER = "RemuruSama"
+    private val REPO_OWNER = "SayanthRock"
     private val REPO_NAME = "OTA-Pulse"
 
     override suspend fun checkForUpdate(currentVersion: String): Result<AppUpdateInfo?> = withContext(Dispatchers.IO) {
@@ -26,7 +26,7 @@ class AppUpdateRepositoryImpl @Inject constructor(
 
         val request = Request.Builder()
             .url(url)
-            .header("User-Agent", "OTAPulse/$currentVersion")
+            .header("User-Agent", "OtaRock/$currentVersion")
             .build()
 
         try {
@@ -78,7 +78,7 @@ class AppUpdateRepositoryImpl @Inject constructor(
             val webUrl = "https://github.com/$REPO_OWNER/$REPO_NAME/releases/latest"
             val request = Request.Builder()
                 .url(webUrl)
-                .header("User-Agent", "OTAPulse/$currentVersion")
+                .header("User-Agent", "OtaRock/$currentVersion")
                 .build()
             client.newCall(request).execute().use { response ->
                 if (response.isSuccessful) {
@@ -88,14 +88,14 @@ class AppUpdateRepositoryImpl @Inject constructor(
                         val cleanCurrent = currentVersion.removePrefix("v")
                         if (isNewerVersion(cleanLatest, cleanCurrent)) {
                             val assetsUrl = "https://github.com/$REPO_OWNER/$REPO_NAME/releases/expanded_assets/$tag"
-                            val assetsReq = Request.Builder().url(assetsUrl).header("User-Agent", "OTAPulse/$currentVersion").build()
+                            val assetsReq = Request.Builder().url(assetsUrl).header("User-Agent", "OtaRock/$currentVersion").build()
                             val downloadUrl = runCatching {
                                 client.newCall(assetsReq).execute().use { assetsResp ->
                                     val html = assetsResp.body.string()
                                     val match = Regex("""href="([^"]+\.apk)"""", RegexOption.IGNORE_CASE).find(html)
                                     match?.groupValues?.get(1)?.let { if (it.startsWith("/")) "https://github.com$it" else it }
                                 }
-                            }.getOrNull() ?: "https://github.com/$REPO_OWNER/$REPO_NAME/releases/download/$tag/otapulse_update_$cleanLatest.apk"
+                            }.getOrNull() ?: "https://github.com/$REPO_OWNER/$REPO_NAME/releases/download/$tag/otarock_update_$cleanLatest.apk"
 
                             return Result.success(AppUpdateInfo(tag, downloadUrl, "New release $tag available on GitHub."))
                         } else {
@@ -146,7 +146,7 @@ class AppUpdateRepositoryImpl @Inject constructor(
             val url = "https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/releases/tags/$tag"
             val request = Request.Builder()
                 .url(url)
-                .header("User-Agent", "OTAPulse/$versionTag")
+                .header("User-Agent", "OtaRock/$versionTag")
                 .build()
             try {
                 client.newCall(request).execute().use { response ->
