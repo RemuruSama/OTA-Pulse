@@ -34,12 +34,12 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.abhinav.otapulse"
+        applicationId = "com.sayanthrock.OTArock"
         minSdk = 29
         targetSdk = 37
         versionCode = 27
         versionName = "3.1.2"
-        
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
