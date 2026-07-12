@@ -19,12 +19,13 @@ package com.abhinav.otapulse.core.ui.theme
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import com.materialkolor.DynamicMaterialTheme
+import com.materialkolor.PaletteStyle
 
 /**
  * Master theme composable for OTA Pulse.
@@ -38,38 +39,44 @@ fun OtaPulseTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     amoledDark: Boolean = false,
     dynamicColor: Boolean = true,
+    seedColor: Color = Color(0xFFBA1A1A),
+    paletteStyle: PaletteStyle = PaletteStyle.TonalSpot,
     content: @Composable () -> Unit
 ) {
     val context = LocalContext.current
 
-    val (colorScheme, extendedColors, holoConfig) = when (themeMode) {
+    val (extendedColors, holoConfig) = when (themeMode) {
         ThemeMode.MATERIAL_YOU -> {
-            val baseScheme = when {
-                dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-                    if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-                }
-                darkTheme -> otaPulseDarkColorScheme()
-                else -> otaPulseLightColorScheme()
-            }
-
-            val finalScheme = if (darkTheme && amoledDark) {
-                baseScheme.copy(
-                    background = Color.Black,
-                    surface = Color.Black
-                )
-            } else {
-                baseScheme
-            }
-
             val ext = if (darkTheme) {
                 if (amoledDark) DarkExtendedColors.copy(glassPanel = Color.Black.copy(alpha = 0.8f)) else DarkExtendedColors
             } else {
                 LightExtendedColors
             }
-
-            Triple(finalScheme, ext, HolographicConfig(isEnabled = false))
+            Pair(ext, HolographicConfig(isEnabled = false))
         }
         ThemeMode.HOLOGRAPHIC -> {
+            val ext = if (amoledDark) {
+                HoloExtendedColors.copy(glassPanel = Color.Black.copy(alpha = 0.75f))
+            } else {
+                HoloExtendedColors
+            }
+            Pair(ext, HolographicConfig(isEnabled = true))
+        }
+    }
+
+    val finalSeedColor = remember(seedColor, dynamicColor) {
+        if (dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            Color(context.getColor(android.R.color.system_accent1_500))
+        } else {
+            seedColor
+        }
+    }
+
+    CompositionLocalProvider(
+        LocalOtaPulseExtendedColors provides extendedColors,
+        LocalHolographicConfig provides holoConfig
+    ) {
+        if (themeMode == ThemeMode.HOLOGRAPHIC) {
             val baseScheme = holographicColorScheme()
             val finalScheme = if (amoledDark) {
                 baseScheme.copy(
@@ -79,31 +86,24 @@ fun OtaPulseTheme(
             } else {
                 baseScheme
             }
-
-            val ext = if (amoledDark) {
-                HoloExtendedColors.copy(glassPanel = Color.Black.copy(alpha = 0.75f))
-            } else {
-                HoloExtendedColors
-            }
-
-            Triple(
-                finalScheme,
-                ext,
-                HolographicConfig(isEnabled = true)
+            MaterialTheme(
+                colorScheme = finalScheme,
+                typography = OtaPulseTypography,
+                shapes = OtaPulseShapes,
+                content = content
+            )
+        } else {
+            DynamicMaterialTheme(
+                seedColor = finalSeedColor,
+                isDark = darkTheme,
+                isAmoled = amoledDark,
+                style = paletteStyle,
+                typography = OtaPulseTypography,
+                shapes = OtaPulseShapes,
+                animate = true,
+                content = content
             )
         }
-    }
-
-    CompositionLocalProvider(
-        LocalOtaPulseExtendedColors provides extendedColors,
-        LocalHolographicConfig provides holoConfig
-    ) {
-        MaterialTheme(
-            colorScheme = colorScheme,
-            typography = OtaPulseTypography,
-            shapes = OtaPulseShapes,
-            content = content
-        )
     }
 }
 

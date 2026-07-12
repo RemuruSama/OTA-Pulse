@@ -163,7 +163,9 @@ fun OtaPulseApp(
             else -> isSystemInDarkTheme()
         },
         amoledDark = themeSettings.amoledDark,
-        dynamicColor = themeSettings.dynamicColor
+        dynamicColor = themeSettings.dynamicColor,
+        seedColor = Color(themeSettings.seedColor),
+        paletteStyle = themeSettings.paletteStyle
     ) {
         val backgroundBrush = if (themeSettings.themeMode == ThemeMode.HOLOGRAPHIC && themeSettings.gradientBackground) {
             holographicBackgroundBrush()

@@ -99,6 +99,7 @@ import com.abhinav.otapulse.core.ui.components.OtaPrimaryButton
 import com.abhinav.otapulse.core.ui.components.OtaSwitch
 import com.abhinav.otapulse.core.ui.components.OtaTopAppBar
 import com.abhinav.otapulse.core.ui.theme.ThemeMode
+import com.materialkolor.PaletteStyle
 import com.abhinav.otapulse.feature.settings.SettingsViewModel
 import androidx.compose.ui.tooling.preview.Preview
 import com.abhinav.otapulse.core.ui.theme.OtaPulseTheme
@@ -131,6 +132,8 @@ fun SettingsScreen(
         onSetAmoledDark = viewModel::setAmoledDark,
         onSetDynamicColor = viewModel::setDynamicColor,
         onSetGradientBackground = viewModel::setGradientBackground,
+        onSetSeedColor = viewModel::setSeedColor,
+        onSetPaletteStyle = viewModel::setPaletteStyle,
         onSetAdvancedMode = viewModel::setAdvancedMode,
         onSetAutoUpdateCheck = viewModel::setAutoUpdateCheck,
         onSetAutoSoftwareUpdateCheck = viewModel::setAutoSoftwareUpdateCheck,
@@ -158,6 +161,8 @@ fun SettingsContent(
     onSetAmoledDark: (Boolean) -> Unit = {},
     onSetDynamicColor: (Boolean) -> Unit = {},
     onSetGradientBackground: (Boolean) -> Unit = {},
+    onSetSeedColor: (Long) -> Unit = {},
+    onSetPaletteStyle: (PaletteStyle) -> Unit = {},
     onSetAdvancedMode: (Boolean) -> Unit = {},
     onSetAutoUpdateCheck: (Boolean) -> Unit = {},
     onSetAutoSoftwareUpdateCheck: (Boolean) -> Unit = {},
@@ -215,7 +220,9 @@ fun SettingsContent(
                 onNightModeChanged = onSetNightMode,
                 onAmoledChanged = onSetAmoledDark,
                 onDynamicColorChanged = onSetDynamicColor,
-                onGradientChanged = onSetGradientBackground
+                onGradientChanged = onSetGradientBackground,
+                onSeedColorChanged = onSetSeedColor,
+                onPaletteStyleChanged = onSetPaletteStyle
             )
 
             GeneralSection(
@@ -301,10 +308,14 @@ private fun AppearanceSection(
     onNightModeChanged: (Int) -> Unit,
     onAmoledChanged: (Boolean) -> Unit,
     onDynamicColorChanged: (Boolean) -> Unit,
-    onGradientChanged: (Boolean) -> Unit
+    onGradientChanged: (Boolean) -> Unit,
+    onSeedColorChanged: (Long) -> Unit,
+    onPaletteStyleChanged: (PaletteStyle) -> Unit
 ) {
     val isDark = themeSettings.nightMode == AppCompatDelegate.MODE_NIGHT_YES ||
         (themeSettings.nightMode == AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM && androidx.compose.foundation.isSystemInDarkTheme())
+
+    val context = LocalContext.current
 
     OtaCard(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)) {
         Column(modifier = Modifier.padding(18.dp)) {
@@ -431,6 +442,123 @@ private fun AppearanceSection(
             }
 
             Spacer(modifier = Modifier.height(20.dp))
+
+            // Custom Seed Color Selection (Material You mode only)
+            if (themeSettings.themeMode == ThemeMode.MATERIAL_YOU) {
+                Text(
+                    text = "SEED COLOR & STYLE",
+                    style = MaterialTheme.typography.labelMedium.copy(
+                        fontWeight = FontWeight.Bold,
+                        letterSpacing = 1.sp
+                    ),
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+
+                val colors = listOf(
+                    0xFFBA1A1A, // Red
+                    0xFF6750A4, // Purple
+                    0xFF006A6A, // Teal
+                    0xFF386A20, // Green
+                    0xFF8B4F00, // Orange
+                    0xFF005AC1, // Blue
+                    0xFF7D5260  // Pink
+                )
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    colors.forEach { colorHex ->
+                        Surface(
+                            shape = RoundedCornerShape(8.dp),
+                            color = Color(colorHex),
+                            modifier = Modifier
+                                .size(32.dp)
+                                .clip(RoundedCornerShape(8.dp))
+                                .clickable {
+                                    context.performHapticFeedback()
+                                    onSeedColorChanged(colorHex)
+                                },
+                            border = if (themeSettings.seedColor == colorHex) 
+                                BorderStroke(2.dp, MaterialTheme.colorScheme.outline) 
+                            else null
+                        ) {
+                            if (themeSettings.seedColor == colorHex) {
+                                Box(contentAlignment = Alignment.Center) {
+                                    Icon(
+                                        imageVector = Icons.Rounded.Check,
+                                        contentDescription = null,
+                                        tint = Color.White,
+                                        modifier = Modifier.size(16.dp)
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(12.dp))
+
+                // Palette Style Selection
+                var showStyleMenu by remember { mutableStateOf(false) }
+                Surface(
+                    shape = RoundedCornerShape(12.dp),
+                    color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(12.dp))
+                        .clickable { showStyleMenu = !showStyleMenu }
+                ) {
+                    Row(
+                        modifier = Modifier.padding(12.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "Style: ${themeSettings.paletteStyle.name}",
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                        Icon(
+                            imageVector = Icons.Rounded.ChevronRight,
+                            contentDescription = null,
+                            modifier = Modifier.size(20.dp)
+                        )
+                    }
+                }
+                
+                if (showStyleMenu) {
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                        PaletteStyle.entries.forEach { style ->
+                            Surface(
+                                shape = RoundedCornerShape(8.dp),
+                                color = if (themeSettings.paletteStyle == style)
+                                    MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
+                                else Color.Transparent,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clip(RoundedCornerShape(8.dp))
+                                    .clickable {
+                                        onPaletteStyleChanged(style)
+                                        showStyleMenu = false
+                                    }
+                            ) {
+                                Text(
+                                    text = style.name,
+                                    modifier = Modifier.padding(8.dp),
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = if (themeSettings.paletteStyle == style)
+                                        MaterialTheme.colorScheme.primary
+                                    else MaterialTheme.colorScheme.onSurface
+                                )
+                            }
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(20.dp))
+            }
 
             // Visual Enhancements
             Text(

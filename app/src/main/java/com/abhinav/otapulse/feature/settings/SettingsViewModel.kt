@@ -33,6 +33,7 @@ import com.abhinav.otapulse.core.preferences.AppSettingsPreferences
 import com.abhinav.otapulse.core.preferences.ThemePreferences
 import com.abhinav.otapulse.core.preferences.ThemeSettings
 import com.abhinav.otapulse.core.ui.theme.ThemeMode
+import com.materialkolor.PaletteStyle
 import com.abhinav.otapulse.core.worker.SoftwareUpdateCheckWorker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -83,6 +84,8 @@ class SettingsViewModel @Inject constructor(
     fun setAmoledDark(enabled: Boolean) = themePreferences.setAmoledDark(enabled)
     fun setDynamicColor(enabled: Boolean) = themePreferences.setDynamicColor(enabled)
     fun setGradientBackground(enabled: Boolean) = themePreferences.setGradientBackground(enabled)
+    fun setSeedColor(color: Long) = themePreferences.setSeedColor(color)
+    fun setPaletteStyle(style: PaletteStyle) = themePreferences.setPaletteStyle(style)
 
     fun setAdvancedMode(enabled: Boolean) = appSettingsPreferences.setAdvancedMode(enabled)
     fun setAutoUpdateCheck(enabled: Boolean) = appSettingsPreferences.setAutoUpdateCheck(enabled)

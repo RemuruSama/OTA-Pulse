@@ -14,6 +14,8 @@ okhttp = "5.4.0"
 work-runtime-ktx = "2.11.2"
 dynamicanimation = "1.1.0"
 room = "2.8.4"
+material3 = "1.5.0-alpha22"
+materialKolor = "5.0.0-alpha07"
 
 hiltWork = "1.4.0"
 junit = "4.13.2"
@@ -43,7 +45,8 @@ protobufPlugin = "0.10.0"
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplashscreen" }
-androidx-material3 = { module = "androidx.compose.material3:material3" }
+androidx-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
+material-kolor = { module = "com.materialkolor:material-kolor", version.ref = "materialKolor" }
 androidx-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 androidx-ui = { module = "androidx.compose.ui:ui" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }

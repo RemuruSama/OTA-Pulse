@@ -20,6 +20,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
 import com.abhinav.otapulse.core.ui.theme.ThemeMode
+import com.materialkolor.PaletteStyle
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -32,7 +33,9 @@ data class ThemeSettings(
     val nightMode: Int = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM,
     val amoledDark: Boolean = false,
     val dynamicColor: Boolean = true,
-    val gradientBackground: Boolean = true
+    val gradientBackground: Boolean = true,
+    val seedColor: Long = 0xFFBA1A1A,
+    val paletteStyle: PaletteStyle = PaletteStyle.TonalSpot
 )
 
 @Singleton
@@ -48,6 +51,8 @@ class ThemePreferences @Inject constructor(
         const val PREF_AMOLED_MODE = "amoled_mode"
         const val PREF_DYNAMIC_COLOR = "dynamic_color_enabled"
         const val PREF_GRADIENT_BACKGROUND = "gradient_background_enabled"
+        const val PREF_SEED_COLOR = "seed_color"
+        const val PREF_PALETTE_STYLE = "palette_style"
     }
 
     val themeSettingsFlow: Flow<ThemeSettings> = callbackFlow {
@@ -70,13 +75,22 @@ class ThemePreferences @Inject constructor(
         val amoledDark = prefs.getBoolean(PREF_AMOLED_MODE, false)
         val dynamicColor = prefs.getBoolean(PREF_DYNAMIC_COLOR, true)
         val gradientBackground = prefs.getBoolean(PREF_GRADIENT_BACKGROUND, true)
+        val seedColor = prefs.getLong(PREF_SEED_COLOR, 0xFFBA1A1A)
+        val paletteStyleStr = prefs.getString(PREF_PALETTE_STYLE, PaletteStyle.TonalSpot.name) ?: PaletteStyle.TonalSpot.name
+        val paletteStyle = try {
+            PaletteStyle.valueOf(paletteStyleStr)
+        } catch (e: Exception) {
+            PaletteStyle.TonalSpot
+        }
 
         return ThemeSettings(
             themeMode = themeMode,
             nightMode = nightMode,
             amoledDark = amoledDark,
             dynamicColor = dynamicColor,
-            gradientBackground = gradientBackground
+            gradientBackground = gradientBackground,
+            seedColor = seedColor,
+            paletteStyle = paletteStyle
         )
     }
 
@@ -105,5 +119,13 @@ class ThemePreferences @Inject constructor(
 
     fun setGradientBackground(enabled: Boolean) {
         prefs.edit().putBoolean(PREF_GRADIENT_BACKGROUND, enabled).apply()
+    }
+
+    fun setSeedColor(color: Long) {
+        prefs.edit().putLong(PREF_SEED_COLOR, color).apply()
+    }
+
+    fun setPaletteStyle(style: PaletteStyle) {
+        prefs.edit().putString(PREF_PALETTE_STYLE, style.name).apply()
     }
 }
