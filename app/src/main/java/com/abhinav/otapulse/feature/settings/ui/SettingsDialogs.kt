@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2026 OTA Pulse
+ * Copyright (C) 2026 Ota Rock
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -79,26 +79,26 @@ fun LanguageSelectionDialog(
 
     val languages = linkedMapOf(
         "system" to context.getString(R.string.language_option_system),
-        "ar"    to context.getString(R.string.lang_ar),
-        "bn"    to context.getString(R.string.lang_bn),
-        "zh"    to context.getString(R.string.lang_zh),
+        "ar" to context.getString(R.string.lang_ar),
+        "bn" to context.getString(R.string.lang_bn),
+        "zh" to context.getString(R.string.lang_zh),
         "zh-TW" to context.getString(R.string.lang_zh_TW),
-        "fr"    to context.getString(R.string.lang_fr),
-        "de"    to context.getString(R.string.lang_de),
-        "hi"    to context.getString(R.string.lang_hi),
-        "id"    to context.getString(R.string.lang_id),
-        "it"    to context.getString(R.string.lang_it),
-        "ja"    to context.getString(R.string.lang_ja),
-        "ms"    to context.getString(R.string.lang_ms),
+        "fr" to context.getString(R.string.lang_fr),
+        "de" to context.getString(R.string.lang_de),
+        "hi" to context.getString(R.string.lang_hi),
+        "id" to context.getString(R.string.lang_id),
+        "it" to context.getString(R.string.lang_it),
+        "ja" to context.getString(R.string.lang_ja),
+        "ms" to context.getString(R.string.lang_ms),
         "pt-BR" to context.getString(R.string.lang_pt_BR),
         "pt-PT" to context.getString(R.string.lang_pt_PT),
-        "ru"    to context.getString(R.string.lang_ru),
-        "es"    to context.getString(R.string.lang_es),
-        "fil"   to context.getString(R.string.lang_fil),
-        "th"    to context.getString(R.string.lang_th),
-        "tr"    to context.getString(R.string.lang_tr),
-        "ur"    to context.getString(R.string.lang_ur),
-        "vi"    to context.getString(R.string.lang_vi)
+        "ru" to context.getString(R.string.lang_ru),
+        "es" to context.getString(R.string.lang_es),
+        "fil" to context.getString(R.string.lang_fil),
+        "th" to context.getString(R.string.lang_th),
+        "tr" to context.getString(R.string.lang_tr),
+        "ur" to context.getString(R.string.lang_ur),
+        "vi" to context.getString(R.string.lang_vi)
     )
 
     Dialog(onDismissRequest = onDismiss) {
@@ -365,7 +365,7 @@ fun DeveloperDialog(onDismiss: () -> Unit) {
                         text = context.getString(R.string.github_button_text),
                         icon = ImageVector.vectorResource(id = R.drawable.ic_github),
                         onClick = {
-                            context.openExternalBrowser("https://github.com/RemuruSama")
+                            context.openExternalBrowser("https://github.com/SayanthRock")
                             onDismiss()
                         },
                         modifier = Modifier.widthIn(min = 140.dp)
@@ -391,7 +391,7 @@ fun ContributorsDialog(onDismiss: () -> Unit) {
                 Text(text = "Open Source Community", style = MaterialTheme.typography.titleMedium)
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "Special thanks to all contributors who helped build, translate, and improve OTA Pulse on GitHub.",
+                    text = "Special thanks to all contributors who helped build, translate, and improve Ota Rock on GitHub.",
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
@@ -400,7 +400,7 @@ fun ContributorsDialog(onDismiss: () -> Unit) {
             OtaPrimaryButton(
                 text = "View on GitHub",
                 onClick = {
-                    context.openExternalBrowser("https://github.com/RemuruSama/OTA-Pulse")
+                    context.openExternalBrowser("https://github.com/SayanthRock/OTA-Pulse")
                     onDismiss()
                 }
             )
