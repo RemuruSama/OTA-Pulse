@@ -4,16 +4,17 @@
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
-    <!-- Download arrow -->
+    <!-- OTA download arrow -->
     <path
         android:fillColor="#FFFFFFFF"
-        android:pathData="M37,32 h10 v22 h9 l-14,20 l-14,-20 h9 z" />
-    <!-- Crystal (right facet, lit) -->
+        android:pathData="M38,36 L48,36 L48,62 L57,62 L43,79 L29,62 L38,62 Z" />
+    <!-- Crystalline rock / gem -->
     <path
         android:fillColor="#FFFFFFFF"
-        android:pathData="M71,32 L82,48 L74,80 L70,80 L70,32 Z" />
-    <!-- Crystal (left facet, shaded) -->
+        android:pathData="M72,31 L82,42 L82,61 L72,73 L62,61 L62,42 Z" />
+    <!-- Facet lines cut into the gem -->
     <path
-        android:fillColor="#FFCFE0FF"
-        android:pathData="M71,32 L70,32 L70,80 L68,80 L60,48 Z" />
+        android:strokeColor="#FF3A1BB0"
+        android:strokeWidth="2"
+        android:pathData="M62,42 L72,47 L82,42 M72,47 L72,73" />
 </vector>
