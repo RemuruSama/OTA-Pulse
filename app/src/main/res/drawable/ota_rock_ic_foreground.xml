@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Download arrow -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M37,32 h10 v22 h9 l-14,20 l-14,-20 h9 z" />
+    <!-- Crystal (right facet, lit) -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M71,32 L82,48 L74,80 L70,80 L70,32 Z" />
+    <!-- Crystal (left facet, shaded) -->
+    <path
+        android:fillColor="#FFCFE0FF"
+        android:pathData="M71,32 L70,32 L70,80 L68,80 L60,48 Z" />
+</vector>
