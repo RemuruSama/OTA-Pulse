@@ -4,7 +4,9 @@ import chromeos_update_engine.UpdateMetadata.DeltaArchiveManifest
 import chromeos_update_engine.UpdateMetadata.InstallOperation
 import com.abhinav.otapulse.ota.network.RangeHttpClient
 import com.abhinav.otapulse.ota.resume.ExtractionState
+import com.abhinav.otapulse.ota.utils.BsDiffApplier
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream
+import org.apache.commons.compress.compressors.brotli.BrotliCompressorInputStream
 import org.tukaani.xz.XZInputStream
 import java.io.ByteArrayInputStream
 import java.io.OutputStream
@@ -12,14 +14,26 @@ import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
 
 /**
+ * Interface for reading data from a source partition during delta OTA extraction.
+ */
+interface SourceReader {
+    /**
+     * Read data from the source partition into a [ByteArray].
+     * [startBlock] and [numBlocks] are in [blockSize] units.
+     */
+    fun readBlocks(startBlock: Long, numBlocks: Long, blockSize: Long): ByteArray
+}
+
+/**
  * The core engine for decompressing and writing partition data.
- * Supports REPLACE, REPLACE_BZ, and REPLACE_XZ operations.
+ * Supports REPLACE, REPLACE_BZ, REPLACE_XZ, SOURCE_COPY, SOURCE_BSDIFF, and MOVE operations.
  */
 class PayloadExtractor(
     private val url: String,
     private val http: RangeHttpClient,
     private val header: PayloadHeader,
-    private val blockSize: Long = 4096L
+    private val blockSize: Long = 4096L,
+    private val sourceReader: SourceReader? = null
 ) {
     /**
      * Extract [partitionName] into [output].
@@ -49,11 +63,11 @@ class PayloadExtractor(
         var i = startOpIdx
         while (i < ops.size) {
             currentCoroutineContext().ensureActive()
-            val firstOp = ops[i]
+            val op = ops[i]
 
-            // Handle non-blob operations (ZERO, DISCARD, MOVE)
-            if (firstOp.type == InstallOperation.Type.ZERO) {
-                val zeroBytes = firstOp.dstExtentsList.sumOf { it.numBlocks } * blockSize
+            // 1. Handle non-blob or source-only operations
+            if (op.type == InstallOperation.Type.ZERO) {
+                val zeroBytes = op.dstExtentsList.sumOf { it.numBlocks } * blockSize
                 if (zeroBytes > 0) {
                     val buffer = ByteArray(blockSize.toInt())
                     var remaining = zeroBytes
@@ -69,20 +83,46 @@ class PayloadExtractor(
                 i++
                 continue
             }
-            if (firstOp.type == InstallOperation.Type.DISCARD || 
-                firstOp.type == InstallOperation.Type.MOVE || 
-                firstOp.dataLength == 0L) {
+
+            if (op.type == InstallOperation.Type.SOURCE_COPY) {
+                val reader = sourceReader ?: error("SOURCE_COPY requires a source partition reader.")
+                op.srcExtentsList.forEach { extent ->
+                    val data = reader.readBlocks(extent.startBlock, extent.numBlocks, blockSize)
+                    output.write(data)
+                    writtenBytes += data.size
+                }
                 onProgress(writtenBytes, totalBytes, i)
                 i++
                 continue
             }
 
+            if (op.type == InstallOperation.Type.MOVE) {
+                // MOVE is typically used within the same partition, but for simple extraction we treat it as COPY if source is provided
+                // Historically MOVE used src_extents in the same partition.
+                val reader = sourceReader ?: error("MOVE requires a source partition reader.")
+                op.srcExtentsList.forEach { extent ->
+                    val data = reader.readBlocks(extent.startBlock, extent.numBlocks, blockSize)
+                    output.write(data)
+                    writtenBytes += data.size
+                }
+                onProgress(writtenBytes, totalBytes, i)
+                i++
+                continue
+            }
+
+            if (op.type == InstallOperation.Type.DISCARD || op.dataLength == 0L) {
+                onProgress(writtenBytes, totalBytes, i)
+                i++
+                continue
+            }
+
+            // 2. Handle blob-based operations (REPLACE*, SOURCE_BSDIFF)
             // Coalesce contiguous operations into a bundle
             val bundleOps = mutableListOf<InstallOperation>()
-            bundleOps.add(firstOp)
+            bundleOps.add(op)
             
-            val bundleStart = header.blobOffset + firstOp.dataOffset
-            var bundleLength = firstOp.dataLength
+            val bundleStart = header.blobOffset + op.dataOffset
+            var bundleLength = op.dataLength
             val maxBundleSize = 4 * 1024 * 1024L // 4MB
 
             var nextIdx = i + 1
@@ -95,7 +135,8 @@ class PayloadExtractor(
                 val isBlobOp = nextOp.dataLength > 0 && 
                                nextOp.type != InstallOperation.Type.ZERO && 
                                nextOp.type != InstallOperation.Type.DISCARD && 
-                               nextOp.type != InstallOperation.Type.MOVE
+                               nextOp.type != InstallOperation.Type.MOVE &&
+                               nextOp.type != InstallOperation.Type.SOURCE_COPY
                 
                 if (isContiguous && isBlobOp && (bundleLength + nextOp.dataLength <= maxBundleSize)) {
                     bundleOps.add(nextOp)
@@ -113,14 +154,14 @@ class PayloadExtractor(
 
             // Process each op in the bundle using the shared buffer
             var offsetInBundle = 0
-            for ((index, op) in bundleOps.withIndex()) {
+            for ((index, bOp) in bundleOps.withIndex()) {
                 currentCoroutineContext().ensureActive()
-                val opData = bundleData.copyOfRange(offsetInBundle, offsetInBundle + op.dataLength.toInt())
-                val raw = decompress(opData, op, partitionName)
+                val opData = bundleData.copyOfRange(offsetInBundle, offsetInBundle + bOp.dataLength.toInt())
+                val raw = processOperation(opData, bOp, partitionName)
                 output.write(raw)
                 writtenBytes += raw.size
                 
-                offsetInBundle += op.dataLength.toInt()
+                offsetInBundle += bOp.dataLength.toInt()
                 onProgress(writtenBytes, totalBytes, i + index)
             }
 
@@ -137,7 +178,7 @@ class PayloadExtractor(
         )
     }
 
-    private fun decompress(data: ByteArray, op: InstallOperation, partitionName: String): ByteArray {
+    private fun processOperation(data: ByteArray, op: InstallOperation, partitionName: String): ByteArray {
         val stream = ByteArrayInputStream(data)
         return when (op.type) {
             InstallOperation.Type.REPLACE ->
@@ -149,15 +190,31 @@ class PayloadExtractor(
             InstallOperation.Type.REPLACE_XZ ->
                 XZInputStream(stream).use { it.readBytes() }
 
+            InstallOperation.Type.SOURCE_BSDIFF,
+            InstallOperation.Type.BROTLI_BSDIFF -> {
+                val reader = sourceReader ?: error("${op.type} requires a source partition reader.")
+                val oldData = op.srcExtentsList.fold(ByteArray(0)) { acc, extent ->
+                    acc + reader.readBlocks(extent.startBlock, extent.numBlocks, blockSize)
+                }.copyOfRange(0, op.srcLength.toInt())
+                
+                val patch = if (op.type == InstallOperation.Type.BROTLI_BSDIFF) {
+                    BrotliCompressorInputStream(stream).use { it.readBytes() }
+                } else {
+                    data
+                }
+                BsDiffApplier.applyPatch(oldData, patch)
+            }
+
             InstallOperation.Type.ZERO,
             InstallOperation.Type.DISCARD,
-            InstallOperation.Type.MOVE ->
+            InstallOperation.Type.MOVE,
+            InstallOperation.Type.SOURCE_COPY ->
                 ByteArray(0)
 
             else ->
                 error(
-                    "Operation type '${op.type}' in partition '$partitionName' requires a source partition. " +
-                    "This usually means the OTA is incremental (delta). Please use a full OTA package."
+                    "Operation type '${op.type}' in partition '$partitionName' is not supported. " +
+                    "This usually means the OTA uses an advanced delta format (like PUFFDIFF or ZUCCHINI)."
                 )
         }
     }

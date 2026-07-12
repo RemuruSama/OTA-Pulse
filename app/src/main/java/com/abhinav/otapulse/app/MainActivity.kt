@@ -1,71 +1,67 @@
+/*
+ * Copyright (C) 2026 OTA Pulse
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.abhinav.otapulse.app
 
 import android.Manifest
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
-import androidx.activity.enableEdgeToEdge
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updatePadding
-import androidx.fragment.app.Fragment
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.abhinav.otapulse.R
-import com.abhinav.otapulse.databinding.ActivityMainBinding
-import com.abhinav.otapulse.databinding.DialogSupportDeveloperBinding
-import com.abhinav.otapulse.feature.downloads.domain.DownloadRepository
-import com.abhinav.otapulse.feature.about.AboutFragment
-import com.abhinav.otapulse.feature.otatools.ui.OtaToolsFragment
-import com.abhinav.otapulse.feature.devices.ui.DevicesFragment
-import com.abhinav.otapulse.feature.downloads.ui.DownloadsFragment
-import com.abhinav.otapulse.feature.settings.SettingsFragment
-import com.abhinav.otapulse.feature.settings.libraries.LibrariesFragment
-import com.abhinav.otapulse.feature.updates.ui.HomeUpdateFragment
 import com.abhinav.otapulse.core.common.PermissionHelper
-import com.abhinav.otapulse.core.notifications.DownloadNotificationHelper
-import com.abhinav.otapulse.feature.browser.InAppBrowserActivity
 import com.abhinav.otapulse.core.common.openExternalBrowser
-import com.abhinav.otapulse.feature.about.WhatsNewBottomSheet
-import com.abhinav.otapulse.feature.settings.AppUpdateRepository
-import okhttp3.OkHttpClient
-import java.io.File
-import android.os.Environment
-import androidx.core.content.FileProvider
-import com.abhinav.otapulse.core.network.AppUpdateDownloader
-import com.abhinav.otapulse.feature.settings.ui.AppUpdateFragment
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.google.android.material.color.DynamicColors
-
-import com.google.android.material.transition.MaterialFadeThrough
-import com.google.android.material.transition.MaterialSharedAxis
-
 import com.abhinav.otapulse.core.common.setHapticClickListener
+import com.abhinav.otapulse.core.notifications.DownloadNotificationHelper
+import com.abhinav.otapulse.core.preferences.AppSettingsPreferences
+import com.abhinav.otapulse.core.preferences.ThemePreferences
+import com.abhinav.otapulse.databinding.DialogSupportDeveloperBinding
+import com.abhinav.otapulse.feature.browser.InAppBrowserActivity
+import com.abhinav.otapulse.feature.downloads.domain.DownloadRepository
+import com.abhinav.otapulse.feature.settings.AppUpdateRepository
+import com.abhinav.otapulse.navigation.Screen
+import com.google.android.material.color.DynamicColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.abhinav.otapulse.core.download.DownloadStatus
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import okhttp3.OkHttpClient
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
+class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var downloadRepository: DownloadRepository
@@ -82,13 +78,13 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     @Inject
     lateinit var okHttpClient: OkHttpClient
 
-    private lateinit var binding: ActivityMainBinding
-    private var lastSelectedItemId = 0
-    private var isDownloading: Boolean = false
-    private val DOWNLOADS_SCREEN_ID = -1
-    private val OTA_HISTORY_SCREEN_ID = -2
-    private val APP_UPDATE_SCREEN_ID = -3
-    private lateinit var appSettingsPrefs: SharedPreferences
+    @Inject
+    lateinit var themePreferences: ThemePreferences
+
+    @Inject
+    lateinit var appSettingsPreferences: AppSettingsPreferences
+
+    private val navigationEvent = MutableSharedFlow<String>(extraBufferCapacity = 1)
 
     companion object {
         private const val TAG = "MainActivity"
@@ -119,124 +115,61 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     }
 
     private val viewModel: MainViewModel by viewModels()
-    private val devicesViewModel: com.abhinav.otapulse.feature.devices.ui.DevicesViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         DynamicColors.applyToActivityIfAvailable(this)
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        enableEdgeToEdge(
+            statusBarStyle = androidx.activity.SystemBarStyle.auto(
+                android.graphics.Color.TRANSPARENT,
+                android.graphics.Color.TRANSPARENT
+            ),
+            navigationBarStyle = androidx.activity.SystemBarStyle.auto(
+                android.graphics.Color.TRANSPARENT,
+                android.graphics.Color.TRANSPARENT
+            )
+        )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            window.isNavigationBarContrastEnforced = false
+            window.isStatusBarContrastEnforced = false
+        }
+        window.navigationBarColor = android.graphics.Color.TRANSPARENT
+        window.statusBarColor = android.graphics.Color.TRANSPARENT
 
-        appSettingsPrefs = getSharedPreferences(SettingsFragment.APP_SETTINGS_PREFS, Context.MODE_PRIVATE)
-        appSettingsPrefs.registerOnSharedPreferenceChangeListener(this)
-
-        val themePrefs = getSharedPreferences("theme_prefs", Context.MODE_PRIVATE)
-        val nightMode = themePrefs.getInt("night_mode", AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-        AppCompatDelegate.setDefaultNightMode(nightMode)
-
-        // Apply AMOLED overlay if enabled and currently in dark mode
-        val isAmoled = themePrefs.getBoolean(SettingsFragment.PREF_AMOLED_MODE, false)
-        if (isAmoled && isNightModeActive()) {
+        val themeSettings = themePreferences.getThemeSettings()
+        AppCompatDelegate.setDefaultNightMode(themeSettings.nightMode)
+        if (themeSettings.amoledDark && isNightModeActive()) {
             theme.applyStyle(R.style.ThemeOverlay_OTAPulse_Amoled, true)
         }
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        // Set window background to flat color if gradient is disabled
-        val isGradientEnabled = themePrefs.getBoolean(SettingsFragment.PREF_GRADIENT_BACKGROUND, true)
-        if (!isGradientEnabled) {
-            val surfaceColor = com.google.android.material.color.MaterialColors.getColor(binding.root, com.google.android.material.R.attr.colorSurfaceContainer)
-            window.setBackgroundDrawable(android.graphics.drawable.ColorDrawable(surfaceColor))
-        } else {
-            window.setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.bg_app_surface_gradient))
-            // Apply transparent backgrounds for gradient
-            binding.appBarLayout.setBackgroundColor(android.graphics.Color.TRANSPARENT)
-            binding.appBarLayout.elevation = 0f
-            binding.toolbar.setBackgroundColor(android.graphics.Color.TRANSPARENT)
-            binding.bottomNavigation.setBackgroundColor(android.graphics.Color.TRANSPARENT)
-
-            // Apply custom bottom nav colors for better visibility on gradient
-            val colorOnSurface = com.google.android.material.color.MaterialColors.getColor(binding.root, com.google.android.material.R.attr.colorOnSurface)
-            val colorPrimaryContainer = com.google.android.material.color.MaterialColors.getColor(binding.root, com.google.android.material.R.attr.colorPrimaryContainer)
-            
-            val states = arrayOf(
-                intArrayOf(android.R.attr.state_checked),
-                intArrayOf(-android.R.attr.state_checked)
+        setContent {
+            OtaPulseApp(
+                themePreferences = themePreferences,
+                appSettingsPreferences = appSettingsPreferences,
+                downloadRepository = downloadRepository,
+                appUpdateRepository = appUpdateRepository,
+                navigationEvent = navigationEvent
             )
-            val colors = intArrayOf(
-                colorOnSurface,
-                androidx.core.graphics.ColorUtils.setAlphaComponent(colorOnSurface, 153)
-            )
-            val colorStateList = android.content.res.ColorStateList(states, colors)
-            
-            binding.bottomNavigation.itemIconTintList = colorStateList
-            binding.bottomNavigation.itemTextColor = colorStateList
-            binding.bottomNavigation.itemActiveIndicatorColor = android.content.res.ColorStateList.valueOf(colorPrimaryContainer)
         }
 
-        setupEdgeToEdge()
-        setupNavigation()
-        updateOtaToolsTabVisibility()
-        observeDownloads()
         handleFirstLaunchPermissions()
-
-        binding.btnGlobalHistory.setHapticClickListener {
-            navigateToFragment(OTA_HISTORY_SCREEN_ID)
-        }
-
         observeAppUpdates()
-        observeOtaDetailsDialog()
-
-        val handledIntent = handleIntent(intent)
+        handleIntent(intent)
 
         if (savedInstanceState == null) {
-            // AUTO UPDATE CHECK
             checkForAppUpdates()
-            
-            if (!handledIntent) {
-                navigateToFragment(R.id.navigation_update, false)
-            }
-        } else {
-            supportFragmentManager.findFragmentById(R.id.fragment_container)?.let {
-                updateToolbarForFragment(it)
-            }
-        }
-
-        supportFragmentManager.addOnBackStackChangedListener {
-            val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
-            currentFragment?.let {
-                updateToolbarForFragment(it)
-                updateBottomNavSelection()
-            }
-        }
-
-        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                if (supportFragmentManager.backStackEntryCount > 0) {
-                    supportFragmentManager.popBackStack()
-                } else if (lastSelectedItemId != R.id.navigation_update) {
-                    binding.bottomNavigation.selectedItemId = R.id.navigation_update
-                } else {
-                    finish()
-                }
-            }
-        })
-
-        if (savedInstanceState == null) {
-            binding.root.post {
+            lifecycleScope.launch {
+                delay(800)
                 if (!isDestroyed && !isFinishing) {
                     showSupportDeveloperDialog()
-                    showWhatsNewIfNeeded()
                 }
             }
         }
     }
 
     private fun checkForAppUpdates() {
-        val isAutoUpdateEnabled = appSettingsPrefs.getBoolean(SettingsFragment.PREF_AUTO_UPDATE_CHECK, true)
-        if (!isAutoUpdateEnabled) return
-
+        if (!appSettingsPreferences.getAppSettings().autoUpdateCheck) return
         try {
             val packageInfo = packageManager.getPackageInfo(packageName, 0)
             val currentVersion = packageInfo.versionName ?: "1.0.0"
@@ -251,7 +184,13 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.appUpdateState.collectLatest { updateInfo ->
                     if (updateInfo != null && !isDestroyed && !isFinishing) {
-                        navigateToFragment(APP_UPDATE_SCREEN_ID, true, androidx.core.os.bundleOf("arg_update_info" to updateInfo))
+                        navigationEvent.tryEmit(
+                            Screen.AppUpdate.createRoute(
+                                version = updateInfo.version,
+                                url = updateInfo.downloadUrl,
+                                changelog = updateInfo.changelog
+                            )
+                        )
                         downloadNotificationHelper.showAppUpdateNotification(updateInfo)
                         viewModel.clearUpdateState()
                     }
@@ -260,20 +199,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         }
     }
 
-    private fun observeOtaDetailsDialog() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                devicesViewModel.uiState.collectLatest { state ->
-                    if (state.showOtaDetailsDialog != null) {
-                        if (supportFragmentManager.findFragmentByTag(com.abhinav.otapulse.feature.devices.ui.OtaDetailsDialogFragment.TAG) == null) {
-                            val dialog = com.abhinav.otapulse.feature.devices.ui.OtaDetailsDialogFragment()
-                            dialog.show(supportFragmentManager, com.abhinav.otapulse.feature.devices.ui.OtaDetailsDialogFragment.TAG)
-                        }
-                    }
-                }
-            }
-        }
-    }
+
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
@@ -283,26 +209,23 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     private fun handleIntent(intent: Intent?): Boolean {
         when (intent?.action) {
             ACTION_OPEN_DOWNLOADS -> {
-                navigateToFragment(DOWNLOADS_SCREEN_ID, false)
+                navigationEvent.tryEmit(Screen.Downloads.route)
                 return true
             }
             "com.abhinav.otapulse.ACTION_SHOW_UPDATE_DIALOG" -> {
                 val version = intent.getStringExtra("update_version") ?: return false
                 val url = intent.getStringExtra("update_url") ?: return false
                 val changelog = intent.getStringExtra("update_changelog") ?: return false
-                val info = com.abhinav.otapulse.core.model.AppUpdateInfo(version, url, changelog)
-                navigateToFragment(APP_UPDATE_SCREEN_ID, true, androidx.core.os.bundleOf("arg_update_info" to info))
+                navigationEvent.tryEmit(Screen.AppUpdate.createRoute(version, url, changelog))
                 return true
             }
             "com.abhinav.otapulse.ACTION_SHOW_UPDATER" -> {
-                navigateToFragment(APP_UPDATE_SCREEN_ID, true)
+                navigationEvent.tryEmit(Screen.AppUpdate.createRoute())
                 return true
             }
         }
         return false
     }
-
-
 
     private fun handleFirstLaunchPermissions() {
         checkStoragePermission()
@@ -378,8 +301,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         val prefs = getSharedPreferences("app_setup_prefs", Context.MODE_PRIVATE)
         if (prefs.getBoolean("has_prompted_battery_optimization", false)) return
 
-        val isAutoUpdateEnabled = appSettingsPrefs.getBoolean(SettingsFragment.PREF_AUTO_SOFTWARE_UPDATE_CHECK, true)
-        if (!isAutoUpdateEnabled) return
+        if (!appSettingsPreferences.getAppSettings().autoSoftwareUpdateCheck) return
 
         val pm = getSystemService(Context.POWER_SERVICE) as android.os.PowerManager
         if (!pm.isIgnoringBatteryOptimizations(packageName)) {
@@ -443,129 +365,6 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         dialog.show()
     }
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        if (key == SettingsFragment.PREF_ADVANCED_MODE_ENABLED) {
-            updateOtaToolsTabVisibility()
-        }
-    }
-
-    private fun updateOtaToolsTabVisibility() {
-        val isAdvancedModeEnabled = appSettingsPrefs.getBoolean(SettingsFragment.PREF_ADVANCED_MODE_ENABLED, true)
-        val otaToolsMenuItem = binding.bottomNavigation.menu.findItem(R.id.navigation_ota_tools)
-        otaToolsMenuItem?.isVisible = isAdvancedModeEnabled
-
-        if (!isAdvancedModeEnabled && lastSelectedItemId == R.id.navigation_ota_tools) {
-            if (supportFragmentManager.findFragmentById(R.id.fragment_container) is OtaToolsFragment) {
-                navigateToFragment(R.id.navigation_update, false)
-            }
-        }
-    }
-
-    private fun setupEdgeToEdge() {
-        ViewCompat.setOnApplyWindowInsetsListener(binding.mainContainer) { view, windowInsets ->
-            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-            // Apply top inset to the container so content sits below the status bar
-            view.updatePadding(left = insets.left, top = insets.top, right = insets.right, bottom = 0)
-            // Apply bottom inset as padding on the bottom nav so its background
-            // extends seamlessly into the gesture navigation bar area
-            binding.bottomNavigation.updatePadding(bottom = insets.bottom)
-            WindowInsetsCompat.CONSUMED
-        }
-    }
-
-    private fun setupNavigation() {
-        binding.downloadsFab.setHapticClickListener {
-            navigateToFragment(DOWNLOADS_SCREEN_ID)
-        }
-        binding.bottomNavigation.setOnItemSelectedListener { item ->
-            if (item.itemId == lastSelectedItemId) return@setOnItemSelectedListener false
-            if (!item.isVisible) return@setOnItemSelectedListener false
-            navigateToFragment(item.itemId)
-            true
-        }
-    }
-
-    private fun getTabIndex(itemId: Int): Int {
-        return when (itemId) {
-            R.id.navigation_update -> 0
-            R.id.navigation_devices -> 1
-            R.id.navigation_ota_tools -> 2
-            R.id.navigation_about -> 3
-            R.id.navigation_settings -> 4
-            else -> -1
-        }
-    }
-
-    private fun isMainTab(itemId: Int): Boolean {
-        return itemId == R.id.navigation_update ||
-               itemId == R.id.navigation_devices ||
-               itemId == R.id.navigation_ota_tools ||
-               itemId == R.id.navigation_about ||
-               itemId == R.id.navigation_settings
-    }
-
-    private fun navigateToFragment(itemId: Int, addToBackStack: Boolean = true, args: Bundle? = null) {
-        val selectedFragment: Fragment = when (itemId) {
-            DOWNLOADS_SCREEN_ID -> DownloadsFragment()
-            R.id.navigation_update -> HomeUpdateFragment()
-            R.id.navigation_devices -> DevicesFragment()
-            R.id.navigation_ota_tools -> {
-                if (!appSettingsPrefs.getBoolean(SettingsFragment.PREF_ADVANCED_MODE_ENABLED, true)) {
-                    HomeUpdateFragment()
-                } else {
-                    OtaToolsFragment()
-                }
-            }
-            R.id.navigation_about -> AboutFragment()
-            R.id.navigation_settings -> SettingsFragment()
-            R.id.navigation_libraries -> LibrariesFragment()
-            OTA_HISTORY_SCREEN_ID -> com.abhinav.otapulse.feature.history.ui.OtaHistoryFragment()
-            APP_UPDATE_SCREEN_ID -> AppUpdateFragment().apply { arguments = args }
-            else -> HomeUpdateFragment()
-        }
-
-        if (addToBackStack && isMainTab(itemId) && supportFragmentManager.backStackEntryCount > 0) {
-            // Clear transitions to avoid clashing when popping backstack instantly
-            supportFragmentManager.findFragmentById(R.id.fragment_container)?.apply {
-                returnTransition = null
-                exitTransition = null
-            }
-            supportFragmentManager.popBackStackImmediate(null, androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE)
-        }
-
-        val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
-        val isDeepLink = !isMainTab(itemId)
-
-        // For deep links, we want a MaterialSharedAxis Z-axis transition.
-        // For Top-Level tabs, we use instant switching (no transition) to prevent background flashes.
-        // We use instant switching (no transition) for all tabs and deep links to prevent background flashes in AMOLED mode.
-        // Material transitions (FadeThrough, SharedAxis) inherently crossfade to transparent, exposing the window background.
-
-        supportFragmentManager.beginTransaction().apply {
-            setReorderingAllowed(true) // required for Material shared element and transitions
-            if (isDeepLink && itemId != OTA_HISTORY_SCREEN_ID) {
-                setCustomAnimations(
-                    R.anim.nav_enter,
-                    R.anim.nav_exit,
-                    R.anim.nav_pop_enter,
-                    R.anim.nav_pop_exit
-                )
-            }
-            replace(R.id.fragment_container, selectedFragment)
-            if (addToBackStack && isDeepLink) {
-                // Only deep links should be added to the back stack for standard bottom nav behavior
-                addToBackStack(null)
-            }
-            commit()
-        }
-
-        lastSelectedItemId = itemId
-        if (itemId != DOWNLOADS_SCREEN_ID && itemId != OTA_HISTORY_SCREEN_ID) {
-            binding.bottomNavigation.menu.findItem(itemId)?.isChecked = true
-        }
-        updateToolbarForFragment(selectedFragment)
-    }
-
     fun openInAppBrowser(url: String, title: String? = null) {
         if (url.isBlank()) {
             Toast.makeText(this, getString(R.string.could_not_open_link), Toast.LENGTH_SHORT).show()
@@ -574,102 +373,12 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         startActivity(InAppBrowserActivity.createIntent(this, url, title))
     }
 
-    private fun updateBottomNavSelection() {
-        val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
-        val itemId = when (currentFragment) {
-            is HomeUpdateFragment -> R.id.navigation_update
-            is DevicesFragment -> R.id.navigation_devices
-            is DownloadsFragment -> lastSelectedItemId
-            is OtaToolsFragment -> R.id.navigation_ota_tools
-            is AboutFragment -> R.id.navigation_about
-            is SettingsFragment -> R.id.navigation_settings
-            else -> return
-        }
-        binding.bottomNavigation.menu.findItem(itemId)?.let {
-            if (it.isVisible) {
-                it.isChecked = true
-                lastSelectedItemId = itemId
-            }
-        }
-    }
-
-    private fun updateToolbarForFragment(fragment: Fragment) {
-        // Show FAB on main content tabs, hide on secondary screens
-        val isMainTab = fragment is HomeUpdateFragment || fragment is DevicesFragment || fragment is OtaToolsFragment
-        if (isMainTab) {
-            binding.downloadsFab.show()
-        } else {
-            binding.downloadsFab.hide()
-        }
-        
-        val isFullscreenFragment = fragment is com.abhinav.otapulse.feature.history.ui.OtaHistoryFragment || 
-                                   fragment is com.abhinav.otapulse.feature.settings.libraries.LibrariesFragment ||
-                                   fragment is com.abhinav.otapulse.feature.settings.ui.AppUpdateFragment
-        binding.appBarLayout.visibility = if (isFullscreenFragment) View.GONE else View.VISIBLE
-        binding.bottomNavigation.visibility = if (isFullscreenFragment) View.GONE else View.VISIBLE
-        
-        val params = binding.contentLayout.layoutParams as androidx.coordinatorlayout.widget.CoordinatorLayout.LayoutParams
-        params.behavior = if (isFullscreenFragment) null else com.google.android.material.appbar.AppBarLayout.ScrollingViewBehavior()
-        binding.contentLayout.requestLayout()
-        
-        updateNotificationDotVisibility()
-    }
-
     fun navigateToLibraries() {
-        navigateToFragment(R.id.navigation_libraries)
-    }
-
-    private fun observeDownloads() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                downloadRepository.allDownloads.collectLatest { downloads ->
-                    isDownloading = downloads.any { it.status == DownloadStatus.DOWNLOADING || it.status == DownloadStatus.QUEUED }
-                    updateNotificationDotVisibility()
-                }
-            }
-        }
-    }
-
-    private fun updateNotificationDotVisibility() {
-        val isFabVisible = binding.downloadsFab.visibility == View.VISIBLE
-        binding.notificationDot.visibility = if (isDownloading && isFabVisible) View.VISIBLE else View.GONE
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        appSettingsPrefs.unregisterOnSharedPreferenceChangeListener(this)
+        navigationEvent.tryEmit(Screen.Libraries.route)
     }
 
     private fun isNightModeActive(): Boolean {
         val uiMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         return uiMode == Configuration.UI_MODE_NIGHT_YES
-    }
-
-    private fun showWhatsNewIfNeeded() {
-        try {
-            val packageInfo = packageManager.getPackageInfo(packageName, 0)
-            val currentVersion = packageInfo.versionName ?: return
-
-            if (!WhatsNewBottomSheet.shouldShow(this, currentVersion)) return
-
-            lifecycleScope.launch {
-                val result = appUpdateRepository.fetchChangelog(currentVersion)
-                result.onSuccess { changelog ->
-                    if (!changelog.isNullOrBlank() && !isDestroyed && !isFinishing) {
-                        WhatsNewBottomSheet.newInstance(currentVersion, changelog)
-                            .show(supportFragmentManager, "whats_new")
-                    } else {
-                        // No changelog found, but still mark as shown to prevent re-trying
-                        WhatsNewBottomSheet.markShown(this@MainActivity, currentVersion)
-                    }
-                }
-                result.onFailure {
-                    // Network error — don't mark as shown, retry next launch
-                    Log.w(TAG, "Failed to fetch What's New changelog", it)
-                }
-            }
-        } catch (e: Exception) {
-            Log.w(TAG, "Failed to check for What's New", e)
-        }
     }
 }

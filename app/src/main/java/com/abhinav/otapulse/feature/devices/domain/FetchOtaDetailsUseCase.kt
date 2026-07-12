@@ -26,13 +26,14 @@ class FetchOtaDetailsUseCase @Inject constructor(
         // Try mapping the region string directly (for manual "EU", "IN", etc.)
         var regionId = Data.getServerId(variant.region)
         
-        // If it's a display name (e.g. "Vietnam"), find its corresponding server code
+        // If it's a display name (e.g. "Vietnam" or "Genshin Impact"), find its corresponding server code
         val regionInfo = RegionData.regions.find {
-            it.displayName.equals(variant.region, ignoreCase = true)
+            it.displayName.equals(variant.displayName, ignoreCase = true) ||
+            (variant.displayName.contains("Genshin", ignoreCase = true) && it.displayName == "Genshin Impact")
         }
         
-        if (regionInfo != null && regionId == 0 && variant.region != "GL") {
-            // Re-resolve if it was a display name
+        if (regionInfo != null && (regionId == 0 && variant.region != "GL" || variant.displayName.contains("Genshin", ignoreCase = true))) {
+            // Re-resolve server code for special display names or variants
             regionId = Data.getServerId(regionInfo.serverCode)
         }
 

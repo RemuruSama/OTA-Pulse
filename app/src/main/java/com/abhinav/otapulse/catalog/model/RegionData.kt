@@ -31,6 +31,9 @@ object RegionData {
         RegionInfo("MY", "NV38", "EU"),
         RegionInfo("ID", "NV33", "EU"),
         RegionInfo("KZ", "NV5A", "EU"),
-        RegionInfo("OCA", "NVA5", "EU")
+        RegionInfo("OCA", "NVA5", "EU"),
+        RegionInfo("Genshin Impact", "NV97", "CN"),
+        RegionInfo("Genshin", "NV97", "CN"),
+        RegionInfo("PH", "NV3D", "EU")
     )
 }

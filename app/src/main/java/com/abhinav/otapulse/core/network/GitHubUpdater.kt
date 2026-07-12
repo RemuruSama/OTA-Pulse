@@ -1,5 +1,7 @@
 package com.abhinav.otapulse.core.network
 
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.JsonObject
@@ -64,13 +66,13 @@ object GitHubUpdater {
                         if (assets.size() > 0) {
                             val downloadUrl = assets[0].asJsonObject.get("browser_download_url").asString
                             val body = json.get("body").asString
-                            onResult(UpdateInfo(latestTag, downloadUrl, body))
+                            dispatchResult(UpdateInfo(latestTag, downloadUrl, body), onResult)
                             return@Thread
                         } else {
                             Log.e(TAG, "No assets (APK) attached to the release!")
                         }
                     } else {
-                        onResult(null)
+                        dispatchResult(null, onResult)
                         return@Thread
                     }
                 }
@@ -110,7 +112,7 @@ object GitHubUpdater {
                                 }
                             }.getOrNull() ?: "https://github.com/$REPO_OWNER/$REPO_NAME/releases/download/$tag/otapulse_update_$cleanLatest.apk"
 
-                            onResult(UpdateInfo(tag, downloadUrl, "New release $tag available on GitHub."))
+                            dispatchResult(UpdateInfo(tag, downloadUrl, "New release $tag available on GitHub."), onResult)
                             return
                         }
                     }
@@ -119,7 +121,15 @@ object GitHubUpdater {
         } catch (e: Exception) {
             Log.e(TAG, "Fallback check failed: ${e.message}")
         }
-        onResult(null)
+        dispatchResult(null, onResult)
+    }
+
+    private fun dispatchResult(result: UpdateInfo?, onResult: (UpdateInfo?) -> Unit) {
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            onResult(result)
+        } else {
+            Handler(Looper.getMainLooper()).post { onResult(result) }
+        }
     }
 
     /**

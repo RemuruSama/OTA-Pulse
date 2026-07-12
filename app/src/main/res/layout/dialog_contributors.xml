@@ -106,7 +106,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"
             android:text="@string/btn_view_on_github"
-            app:icon="@drawable/ic_code"
+            app:icon="@drawable/ic_github"
             app:iconSize="18dp" />
 
         <com.google.android.material.button.MaterialButton

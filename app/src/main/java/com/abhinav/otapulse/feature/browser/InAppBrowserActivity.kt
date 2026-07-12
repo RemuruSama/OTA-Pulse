@@ -27,7 +27,8 @@ import androidx.core.view.updatePadding
 import com.abhinav.otapulse.R
 import com.abhinav.otapulse.core.common.setHapticClickListener
 import com.abhinav.otapulse.databinding.ActivityInAppBrowserBinding
-import com.abhinav.otapulse.feature.settings.SettingsFragment
+import com.abhinav.otapulse.core.preferences.AppSettingsPreferences
+import com.abhinav.otapulse.core.preferences.ThemePreferences
 import com.google.android.material.color.MaterialColors
 
 class InAppBrowserActivity : AppCompatActivity() {
@@ -41,7 +42,7 @@ class InAppBrowserActivity : AppCompatActivity() {
     }
 
     private val browserPrefs by lazy {
-        getSharedPreferences(SettingsFragment.APP_SETTINGS_PREFS, Context.MODE_PRIVATE)
+        getSharedPreferences(AppSettingsPreferences.PREFS_NAME, Context.MODE_PRIVATE)
     }
 
     private val initialUrl: String
@@ -55,8 +56,8 @@ class InAppBrowserActivity : AppCompatActivity() {
         enableEdgeToEdge()
 
         // Apply AMOLED overlay if enabled and currently in dark mode
-        val themePrefs = getSharedPreferences("theme_prefs", Context.MODE_PRIVATE)
-        val isAmoled = themePrefs.getBoolean(SettingsFragment.PREF_AMOLED_MODE, false)
+        val themePrefs = getSharedPreferences(ThemePreferences.PREFS_NAME, Context.MODE_PRIVATE)
+        val isAmoled = themePrefs.getBoolean(ThemePreferences.PREF_AMOLED_MODE, false)
         if (isAmoled) {
             val uiMode = resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
             if (uiMode == android.content.res.Configuration.UI_MODE_NIGHT_YES) {
@@ -113,7 +114,7 @@ class InAppBrowserActivity : AppCompatActivity() {
         binding.actionDesktopMode.setHapticClickListener {
             manualDesktopMode = !manualDesktopMode
             browserPrefs.edit()
-                .putBoolean(SettingsFragment.PREF_BROWSER_DESKTOP_MODE, manualDesktopMode)
+                .putBoolean(AppSettingsPreferences.PREF_BROWSER_DESKTOP_MODE, manualDesktopMode)
                 .apply()
             applyDesktopMode(forceReload = true)
         }
@@ -138,8 +139,8 @@ class InAppBrowserActivity : AppCompatActivity() {
 
     @SuppressLint("SetJavaScriptEnabled")
     private fun setupWebView() {
-        manualDesktopMode = browserPrefs.getBoolean(SettingsFragment.PREF_BROWSER_DESKTOP_MODE, false)
-        val showControls = browserPrefs.getBoolean(SettingsFragment.PREF_BROWSER_SHOW_CONTROLS, true)
+        manualDesktopMode = browserPrefs.getBoolean(AppSettingsPreferences.PREF_BROWSER_DESKTOP_MODE, false)
+        val showControls = browserPrefs.getBoolean(AppSettingsPreferences.PREF_BROWSER_SHOW_CONTROLS, true)
 
         binding.browserControls.isVisible = showControls
         binding.webView.settings.apply {

@@ -4,9 +4,12 @@ import android.content.Context
 import android.net.Uri
 import chromeos_update_engine.UpdateMetadata.DeltaArchiveManifest
 import chromeos_update_engine.UpdateMetadata.InstallOperation
+import com.abhinav.otapulse.ota.payload.PayloadExtractor
 import com.abhinav.otapulse.ota.payload.PayloadHeader
+import com.abhinav.otapulse.ota.payload.SourceReader
 import com.abhinav.otapulse.ota.resume.ExtractionState
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream
+import org.apache.commons.compress.compressors.brotli.BrotliCompressorInputStream
 import org.tukaani.xz.XZInputStream
 import java.io.ByteArrayInputStream
 import java.io.Closeable
@@ -311,8 +314,9 @@ internal class LocalPayloadManifest(
 
     fun readHeader(): PayloadHeader {
         val headerBytes = reader.fetchBytes(payloadDataOffset, payloadDataOffset + FIXED_HEADER_SIZE - 1)
-        require(headerBytes.sliceArray(0..3).contentEquals(MAGIC)) {
-            "Invalid payload.bin magic. The selected file is not a supported full OTA."
+        val magic = headerBytes.sliceArray(0..3)
+        require(magic.contentEquals(MAGIC)) {
+            "Invalid payload.bin magic. The selected file is not a supported OTA payload (CrAU magic missing)."
         }
 
         val buffer       = ByteBuffer.wrap(headerBytes).order(ByteOrder.BIG_ENDIAN)
@@ -335,7 +339,8 @@ internal class LocalPayloadManifest(
 internal class LocalPayloadExtractor(
     private val reader: LocalByteReader,
     private val header: PayloadHeader,
-    private val blockSize: Long = 4096L
+    private val blockSize: Long = 4096L,
+    private val sourceReader: SourceReader? = null
 ) {
     suspend fun extract(
         partitionName: String,
@@ -356,10 +361,10 @@ internal class LocalPayloadExtractor(
 
         while (i < operations.size) {
             currentCoroutineContext().ensureActive()
-            val firstOp = operations[i]
+            val op = operations[i]
 
-            if (firstOp.type == InstallOperation.Type.ZERO) {
-                val zeroBytes = firstOp.dstExtentsList.sumOf { it.numBlocks } * blockSize
+            if (op.type == InstallOperation.Type.ZERO) {
+                val zeroBytes = op.dstExtentsList.sumOf { it.numBlocks } * blockSize
                 if (zeroBytes > 0) {
                     val buffer    = ByteArray(blockSize.toInt())
                     var remaining = zeroBytes
@@ -376,20 +381,46 @@ internal class LocalPayloadExtractor(
                 continue
             }
 
-            if (
-                firstOp.type == InstallOperation.Type.DISCARD ||
-                firstOp.type == InstallOperation.Type.MOVE ||
-                firstOp.dataLength == 0L
-            ) {
+            if (op.type == InstallOperation.Type.SOURCE_COPY) {
+                val sReader = sourceReader ?: error(
+                    "Operation SOURCE_COPY in partition '$partitionName' requires a source partition reader. " +
+                            "This appears to be an incremental (delta) OTA."
+                )
+                op.srcExtentsList.forEach { extent ->
+                    val data = sReader.readBlocks(extent.startBlock, extent.numBlocks, blockSize)
+                    output.write(data)
+                    writtenBytes += data.size
+                }
+                onProgress(writtenBytes, totalBytes, i)
+                i++
+                continue
+            }
+
+            if (op.type == InstallOperation.Type.MOVE) {
+                val sReader = sourceReader ?: error(
+                    "Operation MOVE in partition '$partitionName' requires a source partition reader. " +
+                            "This appears to be an incremental (delta) OTA."
+                )
+                op.srcExtentsList.forEach { extent ->
+                    val data = sReader.readBlocks(extent.startBlock, extent.numBlocks, blockSize)
+                    output.write(data)
+                    writtenBytes += data.size
+                }
+                onProgress(writtenBytes, totalBytes, i)
+                i++
+                continue
+            }
+
+            if (op.type == InstallOperation.Type.DISCARD || op.dataLength == 0L) {
                 onProgress(writtenBytes, totalBytes, i)
                 i++
                 continue
             }
 
             val bundleOps    = mutableListOf<InstallOperation>()
-            bundleOps.add(firstOp)
-            val bundleStart  = header.blobOffset + firstOp.dataOffset
-            var bundleLength = firstOp.dataLength
+            bundleOps.add(op)
+            val bundleStart  = header.blobOffset + op.dataOffset
+            var bundleLength = op.dataLength
             val maxBundleSize = 4 * 1024 * 1024L
 
             var nextIdx = i + 1
@@ -401,7 +432,8 @@ internal class LocalPayloadExtractor(
                 val isBlobOp     = nextOp.dataLength > 0 &&
                         nextOp.type != InstallOperation.Type.ZERO &&
                         nextOp.type != InstallOperation.Type.DISCARD &&
-                        nextOp.type != InstallOperation.Type.MOVE
+                        nextOp.type != InstallOperation.Type.MOVE &&
+                        nextOp.type != InstallOperation.Type.SOURCE_COPY
 
                 if (isContiguous && isBlobOp && bundleLength + nextOp.dataLength <= maxBundleSize) {
                     bundleOps.add(nextOp)
@@ -415,13 +447,13 @@ internal class LocalPayloadExtractor(
             val bundleData    = reader.fetchBytes(bundleStart, bundleStart + bundleLength - 1)
             require(bundleLength <= Int.MAX_VALUE) { "Bundle size exceeds maximum supported buffer size" }
             var offsetInBundle = 0
-            for ((index, op) in bundleOps.withIndex()) {
+            for ((index, bOp) in bundleOps.withIndex()) {
                 currentCoroutineContext().ensureActive()
-                val opData = bundleData.copyOfRange(offsetInBundle, offsetInBundle + op.dataLength.toInt())
-                val raw    = decompress(opData, op, partitionName)
+                val opData = bundleData.copyOfRange(offsetInBundle, offsetInBundle + bOp.dataLength.toInt())
+                val raw    = processOperation(opData, bOp, partitionName)
                 output.write(raw)
                 writtenBytes  += raw.size
-                offsetInBundle += op.dataLength.toInt()
+                offsetInBundle += bOp.dataLength.toInt()
                 onProgress(writtenBytes, totalBytes, i + index)
             }
 
@@ -437,18 +469,49 @@ internal class LocalPayloadExtractor(
         )
     }
 
-    private fun decompress(data: ByteArray, op: InstallOperation, partitionName: String): ByteArray {
+    private fun processOperation(data: ByteArray, op: InstallOperation, partitionName: String): ByteArray {
         val stream = ByteArrayInputStream(data)
         return when (op.type) {
             InstallOperation.Type.REPLACE    -> data
             InstallOperation.Type.REPLACE_BZ -> BZip2CompressorInputStream(stream).use { it.readBytes() }
             InstallOperation.Type.REPLACE_XZ -> XZInputStream(stream).use { it.readBytes() }
+            
+            InstallOperation.Type.SOURCE_BSDIFF,
+            InstallOperation.Type.BROTLI_BSDIFF -> {
+                val sReader = sourceReader ?: error(
+                    "Operation ${op.type} in partition '$partitionName' requires a source partition reader. " +
+                            "Incremental (delta) OTAs require a source image for extraction."
+                )
+
+                // Optimized oldData collection
+                val totalSrcSize = op.srcExtentsList.sumOf { it.numBlocks * blockSize }
+                require(totalSrcSize <= Int.MAX_VALUE) { "Source data size for operation exceeds 2GB" }
+
+                val oldData = ByteArray(totalSrcSize.toInt())
+                var currentPos = 0
+                op.srcExtentsList.forEach { extent ->
+                    val blockData = sReader.readBlocks(extent.startBlock, extent.numBlocks, blockSize)
+                    System.arraycopy(blockData, 0, oldData, currentPos, blockData.size)
+                    currentPos += blockData.size
+                }
+                val trimmedOldData = if (oldData.size.toLong() == op.srcLength) oldData else oldData.copyOfRange(0, op.srcLength.toInt())
+                
+                val patch = if (op.type == InstallOperation.Type.BROTLI_BSDIFF) {
+                    BrotliCompressorInputStream(stream).use { it.readBytes() }
+                } else {
+                    data
+                }
+                com.abhinav.otapulse.ota.utils.BsDiffApplier.applyPatch(trimmedOldData, patch)
+            }
+
             InstallOperation.Type.ZERO,
             InstallOperation.Type.DISCARD,
-            InstallOperation.Type.MOVE       -> ByteArray(0)
+            InstallOperation.Type.MOVE,
+            InstallOperation.Type.SOURCE_COPY -> ByteArray(0)
+            
             else -> error(
-                "Operation type '${op.type}' in partition '$partitionName' requires a source partition. " +
-                        "Please use a full OTA package."
+                "Operation type '${op.type}' in partition '$partitionName' is not supported. " +
+                        "Incremental (delta) OTAs require a source image for extraction."
             )
         }
     }
@@ -522,7 +585,7 @@ internal object LocalMetadataReader {
         val headerBytes = readExact(input, PAYLOAD_HEADER_SIZE)
         val magic       = headerBytes.sliceArray(0..3)
         require(magic.contentEquals("CrAU".toByteArray(Charsets.US_ASCII))) {
-            "Invalid payload.bin magic. The selected file is not a supported full OTA."
+            "Invalid payload.bin magic. The selected file is not a supported OTA payload (CrAU magic missing)."
         }
 
         val buffer        = ByteBuffer.wrap(headerBytes).order(ByteOrder.BIG_ENDIAN)

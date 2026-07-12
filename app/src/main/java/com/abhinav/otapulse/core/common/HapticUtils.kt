@@ -7,7 +7,11 @@ import android.os.Build
 import android.os.VibrationEffect
 
 fun View.performHapticFeedback() {
-    val vibrator = context.getSystemService(Vibrator::class.java)
+    context.performHapticFeedback()
+}
+
+fun Context.performHapticFeedback() {
+    val vibrator = getSystemService(Vibrator::class.java)
     vibrator?.vibrate(VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE))
 }
 

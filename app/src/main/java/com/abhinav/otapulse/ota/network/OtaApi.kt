@@ -7,6 +7,7 @@ import com.abhinav.otapulse.core.model.OtaUpdate
 import com.abhinav.otapulse.core.model.RegionVariant
 import com.abhinav.otapulse.core.network.NetworkComponent
 import com.abhinav.otapulse.catalog.model.RegionData
+import com.abhinav.otapulse.core.network.Data
 import com.abhinav.otapulse.core.network.Request
 import com.abhinav.otapulse.core.common.toDomain
 import kotlinx.coroutines.Dispatchers
@@ -46,6 +47,7 @@ class OtaApi @Inject constructor(private val httpClient: OkHttpClient) {
             val response = httpClient.newCall(okRequest).execute()
             val responseCode = response.code
             val responseBody = response.body.string()
+            android.util.Log.d("RequestDebug", "Server Raw Response ($responseCode): $responseBody")
 
             // Validate HTTP and JSON structure
             Request.validateResponse(responseCode, responseBody)
@@ -85,14 +87,14 @@ class OtaApi @Inject constructor(private val httpClient: OkHttpClient) {
 
     suspend fun fetchOtaDetails(device: Device, variant: RegionVariant): Result<OtaUpdate> = withContext(Dispatchers.IO) {
         val regionInfo = RegionData.regions.find {
-            it.displayName.equals(variant.region, ignoreCase = true)
+            it.displayName.equals(variant.displayName, ignoreCase = true) ||
+            (variant.displayName.contains("Genshin", ignoreCase = true) && it.displayName == "Genshin Impact")
         }
 
-        val regionIndex = when (regionInfo?.serverCode?.uppercase()) {
-            "CN" -> 1
-            "IN" -> 2
-            "EU" -> 3
-            else -> 0
+        val regionIndex = if (regionInfo != null) {
+            Data.getServerId(regionInfo.serverCode)
+        } else {
+            Data.getServerId(variant.region)
         }
 
         val nvIdentifier = variant.nvId ?: regionInfo?.nvid

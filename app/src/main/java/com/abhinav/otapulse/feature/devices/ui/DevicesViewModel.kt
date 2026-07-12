@@ -12,6 +12,7 @@ import com.abhinav.otapulse.feature.devices.domain.ToggleFavoriteUseCase
 import com.abhinav.otapulse.feature.downloads.domain.DownloadRepository
 import com.abhinav.otapulse.feature.downloads.domain.DeleteFileUseCase
 import com.abhinav.otapulse.feature.downloads.domain.EnqueueDownloadUseCase
+import com.abhinav.otapulse.feature.devicecatalog.ui.PartitionSelectDialogData
 import android.util.Log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -30,12 +31,6 @@ data class OtaDetailsDialogData(
     val otaUpdate: OtaUpdate,
     val deviceName: String,
     val regionName: String
-)
-
-data class PartitionSelectDialogData(
-    val url: String,
-    val versionName: String,
-    val partitions: List<com.abhinav.otapulse.ota.payload.PartitionInfo>
 )
 
 data class DevicesUiState(
@@ -72,7 +67,8 @@ class DevicesViewModel @Inject constructor(
     private val deviceRepository: com.abhinav.otapulse.catalog.repository.DeviceRepository,
     private val arbLookupService: ArbLookupService,
     private val otaExtractor: com.abhinav.otapulse.ota.engine.OtaExtractor,
-    @dagger.hilt.android.qualifiers.ApplicationContext private val context: android.content.Context
+    @dagger.hilt.android.qualifiers.ApplicationContext private val context: android.content.Context,
+    private val appSettingsPreferences: com.abhinav.otapulse.core.preferences.AppSettingsPreferences
 ) : ViewModel() {
 
     private val workManager = androidx.work.WorkManager.getInstance(context)
@@ -180,8 +176,7 @@ class DevicesViewModel @Inject constructor(
             val result = fetchOtaDetailsUseCase(device, variant)
 
             // Enrich with verified ARB data from community database
-            val appSettingsPrefs = context.getSharedPreferences(com.abhinav.otapulse.feature.settings.SettingsFragment.APP_SETTINGS_PREFS, android.content.Context.MODE_PRIVATE)
-            val isArbDetectionEnabled = appSettingsPrefs.getBoolean(com.abhinav.otapulse.feature.settings.SettingsFragment.PREF_ARB_DETECTION_ENABLED, true)
+            val isArbDetectionEnabled = appSettingsPreferences.getAppSettings().arbDetection
 
             val enrichedResult = result.map { ota ->
                 if (isArbDetectionEnabled) {

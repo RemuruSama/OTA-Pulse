@@ -12,7 +12,7 @@ import com.abhinav.otapulse.core.model.OtaUpdate
 import com.abhinav.otapulse.core.model.RegionVariant
 import com.abhinav.otapulse.core.notifications.DownloadNotificationHelper
 import com.abhinav.otapulse.feature.devices.domain.FetchOtaDetailsUseCase
-import com.abhinav.otapulse.feature.settings.SettingsFragment
+import com.abhinav.otapulse.core.preferences.AppSettingsPreferences
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.async
@@ -29,7 +29,8 @@ class SoftwareUpdateCheckWorker @AssistedInject constructor(
     @Assisted appContext: Context,
     @Assisted workerParams: WorkerParameters,
     private val fetchOtaDetailsUseCase: FetchOtaDetailsUseCase,
-    private val notificationHelper: DownloadNotificationHelper
+    private val notificationHelper: DownloadNotificationHelper,
+    private val appSettingsPreferences: AppSettingsPreferences
 ) : CoroutineWorker(appContext, workerParams) {
 
     companion object {
@@ -42,12 +43,7 @@ class SoftwareUpdateCheckWorker @AssistedInject constructor(
 
     override suspend fun doWork(): Result {
         // Check if the feature is enabled
-        val appSettingsPrefs = applicationContext.getSharedPreferences(
-            SettingsFragment.APP_SETTINGS_PREFS, Context.MODE_PRIVATE
-        )
-        val isEnabled = appSettingsPrefs.getBoolean(
-            SettingsFragment.PREF_AUTO_SOFTWARE_UPDATE_CHECK, true
-        )
+        val isEnabled = appSettingsPreferences.getAppSettings().autoSoftwareUpdateCheck
         if (!isEnabled) {
             Log.d(TAG, "Auto software update check is disabled, skipping")
             return Result.success()

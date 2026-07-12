@@ -27,4 +27,13 @@ interface OtaHistoryDao {
     // Used for checking duplicates
     @Query("SELECT * FROM ota_history WHERE deviceName = :deviceName AND region = :region ORDER BY timestamp DESC LIMIT 10")
     fun getRecentHistoryForDeviceAndRegion(deviceName: String, region: String): List<OtaHistoryEntity>
+
+    @Query("SELECT * FROM ota_history ORDER BY timestamp DESC")
+    fun getAllEntitiesSync(): List<OtaHistoryEntity>
+
+    @Query("DELETE FROM ota_history WHERE id IN (:ids)")
+    fun deleteByIds(ids: List<Long>): Int
+
+    @Query("DELETE FROM ota_history WHERE id = :id")
+    fun deleteById(id: Long): Int
 }

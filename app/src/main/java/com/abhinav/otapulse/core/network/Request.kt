@@ -88,6 +88,7 @@ class Request(
 
         url = resolveUrl(ruiVersion, region)
         responseContentKey = if (reqVersion == 2 && ruiVersion >= 2) "body" else "params"
+        android.util.Log.d("RequestDebug", "Prepared Request -> url: $url, model: $model, firmwareVersion: $firmwareVersion, region: $region, ruiVersion: $ruiVersion, nvId: $nvId, nvCarrier: ${properties["nvCarrier"]}, reqMode: ${properties["reqMode"]}, otaPrefix: ${properties["otaPrefix"]}")
     }
 
     private fun resolveNvCarrier(nvId: String, region: Int): String {

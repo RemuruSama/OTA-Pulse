@@ -17,6 +17,7 @@ import androidx.work.workDataOf
 import com.abhinav.otapulse.R
 import com.abhinav.otapulse.ota.engine.OtaExtractor
 import com.abhinav.otapulse.ota.resume.ExtractionState
+import chromeos_update_engine.UpdateMetadata.InstallOperation
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
@@ -83,8 +84,22 @@ class PartitionExtractorWorker @AssistedInject constructor(
                 // If cancelled before starting the next partition, throw CancellationException
                 kotlinx.coroutines.yield()
 
-                otaExtractor.extractToFile(session, partitionName, outputFile) { state ->
-                    updateProgress(titleName, partitionName, state, index, totalPartitions)
+                // Check if session needs a source file for this partition
+                if (session.sourceFile == null && isIncrementalPartition(session, partitionName)) {
+                    Log.d("PartitionExtractor", "Partition $partitionName is incremental, searching for source...")
+                    val discoveredSource = findSourcePartition(extractedDir, partitionName)
+                    if (discoveredSource != null) {
+                        Log.i("PartitionExtractor", "Auto-discovered source for $partitionName: ${discoveredSource.absolutePath}")
+                        session.sourceFile = discoveredSource
+                    }
+                }
+
+                try {
+                    otaExtractor.extractToFile(session, partitionName, outputFile) { state ->
+                        updateProgress(titleName, partitionName, state, index, totalPartitions)
+                    }
+                } finally {
+                    session.sourceFile = null
                 }
 
                 if (totalPartitions > 1) {
@@ -238,5 +253,32 @@ class PartitionExtractorWorker @AssistedInject constructor(
             .replace(Regex("\\s+"), " ")
             .trim('.')
             .ifBlank { "Unknown" }
+    }
+
+    private fun isIncrementalPartition(session: OtaExtractor.Session, partitionName: String): Boolean {
+        val partition = session.manifest.partitionsList.find { it.partitionName == partitionName }
+            ?: return false
+        
+        return partition.operationsList.any { op ->
+            op.type == InstallOperation.Type.SOURCE_COPY ||
+            op.type == InstallOperation.Type.MOVE ||
+            op.type == InstallOperation.Type.SOURCE_BSDIFF ||
+            op.type == InstallOperation.Type.BROTLI_BSDIFF
+        }
+    }
+
+    private fun findSourcePartition(extractedDir: File, partitionName: String): File? {
+        // Search all subdirectories for {partitionName}.img
+        // We prioritize more recent ones if possible, but any match is better than none.
+        val candidates = mutableListOf<File>()
+        extractedDir.listFiles()?.filter { it.isDirectory }?.forEach { subDir ->
+            val file = File(subDir, "$partitionName.img")
+            if (file.exists() && file.length() > 0) {
+                candidates.add(file)
+            }
+        }
+        
+        // Sort by last modified to get the most recent one
+        return candidates.maxByOrNull { it.lastModified() }
     }
 }

@@ -13,6 +13,9 @@ class OtaPulseApplication : Application(), Configuration.Provider {
     @Inject
     lateinit var workerFactory: HiltWorkerFactory
 
+    @Inject
+    lateinit var appSettingsPreferences: com.abhinav.otapulse.core.preferences.AppSettingsPreferences
+
     override val workManagerConfiguration: Configuration by lazy {
         Configuration.Builder()
             .setWorkerFactory(workerFactory)
@@ -26,20 +29,10 @@ class OtaPulseApplication : Application(), Configuration.Provider {
     }
 
     private fun scheduleSoftwareUpdateCheck() {
-        val prefs = getSharedPreferences(
-            com.abhinav.otapulse.feature.settings.SettingsFragment.APP_SETTINGS_PREFS,
-            MODE_PRIVATE
-        )
-        val isEnabled = prefs.getBoolean(
-            com.abhinav.otapulse.feature.settings.SettingsFragment.PREF_AUTO_SOFTWARE_UPDATE_CHECK,
-            true
-        )
-        if (!isEnabled) return
+        val appSettings = appSettingsPreferences.getAppSettings()
+        if (!appSettings.autoSoftwareUpdateCheck) return
 
-        val intervalHours = prefs.getLong(
-            com.abhinav.otapulse.feature.settings.SettingsFragment.PREF_CHECK_INTERVAL_HOURS,
-            com.abhinav.otapulse.feature.settings.SettingsFragment.DEFAULT_CHECK_INTERVAL_HOURS
-        )
+        val intervalHours = appSettings.checkIntervalHours
 
         val constraints = androidx.work.Constraints.Builder()
             .setRequiredNetworkType(androidx.work.NetworkType.CONNECTED)

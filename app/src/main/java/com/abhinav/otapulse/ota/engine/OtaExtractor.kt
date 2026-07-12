@@ -10,12 +10,14 @@ import com.abhinav.otapulse.ota.payload.PayloadExtractor
 import com.abhinav.otapulse.ota.payload.PayloadHeader
 import com.abhinav.otapulse.ota.payload.PayloadManifest
 import com.abhinav.otapulse.ota.payload.PartitionInfo
+import com.abhinav.otapulse.ota.payload.SourceReader
 import com.abhinav.otapulse.ota.resume.ExtractionState
 import com.abhinav.otapulse.ota.resume.ExtractionStateStore
 import com.abhinav.otapulse.ota.zip.ZipRemoteParser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.OutputStream
+import java.io.RandomAccessFile
 
 // ── Data models ──────────────────────────────────────────────────────────────
 
@@ -73,7 +75,8 @@ class OtaExtractor(private val context: Context) {
         val localUri: Uri? = null,
         val localPayloadFile: java.io.File? = null,
         val localPayloadOffset: Long? = null,
-        val localPayloadSize: Long? = null
+        val localPayloadSize: Long? = null,
+        var sourceFile: java.io.File? = null
     )
 
     // ── Step 1: fetch & parse OTA metadata ───────────────────────────────────
@@ -207,22 +210,8 @@ class OtaExtractor(private val context: Context) {
         val header     = manifester.readHeader()
         val manifest   = manifester.readManifest(header)
 
-        val deltaOps = setOf(
-            InstallOperation.Type.SOURCE_COPY,
-            InstallOperation.Type.BSDIFF,
-            InstallOperation.Type.SOURCE_BSDIFF,
-            InstallOperation.Type.BROTLI_BSDIFF,
-            InstallOperation.Type.PUFFDIFF,
-            InstallOperation.Type.ZUCCHINI,
-            InstallOperation.Type.LZ4DIFF_BSDIFF,
-            InstallOperation.Type.LZ4DIFF_PUFFDIFF
-        )
-        val isDelta = manifest.partitionsList.any { partition ->
-            partition.operationsList.any { op -> op.type in deltaOps }
-        }
-        require(!isDelta) {
-            "This is an incremental (delta) OTA package. Partition extraction requires a full OTA."
-        }
+        // Incremental (delta) OTAs contain patches rather than full images.
+        // We allow opening them to list partitions, but extraction will require a source partition.
 
         val blockSize = if (manifest.hasBlockSize()) manifest.blockSize.toLong() else 4096L
         val extractor = PayloadExtractor(url, http, header, blockSize)
@@ -281,22 +270,8 @@ class OtaExtractor(private val context: Context) {
             manifest = preview.second
         }
 
-        val deltaOps = setOf(
-            InstallOperation.Type.SOURCE_COPY,
-            InstallOperation.Type.BSDIFF,
-            InstallOperation.Type.SOURCE_BSDIFF,
-            InstallOperation.Type.BROTLI_BSDIFF,
-            InstallOperation.Type.PUFFDIFF,
-            InstallOperation.Type.ZUCCHINI,
-            InstallOperation.Type.LZ4DIFF_BSDIFF,
-            InstallOperation.Type.LZ4DIFF_PUFFDIFF
-        )
-        val isDelta = manifest.partitionsList.any { partition ->
-            partition.operationsList.any { op -> op.type in deltaOps }
-        }
-        require(!isDelta) {
-            "This is an incremental (delta) OTA package. Partition extraction requires a full OTA."
-        }
+        // Incremental (delta) OTAs contain patches rather than full images.
+        // We allow opening them to list partitions, but extraction will require a source partition.
 
         return Session(
             url = uri.toString(),
@@ -347,8 +322,16 @@ class OtaExtractor(private val context: Context) {
         onProgress: suspend (ExtractionState) -> Unit = {}
     ): ExtractionState = withContext(Dispatchers.IO) {
         val resume = stateStore.load(partitionName)
+        val sourceReader = session.sourceFile?.let { FileSourceReader(it) }
+
         val finalState = if (session.extractor != null) {
-            session.extractor.extract(
+            val extractorWithSource = if (sourceReader != null) {
+                PayloadExtractor(session.url, http, session.header, 
+                    if (session.manifest.hasBlockSize()) session.manifest.blockSize.toLong() else 4096L,
+                    sourceReader)
+            } else session.extractor
+
+            extractorWithSource.extract(
                 partitionName = partitionName,
                 manifest = session.manifest,
                 output = output,
@@ -364,7 +347,7 @@ class OtaExtractor(private val context: Context) {
             val offsetReader = OffsetLocalByteReader(baseReader, session.localPayloadOffset, session.localPayloadSize)
             offsetReader.use { reader ->
                 val blockSize = if (session.manifest.hasBlockSize()) session.manifest.blockSize.toLong() else 4096L
-                val localExtractor = LocalPayloadExtractor(reader, session.header, blockSize)
+                val localExtractor = LocalPayloadExtractor(reader, session.header, blockSize, sourceReader)
                 localExtractor.extract(
                     partitionName = partitionName,
                     manifest = session.manifest,
@@ -384,7 +367,7 @@ class OtaExtractor(private val context: Context) {
                 )
             LocalFileReader(localPayloadFile).use { reader ->
                 val blockSize = if (session.manifest.hasBlockSize()) session.manifest.blockSize.toLong() else 4096L
-                val localExtractor = LocalPayloadExtractor(reader, session.header, blockSize)
+                val localExtractor = LocalPayloadExtractor(reader, session.header, blockSize, sourceReader)
                 localExtractor.extract(
                     partitionName = partitionName,
                     manifest = session.manifest,
@@ -399,6 +382,17 @@ class OtaExtractor(private val context: Context) {
         }
         stateStore.clear(partitionName)
         finalState
+    }
+
+    private class FileSourceReader(private val file: java.io.File) : SourceReader {
+        override fun readBlocks(startBlock: Long, numBlocks: Long, blockSize: Long): ByteArray {
+            val data = ByteArray((numBlocks * blockSize).toInt())
+            RandomAccessFile(file, "r").use { raf ->
+                raf.seek(startBlock * blockSize)
+                raf.readFully(data)
+            }
+            return data
+        }
     }
 
     fun clearExtractionState(partitionName: String) {

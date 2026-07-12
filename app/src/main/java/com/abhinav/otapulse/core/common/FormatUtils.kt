@@ -2,6 +2,7 @@ package com.abhinav.otapulse.core.common
 
 import com.abhinav.otapulse.core.model.OtaUpdate
 import java.text.DecimalFormat
+import java.util.concurrent.TimeUnit
 
 object FormatUtils {
 
@@ -94,6 +95,22 @@ object FormatUtils {
             }
         }
         return formatTimestamp(ota.publishedTime)
+    }
+
+    /**
+     * Formats estimated time remaining in milliseconds into a user-friendly string (e.g., "2m 15s left", "45s left", "1h 10m left").
+     */
+    fun formatEta(etaInMilliSeconds: Long): String {
+        if (etaInMilliSeconds <= 0) return "--"
+        val hours = TimeUnit.MILLISECONDS.toHours(etaInMilliSeconds)
+        val minutes = TimeUnit.MILLISECONDS.toMinutes(etaInMilliSeconds) % 60
+        val seconds = TimeUnit.MILLISECONDS.toSeconds(etaInMilliSeconds) % 60
+
+        return when {
+            hours > 0 -> String.format("%dh %02dm left", hours, minutes)
+            minutes > 0 -> String.format("%02dm %02ds left", minutes, seconds)
+            else -> String.format("%ds left", seconds)
+        }
     }
 
     private fun formatUnit(value: Double, unit: String): String {

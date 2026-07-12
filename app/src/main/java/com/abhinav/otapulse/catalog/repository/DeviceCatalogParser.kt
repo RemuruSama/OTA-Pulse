@@ -90,7 +90,10 @@ object DeviceCatalogParser {
             
             val versionLetter = variant.getString("versionLetter") ?: "A"
             
-            val regionData = com.abhinav.otapulse.catalog.model.RegionData.regions.find { it.displayName.equals(displayName, ignoreCase = true) }
+            val regionData = com.abhinav.otapulse.catalog.model.RegionData.regions.find {
+                it.displayName.equals(displayName, ignoreCase = true) ||
+                (displayName.contains("Genshin", ignoreCase = true) && it.displayName == "Genshin Impact")
+            }
             val fallbackRegion = regionData?.serverCode ?: "EU"
             val nvid = regionData?.nvid ?: variant.getString("nvId") ?: ""
             
@@ -106,7 +109,7 @@ object DeviceCatalogParser {
                 productName = productName,
                 firmwareVersion = firmwareVersion,
                 region = region,
-                nvId = variant.getString("nvId"),
+                nvId = variant.getString("nvId") ?: regionData?.nvid,
                 language = variant.getString("language"),
                 reqMode = variant.getString("reqMode") ?: "manual",
                 gray = variant.getInt("gray") ?: 0

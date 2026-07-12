@@ -6,6 +6,7 @@ plugins {
     id("kotlin-parcelize")
     alias(libs.plugins.ksp)
     alias(libs.plugins.protobuf)
+    alias(libs.plugins.kotlin.compose)
 }
 
 // Load keystore properties from a separate, gitignored file
@@ -62,6 +63,7 @@ android {
     buildFeatures {
         viewBinding = true
         buildConfig = true
+        compose = true
     }
 
     sourceSets {
@@ -124,6 +126,21 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
 
+    // Compose
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.material3)
+    implementation(libs.androidx.material.icons.extended)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.compose.animation)
+    implementation(libs.androidx.ui.text.google.fonts)
+    implementation(libs.androidx.material3.window.size)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.hilt.navigation.compose)
+    debugImplementation(libs.androidx.ui.tooling)
 
     // Hilt
     implementation(libs.hilt.android)
@@ -158,6 +175,7 @@ dependencies {
 
     // ARB extraction - XZ/LZMA decompression
     implementation(libs.commons.compress)
+    implementation(libs.brotli)
     implementation(libs.xz)
     implementation(libs.protobuf.javalite)
     implementation(libs.protobuf.kotlin.lite)

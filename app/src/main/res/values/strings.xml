@@ -24,6 +24,7 @@
 
     <string name="ota_details_title">OTA Details</string>
     <string name="button_copy_link">Copy Link</string>
+    <string name="button_share">Share</string>
     <string name="button_download">Download</string>
     <string name="button_view_json">View JSON</string>
     <string name="button_download_json">Download</string>
@@ -586,4 +587,33 @@
     <!-- Cursor Decoration (non-translatable) -->
     <string name="cursor_decoration" translatable="false">▮</string>
     <string name="partition_extraction_confirm_selection">Confirm Selection (%1$d)</string>
+
+    <!-- Phase 5 Compose Strings -->
+    <string name="nav_back">Back</string>
+    <string name="toast_partition_extraction_started">Partition extraction started</string>
+    <string name="toast_download_started">Download started</string>
+    <string name="toast_url_copied">URL copied to clipboard</string>
+    <string name="product_model_label">Product Model</string>
+    <string name="product_name_label">Product Name</string>
+    <string name="action_manual_query">Check for Update</string>
+    <string name="partition_extraction_url_label">Remote OTA Package URL</string>
+    <string name="partition_extraction_url_placeholder">Paste direct full OTA URL</string>
+    <string name="partition_extraction_load_url_btn">Load Partitions from URL</string>
+    <string name="partition_extraction_local_zip_title">Local OTA ZIP</string>
+    <string name="partition_extraction_pick_zip_btn">Choose ZIP</string>
+    <string name="partition_extraction_load_local_btn">Load Local Partitions</string>
+    <string name="partition_extraction_loading_title">Loading partitions…</string>
+    <string name="partition_extraction_select_all">Select All</string>
+    <string name="partition_extraction_deselect_all">Deselect All</string>
+    <string name="link_resolver_input_label">Redirected OTA Link</string>
+    <string name="link_resolver_input_placeholder">Paste downloadCheck URL</string>
+    <string name="link_resolver_action_btn">Resolve Link</string>
+    <string name="link_resolver_loading">Resolving redirect link…</string>
+    <string name="link_resolver_copy_btn">Copy Link</string>
+    <string name="link_resolver_open_btn">Open in Browser</string>
+    <string name="arb_checker_url_title">Remote OTA Package URL</string>
+    <string name="arb_checker_check_url_btn">Check ARB Status</string>
+    <string name="arb_checker_local_zip_title">Local OTA ZIP</string>
+    <string name="arb_checker_check_local_btn">Check Local ZIP ARB</string>
+    <string name="arb_checker_loading">Checking anti-rollback status…</string>
 </resources>

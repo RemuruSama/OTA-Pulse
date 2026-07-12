@@ -10,7 +10,7 @@ import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.abhinav.otapulse.core.worker.SoftwareUpdateCheckWorker
-import com.abhinav.otapulse.feature.settings.SettingsFragment
+import com.abhinav.otapulse.core.preferences.AppSettingsPreferences
 import java.util.concurrent.TimeUnit
 import androidx.work.BackoffPolicy
 import java.time.Duration
@@ -33,11 +33,11 @@ class BootCompletedReceiver : BroadcastReceiver() {
 
     private fun scheduleSoftwareUpdateCheck(context: Context) {
         val prefs = context.getSharedPreferences(
-            SettingsFragment.APP_SETTINGS_PREFS,
+            AppSettingsPreferences.PREFS_NAME,
             Context.MODE_PRIVATE
         )
         val isEnabled = prefs.getBoolean(
-            SettingsFragment.PREF_AUTO_SOFTWARE_UPDATE_CHECK,
+            AppSettingsPreferences.PREF_AUTO_SOFTWARE_UPDATE_CHECK,
             true
         )
         if (!isEnabled) {
@@ -48,8 +48,8 @@ class BootCompletedReceiver : BroadcastReceiver() {
         Log.d(TAG, "Scheduling SoftwareUpdateCheckWorker")
 
         val intervalHours = prefs.getLong(
-            SettingsFragment.PREF_CHECK_INTERVAL_HOURS,
-            SettingsFragment.DEFAULT_CHECK_INTERVAL_HOURS
+            AppSettingsPreferences.PREF_CHECK_INTERVAL_HOURS,
+            AppSettingsPreferences.DEFAULT_CHECK_INTERVAL_HOURS
         )
 
         val constraints = Constraints.Builder()
