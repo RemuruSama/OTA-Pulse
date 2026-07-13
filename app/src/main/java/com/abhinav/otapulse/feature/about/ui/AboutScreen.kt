@@ -77,6 +77,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -98,6 +99,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
 import com.abhinav.otapulse.R
 import com.abhinav.otapulse.core.common.openExternalBrowser
 import com.abhinav.otapulse.core.common.openInAppBrowser
@@ -152,6 +154,25 @@ fun AboutScreen(
 
     var pendingUpdateInfo by remember { mutableStateOf<UpdateInfo?>(null) }
     var isCheckingUpdate by remember { mutableStateOf(false) }
+    var remainingSeconds by remember { mutableIntStateOf(0) }
+    var lastUpdateResult by remember { mutableStateOf<UpdateInfo?>(null) }
+
+    // Logic for 5-second simulated loading/cooldown
+    LaunchedEffect(remainingSeconds) {
+        if (remainingSeconds > 0) {
+            delay(500L)
+            remainingSeconds--
+            if (remainingSeconds == 0) {
+                isCheckingUpdate = false
+                pendingUpdateInfo = lastUpdateResult
+                if (lastUpdateResult != null) {
+                    onNavigateToAppUpdate(lastUpdateResult)
+                } else {
+                    Toast.makeText(context, "OTA Pulse is up to date!", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
 
     // Silent check on screen open
     LaunchedEffect(currentVersion) {
@@ -195,21 +216,17 @@ fun AboutScreen(
                     currentVersion = currentVersion,
                     appIconBitmap = appIconBitmap,
                     isCheckingUpdate = isCheckingUpdate,
+                    remainingSeconds = remainingSeconds,
                     pendingUpdateInfo = pendingUpdateInfo,
                     onCheckOrInstallUpdate = {
                         context.performHapticFeedback()
                         if (pendingUpdateInfo != null) {
                             onNavigateToAppUpdate(pendingUpdateInfo)
-                        } else {
+                        } else if (!isCheckingUpdate && remainingSeconds == 0) {
                             isCheckingUpdate = true
+                            remainingSeconds = 5
                             GitHubUpdater.checkForUpdate(currentVersion) { info ->
-                                isCheckingUpdate = false
-                                pendingUpdateInfo = info
-                                if (info != null) {
-                                    onNavigateToAppUpdate(info)
-                                } else {
-                                    Toast.makeText(context, "OTA Pulse is up to date! 🚀", Toast.LENGTH_SHORT).show()
-                                }
+                                lastUpdateResult = info
                             }
                         }
                     },
@@ -348,6 +365,7 @@ private fun MinimalHeroSection(
     currentVersion: String,
     appIconBitmap: androidx.compose.ui.graphics.ImageBitmap?,
     isCheckingUpdate: Boolean,
+    remainingSeconds: Int,
     pendingUpdateInfo: UpdateInfo?,
     onCheckOrInstallUpdate: () -> Unit,
     onCopyVersion: () -> Unit
@@ -488,6 +506,7 @@ private fun MinimalHeroSection(
                         text = if (isCheckingUpdate) "Checking for Updates..." else "Check for Updates",
                         icon = if (isCheckingUpdate) null else Icons.Rounded.Refresh,
                         isLoading = false,
+                        enabled = !isCheckingUpdate && remainingSeconds == 0,
                         onClick = onCheckOrInstallUpdate,
                         modifier = Modifier.fillMaxWidth()
                     )
