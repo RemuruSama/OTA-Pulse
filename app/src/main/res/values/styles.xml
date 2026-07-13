@@ -1,22 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <style name="ShapeAppearanceOverlay.App" parent="" />
-
-    <!-- This is the new style to reduce the toolbar's title size. -->
-    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textSize">18sp</item>
-    </style>
-
-
-    <style name="SectionHeader">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">20dp</item>
-        <item name="android:layout_marginBottom">8dp</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">?attr/colorPrimary</item>
-    </style>
 
     <style name="Widget.App.PopupMenu" parent="Widget.Material3.PopupMenu">
         <item name="android:popupBackground">@drawable/bg_popup_menu</item>
@@ -24,26 +7,6 @@
 
     <style name="Widget.App.ListPopupWindow" parent="Widget.AppCompat.ListPopupWindow">
         <item name="android:popupBackground">@drawable/bg_popup_menu</item>
-    </style>
-
-    <style name="Widget.App.Button.Pill" parent="Widget.Material3.Button.TonalButton">
-        <item name="cornerRadius">999dp</item>
-    </style>
-
-    <style name="Widget.App.Button.PillFilled" parent="Widget.Material3.Button">
-        <item name="cornerRadius">999dp</item>
-    </style>
-
-    <style name="Widget.App.Button.SupportPrimary" parent="Widget.Material3.Button">
-        <item name="android:minHeight">60dp</item>
-        <item name="android:insetTop">0dp</item>
-        <item name="android:insetBottom">0dp</item>
-        <item name="android:paddingStart">18dp</item>
-        <item name="android:paddingEnd">18dp</item>
-        <item name="android:textSize">18sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="iconSize">22dp</item>
-        <item name="android:stateListAnimator">@animator/bounce_animation</item>
     </style>
 
     <style name="Widget.App.Button.SupportCompact" parent="Widget.Material3.Button">

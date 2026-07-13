@@ -1,23 +1,15 @@
 <resources>
-    <string name="app_icon_desc">ไอคอนแอป</string>
-    <string name="title_device">อุปกรณ์</string>
     <string name="title_ota_tools">เครื่องมือ</string>
     <string name="title_about">เกี่ยวกับ</string>
     <string name="title_settings">การตั้งค่า</string>
     <string name="title_devices">อุปกรณ์</string>
     <string name="title_downloads">ดาวน์โหลด</string>
 
-    <string name="light_theme_description">แอปกำลังใช้ธีมสว่าง</string>
-    <string name="dark_theme_description">แอปกำลังใช้ธีมมืด</string>
-    <string name="auto_theme_description">ธีมจะเปลี่ยนโดยอัตโนมัติตามโหมดประหยัดแบตเตอรี่</string>
-    <string name="system_theme_description">ธีมของแอปจะเปลี่ยนตามการตั้งค่าระบบของอุปกรณ์คุณ</string>
-
     <string name="ota_details_title">รายละเอียด OTA</string>
     <string name="button_copy_link">คัดลอกลิงก์</string>
     <string name="button_download">ดาวน์โหลด</string>
     <string name="button_view_json">ดู JSON</string>
     <string name="button_download_json">ดาวน์โหลด</string>
-    <string name="button_save_json">บันทึก</string>
     <string name="json_output_title">เอาต์พุต JSON</string>
     <string name="json_output_unavailable">ไม่มีเอาต์พุต JSON สำหรับผลลัพธ์นี้</string>
     <string name="json_output_saved">บันทึก JSON ไปยังดาวน์โหลดในชื่อ %s แล้ว</string>
@@ -26,113 +18,42 @@
     <string name="copy">คัดลอก</string>
     <string name="close">ปิด</string>
 
-    <string name="device_information_header">ข้อมูลอุปกรณ์</string>
-    <string name="device_image_content_description">รูปภาพอุปกรณ์</string>
-    <string name="device_name_placeholder">ชื่ออุปกรณ์</string>
-    <string name="device_model_placeholder">รุ่นอุปกรณ์</string>
-    <string name="device_supported">รองรับอุปกรณ์นี้</string>
-    <string name="device_not_supported">ไม่รองรับอุปกรณ์นี้</string>
-    <string name="device_supported_placeholder">กำลังตรวจสอบสถานะการรองรับ…</string>
-    <string name="software_info_header">ข้อมูลซอฟต์แวร์</string>
-    <string name="hardware_info_header">ข้อมูลฮาร์ดแวร์</string>
-    <string name="android_version">เวอร์ชัน Android</string>
-    <string name="os_version">เวอร์ชัน OS</string>
-    <string name="ota_version">เวอร์ชัน OTA</string>
-    <string name="incremental_os_version">เวอร์ชัน OS แบบเพิ่มหน่วย</string>
-    <string name="security_patch_date">แพตช์ความปลอดภัย</string>
-    <string name="kernel_version">เวอร์ชันเคอร์เนล</string>
-    <string name="amount_of_ram">RAM</string>
-    <string name="system_on_a_chip">ชิปเซ็ต</string>
-    <string name="processor_frequency">ความเร็วตัวประมวลผล</string>
-    <string name="storage">พื้นที่เก็บข้อมูล</string>
-    <string name="battery">แบตเตอรี่</string>
-    <string name="display">หน้าจอ</string>
-
     <string name="search_device_hint">ค้นหาอุปกรณ์</string>
-    <string name="close_search_hint">ปิดการค้นหา</string>
-    <string name="select_region_variant">เลือกภูมิภาค/รุ่นย่อย</string>
-    <string name="changelog_error">ไม่สามารถเปิดลิงก์บันทึกการเปลี่ยนแปลงได้</string>
     <string name="link_copied">คัดลอกลิงก์ไปยังคลิปบอร์ดแล้ว</string>
-    <string name="no_update_found">ไม่พบการอัปเดต</string>
-    <string name="retry">ลองใหม่</string>
-    <string name="add_download">เพิ่มการดาวน์โหลด</string>
     <string name="paste_url">วาง URL</string>
     <string name="clear_url">ล้าง URL</string>
-    <string name="start_download">เริ่มดาวน์โหลด</string>
-    <string name="enter_download_url">ป้อน URL ดาวน์โหลด</string>
-    <string name="no_url_in_clipboard">ไม่พบ URL ในคลิปบอร์ด</string>
 
-    <string name="about_card_title">เกี่ยวกับแอปนี้</string>
+    
     <string name="app_tagline">อัปเดตอยู่เสมอ</string>
-    <string name="made_with">สร้างด้วย</string>
     <string name="about_app_description">ค้นหาการอัปเดต OTA ล่าสุดสำหรับอุปกรณ์ของคุณ รองรับอุปกรณ์ OnePlus, realme และ OPPO บางรุ่นอาจยังไม่ได้รับการรองรับในขณะนี้</string>
-    <string name="created_by_label">สร้างโดย</string>
+    
     <string name="creator_avatar_desc">รูปประจำตัวของผู้สร้าง</string>
     <string name="creator_name">Abhinav Verma</string>
-    <string name="supported_brands">แบรนด์ที่รองรับ</string>
-    <string name="oneplus_logo_desc">โลโก้ OnePlus</string>
-    <string name="realme_logo_desc">โลโก้ realme</string>
-    <string name="oppo_logo_desc">โลโก้ OPPO</string>
+    
+    
+    
+    
     <string name="github_button_text">GitHub</string>
-    <string name="telegram_button_text">Telegram</string>
-    <string name="check_updates_cta">ตรวจสอบอัปเดต</string>
-    <string name="footer_copyright">© 2026 OTA Pulse สงวนลิขสิทธิ์</string>
-
-    <string name="changelog_not_available">ไม่มีบันทึกการเปลี่ยนแปลง</string>
-    <string name="pause">หยุดชั่วคราว</string>
-    <string name="resume">ดำเนินการต่อ</string>
-    <string name="completed">เสร็จสมบูรณ์</string>
     <string name="delete">ลบ</string>
-    <string name="waiting">กำลังรอ</string>
-    <string name="package_file_label">ไฟล์แพ็คเกจ</string>
-    <string name="status_downloading">กำลังดาวน์โหลด</string>
-    <string name="status_paused">หยุดชั่วคราว</string>
-    <string name="status_completed">เสร็จสมบูรณ์</string>
-    <string name="status_failed">ล้มเหลว</string>
-    <string name="status_cancelled">ยกเลิกแล้ว</string>
-    <string name="status_queued">อยู่ในคิว</string>
-    <string name="status_waiting">กำลังรอ</string>
-
-    <string name="donate_card_title">สนับสนุนการพัฒนา</string>
-    <string name="buy_me_a_coffee_button_text">Buy me a coffee</string>
-    <string name="upi_id_copy_label">UPI ID (แตะเพื่อคัดลอก)</string>
+    
+    
     <string name="upi_id_copied_toast">คัดลอก UPI ID ไปยังคลิปบอร์ดแล้ว</string>
 
     <string name="settings">การตั้งค่า</string>
     <string name="delete_custom_device_title">ลบอุปกรณ์ที่กำหนดเอง?</string>
     <string name="delete_custom_device_message">คุณแน่ใจหรือไม่ว่าต้องการลบ %s? การดำเนินการนี้ไม่สามารถย้อนกลับได้</string>
     <string name="cancel">ยกเลิก</string>
-    <string name="permission_denied_download_error">การอนุญาตที่จำเป็นถูกปฏิเสธ ไม่สามารถดาวน์โหลดได้</string>
-    <string name="starting_download_for">กำลังเริ่มดาวน์โหลดสำหรับ %s</string>
     <string name="broad_file_access_prompt">จำเป็นต้องมีการเข้าถึงไฟล์ทั้งหมดเพื่อดาวน์โหลด โปรดเปิดใช้งานในการตั้งค่า</string>
-    <string name="cannot_proceed_download_missing_permissions">ไม่สามารถดาวน์โหลดต่อได้ เนื่องจากขาดการอนุญาต:</string>
+    
     <string name="cannot_open_app_settings">ไม่สามารถเปิดการตั้งค่าแอปได้</string>
-
-    <string name="file_already_exists">มีไฟล์นี้อยู่แล้ว</string>
-    <string name="file_exists_message">ไฟล์ \"%1$s\" มีอยู่แล้ว คุณต้องการลบและดาวน์โหลดใหม่อีกครั้งหรือไม่?</string>
-    <string name="delete_and_download">ลบและดาวน์โหลด</string>
-    <string name="overwrite_dialog_chip">ต้องได้รับการตรวจสอบ</string>
-    <string name="overwrite_dialog_risk">การดำเนินการนี้จะแทนที่ไฟล์ปัจจุบัน</string>
-    <string name="overwrite_dialog_message">ไฟล์นี้มีอยู่ในอุปกรณ์ของคุณแล้ว คุณสามารถเก็บสำเนาปัจจุบันไว้ หรือแทนที่ด้วยสำเนาใหม่</string>
-    <string name="overwrite_dialog_existing_file">ไฟล์ที่มีอยู่</string>
-    <string name="replace_existing_file">แทนที่ไฟล์ที่มีอยู่</string>
 
     <string name="permission_needed">จำเป็นต้องได้รับการอนุญาต</string>
 
     <string name="libraries_title">ไลบรารี</string>
-    <string name="libraries_desc">ใบอนุญาตโอเพนซอร์ส</string>
     <string name="developer_title">นักพัฒนา</string>
-    <string name="developer_desc">Abhinav Verma</string>
     <string name="contributors_title">ผู้สนับสนุน</string>
-    <string name="contributors_desc">การสนับสนุนจากชุมชน</string>
 
     <string name="developer_message">ออกแบบและพัฒนาด้วย ❤️\nขอบคุณที่ใช้ OTA Pulse!</string>
-    <string name="special_thanks_label">ขอขอบคุณเป็นพิเศษ</string>
-    <string name="open_source_community">ชุมชนโอเพนซอร์ส</string>
-    <string name="contributors_description">ขอขอบคุณทุกคนที่มีส่วนร่วมในโปรเจกต์นี้ ไม่ว่าจะเป็นทางโค้ด การแปลภาษา หรือการให้ข้อเสนอแนะ</string>
-
-    <string name="advanced_mode_enabled">เปิดใช้งานโหมดขั้นสูงแล้ว อาจต้องรีสตาร์ทแอปเพื่อให้การเปลี่ยนแปลงมีผลสมบูรณ์</string>
-    <string name="advanced_mode_disabled">ปิดใช้งานโหมดขั้นสูงแล้ว อาจต้องรีสตาร์ทแอปเพื่อให้การเปลี่ยนแปลงมีผลสมบูรณ์</string>
     <string name="import_overwrite_title">เขียนทับอุปกรณ์ที่กำหนดเองหรือไม่?</string>
     <string name="import_overwrite_message">การนำเข้ารายการใหม่จะเขียนทับอุปกรณ์ที่กำหนดเองที่มีอยู่ทั้งหมด การดำเนินการนี้ไม่สามารถย้อนกลับได้</string>
     <string name="import_action">นำเข้า</string>
@@ -142,14 +63,11 @@
     <string name="storage_permission_granted">ได้รับการอนุญาตการเข้าถึงพื้นที่เก็บข้อมูลแล้ว</string>
     <string name="storage_permission_required">จำเป็นต้องได้รับการอนุญาตการเข้าถึงพื้นที่เก็บข้อมูลสำหรับการดาวน์โหลด</string>
     <string name="update_available_title">มีเวอร์ชันใหม่ให้ใช้งาน: %s</string>
-    <string name="update_available_message">มีการอัปเดตใหม่ให้ใช้งาน!\n\nบันทึกการเปลี่ยนแปลง:\n%s</string>
-    <string name="download_action">ดาวน์โหลด</string>
     <string name="later_action">ภายหลัง</string>
     <string name="tap_to_view_update">แตะเพื่อดูบันทึกการเปลี่ยนแปลงและดาวน์โหลด</string>
     <string name="notification_permission_title">การอนุญาตการแจ้งเตือน</string>
     <string name="notification_permission_message">OTA Pulse ใช้การแจ้งเตือนเพื่อแจ้งให้คุณทราบเกี่ยวกับความคืบหน้าการดาวน์โหลด โปรดอนุญาตสิทธิ์นี้</string>
     <string name="notification_permission_settings_message">การเข้าถึงการแจ้งเตือนยังคงถูกปิดอยู่ โปรดเปิดใช้งานในการตั้งค่าแอปเพื่อให้สามารถแสดงการแจ้งเตือนความคืบหน้าและเมื่อดาวน์โหลดเสร็จสิ้นได้</string>
-    <string name="notification_permission_settings_snackbar">เปิดใช้งานการเข้าถึงการแจ้งเตือนในการตั้งค่า</string>
     <string name="grant_action">อนุญาต</string>
     <string name="support_developer_title">สนับสนุนนักพัฒนา</string>
     <string name="support_developer_message">สนับสนุนงานโอเพนซอร์สของเราและช่วยให้ OTA Pulse พัฒนาต่อไปได้ดียิ่งขึ้น</string>
@@ -158,9 +76,7 @@
     <string name="support_developer_maybe_later">ไว้วันหลัง</string>
     <string name="support_developer_image_content_description">ภาพประกอบสนับสนุนนักพัฒนา</string>
     <string name="exit_action">ออก</string>
-    <string name="could_not_open_download_link">ไม่สามารถเปิดลิงก์ดาวน์โหลดได้</string>
     <string name="could_not_open_link">ไม่สามารถเปิดลิงก์ได้</string>
-    <string name="in_app_browser_title">เบราว์เซอร์</string>
     <string name="browser_reload">โหลดหน้าซ้ำ</string>
     <string name="browser_open_external">เปิดในเบราว์เซอร์ภายนอก</string>
     <string name="browser_back">ย้อนกลับ</string>
@@ -169,9 +85,6 @@
     <string name="browser_share">แชร์หน้าเว็บ</string>
     <string name="browser_enable_desktop_mode">เปิดใช้งานโหมดเดสก์ท็อป</string>
     <string name="browser_disable_desktop_mode">ปิดใช้งานโหมดเดสก์ท็อป</string>
-    <string name="browser_status_loading">กำลังโหลด</string>
-    <string name="browser_status_live">ไลฟ์</string>
-    <string name="browser_loading_hint">กำลังจัดเตรียมมุมมองการอ่านที่สะอาดตายิ่งขึ้นสำหรับหน้านี้…</string>
 
     <string name="browser_settings_title">เบราว์เซอร์ในแอป</string>
     <string name="browser_desktop_mode_title">โหมดเว็บไซต์เดสก์ท็อป</string>
@@ -180,20 +93,6 @@
     <string name="browser_controls_summary">แสดงแถบนำทางด้านล่างขณะเรียกดู</string>
     <string name="browser_webview_version_title">เวอร์ชัน WebView</string>
     <string name="browser_webview_version_unavailable">ไม่พร้อมใช้งาน</string>
-    <string name="add_device_name_title">ชื่ออุปกรณ์</string>
-    <string name="add_device_name_supporting">เลือกชื่ออุปกรณ์ที่ชัดเจนเพื่อให้ง่ายต่อการจดจำในภายหลัง</string>
-    <string name="add_device_name_hint">เช่น realme 12 Pro Plus</string>
-    <string name="add_device_groups_title">กลุ่มเฟิร์มแวร์</string>
-    <string name="add_device_groups_supporting">จัดระเบียบรุ่นย่อยตามเวอร์ชัน Android จากนั้นเพิ่มเวอร์ชันภูมิภาคภายในแต่ละกลุ่ม</string>
-    <string name="add_device_empty_groups">ยังไม่มีกลุ่มเฟิร์มแวร์ เพิ่มสักกลุ่มเพื่อเริ่มสร้างอุปกรณ์ที่กำหนดเองนี้</string>
-    <string name="add_device_add_group">เพิ่มกลุ่มเฟิร์มแวร์</string>
-    <string name="add_device_save">บันทึกอุปกรณ์</string>
-    <string name="add_device_edit_group">แก้ไขกลุ่มเฟิร์มแวร์</string>
-    <string name="add_device_delete_group">ลบกลุ่มเฟิร์มแวร์</string>
-    <string name="add_device_variants_title">รุ่นย่อยภูมิภาค</string>
-    <string name="add_device_empty_variants">ยังไม่มีรุ่นย่อย เพิ่มภูมิภาคเพื่อให้กลุ่มเฟิร์มแวร์นี้สมบูรณ์</string>
-    <string name="add_device_add_variant">เพิ่มรุ่นย่อย</string>
-    <string name="add_device_remove_variant">ลบรุ่นย่อย</string>
 
     <string name="notif_download_complete">ดาวน์โหลดเสร็จสมบูรณ์</string>
     <string name="notif_download_failed">ดาวน์โหลดล้มเหลว</string>
@@ -210,34 +109,20 @@
     <string name="notif_error_no_network">ไม่มีการเชื่อมต่ออินเทอร์เน็ต</string>
     <string name="notif_error_unknown">เกิดข้อผิดพลาดไม่ทราบสาเหตุ โปรดลองใหม่อีกครั้ง</string>
 
-    <string name="extract_partition_title">ดึงข้อมูลพาร์ทิชัน</string>
+    
     <string name="extract">ดึงข้อมูล</string>
-    <string name="or_label">หรือ</string>
-
-    <string name="settings_section_appearance">ลักษณะที่ปรากฏ</string>
-    <string name="settings_app_theme">ธีมแอป</string>
-    <string name="theme_option_light">สว่าง</string>
-    <string name="theme_option_dark">มืด</string>
-    <string name="theme_option_auto">อัตโนมัติ</string>
-    <string name="theme_option_system">ตามระบบ</string>
-    <string name="settings_section_general">ทั่วไป</string>
     <string name="settings_auto_check_updates">ตรวจสอบอัปเดตอัตโนมัติ</string>
     <string name="settings_auto_check_updates_desc">แจ้งเตือนเมื่อเปิดแอปหากมีการอัปเดต</string>
     <string name="settings_app_language">ภาษาของแอป</string>
-    <string name="settings_app_language_desc">เลือกภาษาที่คุณต้องการสำหรับแอป</string>
     <string name="language_option_system">ค่าเริ่มต้นระบบ</string>
     <string name="settings_advanced_mode">โหมดขั้นสูง</string>
     <string name="settings_advanced_mode_desc">ปลดล็อกฟีเจอร์ทดลอง</string>
     <string name="settings_arb_detection">การตรวจหา ARB</string>
     <string name="settings_arb_detection_desc">เปิดใช้งานการตรวจสอบ Anti-Rollback สำหรับการอัปเดต</string>
-    <string name="settings_section_data">การจัดการข้อมูล</string>
     <string name="settings_export_backup">ส่งออกข้อมูลสำรอง</string>
     <string name="settings_export_backup_desc">บันทึกอุปกรณ์ไปยังพื้นที่เก็บข้อมูล</string>
     <string name="settings_import_backup">นำเข้าข้อมูลสำรอง</string>
     <string name="settings_import_backup_desc">กู้คืนจากไฟล์</string>
-    <string name="settings_section_information">ข้อมูล</string>
-    <string name="toast_arb_detection_enabled">เปิดใช้งานการตรวจหา ARB แล้ว</string>
-    <string name="toast_arb_detection_disabled">ปิดใช้งานการตรวจหา ARB แล้ว</string>
 
     <string name="tools_header_title">เครื่องมือ\nOTA</string>
     <string name="tools_header_subtitle">เปิดหน้าเฉพาะสำหรับการค้นหาด้วยตนเอง การดึงข้อมูลพาร์ทิชัน การแก้ลิงก์ หรือการตรวจสอบ ARB</string>
@@ -249,92 +134,24 @@
     <string name="tools_manual_query_desc">ค้นหาเซิร์ฟเวอร์ OTA ด้วยรุ่น ภูมิภาค เซิร์ฟเวอร์ และช่องข้อมูลขั้นสูงของคุณเอง</string>
     <string name="tools_partition_extraction_title">การดึงข้อมูลพาร์ทิชัน</string>
     <string name="tools_partition_extraction_desc">โหลดพาร์ทิชันจากไฟล์ ZIP OTA ในเครื่องหรือ URL OTA แบบเต็ม จากนั้นดึงรูปภาพที่เลือกออกมา</string>
-
-    <string name="partition_extraction_header_title">การดึงข้อมูล\nพาร์ทิชัน</string>
-    <string name="partition_extraction_header_subtitle">โหลดพาร์ทิชันจาก URL OTA แบบเต็มโดยตรงหรือไฟล์ ZIP ในเครื่องที่ดาวน์โหลดมา</string>
-    <string name="partition_extraction_remote_label">แพ็คเกจ OTA ทางไกล</string>
-    <string name="hint_paste_ota_url">วาง URL OTA แบบเต็ม</string>
-    <string name="partition_extraction_local_zip_label">ไฟล์ ZIP OTA ในเครื่อง</string>
-    <string name="partition_extraction_no_zip_selected">ยังไม่ได้เลือกไฟล์ ZIP</string>
-    <string name="btn_choose_zip">เลือกไฟล์ ZIP</string>
-    <string name="btn_remove">นำออก</string>
-    <string name="partition_extraction_source_hint">ใช้ URL OTA แบบเต็มหรือแพ็คเกจ ZIP ที่ดาวน์โหลดมา</string>
     <string name="partition_extraction_select_partition">เลือกพาร์ทิชัน</string>
     <string name="partition_loading_msg">กำลังโหลดพาร์ทิชัน…</string>
     <string name="toast_link_pasted">วางลิงก์แล้ว</string>
     <string name="toast_clipboard_empty">คลิปบอร์ดว่างเปล่า</string>
-    <string name="toast_paste_url_or_choose_zip">โปรดวาง URL OTA แบบเต็มหรือเลือกไฟล์ ZIP ในเครื่องก่อน</string>
-    <string name="toast_partition_extracted">ดึงข้อมูล %s.img สำเร็จแล้ว</string>
-    <string name="toast_extraction_cancelled">ยกเลิกการดึงข้อมูลแล้ว</string>
-    <string name="toast_extraction_failed">การดึงข้อมูลล้มเหลว</string>
-
-    <string name="content_desc_more_options">ตัวเลือกเพิ่มเติม</string>
-    <string name="content_desc_mark_favorite">ทำเครื่องหมายเป็นรายการโปรด</string>
-    <string name="label_android_version_colon">เวอร์ชัน Android:</string>
-    <string name="label_os_version_colon">เวอร์ชัน OS:</string>
-    <string name="label_security_patch_colon">แพตช์ความปลอดภัย:</string>
-    <string name="label_size_colon">ขนาด:</string>
-    <string name="label_md5_colon">MD5:</string>
-    <string name="btn_view_changelog">ดูบันทึกการเปลี่ยนแปลง</string>
-
-    <string name="download_speed_label">ความเร็ว</string>
-    <string name="download_remaining_label">เหลือเวลา</string>
-
-    <string name="content_desc_remove_local_zip">นำไฟล์ ZIP ในเครื่องออก</string>
-    <string name="content_desc_add_new_device">เพิ่มอุปกรณ์ที่กำหนดเองใหม่</string>
-
-    <string name="hint_android_version">เวอร์ชัน Android (เช่น Android 14)</string>
-    <string name="hint_product_model_example">รุ่นผลิตภัณฑ์ (เช่น RMX3840)</string>
-    <string name="hint_product_name_example">ชื่อผลิตภัณฑ์ (เช่น RMX3840IN)</string>
-    <string name="hint_region">ภูมิภาค</string>
-    <string name="hint_ota_version">เวอร์ชัน OTA</string>
-    <string name="hint_req_mode">โหมดคำขอ</string>
-    <string name="hint_gray">Gray</string>
     <string name="hint_search_partitions">ค้นหาพาร์ทิชัน</string>
-    <string name="hint_paste_download_check_link">วางลิงก์ downloadCheck</string>
-    <string name="helper_paste_ota_link">วางลิงก์ OTA ที่คุณต้องการแก้</string>
-
-    <string name="hint_product_model">รุ่นผลิตภัณฑ์</string>
-    <string name="hint_product_name">ชื่อผลิตภัณฑ์</string>
     <string name="hint_ver_letter">ตัวอักษรเวอร์ชัน</string>
-    <string name="hint_rui_version">เวอร์ชัน RUI</string>
-    <string name="hint_server">เซิร์ฟเวอร์</string>
-    <string name="hint_imei_optional">IMEI (ไม่จำเป็น)</string>
-    <string name="hint_language">ภาษา</string>
-    <string name="hint_nv_id_optional">NV ID (ไม่จำเป็น)</string>
-    <string name="hint_full_ota_url">URL OTA แบบเต็ม</string>
-    <string name="hint_resolver_input_link">ลิงก์อินพุตตัวแก้</string>
-    <string name="btn_open">เปิด</string>
-    <string name="btn_auto_fill">เติมอัตโนมัติ</string>
     <string name="btn_check_for_update">ตรวจสอบอัปเดต</string>
 
     <string name="toast_paste_ota_url_first">โปรดวาง URL OTA แบบเต็มก่อน</string>
     <string name="toast_choose_local_zip_first">โปรดเลือกไฟล์ ZIP OTA ในเครื่องก่อน</string>
     <string name="toast_resolved_link_copied">คัดลอกลิงก์ที่แก้แล้ว</string>
-    <string name="toast_could_not_open_resolved_link">ไม่สามารถเปิดลิงก์ที่แก้แล้วได้</string>
     <string name="toast_device_details_fetched">ดึงรายละเอียดอุปกรณ์แล้ว</string>
-    <string name="toast_please_fill_required_fields">โปรดกรอกข้อมูลในช่องที่จำเป็น</string>
     <string name="toast_link_copied">คัดลอกลิงก์แล้ว</string>
-    <string name="toast_could_not_share_link">ไม่สามารถแชร์ลิงก์ได้</string>
 
-    <string name="ota_details_device">รายละเอียด OTA: %s</string>
+    
     <string name="unknown">ไม่ทราบสาเหตุ</string>
     <string name="unknown_version">ไม่ทราบเวอร์ชัน</string>
-
-    <string name="placeholder_library_name">ชื่อไลบรารี</string>
-    <string name="placeholder_apache_license">Apache License 2.0</string>
-
-    <string name="arb_checker_header_title">ตัวตรวจสอบ\nARB</string>
-    <string name="arb_checker_header_subtitle">ตรวจสอบข้อมูลเมตา anti-rollback จากแพ็คเกจ OTA ทางไกลหรือไฟล์ ZIP ที่ดาวน์โหลดไว้ในเครื่อง</string>
-    <string name="btn_check_arb">ตรวจสอบ ARB</string>
     <string name="arb_status_label">สถานะ ARB</string>
-    <string name="arb_index_label">ดัชนี ARB</string>
-    <string name="arb_metadata_version_label">เวอร์ชันข้อมูลเมตา</string>
-    <string name="arb_source_label">แหล่งที่มา</string>
-
-    <string name="link_resolver_header_title">ตัวแก้\nลิงก์</string>
-    <string name="link_resolver_header_subtitle">แก้ลิงก์ OTA ที่ถูกเปลี่ยนเส้นทางโดย downloadCheck และคัดลอกหรือเปิดเป้าหมายสุดท้ายอย่างรวดเร็ว</string>
-    <string name="btn_resolve_link">แก้ลิงก์</string>
 
     <string name="label_android">เวอร์ชัน Android</string>
     <string name="label_security_patch">แพตช์ความปลอดภัย</string>
@@ -342,46 +159,11 @@
     <string name="label_md5">MD5</string>
     <string name="btn_changelog">บันทึกการเปลี่ยนแปลง</string>
 
-    <string name="manual_query_header_title">เครื่องมือ\nOTA</string>
-    <string name="manual_query_header_subtitle">ค้นหาเซิร์ฟเวอร์ OTA โดยใช้รุ่น ภูมิภาค เซิร์ฟเวอร์ และช่องข้อมูลขั้นสูงของคุณเอง</string>
-    <string name="manual_query_local_zip_label">ไฟล์ ZIP OTA ในเครื่องที่ดาวน์โหลดมา</string>
-    <string name="manual_query_advanced_options_title">ตัวเลือกขั้นสูง</string>
-    <string name="manual_query_advanced_options_desc">NV ID, โหมดคำขอ, Gray, Beta</string>
-    <string name="manual_query_beta_channel_title">ช่องทาง Beta</string>
-    <string name="manual_query_beta_channel_desc">ค้นหาเวอร์ชันเฟิร์มแวร์ทดลอง</string>
-    <string name="btn_from_url">จาก URL</string>
-    <string name="btn_from_zip">จาก ZIP</string>
-    <string name="btn_auto_fill_label">เติมอัตโนมัติ</string>
-    <string name="btn_check_for_update_label">ตรวจสอบอัปเดต</string>
-
-    <string name="about_btn_check_for_updates">ตรวจสอบอัปเดต</string>
-    <string name="about_connect_label">เชื่อมต่อ</string>
-    <string name="about_github_label">GitHub</string>
-    <string name="about_github_desc">ซอร์สโค้ด</string>
-    <string name="about_telegram_label">Telegram</string>
-    <string name="about_telegram_desc">แชนเนล</string>
-    <string name="about_paypal_label">PayPal</string>
-    <string name="about_support_dev_desc">สนับสนุนนักพัฒนา</string>
-    <string name="about_upi_label">UPI</string>
-    <string name="about_copy_id_desc">คัดลอก ID</string>
-
-    <string name="btn_view_on_github">ดูบน GitHub</string>
-
     <string name="developer_role">นักพัฒนาและนักออกแบบ</string>
-
-    <string name="dialog_add_download_section_title">URL ดาวน์โหลด</string>
-    <string name="dialog_add_download_url_hint">รองรับลิงก์เฟิร์มแวร์โดยตรงและลิงก์ไฟล์ ZIP OTA ที่แชร์</string>
-
-    <string name="add_device_toolbar_title">เพิ่มอุปกรณ์ที่กำหนดเอง</string>
-
-    <string name="placeholder_item_title">หัวข้อรายการ</string>
-    <string name="placeholder_item_value">ค่าของรายการ</string>
 
     <!-- Home Update Panel -->
     <string name="software_update_panel_version_label">เวอร์ชันซอฟต์แวร์</string>
-    <string name="btn_view">ดู</string>
     <string name="software_update_panel_chip">อัปเดตซอฟต์แวร์</string>
-    <string name="software_update_panel_device_label">อุปกรณ์ปัจจุบัน</string>
     <string name="software_update_panel_meta_hint">สร้างจากโปรไฟล์อุปกรณ์จริงและพร้อมตรวจสอบด้วยการแตะเพียงครั้งเดียว</string>
     <string name="update_available_label">มีอัปเดตใหม่</string>
 
@@ -402,3 +184,5 @@
     <string name="battery_optimization_dialog_message">เพื่อตรวจสอบอัปเดตซอฟต์แวร์อย่างเสถียรในเบื้องหลัง จะต้องยกเว้น OTA Pulse จากการเพิ่มประสิทธิภาพแบตเตอรี่</string>
     <string name="allow">อนุญาต</string>
 </resources>
+
+

@@ -1,42 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- MD3 Light Palette (Seed #8B1A1A, Background #FDECEA) -->
-    <color name="colorPrimary">#BA1A1A</color>
-    <color name="colorOnPrimary">#FFFFFF</color>
-    <color name="colorPrimaryContainer">#FFDAD5</color>
-    <color name="colorOnPrimaryContainer">#410002</color>
-    <color name="colorSecondary">#775652</color>
-    <color name="colorOnSecondary">#FFFFFF</color>
-    <color name="colorSecondaryContainer">#FFDAD5</color>
-    <color name="colorOnSecondaryContainer">#2C1512</color>
-    <color name="colorTertiary">#715B2E</color>
-    <color name="colorOnTertiary">#FFFFFF</color>
-    <color name="colorTertiaryContainer">#FDE1A7</color>
-    <color name="colorOnTertiaryContainer">#261900</color>
-    <color name="colorError">#BA1A1A</color>
-    <color name="colorOnError">#FFFFFF</color>
-    <color name="colorErrorContainer">#FFDAD5</color>
-    <color name="colorOnErrorContainer">#410002</color>
-    <color name="colorOutline">#857370</color>
-    <color name="colorOutlineVariant">#D8C2BE</color>
     <color name="colorBackground">#FDECEA</color>
-    <color name="colorOnBackground">#201A19</color>
-    <color name="colorSurface">#FDECEA</color>
-    <color name="colorOnSurface">#201A19</color>
-    <color name="colorSurfaceVariant">#F5DDD9</color>
-    <color name="colorOnSurfaceVariant">#534341</color>
-    <color name="colorSurfaceContainerLowest">#FFFFFF</color>
-    <color name="colorSurfaceContainerLow">#FFF8F6</color>
-    <color name="colorSurfaceContainer">#FCEAE7</color>
-    <color name="colorSurfaceContainerHigh">#F6E4E1</color>
-    <color name="colorSurfaceContainerHighest">#F0DEDE</color>
-    <color name="colorSuccessContainer">#D8F8D7</color>
-    <color name="colorOnSuccessContainer">#11361A</color>
 
     <!-- Legacy / Utility Colors -->
     <color name="material_green_500">#4CAF50</color>
     <color name="material_red_500">#F44336</color>
-    <color name="material_red_100">#FFCDD2</color>
 
     <!-- ARB Status Colors -->
     <color name="arb_safe">#2E7D32</color>
@@ -44,8 +12,6 @@
 
     <!-- Custom Glass Background -->
     <color name="glass_panel_background">#1A000000</color>
-    <color name="card_glass_background">#80FFFFFF</color>
-    <color name="card_glass_stroke">#1A000000</color>
 
     <!-- AMOLED / True Black Surface Colors -->
     <color name="amoled_surface">#000000</color>

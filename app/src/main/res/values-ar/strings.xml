@@ -1,23 +1,15 @@
 <resources>
-    <string name="app_icon_desc">أيقونة التطبيق</string>
-    <string name="title_device">الجهاز</string>
     <string name="title_ota_tools">الأدوات</string>
     <string name="title_about">حول</string>
     <string name="title_settings">الإعدادات</string>
     <string name="title_devices">الأجهزة</string>
     <string name="title_downloads">التنزيلات</string>
 
-    <string name="light_theme_description">التطبيق يستخدم المظهر الفاتح.</string>
-    <string name="dark_theme_description">التطبيق يستخدم المظهر الداكن.</string>
-    <string name="auto_theme_description">سيتغير المظهر تلقائيًا بناءً على وضع توفير البطارية.</string>
-    <string name="system_theme_description">سيتتبع مظهر التطبيق إعدادات نظام جهازك.</string>
-
     <string name="ota_details_title">تفاصيل OTA</string>
     <string name="button_copy_link">نسخ الرابط</string>
     <string name="button_download">تنزيل</string>
     <string name="button_view_json">عرض JSON</string>
     <string name="button_download_json">تنزيل</string>
-    <string name="button_save_json">حفظ</string>
     <string name="json_output_title">مخرجات JSON</string>
     <string name="json_output_unavailable">مخرجات JSON غير متوفرة لهذه النتيجة.</string>
     <string name="json_output_saved">تم حفظ JSON في التنزيلات باسم %s</string>
@@ -26,113 +18,42 @@
     <string name="copy">نسخ</string>
     <string name="close">إغلاق</string>
 
-    <string name="device_information_header">معلومات الجهاز</string>
-    <string name="device_image_content_description">صورة الجهاز</string>
-    <string name="device_name_placeholder">اسم الجهاز</string>
-    <string name="device_model_placeholder">طراز الجهاز</string>
-    <string name="device_supported">الجهاز مدعوم</string>
-    <string name="device_not_supported">الجهاز غير مدعوم</string>
-    <string name="device_supported_placeholder">جاري التحقق من حالة الدعم…</string>
-    <string name="software_info_header">معلومات البرنامج</string>
-    <string name="hardware_info_header">معلومات الأجهزة</string>
-    <string name="android_version">إصدار أندرويد</string>
-    <string name="os_version">إصدار النظام</string>
-    <string name="ota_version">إصدار OTA</string>
-    <string name="incremental_os_version">إصدار النظام التزايدي</string>
-    <string name="security_patch_date">تحديث الأمان</string>
-    <string name="kernel_version">إصدار النواة</string>
-    <string name="amount_of_ram">ذاكرة الوصول العشوائي (RAM)</string>
-    <string name="system_on_a_chip">المعالج</string>
-    <string name="processor_frequency">تردد المعالج</string>
-    <string name="storage">التخزين</string>
-    <string name="battery">البطارية</string>
-    <string name="display">الشاشة</string>
-
     <string name="search_device_hint">البحث عن الأجهزة</string>
-    <string name="close_search_hint">إغلاق البحث</string>
-    <string name="select_region_variant">اختر المنطقة/الإصدار</string>
-    <string name="changelog_error">تعذر فتح رابط سجل التغييرات.</string>
     <string name="link_copied">تم نسخ الرابط إلى الحافظة</string>
-    <string name="no_update_found">لم يتم العثور على تحديثات</string>
-    <string name="retry">إعادة المحاولة</string>
-    <string name="add_download">إضافة تنزيل</string>
     <string name="paste_url">لصق الرابط</string>
     <string name="clear_url">مسح الرابط</string>
-    <string name="start_download">بدء التنزيل</string>
-    <string name="enter_download_url">أدخل رابط التنزيل</string>
-    <string name="no_url_in_clipboard">لم يتم العثور على روابط في الحافظة</string>
 
-    <string name="about_card_title">حول هذا التطبيق</string>
+    
     <string name="app_tagline">دائماً محدث</string>
-    <string name="made_with">صنع بـ</string>
     <string name="about_app_description">ابحث عن أحدث تحديثات OTA لجهازك. يدعم أجهزة OnePlus و realme و OPPO. قد لا تكون بعض الطرازات مدعومة بعد.</string>
-    <string name="created_by_label">تم الإنشاء بواسطة</string>
+    
     <string name="creator_avatar_desc">الصورة الرمزية للمنشئ</string>
     <string name="creator_name">Abhinav Verma</string>
-    <string name="supported_brands">العلامات التجارية المدعومة</string>
-    <string name="oneplus_logo_desc">شعار OnePlus</string>
-    <string name="realme_logo_desc">شعار realme</string>
-    <string name="oppo_logo_desc">شعار OPPO</string>
+    
+    
+    
+    
     <string name="github_button_text">GitHub</string>
-    <string name="telegram_button_text">Telegram</string>
-    <string name="check_updates_cta">التحقق من التحديثات</string>
-    <string name="footer_copyright">© 2026 OTA Pulse. جميع الحقوق محفوظة.</string>
-
-    <string name="changelog_not_available">سجل التغييرات غير متوفر.</string>
-    <string name="pause">إيقاف مؤقت</string>
-    <string name="resume">استئناف</string>
-    <string name="completed">مكتمل</string>
     <string name="delete">حذف</string>
-    <string name="waiting">انتظار</string>
-    <string name="package_file_label">ملف الحزمة</string>
-    <string name="status_downloading">جاري التنزيل</string>
-    <string name="status_paused">متوقف مؤقتاً</string>
-    <string name="status_completed">مكتمل</string>
-    <string name="status_failed">فشل</string>
-    <string name="status_cancelled">ملغى</string>
-    <string name="status_queued">في قائمة الانتظار</string>
-    <string name="status_waiting">انتظار</string>
-
-    <string name="donate_card_title">دعم التطوير</string>
-    <string name="buy_me_a_coffee_button_text">Buy me a coffee</string>
-    <string name="upi_id_copy_label">معرف UPI (اضغط للنسخ)</string>
+    
+    
     <string name="upi_id_copied_toast">تم نسخ معرف UPI إلى الحافظة</string>
 
     <string name="settings">الإعدادات</string>
     <string name="delete_custom_device_title">حذف الجهاز المخصص؟</string>
     <string name="delete_custom_device_message">هل أنت متأكد أنك تريد حذف %s؟ لا يمكن التراجع عن هذا الإجراء.</string>
     <string name="cancel">إلغاء</string>
-    <string name="permission_denied_download_error">تم رفض الأذونات المطلوبة. تعذر التنزيل.</string>
-    <string name="starting_download_for">بدء تنزيل %s</string>
     <string name="broad_file_access_prompt">مطلوب الوصول الواسع للملفات للتنزيلات. يرجى التمكين في الإعدادات.</string>
-    <string name="cannot_proceed_download_missing_permissions">لا يمكن المتابعة في التنزيل. الأذونات مفقودة:</string>
+    
     <string name="cannot_open_app_settings">تعذر فتح إعدادات التطبيق.</string>
-
-    <string name="file_already_exists">الملف موجود بالفعل</string>
-    <string name="file_exists_message">الملف \"%1$s\" موجود بالفعل. هل تريد حذفه وتنزيله مرة أخرى؟</string>
-    <string name="delete_and_download">حذف وتنزيل</string>
-    <string name="overwrite_dialog_chip">يحتاج إلى اهتمام</string>
-    <string name="overwrite_dialog_risk">سيؤدي هذا إلى استبدال الملف الحالي</string>
-    <string name="overwrite_dialog_message">هذا الملف موجود بالفعل على جهازك. يمكنك الاحتفاظ بالنسخة الحالية، أو استبدالها بنسخة جديدة.</string>
-    <string name="overwrite_dialog_existing_file">الملف الموجود</string>
-    <string name="replace_existing_file">استبدال الملف الموجود</string>
 
     <string name="permission_needed">الإذن مطلوب</string>
 
     <string name="libraries_title">المكتبات</string>
-    <string name="libraries_desc">تراخيص مفتوحة المصدر</string>
     <string name="developer_title">المطور</string>
-    <string name="developer_desc">Abhinav Verma</string>
     <string name="contributors_title">المساهمون</string>
-    <string name="contributors_desc">مساهمات المجتمع</string>
 
     <string name="developer_message">تم التصميم والتطوير بحب ❤️.\nشكراً لاستخدامك OTA Pulse!</string>
-    <string name="special_thanks_label">شكر خاص</string>
-    <string name="open_source_community">مجتمع المصادر المفتوحة</string>
-    <string name="contributors_description">شكراً لكل من ساهم في هذا المشروع، سواء من خلال الكود أو الترجمة أو الملاحظات.</string>
-
-    <string name="advanced_mode_enabled">تم تمكين الوضع المتقدم. قد يلزم إعادة التشغيل لتفعيل التغييرات بالكامل.</string>
-    <string name="advanced_mode_disabled">تم تعطيل الوضع المتقدم. قد يلزم إعادة التشغيل لتفعيل التغييرات بالكامل.</string>
     <string name="import_overwrite_title">استبدال الأجهزة المخصصة؟</string>
     <string name="import_overwrite_message">سيؤدي استيراد قائمة جديدة إلى استبدال جميع أجهزتك المخصصة الحالية. لا يمكن التراجع عن هذا الإجراء.</string>
     <string name="import_action">استيراد</string>
@@ -142,14 +63,11 @@
     <string name="storage_permission_granted">تم منح إذن التخزين</string>
     <string name="storage_permission_required">إذن التخزين مطلوب للتنزيلات</string>
     <string name="update_available_title">إصدار جديد متوفر: %s</string>
-    <string name="update_available_message">يتوفر تحديث جديد!\n\nسجل التغييرات:\n%s</string>
-    <string name="download_action">تنزيل</string>
     <string name="later_action">لاحقاً</string>
     <string name="tap_to_view_update">اضغط لعرض سجل التغييرات والتنزيل</string>
     <string name="notification_permission_title">إذن الإشعارات</string>
     <string name="notification_permission_message">يستخدم OTA Pulse الإشعارات لإبقائك على علم بتقدم التنزيل. يرجى منح هذا الإذن.</string>
     <string name="notification_permission_settings_message">الوصول إلى الإشعارات لا يزال معطلاً. قم بتمكينه من إعدادات التطبيق لتظهر تنبيهات تقدم التنزيل واكتماله.</string>
-    <string name="notification_permission_settings_snackbar">تمكين الوصول إلى الإشعارات في الإعدادات.</string>
     <string name="grant_action">منح</string>
     <string name="support_developer_title">دعم المطور</string>
     <string name="support_developer_message">ادعم عملنا مفتوح المصدر وساعد OTA Pulse على الاستمرار في التحسن.</string>
@@ -158,9 +76,7 @@
     <string name="support_developer_maybe_later">ربما لاحقاً</string>
     <string name="support_developer_image_content_description">رسم توضيحي لدعم المطور</string>
     <string name="exit_action">خروج</string>
-    <string name="could_not_open_download_link">تعذر فتح رابط التنزيل</string>
     <string name="could_not_open_link">تعذر فتح الرابط</string>
-    <string name="in_app_browser_title">المتصفح</string>
     <string name="browser_reload">إعادة تحميل الصفحة</string>
     <string name="browser_open_external">فتح في متصفح خارجي</string>
     <string name="browser_back">رجوع</string>
@@ -169,9 +85,6 @@
     <string name="browser_share">مشاركة الصفحة</string>
     <string name="browser_enable_desktop_mode">تمكين وضع سطح المكتب</string>
     <string name="browser_disable_desktop_mode">تعطيل وضع سطح المكتب</string>
-    <string name="browser_status_loading">جاري التحميل</string>
-    <string name="browser_status_live">مباشر</string>
-    <string name="browser_loading_hint">جاري إعداد عرض قراءة أنظف لهذه الصفحة…</string>
 
     <string name="browser_settings_title">المتصفح المدمج</string>
     <string name="browser_desktop_mode_title">وضع موقع سطح المكتب</string>
@@ -180,20 +93,6 @@
     <string name="browser_controls_summary">عرض شريط التنقل السفلي أثناء التصفح</string>
     <string name="browser_webview_version_title">إصدار WebView</string>
     <string name="browser_webview_version_unavailable">غير متوفر</string>
-    <string name="add_device_name_title">اسم الجهاز</string>
-    <string name="add_device_name_supporting">اختر اسماً واضحاً للجهاز ليسهل التعرف عليه لاحقاً.</string>
-    <string name="add_device_name_hint">مثال: realme 12 Pro Plus</string>
-    <string name="add_device_groups_title">مجموعات البرامج الثابتة</string>
-    <string name="add_device_groups_supporting">تنظيم الإصدارات حسب إصدار أندرويد، ثم إضافة إصدارات المناطق داخل كل مجموعة.</string>
-    <string name="add_device_empty_groups">لا توجد مجموعات برامج ثابتة بعد. أضف واحدة لبدء بناء هذا الجهاز المخصص.</string>
-    <string name="add_device_add_group">إضافة مجموعة برامج ثابتة</string>
-    <string name="add_device_save">حفظ الجهاز</string>
-    <string name="add_device_edit_group">تعديل مجموعة البرامج الثابتة</string>
-    <string name="add_device_delete_group">حذف مجموعة البرامج الثابتة</string>
-    <string name="add_device_variants_title">إصدارات المناطق</string>
-    <string name="add_device_empty_variants">لا توجد إصدارات بعد. أضف منطقة لإكمال مجموعة البرامج الثابتة هذه.</string>
-    <string name="add_device_add_variant">إضافة إصدار</string>
-    <string name="add_device_remove_variant">إزالة إصدار</string>
 
     <string name="notif_download_complete">اكتمل التنزيل</string>
     <string name="notif_download_failed">فشل التنزيل</string>
@@ -210,34 +109,20 @@
     <string name="notif_error_no_network">لا يوجد اتصال بالإنترنت.</string>
     <string name="notif_error_unknown">خطأ غير معروف. يرجى إعادة المحاولة.</string>
 
-    <string name="extract_partition_title">استخراج الأقسام</string>
+    
     <string name="extract">استخراج</string>
-    <string name="or_label">أو</string>
-
-    <string name="settings_section_appearance">المظهر</string>
-    <string name="settings_app_theme">مظهر التطبيق</string>
-    <string name="theme_option_light">فاتح</string>
-    <string name="theme_option_dark">داكن</string>
-    <string name="theme_option_auto">تلقائي</string>
-    <string name="theme_option_system">النظام</string>
-    <string name="settings_section_general">عام</string>
     <string name="settings_auto_check_updates">التحقق التلقائي من التحديثات</string>
     <string name="settings_auto_check_updates_desc">الإخطار عند بدء التشغيل في حال توفر تحديث</string>
     <string name="settings_app_language">لغة التطبيق</string>
-    <string name="settings_app_language_desc">اختر لغتك المفضلة للتطبيق</string>
     <string name="language_option_system">افتراضي النظام</string>
     <string name="settings_advanced_mode">الوضع المتقدم</string>
     <string name="settings_advanced_mode_desc">فتح الميزات التجريبية</string>
     <string name="settings_arb_detection">كشف ARB</string>
     <string name="settings_arb_detection_desc">تمكين فحوصات مكافحة التراجع للتحديثات</string>
-    <string name="settings_section_data">إدارة البيانات</string>
     <string name="settings_export_backup">تصدير نسخة احتياطية</string>
     <string name="settings_export_backup_desc">حفظ الأجهزة في وحدة التخزين</string>
     <string name="settings_import_backup">استيراد نسخة احتياطية</string>
     <string name="settings_import_backup_desc">استعادة من ملف</string>
-    <string name="settings_section_information">معلومات</string>
-    <string name="toast_arb_detection_enabled">تم تمكين كشف ARB</string>
-    <string name="toast_arb_detection_disabled">تم تعطيل كشف ARB</string>
 
     <string name="tools_header_title">أدوات\nOTA</string>
     <string name="tools_header_subtitle">افتح صفحة مخصصة للاستعلام اليدوي أو استخراج الأقسام أو حل الروابط أو فحص ARB.</string>
@@ -249,92 +134,24 @@
     <string name="tools_manual_query_desc">الاستعلام من خوادم OTA مع الطراز والمنطقة والخادم والحقول المتقدمة الخاصة بك.</string>
     <string name="tools_partition_extraction_title">استخراج الأقسام</string>
     <string name="tools_partition_extraction_desc">تحميل الأقسام من ملف OTA ZIP محلي أو رابط OTA كامل، ثم استخراج الصور المحددة.</string>
-
-    <string name="partition_extraction_header_title">استخراج\nالأقسام</string>
-    <string name="partition_extraction_header_subtitle">تحميل الأقسام من رابط OTA كامل مباشر أو ملف ZIP محلي تم تنزيله.</string>
-    <string name="partition_extraction_remote_label">حزمة OTA عن بعد</string>
-    <string name="hint_paste_ota_url">لصق رابط OTA الكامل</string>
-    <string name="partition_extraction_local_zip_label">ملف OTA ZIP محلي</string>
-    <string name="partition_extraction_no_zip_selected">لم يتم اختيار ملف ZIP بعد</string>
-    <string name="btn_choose_zip">اختيار ملف ZIP</string>
-    <string name="btn_remove">إزالة</string>
-    <string name="partition_extraction_source_hint">استخدم رابط OTA كامل أو حزمة ZIP تم تنزيلها.</string>
     <string name="partition_extraction_select_partition">اختر القسم</string>
     <string name="partition_loading_msg">جاري تحميل الأقسام…</string>
     <string name="toast_link_pasted">تم لصق الرابط</string>
     <string name="toast_clipboard_empty">الحافظة فارغة</string>
-    <string name="toast_paste_url_or_choose_zip">لصق رابط OTA كامل أو اختيار ملف ZIP محلي أولاً</string>
-    <string name="toast_partition_extracted">تم استخراج %s.img بنجاح</string>
-    <string name="toast_extraction_cancelled">تم إلغاء الاستخراج</string>
-    <string name="toast_extraction_failed">فشل الاستخراج</string>
-
-    <string name="content_desc_more_options">المزيد من الخيارات</string>
-    <string name="content_desc_mark_favorite">تمييز كـ مفضل</string>
-    <string name="label_android_version_colon">إصدار أندرويد:</string>
-    <string name="label_os_version_colon">إصدار النظام:</string>
-    <string name="label_security_patch_colon">تحديث الأمان:</string>
-    <string name="label_size_colon">الحجم:</string>
-    <string name="label_md5_colon">MD5:</string>
-    <string name="btn_view_changelog">عرض سجل التغييرات</string>
-
-    <string name="download_speed_label">السرعة</string>
-    <string name="download_remaining_label">المتبقي</string>
-
-    <string name="content_desc_remove_local_zip">إزالة ملف ZIP المحلي</string>
-    <string name="content_desc_add_new_device">إضافة جهاز مخصص جديد</string>
-
-    <string name="hint_android_version">إصدار أندرويد (مثال: أندرويد 14)</string>
-    <string name="hint_product_model_example">طراز المنتج (مثال: RMX3840)</string>
-    <string name="hint_product_name_example">اسم المنتج (مثال: RMX3840IN)</string>
-    <string name="hint_region">المنطقة</string>
-    <string name="hint_ota_version">إصدار OTA</string>
-    <string name="hint_req_mode">وضع الطلب</string>
-    <string name="hint_gray">Gray</string>
     <string name="hint_search_partitions">البحث في الأقسام</string>
-    <string name="hint_paste_download_check_link">لصق رابط downloadCheck</string>
-    <string name="helper_paste_ota_link">لصق رابط OTA الذي تريد حله</string>
-
-    <string name="hint_product_model">طراز المنتج</string>
-    <string name="hint_product_name">اسم المنتج</string>
     <string name="hint_ver_letter">حرف الإصدار</string>
-    <string name="hint_rui_version">إصدار RUI</string>
-    <string name="hint_server">الخادم</string>
-    <string name="hint_imei_optional">IMEI (اختياري)</string>
-    <string name="hint_language">اللغة</string>
-    <string name="hint_nv_id_optional">NV ID (اختياري)</string>
-    <string name="hint_full_ota_url">رابط OTA الكامل</string>
-    <string name="hint_resolver_input_link">رابط مدخل الحلال</string>
-    <string name="btn_open">فتح</string>
-    <string name="btn_auto_fill">ملء تلقائي</string>
     <string name="btn_check_for_update">التحقق من التحديث</string>
 
     <string name="toast_paste_ota_url_first">لصق رابط OTA كامل أولاً</string>
     <string name="toast_choose_local_zip_first">اختيار ملف OTA ZIP محلي أولاً</string>
     <string name="toast_resolved_link_copied">تم نسخ الرابط المحلول</string>
-    <string name="toast_could_not_open_resolved_link">تعذر فتح الرابط المحلول</string>
     <string name="toast_device_details_fetched">تم جلب تفاصيل الجهاز</string>
-    <string name="toast_please_fill_required_fields">يرجى ملء الحقول المطلوبة</string>
     <string name="toast_link_copied">تم نسخ الرابط</string>
-    <string name="toast_could_not_share_link">تعذر مشاركة الرابط</string>
 
-    <string name="ota_details_device">تفاصيل OTA: %s</string>
+    
     <string name="unknown">غير معروف</string>
     <string name="unknown_version">إصدار غير معروف</string>
-
-    <string name="placeholder_library_name">اسم المكتبة</string>
-    <string name="placeholder_apache_license">رخصة أباتشي 2.0</string>
-
-    <string name="arb_checker_header_title">فاحص\nARB</string>
-    <string name="arb_checker_header_subtitle">فحص البيانات الوصفية لمكافحة التراجع من حزمة OTA عن بعد أو ملف ZIP تم تنزيله محلياً.</string>
-    <string name="btn_check_arb">فحص ARB</string>
     <string name="arb_status_label">حالة ARB</string>
-    <string name="arb_index_label">فهرس ARB</string>
-    <string name="arb_metadata_version_label">إصدار البيانات الوصفية</string>
-    <string name="arb_source_label">المصدر</string>
-
-    <string name="link_resolver_header_title">حلال\nالروابط</string>
-    <string name="link_resolver_header_subtitle">حل روابط OTA التي تمت إعادة توجيهها بواسطة downloadCheck ونسخ أو فتح الهدف النهائي بسرعة.</string>
-    <string name="btn_resolve_link">حل الرابط</string>
 
     <string name="label_android">إصدار أندرويد</string>
     <string name="label_security_patch">تحديث الأمان</string>
@@ -342,46 +159,11 @@
     <string name="label_md5">MD5</string>
     <string name="btn_changelog">سجل التغييرات</string>
 
-    <string name="manual_query_header_title">أدوات\nOTA</string>
-    <string name="manual_query_header_subtitle">الاستعلام من خوادم OTA باستخدام الطراز والمنطقة والخادم والحقول المتقدمة الخاصة بك.</string>
-    <string name="manual_query_local_zip_label">ملف OTA ZIP محلي تم تنزيله</string>
-    <string name="manual_query_advanced_options_title">خيارات متقدمة</string>
-    <string name="manual_query_advanced_options_desc">NV ID، وضع الطلب، Gray، Beta</string>
-    <string name="manual_query_beta_channel_title">قناة بيتا</string>
-    <string name="manual_query_beta_channel_desc">الاستعلام عن إصدارات البرامج الثابتة التجريبية</string>
-    <string name="btn_from_url">من رابط</string>
-    <string name="btn_from_zip">من ملف ZIP</string>
-    <string name="btn_auto_fill_label">ملء تلقائي</string>
-    <string name="btn_check_for_update_label">التحقق من التحديث</string>
-
-    <string name="about_btn_check_for_updates">التحقق من التحديثات</string>
-    <string name="about_connect_label">اتصال</string>
-    <string name="about_github_label">GitHub</string>
-    <string name="about_github_desc">كود المصدر</string>
-    <string name="about_telegram_label">Telegram</string>
-    <string name="about_telegram_desc">القناة</string>
-    <string name="about_paypal_label">PayPal</string>
-    <string name="about_support_dev_desc">دعم المطور</string>
-    <string name="about_upi_label">UPI</string>
-    <string name="about_copy_id_desc">نسخ المعرف</string>
-
-    <string name="btn_view_on_github">عرض على GitHub</string>
-
     <string name="developer_role">المطور والمصمم</string>
-
-    <string name="dialog_add_download_section_title">رابط التنزيل</string>
-    <string name="dialog_add_download_url_hint">يدعم روابط البرامج الثابتة المباشرة وروابط OTA ZIP المشاركة.</string>
-
-    <string name="add_device_toolbar_title">إضافة جهاز مخصص</string>
-
-    <string name="placeholder_item_title">عنوان العنصر</string>
-    <string name="placeholder_item_value">قيمة العنصر</string>
 
     <!-- Home Update Panel -->
     <string name="software_update_panel_version_label">إصدار البرنامج</string>
-    <string name="btn_view">عرض</string>
     <string name="software_update_panel_chip">تحديث البرنامج</string>
-    <string name="software_update_panel_device_label">الجهاز الحالي</string>
     <string name="software_update_panel_meta_hint">تم إنشاؤه من ملف تعريف الجهاز الفعلي وجاهز للتحقق بنقرة واحدة.</string>
     <string name="update_available_label">يتوفر تحديث</string>
 
@@ -402,3 +184,5 @@
     <string name="battery_optimization_dialog_message">للتحقق بشكل موثوق من تحديثات البرامج في الخلفية، يجب استثناء OTA Pulse من تحسينات البطارية. بدون ذلك، قد يقوم النظام بتأخير أو إلغاء عمليات التحقق من التحديث.</string>
     <string name="allow">سماح</string>
 </resources>
+
+

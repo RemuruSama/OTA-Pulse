@@ -1,23 +1,15 @@
 <resources>
-    <string name="app_icon_desc">অ্যাপ আইকন</string>
-    <string name="title_device">ডিভাইস</string>
     <string name="title_ota_tools">সরঞ্জাম</string>
     <string name="title_about">সম্পর্কে</string>
     <string name="title_settings">সেটিংস</string>
     <string name="title_devices">ডিভাইসসমূহ</string>
     <string name="title_downloads">ডাউনলোড</string>
 
-    <string name="light_theme_description">অ্যাপটি লাইট থিম ব্যবহার করছে।</string>
-    <string name="dark_theme_description">অ্যাপটি ডার্ক থিম ব্যবহার করছে।</string>
-    <string name="auto_theme_description">ব্যাটারি সেভার মোডের উপর ভিত্তি করে থিম স্বয়ংক্রিয়ভাবে পরিবর্তিত হবে।</string>
-    <string name="system_theme_description">অ্যাপের থিম আপনার ডিভাইসের সিস্টেম সেটিংস অনুসরণ করবে।</string>
-
     <string name="ota_details_title">ওটিএ বিবরণ</string>
     <string name="button_copy_link">লিঙ্ক কপি করুন</string>
     <string name="button_download">ডাউনলোড</string>
     <string name="button_view_json">JSON দেখুন</string>
     <string name="button_download_json">ডাউনলোড</string>
-    <string name="button_save_json">সংরক্ষণ করুন</string>
     <string name="json_output_title">JSON আউটপুট</string>
     <string name="json_output_unavailable">এই ফলাফলের জন্য JSON আউটপুট উপলব্ধ নেই।</string>
     <string name="json_output_saved">ডাউনলোডে %s হিসেবে JSON সংরক্ষণ করা হয়েছে</string>
@@ -26,113 +18,42 @@
     <string name="copy">কপি</string>
     <string name="close">বন্ধ করুন</string>
 
-    <string name="device_information_header">ডিভাইসের তথ্য</string>
-    <string name="device_image_content_description">ডিভাইসের ছবি</string>
-    <string name="device_name_placeholder">ডিভাইসের নাম</string>
-    <string name="device_model_placeholder">ডিভাইস মডেল</string>
-    <string name="device_supported">ডিভাইস সমর্থিত</string>
-    <string name="device_not_supported">ডিভাইস সমর্থিত নয়</string>
-    <string name="device_supported_placeholder">সমর্থন স্থিতি পরীক্ষা করা হচ্ছে…</string>
-    <string name="software_info_header">সফটওয়্যার তথ্য</string>
-    <string name="hardware_info_header">হার্ডওয়্যার তথ্য</string>
-    <string name="android_version">অ্যান্ড্রয়েড সংস্করণ</string>
-    <string name="os_version">ওএস সংস্করণ</string>
-    <string name="ota_version">ওটিএ সংস্করণ</string>
-    <string name="incremental_os_version">ইনক্রিমেন্টাল ওএস সংস্করণ</string>
-    <string name="security_patch_date">সিকিউরিটি প্যাচ</string>
-    <string name="kernel_version">কার্নেল সংস্করণ</string>
-    <string name="amount_of_ram">র‍্যাম (RAM)</string>
-    <string name="system_on_a_chip">চিপসেট</string>
-    <string name="processor_frequency">প্রসেসর ফ্রিকোয়েন্সি</string>
-    <string name="storage">স্টোরেজ</string>
-    <string name="battery">ব্যাটারি</string>
-    <string name="display">ডিসপ্লে</string>
-
     <string name="search_device_hint">ডিভাইস খুঁজুন</string>
-    <string name="close_search_hint">অনুসন্ধান বন্ধ করুন</string>
-    <string name="select_region_variant">অঞ্চল/ভেরিয়েন্ট নির্বাচন করুন</string>
-    <string name="changelog_error">চেঞ্জলগ লিঙ্ক খোলা যায়নি।</string>
     <string name="link_copied">লিঙ্ক ক্লিপবোর্ডে কপি করা হয়েছে</string>
-    <string name="no_update_found">কোন আপডেট পাওয়া যায়নি</string>
-    <string name="retry">আবার চেষ্টা করুন</string>
-    <string name="add_download">ডাউনলোড যোগ করুন</string>
     <string name="paste_url">URL পেস্ট করুন</string>
     <string name="clear_url">URL মুছে ফেলুন</string>
-    <string name="start_download">ডাউনলোড শুরু করুন</string>
-    <string name="enter_download_url">একটি ডাউনলোড URL লিখুন</string>
-    <string name="no_url_in_clipboard">ক্লিপবোর্ডে কোন URL পাওয়া যায়নি</string>
 
-    <string name="about_card_title">এই অ্যাপ সম্পর্কে</string>
+    
     <string name="app_tagline">সর্বদা আপ টু ডেট</string>
-    <string name="made_with">তৈরি হয়েছে</string>
     <string name="about_app_description">আপনার ডিভাইসের জন্য সর্বশেষ ওটিএ আপডেট খুঁজুন। OnePlus, realme এবং OPPO ডিভাইস সমর্থন করে। কিছু মডেল এখনও সমর্থিত নাও হতে পারে।</string>
-    <string name="created_by_label">তৈরি করেছেন</string>
+    
     <string name="creator_avatar_desc">নির্মাতার অবতার</string>
     <string name="creator_name">অভিনব বর্মা</string>
-    <string name="supported_brands">সমর্থিত ব্র্যান্ডসমূহ</string>
-    <string name="oneplus_logo_desc">OnePlus লোগো</string>
-    <string name="realme_logo_desc">realme লোগো</string>
-    <string name="oppo_logo_desc">OPPO লোগো</string>
+    
+    
+    
+    
     <string name="github_button_text">GitHub</string>
-    <string name="telegram_button_text">Telegram</string>
-    <string name="check_updates_cta">আপডেট পরীক্ষা করুন</string>
-    <string name="footer_copyright">© ২০২৬ ওটিএ পালস। সর্বস্বত্ব সংরক্ষিত।</string>
-
-    <string name="changelog_not_available">চেঞ্জলগ উপলব্ধ নেই।</string>
-    <string name="pause">বিরতি</string>
-    <string name="resume">পুনরায় শুরু করুন</string>
-    <string name="completed">সম্পন্ন</string>
     <string name="delete">মুছে ফেলুন</string>
-    <string name="waiting">অপেক্ষমান</string>
-    <string name="package_file_label">প্যাকেজ ফাইল</string>
-    <string name="status_downloading">ডাউনলোড হচ্ছে</string>
-    <string name="status_paused">স্থগিত</string>
-    <string name="status_completed">সম্পন্ন</string>
-    <string name="status_failed">ব্যর্থ</string>
-    <string name="status_cancelled">বাতিল</string>
-    <string name="status_queued">সারিবদ্ধ</string>
-    <string name="status_waiting">অপেক্ষমান</string>
-
-    <string name="donate_card_title">উন্নয়নে সহায়তা করুন</string>
-    <string name="buy_me_a_coffee_button_text">Buy me a coffee</string>
-    <string name="upi_id_copy_label">UPI ID (কপি করতে ট্যাপ করুন)</string>
+    
+    
     <string name="upi_id_copied_toast">UPI ID ক্লিপবোর্ডে কপি করা হয়েছে</string>
 
     <string name="settings">সেটিংস</string>
     <string name="delete_custom_device_title">কাস্টম ডিভাইস মুছে ফেলবেন?</string>
     <string name="delete_custom_device_message">আপনি কি নিশ্চিত যে আপনি %s মুছে ফেলতে চান? এই কাজটি আর ফেরত নেওয়া যাবে না।</string>
     <string name="cancel">বাতিল</string>
-    <string name="permission_denied_download_error">প্রয়োজনীয় অনুমতি প্রত্যাখ্যাত। ডাউনলোড করা সম্ভব নয়।</string>
-    <string name="starting_download_for">%s এর জন্য ডাউনলোড শুরু হচ্ছে</string>
     <string name="broad_file_access_prompt">ডাউনলোডের জন্য ফাইল ব্যবহারের অনুমতি প্রয়োজন। অনুগ্রহ করে সেটিংসে এটি চালু করুন।</string>
-    <string name="cannot_proceed_download_missing_permissions">ডাউনলোড করা সম্ভব নয়। অনুমতি নেই:</string>
+    
     <string name="cannot_open_app_settings">অ্যাপ সেটিংস খোলা যায়নি।</string>
-
-    <string name="file_already_exists">ফাইলটি ইতিমধ্যে বিদ্যমান</string>
-    <string name="file_exists_message">\"%1$s\" ফাইলটি ইতিমধ্যে বিদ্যমান। আপনি কি এটি মুছে ফেলে আবার ডাউনলোড করতে চান?</string>
-    <string name="delete_and_download">মুছুন এবং ডাউনলোড করুন</string>
-    <string name="overwrite_dialog_chip">মনোযোগ প্রয়োজন</string>
-    <string name="overwrite_dialog_risk">এটি বর্তমান ফাইলটি প্রতিস্থাপন করবে</string>
-    <string name="overwrite_dialog_message">এই ফাইলটি আপনার ডিভাইসে আগে থেকেই আছে। আপনি বর্তমান কপিটি রাখতে পারেন, অথবা নতুন কপি দিয়ে প্রতিস্থাপন করতে পারেন।</string>
-    <string name="overwrite_dialog_existing_file">বিদ্যমান ফাইল</string>
-    <string name="replace_existing_file">বিদ্যমান ফাইল প্রতিস্থাপন করুন</string>
 
     <string name="permission_needed">অনুমতি প্রয়োজন</string>
 
     <string name="libraries_title">লাইব্রেরিসমূহ</string>
-    <string name="libraries_desc">ওপেন সোর্স লাইসেন্সসমূহ</string>
     <string name="developer_title">ডেভেলপার</string>
-    <string name="developer_desc">অভিনব বর্মা</string>
     <string name="contributors_title">অবদানকারী</string>
-    <string name="contributors_desc">কমিউনিটি অবদান</string>
 
     <string name="developer_message">ভালোবাসার সাথে ডিজাইন এবং ডেভেলপ করা হয়েছে ❤️।\nওটিএ পালস ব্যবহার করার জন্য আপনাকে ধন্যবাদ!</string>
-    <string name="special_thanks_label">বিশেষ ধন্যবাদ</string>
-    <string name="open_source_community">ওপেন সোর্স কমিউনিটি</string>
-    <string name="contributors_description">যারা কোড, অনুবাদ বা মতামতের মাধ্যমে এই প্রকল্পে অবদান রেখেছেন তাদের সবাইকে ধন্যবাদ।</string>
-
-    <string name="advanced_mode_enabled">অ্যাডভান্সড মোড চালু করা হয়েছে। পরিবর্তনগুলি কার্যকর করতে অ্যাপটি পুনরায় চালু করার প্রয়োজন হতে পারে।</string>
-    <string name="advanced_mode_disabled">অ্যাডভান্সড মোড বন্ধ করা হয়েছে। পরিবর্তনগুলি কার্যকর করতে অ্যাপটি পুনরায় চালু করার প্রয়োজন হতে পারে।</string>
     <string name="import_overwrite_title">কাস্টম ডিভাইসসমূহ প্রতিস্থাপন করবেন?</string>
     <string name="import_overwrite_message">একটি নতুন তালিকা ইমপোর্ট করলে আপনার বিদ্যমান সমস্ত কাস্টম ডিভাইস প্রতিস্থাপিত হবে। এই কাজটি আর ফেরত নেওয়া যাবে না।</string>
     <string name="import_action">ইমপোর্ট</string>
@@ -142,14 +63,11 @@
     <string name="storage_permission_granted">স্টোরেজ ব্যবহারের অনুমতি পাওয়া গেছে</string>
     <string name="storage_permission_required">ডাউনলোডের জন্য স্টোরেজ ব্যবহারের অনুমতি প্রয়োজন</string>
     <string name="update_available_title">নতুন সংস্করণ উপলব্ধ: %s</string>
-    <string name="update_available_message">একটি নতুন আপডেট পাওয়া গেছে!\n\nচেঞ্জলগ:\n%s</string>
-    <string name="download_action">ডাউনলোড</string>
     <string name="later_action">পরে</string>
     <string name="tap_to_view_update">চেঞ্জলগ দেখতে এবং ডাউনলোড করতে ট্যাপ করুন</string>
     <string name="notification_permission_title">নোটিফিকেশন অনুমতি</string>
     <string name="notification_permission_message">ডাউনলোড কতদূর হলো তা আপনাকে জানাতে ওটিএ পালস নোটিফিকেশন ব্যবহার করে। অনুগ্রহ করে এই অনুমতি দিন।</string>
     <string name="notification_permission_settings_message">নোটিফিকেশন অ্যাক্সেস এখনও বন্ধ। অ্যাপ সেটিংস থেকে এটি চালু করুন যাতে ডাউনলোড সংক্রান্ত অ্যালার্ট পাওয়া যায়।</string>
-    <string name="notification_permission_settings_snackbar">সেটিংস থেকে নোটিফিকেশন অ্যাক্সেস চালু করুন।</string>
     <string name="grant_action">অনুমতি দিন</string>
     <string name="support_developer_title">ডেভেলপারকে সমর্থন করুন</string>
     <string name="support_developer_message">আমাদের ওপেন-সোর্স কাজকে সমর্থন করুন এবং ওটিএ পালসকে আরও উন্নত করতে সাহায্য করুন।</string>
@@ -158,9 +76,7 @@
     <string name="support_developer_maybe_later">পরে হবে</string>
     <string name="support_developer_image_content_description">ডেভেলপারকে সমর্থন করার চিত্র</string>
     <string name="exit_action">প্রস্থান</string>
-    <string name="could_not_open_download_link">ডাউনলোড লিঙ্ক খোলা যায়নি</string>
     <string name="could_not_open_link">লিঙ্ক খোলা যায়নি</string>
-    <string name="in_app_browser_title">ব্রাউজার</string>
     <string name="browser_reload">পৃষ্ঠা রিলোড করুন</string>
     <string name="browser_open_external">অন্য ব্রাউজারে খুলুন</string>
     <string name="browser_back">পেছনে যান</string>
@@ -169,9 +85,6 @@
     <string name="browser_share">পৃষ্ঠা শেয়ার করুন</string>
     <string name="browser_enable_desktop_mode">ডেস্কটপ মোড চালু করুন</string>
     <string name="browser_disable_desktop_mode">ডেস্কটপ মোড বন্ধ করুন</string>
-    <string name="browser_status_loading">লোড হচ্ছে</string>
-    <string name="browser_status_live">লাইভ</string>
-    <string name="browser_loading_hint">এই পৃষ্ঠাটি পরিষ্কারভাবে পড়ার জন্য প্রস্তুত করা হচ্ছে…</string>
 
     <string name="browser_settings_title">ইন-অ্যাপ ব্রাউজার</string>
     <string name="browser_desktop_mode_title">ডেস্কটপ সাইট মোড</string>
@@ -180,20 +93,6 @@
     <string name="browser_controls_summary">ব্রাউজ করার সময় নিচে নেভিগেশন বার দেখান</string>
     <string name="browser_webview_version_title">WebView সংস্করণ</string>
     <string name="browser_webview_version_unavailable">অনুপলব্ধ</string>
-    <string name="add_device_name_title">ডিভাইসের নাম</string>
-    <string name="add_device_name_supporting">একটি পরিষ্কার ডিভাইসের নাম বেছে নিন যাতে পরে চিনতে সহজ হয়।</string>
-    <string name="add_device_name_hint">যেমন: realme 12 Pro Plus</string>
-    <string name="add_device_groups_title">ফার্মওয়্যার গ্রুপসমূহ</string>
-    <string name="add_device_groups_supporting">অ্যান্ড্রয়েড সংস্করণ অনুযায়ী ভেরিয়েন্টগুলি সাজান, তারপর প্রতিটি গ্রুপের মধ্যে আঞ্চলিক বিল্ডগুলি যোগ করুন।</string>
-    <string name="add_device_empty_groups">এখনও কোন ফার্মওয়্যার গ্রুপ নেই। এই কাস্টম ডিভাইসটি তৈরি করা শুরু করতে একটি যোগ করুন।</string>
-    <string name="add_device_add_group">ফার্মওয়্যার গ্রুপ যোগ করুন</string>
-    <string name="add_device_save">ডিভাইস সংরক্ষণ করুন</string>
-    <string name="add_device_edit_group">ফার্মওয়্যার গ্রুপ সম্পাদনা করুন</string>
-    <string name="add_device_delete_group">ফার্মওয়্যার গ্রুপ মুছে ফেলুন</string>
-    <string name="add_device_variants_title">আঞ্চলিক ভেরিয়েন্টসমূহ</string>
-    <string name="add_device_empty_variants">এখনও কোন ভেরিয়েন্ট নেই। এই ফার্মওয়্যার গ্রুপটি সম্পন্ন করতে একটি অঞ্চল যোগ করুন।</string>
-    <string name="add_device_add_variant">ভেরিয়েন্ট যোগ করুন</string>
-    <string name="add_device_remove_variant">ভেরিয়েন্ট সরিয়ে ফেলুন</string>
 
     <string name="notif_download_complete">ডাউনলোড সম্পন্ন হয়েছে</string>
     <string name="notif_download_failed">ডাউনলোড ব্যর্থ হয়েছে</string>
@@ -210,34 +109,20 @@
     <string name="notif_error_no_network">কোন ইন্টারনেট সংযোগ নেই।</string>
     <string name="notif_error_unknown">অজানা ত্রুটি। অনুগ্রহ করে আবার চেষ্টা করুন।</string>
 
-    <string name="extract_partition_title">পার্টিশন এক্সট্র্যাক্ট করুন</string>
+    
     <string name="extract">এক্সট্র্যাক্ট</string>
-    <string name="or_label">অথবা</string>
-
-    <string name="settings_section_appearance">চেহারা (Appearance)</string>
-    <string name="settings_app_theme">অ্যাপ থিম</string>
-    <string name="theme_option_light">লাইট</string>
-    <string name="theme_option_dark">ডার্ক</string>
-    <string name="theme_option_auto">অটো</string>
-    <string name="theme_option_system">সিস্টেম</string>
-    <string name="settings_section_general">সাধারণ</string>
     <string name="settings_auto_check_updates">স্বয়ংক্রিয়ভাবে আপডেট পরীক্ষা করুন</string>
     <string name="settings_auto_check_updates_desc">আপডেট পাওয়া গেলে অ্যাপ চালু করার সময় জানান</string>
     <string name="settings_app_language">অ্যাপের ভাষা</string>
-    <string name="settings_app_language_desc">অ্যাপের জন্য আপনার পছন্দসই ভাষা চয়ন করুন</string>
     <string name="language_option_system">সিস্টেম ডিফল্ট</string>
     <string name="settings_advanced_mode">অ্যাডভান্সড মোড</string>
     <string name="settings_advanced_mode_desc">পরীক্ষামূলক ফিচারগুলি আনলক করুন</string>
     <string name="settings_arb_detection">ARB ডিটেকশন</string>
     <string name="settings_arb_detection_desc">আপডেটের জন্য অ্যান্টি-রোলব্যাক পরীক্ষা সক্ষম করুন</string>
-    <string name="settings_section_data">ডেটা ব্যবস্থাপনা</string>
     <string name="settings_export_backup">ব্যাকআপ এক্সপোর্ট করুন</string>
     <string name="settings_export_backup_desc">ডিভাইসগুলি স্টোরেজে সংরক্ষণ করুন</string>
     <string name="settings_import_backup">ব্যাকআপ ইমপোর্ট করুন</string>
     <string name="settings_import_backup_desc">ফাইল থেকে পুনরুদ্ধার করুন</string>
-    <string name="settings_section_information">তথ্য</string>
-    <string name="toast_arb_detection_enabled">ARB ডিটেকশন চালু করা হয়েছে</string>
-    <string name="toast_arb_detection_disabled">ARB ডিটেকশন বন্ধ করা হয়েছে</string>
 
     <string name="tools_header_title">ওটিএ\nসরঞ্জাম</string>
     <string name="tools_header_subtitle">ম্যানুয়াল কুয়েরি, পার্টিশন এক্সট্র্যাকশন, লিঙ্ক রিসলভিং বা ARB চেকিংয়ের জন্য একটি নিবেদিত পৃষ্ঠা খুলুন।</string>
@@ -249,92 +134,24 @@
     <string name="tools_manual_query_desc">আপনার নিজস্ব মডেল, অঞ্চল, সার্ভার এবং উন্নত ক্ষেত্রগুলি ব্যবহার করে ওটিএ সার্ভারে অনুসন্ধান করুন।</string>
     <string name="tools_partition_extraction_title">পার্টিশন এক্সট্র্যাকশন</string>
     <string name="tools_partition_extraction_desc">একটি স্থানীয় ওটিএ জিপ বা পূর্ণ ওটিএ ইউআরএল থেকে পার্টিশন লোড করুন, তারপর নির্বাচিত ইমেজ এক্সট্র্যাক্ট করুন।</string>
-
-    <string name="partition_extraction_header_title">পার্টিশন\nএক্সট্র্যাকশন</string>
-    <string name="partition_extraction_header_subtitle">একটি সরাসরি ওটিএ ইউআরএল বা ডাউনলোড করা স্থানীয় জিপ থেকে পার্টিশন লোড করুন।</string>
-    <string name="partition_extraction_remote_label">রিমোট ওটিএ প্যাকেজ</string>
-    <string name="hint_paste_ota_url">পূর্ণ ওটিএ ইউআরএল পেস্ট করুন</string>
-    <string name="partition_extraction_local_zip_label">স্থানীয় ওটিএ জিপ</string>
-    <string name="partition_extraction_no_zip_selected">এখনও কোন জিপ নির্বাচন করা হয়নি</string>
-    <string name="btn_choose_zip">জিপ নির্বাচন করুন</string>
-    <string name="btn_remove">সরিয়ে ফেলুন</string>
-    <string name="partition_extraction_source_hint">একটি পূর্ণ ওটিএ ইউআরএল বা ডাউনলোড করা জিপ প্যাকেজ ব্যবহার করুন।</string>
     <string name="partition_extraction_select_partition">পার্টিশন নির্বাচন করুন</string>
     <string name="partition_loading_msg">পার্টিশন লোড হচ্ছে…</string>
     <string name="toast_link_pasted">লিঙ্ক পেস্ট করা হয়েছে</string>
     <string name="toast_clipboard_empty">ক্লিপবোর্ড খালি</string>
-    <string name="toast_paste_url_or_choose_zip">প্রথমে একটি পূর্ণ ওটিএ ইউআরএল পেস্ট করুন অথবা একটি স্থানীয় জিপ বেছে নিন</string>
-    <string name="toast_partition_extracted">%s.img সফলভাবে এক্সট্র্যাক্ট করা হয়েছে</string>
-    <string name="toast_extraction_cancelled">এক্সট্র্যাকশন বাতিল করা হয়েছে</string>
-    <string name="toast_extraction_failed">এক্সট্র্যাকশন ব্যর্থ হয়েছে</string>
-
-    <string name="content_desc_more_options">আরও বিকল্প</string>
-    <string name="content_desc_mark_favorite">প্রিয় হিসেবে চিহ্নিত করুন</string>
-    <string name="label_android_version_colon">অ্যান্ড্রয়েড সংস্করণ:</string>
-    <string name="label_os_version_colon">ওএস সংস্করণ:</string>
-    <string name="label_security_patch_colon">সিকিউরিটি প্যাচ:</string>
-    <string name="label_size_colon">আকার:</string>
-    <string name="label_md5_colon">MD5:</string>
-    <string name="btn_view_changelog">চেঞ্জলগ দেখুন</string>
-
-    <string name="download_speed_label">গতি</string>
-    <string name="download_remaining_label">অবশিষ্ট</string>
-
-    <string name="content_desc_remove_local_zip">স্থানীয় জিপ সরিয়ে ফেলুন</string>
-    <string name="content_desc_add_new_device">নতুন কাস্টম ডিভাইস যোগ করুন</string>
-
-    <string name="hint_android_version">অ্যান্ড্রয়েড সংস্করণ (যেমন: Android 14)</string>
-    <string name="hint_product_model_example">প্রোডাক্ট মডেল (যেমন: RMX3840)</string>
-    <string name="hint_product_name_example">প্রোডাক্ট নাম (যেমন: RMX3840IN)</string>
-    <string name="hint_region">অঞ্চল</string>
-    <string name="hint_ota_version">ওটিএ সংস্করণ</string>
-    <string name="hint_req_mode">রিকোয়েস্ট মোড</string>
-    <string name="hint_gray">গ্রে</string>
     <string name="hint_search_partitions">পার্টিশন খুঁজুন</string>
-    <string name="hint_paste_download_check_link">downloadCheck লিঙ্ক পেস্ট করুন</string>
-    <string name="helper_paste_ota_link">আপনি যে ওটিএ লিঙ্কটি সমাধান করতে চান তা পেস্ট করুন</string>
-
-    <string name="hint_product_model">প্রোডাক্ট মডেল</string>
-    <string name="hint_product_name">প্রোডাক্ট নাম</string>
     <string name="hint_ver_letter">ভার লেটার (Ver Letter)</string>
-    <string name="hint_rui_version">RUI সংস্করণ</string>
-    <string name="hint_server">সার্ভার</string>
-    <string name="hint_imei_optional">IMEI (ঐচ্ছিক)</string>
-    <string name="hint_language">ভাষা</string>
-    <string name="hint_nv_id_optional">NV ID (ঐচ্ছিক)</string>
-    <string name="hint_full_ota_url">পূর্ণ ওটিএ ইউআরএল</string>
-    <string name="hint_resolver_input_link">রিসলভার ইনপুট লিঙ্ক</string>
-    <string name="btn_open">খুলুন</string>
-    <string name="btn_auto_fill">অটো-ফিল</string>
     <string name="btn_check_for_update">আপডেটের জন্য পরীক্ষা করুন</string>
 
     <string name="toast_paste_ota_url_first">প্রথমে একটি পূর্ণ ওটিএ ইউআরএল পেস্ট করুন</string>
     <string name="toast_choose_local_zip_first">প্রথমে একটি স্থানীয় ওটিএ জিপ বেছে নিন</string>
     <string name="toast_resolved_link_copied">সমাধান করা লিঙ্ক কপি করা হয়েছে</string>
-    <string name="toast_could_not_open_resolved_link">সমাধান করা লিঙ্ক খোলা যায়নি</string>
     <string name="toast_device_details_fetched">ডিভাইসের তথ্য পাওয়া গেছে</string>
-    <string name="toast_please_fill_required_fields">অনুগ্রহ করে প্রয়োজনীয় ক্ষেত্রগুলি পূরণ করুন</string>
     <string name="toast_link_copied">লিঙ্ক কপি করা হয়েছে</string>
-    <string name="toast_could_not_share_link">লিঙ্ক শেয়ার করা যায়নি</string>
 
-    <string name="ota_details_device">ওটিএ বিবরণ: %s</string>
+    
     <string name="unknown">অজানা</string>
     <string name="unknown_version">অজানা সংস্করণ</string>
-
-    <string name="placeholder_library_name">লাইব্রেরির নাম</string>
-    <string name="placeholder_apache_license">Apache License 2.0</string>
-
-    <string name="arb_checker_header_title">ARB\nচেকার</string>
-    <string name="arb_checker_header_subtitle">একটি রিমোট ওটিএ প্যাকেজ বা স্থানীয়ভাবে ডাউনলোড করা জিপ থেকে অ্যান্টি-রোলব্যাক মেটাডেটা পরীক্ষা করুন।</string>
-    <string name="btn_check_arb">ARB পরীক্ষা করুন</string>
     <string name="arb_status_label">ARB স্থিতি</string>
-    <string name="arb_index_label">ARB ইনডেক্স</string>
-    <string name="arb_metadata_version_label">মেটাডেটা সংস্করণ</string>
-    <string name="arb_source_label">উৎস</string>
-
-    <string name="link_resolver_header_title">লিঙ্ক\nরিসলভার</string>
-    <string name="link_resolver_header_subtitle">downloadCheck-রিডাইরেক্ট করা ওটিএ লিঙ্কগুলি সমাধান করুন এবং চূড়ান্ত গন্তব্য দ্রুত কপি বা ওপেন করুন।</string>
-    <string name="btn_resolve_link">লিঙ্ক সমাধান করুন</string>
 
     <string name="label_android">অ্যান্ড্রয়েড সংস্করণ</string>
     <string name="label_security_patch">সিকিউরিটি প্যাচ</string>
@@ -342,46 +159,11 @@
     <string name="label_md5">MD5</string>
     <string name="btn_changelog">চেঞ্জলগ</string>
 
-    <string name="manual_query_header_title">ওটিএ\nসরঞ্জাম</string>
-    <string name="manual_query_header_subtitle">আপনার নিজস্ব মডেল, অঞ্চল, সার্ভার এবং উন্নত ক্ষেত্র ব্যবহার করে ওটিএ সার্ভারে অনুসন্ধান করুন।</string>
-    <string name="manual_query_local_zip_label">স্থানীয়ভাবে ডাউনলোড করা ওটিএ জিপ</string>
-    <string name="manual_query_advanced_options_title">উন্নত বিকল্পসমূহ</string>
-    <string name="manual_query_advanced_options_desc">NV ID, রিকোয়েস্ট মোড, গ্রে, বিটা</string>
-    <string name="manual_query_beta_channel_title">বিটা চ্যানেল</string>
-    <string name="manual_query_beta_channel_desc">পরীক্ষামূলক ফার্মওয়্যার বিল্ডগুলির জন্য অনুসন্ধান করুন</string>
-    <string name="btn_from_url">URL থেকে</string>
-    <string name="btn_from_zip">জিপ থেকে</string>
-    <string name="btn_auto_fill_label">অটো-ফিল</string>
-    <string name="btn_check_for_update_label">আপডেটের জন্য পরীক্ষা করুন</string>
-
-    <string name="about_btn_check_for_updates">আপডেটের জন্য পরীক্ষা করুন</string>
-    <string name="about_connect_label">যোগাযোগ</string>
-    <string name="about_github_label">GitHub</string>
-    <string name="about_github_desc">সোর্স কোড</string>
-    <string name="about_telegram_label">Telegram</string>
-    <string name="about_telegram_desc">চ্যানেল</string>
-    <string name="about_paypal_label">PayPal</string>
-    <string name="about_support_dev_desc">ডেভেলপারকে সমর্থন করুন</string>
-    <string name="about_upi_label">UPI</string>
-    <string name="about_copy_id_desc">আইডি কপি করুন</string>
-
-    <string name="btn_view_on_github">GitHub-এ দেখুন</string>
-
     <string name="developer_role">ডেভেলপার এবং ডিজাইনার</string>
-
-    <string name="dialog_add_download_section_title">ডাউনলোড URL</string>
-    <string name="dialog_add_download_url_hint">সরাসরি ফার্মওয়্যার এবং শেয়ার করা ওটিএ জিপ লিঙ্ক সমর্থন করে।</string>
-
-    <string name="add_device_toolbar_title">কাস্টম ডিভাইস যোগ করুন</string>
-
-    <string name="placeholder_item_title">আইটেম শিরোনাম</string>
-    <string name="placeholder_item_value">আইটেম ভ্যালু</string>
 
     <!-- Home Update Panel -->
     <string name="software_update_panel_version_label">সফটওয়্যার সংস্করণ</string>
-    <string name="btn_view">দেখুন</string>
     <string name="software_update_panel_chip">সফটওয়্যার আপডেট</string>
-    <string name="software_update_panel_device_label">বর্তমান ডিভাইস</string>
     <string name="software_update_panel_meta_hint">লাইভ ডিভাইস প্রোফাইল থেকে তৈরি এবং এক-ট্যাপ চেকের জন্য প্রস্তুত।</string>
     <string name="update_available_label">আপডেট উপলব্ধ</string>
 
@@ -402,3 +184,5 @@
     <string name="battery_optimization_dialog_message">সফ্টওয়্যার আপডেট নির্ভরযোগ্যভাবে চেক করার জন্য, OTA Pulse কে ব্যাটারি অপ্টিমাইজেশন থেকে বাদ দিতে হবে।</string>
     <string name="allow">অনুমতি দিন</string>
 </resources>
+
+

@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<objectAnimator xmlns:android="http://schemas.android.com/apk/res/android"
-    android:duration="600"
-    android:propertyName="pathData"
-    android:repeatCount="infinite"
-    android:repeatMode="reverse"
-    android:valueFrom="M4,12 A2,2 0 1,1 4,11.99"
-    android:valueTo="M4,12 A1,1 0 1,1 4,11.99"
-    android:valueType="pathType" />

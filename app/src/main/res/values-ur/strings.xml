@@ -1,23 +1,15 @@
 <resources>
-    <string name="app_icon_desc">ایپ آئیکن</string>
-    <string name="title_device">ڈیوائس</string>
     <string name="title_ota_tools">ٹولز</string>
     <string name="title_about">کے بارے میں</string>
     <string name="title_settings">سیٹنگز</string>
     <string name="title_devices">ڈیوائسز</string>
     <string name="title_downloads">ڈاؤن لوڈز</string>
 
-    <string name="light_theme_description">ایپ لائٹ تھیم استعمال کر رہی ہے۔</string>
-    <string name="dark_theme_description">ایپ ڈارک تھیم استعمال کر رہی ہے۔</string>
-    <string name="auto_theme_description">بیٹری سیور موڈ کی بنیاد پر تھیم خود بخود بدل جائے گی۔</string>
-    <string name="system_theme_description">ایپ کی تھیم آپ کے ڈیوائس کی سسٹم سیٹنگز کے مطابق ہوگی۔</string>
-
     <string name="ota_details_title">او ٹی اے کی تفصیلات</string>
     <string name="button_copy_link">لنک کاپی کریں</string>
     <string name="button_download">ڈاؤن لوڈ کریں</string>
     <string name="button_view_json">JSON دیکھیں</string>
     <string name="button_download_json">ڈاؤن لوڈ</string>
-    <string name="button_save_json">محفوظ کریں</string>
     <string name="json_output_title">JSON آؤٹ پٹ</string>
     <string name="json_output_unavailable">اس نتیجے کے لیے JSON آؤٹ پٹ دستیاب نہیں ہے۔</string>
     <string name="json_output_saved">JSON ڈاؤن لوڈز میں %s کے طور پر محفوظ ہو گیا</string>
@@ -26,113 +18,42 @@
     <string name="copy">کاپی</string>
     <string name="close">بند کریں</string>
 
-    <string name="device_information_header">ڈیوائس کی معلومات</string>
-    <string name="device_image_content_description">ڈیوائس کی تصویر</string>
-    <string name="device_name_placeholder">ڈیوائس کا نام</string>
-    <string name="device_model_placeholder">ڈیوائس ماڈل</string>
-    <string name="device_supported">ڈیوائس سپورٹڈ ہے</string>
-    <string name="device_not_supported">ڈیوائس سپورٹڈ نہیں ہے</string>
-    <string name="device_supported_placeholder">سپورٹ کی صورتحال چیک کی جا رہی ہے…</string>
-    <string name="software_info_header">سافٹ ویئر کی معلومات</string>
-    <string name="hardware_info_header">ہارڈ ویئر کی معلومات</string>
-    <string name="android_version">اینڈرائیڈ ورژن</string>
-    <string name="os_version">او ایس ورژن</string>
-    <string name="ota_version">او ٹی اے ورژن</string>
-    <string name="incremental_os_version">انکریمنٹل او ایس ورژن</string>
-    <string name="security_patch_date">سیکورٹی پیچ</string>
-    <string name="kernel_version">کرنل ورژن</string>
-    <string name="amount_of_ram">ریم (RAM)</string>
-    <string name="system_on_a_chip">چپ سیٹ</string>
-    <string name="processor_frequency">پروسیسر فریکوئنسی</string>
-    <string name="storage">اسٹوریج</string>
-    <string name="battery">بیٹری</string>
-    <string name="display">ڈسپلے</string>
-
     <string name="search_device_hint">ڈیوائسز تلاش کریں</string>
-    <string name="close_search_hint">تلاش بند کریں</string>
-    <string name="select_region_variant">علاقہ/ویرینٹ منتخب کریں</string>
-    <string name="changelog_error">تبدیلیوں کا ریکارڈ (changelog) نہیں کھل سکا۔</string>
     <string name="link_copied">لنک کلپ بورڈ پر کاپی ہو گیا</string>
-    <string name="no_update_found">کوئی اپ ڈیٹ نہیں ملی</string>
-    <string name="retry">دوبارہ کوشش کریں</string>
-    <string name="add_download">ڈاؤن لوڈ شامل کریں</string>
     <string name="paste_url">URL پیسٹ کریں</string>
     <string name="clear_url">URL صاف کریں</string>
-    <string name="start_download">ڈاؤن لوڈ شروع کریں</string>
-    <string name="enter_download_url">ڈاؤن لوڈ URL درج کریں</string>
-    <string name="no_url_in_clipboard">کلپ بورڈ میں کوئی URL نہیں ملا</string>
 
-    <string name="about_card_title">اس ایپ کے بارے میں</string>
+    
     <string name="app_tagline">ہمیشہ اپ ٹو ڈیٹ</string>
-    <string name="made_with">بنایا گیا</string>
     <string name="about_app_description">اپنے ڈیوائس کے لیے تازہ ترین او ٹی اے اپ ڈیٹس تلاش کریں۔ OnePlus، realme اور OPPO ڈیوائسز کو سپورٹ کرتا ہے۔ کچھ ماڈلز ابھی سپورٹڈ نہیں ہو سکتے۔</string>
-    <string name="created_by_label">تخلیق کار</string>
+    
     <string name="creator_avatar_desc">تخلیق کار کا اوتار</string>
     <string name="creator_name">ابھینو ورما</string>
-    <string name="supported_brands">سپورٹڈ برانڈز</string>
-    <string name="oneplus_logo_desc">OnePlus لوگو</string>
-    <string name="realme_logo_desc">realme لوگو</string>
-    <string name="oppo_logo_desc">OPPO لوگو</string>
+    
+    
+    
+    
     <string name="github_button_text">GitHub</string>
-    <string name="telegram_button_text">Telegram</string>
-    <string name="check_updates_cta">اپ ڈیٹس چیک کریں</string>
-    <string name="footer_copyright">© 2026 او ٹی اے پلس۔ جملہ حقوق محفوظ ہیں۔</string>
-
-    <string name="changelog_not_available">تبدیلیوں کا ریکارڈ دستیاب نہیں ہے۔</string>
-    <string name="pause">روکیں</string>
-    <string name="resume">جاری رکھیں</string>
-    <string name="completed">مکمل ہو گیا</string>
     <string name="delete">حذف کریں</string>
-    <string name="waiting">انتظار ہے</string>
-    <string name="package_file_label">پیکیج فائل</string>
-    <string name="status_downloading">ڈاؤن لوڈ ہو رہا ہے</string>
-    <string name="status_paused">رکا ہوا</string>
-    <string name="status_completed">مکمل ہو گیا</string>
-    <string name="status_failed">ناکام</string>
-    <string name="status_cancelled">منسوخ کر دیا گیا</string>
-    <string name="status_queued">قطار میں ہے</string>
-    <string name="status_waiting">انتظار ہے</string>
-
-    <string name="donate_card_title">ترقی میں مدد کریں</string>
-    <string name="buy_me_a_coffee_button_text">Buy me a coffee</string>
-    <string name="upi_id_copy_label">UPI ID (کاپی کرنے کے لیے ٹیپ کریں)</string>
+    
+    
     <string name="upi_id_copied_toast">UPI ID کلپ بورڈ پر کاپی ہو گیا</string>
 
     <string name="settings">سیٹنگز</string>
     <string name="delete_custom_device_title">کسٹم ڈیوائس حذف کریں؟</string>
     <string name="delete_custom_device_message">کیا آپ واقعی %s کو حذف کرنا چاہتے ہیں؟ یہ عمل واپس نہیں لیا جا سکتا۔</string>
     <string name="cancel">منسوخ کریں</string>
-    <string name="permission_denied_download_error">مطلوبہ اجازتیں مسترد کر دی گئیں۔ ڈاؤن لوڈ نہیں کیا جا سکتا۔</string>
-    <string name="starting_download_for">%s کے لیے ڈاؤن لوڈ شروع ہو رہا ہے</string>
     <string name="broad_file_access_prompt">ڈاؤن لوڈز کے لیے فائلوں تک وسیع رسائی درکار ہے۔ براہ کرم سیٹنگز میں اسے فعال کریں۔</string>
-    <string name="cannot_proceed_download_missing_permissions">ڈاؤن لوڈ جاری نہیں رکھا جا سکتا۔ اجازتیں غائب ہیں:</string>
+    
     <string name="cannot_open_app_settings">ایپ سیٹنگز نہیں کھل سکیں۔</string>
-
-    <string name="file_already_exists">فائل پہلے سے موجود ہے</string>
-    <string name="file_exists_message">فائل \"%1$s\" پہلے سے موجود ہے۔ کیا آپ اسے حذف کر کے دوبارہ ڈاؤن لوڈ کرنا چاہتے ہیں؟</string>
-    <string name="delete_and_download">حذف کریں اور ڈاؤن لوڈ کریں</string>
-    <string name="overwrite_dialog_chip">توجہ درکار ہے</string>
-    <string name="overwrite_dialog_risk">یہ موجودہ فائل کی جگہ لے لے گا</string>
-    <string name="overwrite_dialog_message">یہ فائل آپ کے ڈیوائس پر پہلے سے موجود ہے۔ آپ موجودہ کاپی رکھ سکتے ہیں، یا اسے نئی کاپی سے بدل سکتے ہیں۔</string>
-    <string name="overwrite_dialog_existing_file">موجودہ فائل</string>
-    <string name="replace_existing_file">موجودہ فائل کو بدل دیں</string>
 
     <string name="permission_needed">اجازت درکار ہے</string>
 
     <string name="libraries_title">لائبریریز</string>
-    <string name="libraries_desc">اوپن سورس لائسنس</string>
     <string name="developer_title">ڈویلپر</string>
-    <string name="developer_desc">ابھینو ورما</string>
     <string name="contributors_title">معاونین</string>
-    <string name="contributors_desc">کمیونٹی کی شراکت</string>
 
     <string name="developer_message">محبت کے ساتھ ڈیزائن اور تیار کیا گیا ❤️۔\nاو ٹی اے پلس استعمال کرنے کا شکریہ!</string>
-    <string name="special_thanks_label">خصوصی شکریہ</string>
-    <string name="open_source_community">اوپن سورس کمیونٹی</string>
-    <string name="contributors_description">ان تمام لوگوں کا شکریہ جنہوں نے اس پروجیکٹ میں کوڈ، ترجمہ، یا رائے کے ذریعے اپنا حصہ ڈالا۔</string>
-
-    <string name="advanced_mode_enabled">ایڈوانسڈ موڈ فعال۔ تبدیلیوں کے مکمل اطلاق کے لیے ری اسٹارٹ کی ضرورت ہو سکتی ہے۔</string>
-    <string name="advanced_mode_disabled">ایڈوانسڈ موڈ غیر فعال۔ تبدیلیوں کے مکمل اطلاق کے لیے ری اسٹارٹ کی ضرورت ہو سکتی ہے۔</string>
     <string name="import_overwrite_title">کسٹم ڈیوائسز کو اوور رائٹ کریں؟</string>
     <string name="import_overwrite_message">نئی فہرست امپورٹ کرنے سے آپ کی تمام موجودہ کسٹم ڈیوائسز اوور رائٹ ہو جائیں گی۔ یہ عمل واپس نہیں لیا جا سکتا۔</string>
     <string name="import_action">امپورٹ</string>
@@ -142,14 +63,11 @@
     <string name="storage_permission_granted">اسٹوریج کی اجازت مل گئی</string>
     <string name="storage_permission_required">ڈاؤن لوڈز کے لیے اسٹوریج کی اجازت درکار ہے</string>
     <string name="update_available_title">نیا ورژن دستیاب ہے: %s</string>
-    <string name="update_available_message">ایک نئی اپ ڈیٹ دستیاب ہے!\n\nتبدیلیوں کا ریکارڈ:\n%s</string>
-    <string name="download_action">ڈاؤن لوڈ کریں</string>
     <string name="later_action">بعد میں</string>
     <string name="tap_to_view_update">تبدیلیوں کا ریکارڈ دیکھنے اور ڈاؤن لوڈ کرنے کے لیے ٹیپ کریں</string>
     <string name="notification_permission_title">نوٹیفکیشن کی اجازت</string>
     <string name="notification_permission_message">او ٹی اے پلس آپ کو ڈاؤن لوڈ کی پیشرفت سے باخبر رکھنے کے لیے نوٹیفکیشنز کا استعمال کرتا ہے۔ براہ کرم یہ اجازت دیں۔</string>
     <string name="notification_permission_settings_message">نوٹیفکیشن تک رسائی ابھی بھی بند ہے۔ اسے ایپ سیٹنگز سے فعال کریں تاکہ ڈاؤن لوڈ کی پیشرفت اور تکمیل کے الرٹس ظاہر ہو سکیں۔</string>
-    <string name="notification_permission_settings_snackbar">سیٹنگز میں نوٹیفکیشن تک رسائی فعال کریں۔</string>
     <string name="grant_action">اجازت دیں</string>
     <string name="support_developer_title">ڈویلپر کی مدد کریں</string>
     <string name="support_developer_message">ہمارے اوپن سورس کام میں تعاون کریں اور او ٹی اے پلس کو بہتر بنانے میں مدد کریں۔</string>
@@ -158,9 +76,7 @@
     <string name="support_developer_maybe_later">شاید بعد میں</string>
     <string name="support_developer_image_content_description">ڈویلپر کی مدد کی تصویر</string>
     <string name="exit_action">باہر نکلیں</string>
-    <string name="could_not_open_download_link">ڈاؤن لوڈ لنک نہیں کھل سکا</string>
     <string name="could_not_open_link">لنک نہیں کھل سکا</string>
-    <string name="in_app_browser_title">براؤزر</string>
     <string name="browser_reload">صفحہ ری لوڈ کریں</string>
     <string name="browser_open_external">بیرونی براؤزر میں کھولیں</string>
     <string name="browser_back">پیچھے جائیں</string>
@@ -169,9 +85,6 @@
     <string name="browser_share">صفحہ شیئر کریں</string>
     <string name="browser_enable_desktop_mode">ڈیسک ٹاپ موڈ فعال کریں</string>
     <string name="browser_disable_desktop_mode">ڈیسک ٹاپ موڈ غیر فعال کریں</string>
-    <string name="browser_status_loading">لوڈنگ ہو رہی ہے</string>
-    <string name="browser_status_live">لائیو</string>
-    <string name="browser_loading_hint">اس صفحے کے لیے صاف ستھرا ریڈنگ ویو تیار کیا جا رہا ہے…</string>
 
     <string name="browser_settings_title">ان ایپ براؤزر</string>
     <string name="browser_desktop_mode_title">ڈیسک ٹاپ سائٹ موڈ</string>
@@ -180,20 +93,6 @@
     <string name="browser_controls_summary">براؤزنگ کے دوران نیچے نیویگیشن بار دکھائیں</string>
     <string name="browser_webview_version_title">WebView ورژن</string>
     <string name="browser_webview_version_unavailable">دستیاب نہیں</string>
-    <string name="add_device_name_title">ڈیوائس کا نام</string>
-    <string name="add_device_name_supporting">ڈیوائس کا واضح نام منتخب کریں تاکہ بعد میں پہچاننا آسان ہو۔</string>
-    <string name="add_device_name_hint">مثلاً realme 12 Pro Plus</string>
-    <string name="add_device_groups_title">فرم ویئر گروپس</string>
-    <string name="add_device_groups_supporting">ویرینٹس کو اینڈرائیڈ ورژن کے مطابق ترتیب دیں، پھر ہر گروپ میں علاقائی بلڈز شامل کریں۔</string>
-    <string name="add_device_empty_groups">ابھی تک کوئی فرم ویئر گروپ نہیں ہے۔ اس کسٹم ڈیوائس کو بنانا شروع کرنے کے لیے ایک شامل کریں۔</string>
-    <string name="add_device_add_group">فرم ویئر گروپ شامل کریں</string>
-    <string name="add_device_save">ڈیوائس محفوظ کریں</string>
-    <string name="add_device_edit_group">فرم ویئر گروپ ایڈٹ کریں</string>
-    <string name="add_device_delete_group">فرم ویئر گروپ حذف کریں</string>
-    <string name="add_device_variants_title">علاقائی ویرینٹس</string>
-    <string name="add_device_empty_variants">ابھی تک کوئی ویرینٹ نہیں ہے۔ اس فرم ویئر گروپ کو مکمل کرنے کے لیے ایک علاقہ شامل کریں۔</string>
-    <string name="add_device_add_variant">ویرینٹ شامل کریں</string>
-    <string name="add_device_remove_variant">ویرینٹ ختم کریں</string>
 
     <string name="notif_download_complete">ڈاؤن لوڈ مکمل ہو گیا</string>
     <string name="notif_download_failed">ڈاؤن لوڈ ناکام ہو گیا</string>
@@ -210,34 +109,20 @@
     <string name="notif_error_no_network">انٹرنیٹ کنکشن نہیں ہے۔</string>
     <string name="notif_error_unknown">نامعلوم خرابی۔ براہ کرم دوبارہ کوشش کریں۔</string>
 
-    <string name="extract_partition_title">پارٹیشنز نکالیں</string>
+    
     <string name="extract">نکالیں</string>
-    <string name="or_label">یا</string>
-
-    <string name="settings_section_appearance">ظاہری شکل (Appearance)</string>
-    <string name="settings_app_theme">ایپ تھیم</string>
-    <string name="theme_option_light">لائٹ</string>
-    <string name="theme_option_dark">ڈارک</string>
-    <string name="theme_option_auto">آٹو</string>
-    <string name="theme_option_system">سسٹم</string>
-    <string name="settings_section_general">عمومی</string>
     <string name="settings_auto_check_updates">خودکار اپ ڈیٹ چیک</string>
     <string name="settings_auto_check_updates_desc">اگر اپ ڈیٹ دستیاب ہو تو اسٹارٹ اپ پر مطلع کریں</string>
     <string name="settings_app_language">ایپ کی زبان</string>
-    <string name="settings_app_language_desc">ایپ کے لیے اپنی پسندیدہ زبان منتخب کریں</string>
     <string name="language_option_system">سسٹم ڈیفالٹ</string>
     <string name="settings_advanced_mode">ایڈوانسڈ موڈ</string>
     <string name="settings_advanced_mode_desc">تجرباتی خصوصیات تک رسائی حاصل کریں</string>
     <string name="settings_arb_detection">ARB ڈیٹیکشن</string>
     <string name="settings_arb_detection_desc">اپ ڈیٹس کے لیے اینٹی رول بیک چیک فعال کریں</string>
-    <string name="settings_section_data">ڈیٹا مینجمنٹ</string>
     <string name="settings_export_backup">بیک اپ ایکسپورٹ کریں</string>
     <string name="settings_export_backup_desc">ڈیوائسز کو اسٹوریج میں محفوظ کریں</string>
     <string name="settings_import_backup">بیک اپ امپورٹ کریں</string>
     <string name="settings_import_backup_desc">فائل سے ری اسٹور کریں</string>
-    <string name="settings_section_information">معلومات</string>
-    <string name="toast_arb_detection_enabled">ARB ڈیٹیکشن فعال</string>
-    <string name="toast_arb_detection_disabled">ARB ڈیٹیکشن غیر فعال</string>
 
     <string name="tools_header_title">او ٹی اے ٹولز</string>
     <string name="tools_header_subtitle">دستی استفسار، پارٹیشن نکالنے، لنک حل کرنے، یا ARB چیک کرنے کے لیے ایک مخصوص صفحہ کھولیں۔</string>
@@ -249,92 +134,24 @@
     <string name="tools_manual_query_desc">اپنے ماڈل، علاقے، سرور اور ایڈوانسڈ فیلڈز کے ساتھ او ٹی اے سرورز سے استفسار کریں۔</string>
     <string name="tools_partition_extraction_title">پارٹیشن نکالنا</string>
     <string name="tools_partition_extraction_desc">مقامی او ٹی اے زپ یا مکمل او ٹی اے یو آر ایل سے پارٹیشنز لوڈ کریں، پھر منتخب کردہ امیجز نکالیں۔</string>
-
-    <string name="partition_extraction_header_title">پارٹیشن نکالنا</string>
-    <string name="partition_extraction_header_subtitle">براہ راست او ٹی اے یو آر ایل یا ڈاؤن لوڈ کردہ مقامی زپ سے پارٹیشنز لوڈ کریں۔</string>
-    <string name="partition_extraction_remote_label">ریموٹ او ٹی اے پیکیج</string>
-    <string name="hint_paste_ota_url">مکمل او ٹی اے یو آر ایل پیسٹ کریں</string>
-    <string name="partition_extraction_local_zip_label">مقامی او ٹی اے زپ</string>
-    <string name="partition_extraction_no_zip_selected">ابھی تک کوئی زپ منتخب نہیں کی گئی</string>
-    <string name="btn_choose_zip">زپ منتخب کریں</string>
-    <string name="btn_remove">ختم کریں</string>
-    <string name="partition_extraction_source_hint">یا تو مکمل او ٹی اے یو آر ایل استعمال کریں یا ڈاؤن لوڈ کردہ زپ پیکیج۔</string>
     <string name="partition_extraction_select_partition">پارٹیشن منتخب کریں</string>
     <string name="partition_loading_msg">پارٹیشنز لوڈ ہو رہے ہیں…</string>
     <string name="toast_link_pasted">لنک پیسٹ ہو گیا</string>
     <string name="toast_clipboard_empty">کلپ بورڈ خالی ہے</string>
-    <string name="toast_paste_url_or_choose_zip">پہلے مکمل او ٹی اے یو آر ایل پیسٹ کریں یا مقامی زپ منتخب کریں</string>
-    <string name="toast_partition_extracted">%s.img کامیابی سے نکال لی گئی</string>
-    <string name="toast_extraction_cancelled">اخراج منسوخ کر دیا گیا</string>
-    <string name="toast_extraction_failed">اخراج ناکام ہو گیا</string>
-
-    <string name="content_desc_more_options">مزید اختیارات</string>
-    <string name="content_desc_mark_favorite">پسندیدہ کے طور پر نشان زد کریں</string>
-    <string name="label_android_version_colon">اینڈرائیڈ ورژن:</string>
-    <string name="label_os_version_colon">او ایس ورژن:</string>
-    <string name="label_security_patch_colon">سیکورٹی پیچ:</string>
-    <string name="label_size_colon">سائز:</string>
-    <string name="label_md5_colon">MD5:</string>
-    <string name="btn_view_changelog">تبدیلیوں کا ریکارڈ دیکھیں</string>
-
-    <string name="download_speed_label">رفتار</string>
-    <string name="download_remaining_label">باقی ہے</string>
-
-    <string name="content_desc_remove_local_zip">مقامی زپ ختم کریں</string>
-    <string name="content_desc_add_new_device">نئی کسٹم ڈیوائس شامل کریں</string>
-
-    <string name="hint_android_version">اینڈرائیڈ ورژن (مثلاً Android 14)</string>
-    <string name="hint_product_model_example">پروڈکٹ ماڈل (مثلاً RMX3840)</string>
-    <string name="hint_product_name_example">پروڈکٹ کا نام (مثلاً RMX3840IN)</string>
-    <string name="hint_region">علاقہ</string>
-    <string name="hint_ota_version">او ٹی اے ورژن</string>
-    <string name="hint_req_mode">درخواست کا طریقہ (Req Mode)</string>
-    <string name="hint_gray">گرے</string>
     <string name="hint_search_partitions">پارٹیشنز تلاش کریں</string>
-    <string name="hint_paste_download_check_link">downloadCheck لنک پیسٹ کریں</string>
-    <string name="helper_paste_ota_link">وہ او ٹی اے لنک پیسٹ کریں جسے آپ حل کرنا چاہتے ہیں</string>
-
-    <string name="hint_product_model">پروڈکٹ ماڈل</string>
-    <string name="hint_product_name">پروڈکٹ کا نام</string>
     <string name="hint_ver_letter">Ver Letter</string>
-    <string name="hint_rui_version">RUI ورژن</string>
-    <string name="hint_server">سرور</string>
-    <string name="hint_imei_optional">IMEI (اختیاری)</string>
-    <string name="hint_language">زبان</string>
-    <string name="hint_nv_id_optional">NV ID (اختیاری)</string>
-    <string name="hint_full_ota_url">مکمل او ٹی اے یو آر ایل</string>
-    <string name="hint_resolver_input_link">حل کرنے والے کا ان پٹ لنک</string>
-    <string name="btn_open">کھولیں</string>
-    <string name="btn_auto_fill">خودکار پر کریں</string>
     <string name="btn_check_for_update">اپ ڈیٹ چیک کریں</string>
 
     <string name="toast_paste_ota_url_first">پہلے مکمل او ٹی اے یو آر ایل پیسٹ کریں</string>
     <string name="toast_choose_local_zip_first">پہلے مقامی او ٹی اے زپ منتخب کریں</string>
     <string name="toast_resolved_link_copied">حل شدہ لنک کاپی ہو گیا</string>
-    <string name="toast_could_not_open_resolved_link">حل شدہ لنک نہیں کھل سکا</string>
     <string name="toast_device_details_fetched">ڈیوائس کی تفصیلات حاصل کر لی گئیں</string>
-    <string name="toast_please_fill_required_fields">براہ کرم مطلوبہ فیلڈز پر کریں</string>
     <string name="toast_link_copied">لنک کاپی ہو گیا</string>
-    <string name="toast_could_not_share_link">لنک شیئر نہیں کیا جا سکا</string>
 
-    <string name="ota_details_device">او ٹی اے کی تفصیلات: %s</string>
+    
     <string name="unknown">نامعلوم</string>
     <string name="unknown_version">نامعلوم ورژن</string>
-
-    <string name="placeholder_library_name">لائبریری کا نام</string>
-    <string name="placeholder_apache_license">Apache License 2.0</string>
-
-    <string name="arb_checker_header_title">ARB\nچیکر</string>
-    <string name="arb_checker_header_subtitle">کسی ریموٹ او ٹی اے پیکیج یا مقامی طور پر ڈاؤن لوڈ کردہ زپ سے اینٹی رول بیک میٹا ڈیٹا کا معائنہ کریں۔</string>
-    <string name="btn_check_arb">ARB چیک کریں</string>
     <string name="arb_status_label">ARB کی صورتحال</string>
-    <string name="arb_index_label">ARB انڈیکس</string>
-    <string name="arb_metadata_version_label">میٹا ڈیٹا ورژن</string>
-    <string name="arb_source_label">ذریعہ</string>
-
-    <string name="link_resolver_header_title">لنک\nحل کرنے والا</string>
-    <string name="link_resolver_header_subtitle">downloadCheck-ری ڈائریکٹڈ او ٹی اے لنکس کو حل کریں اور آخری ہدف کو جلدی سے کاپی کریں یا کھولیں۔</string>
-    <string name="btn_resolve_link">لنک حل کریں</string>
 
     <string name="label_android">اینڈرائیڈ ورژن</string>
     <string name="label_security_patch">سیکورٹی پیچ</string>
@@ -342,46 +159,11 @@
     <string name="label_md5">MD5</string>
     <string name="btn_changelog">تبدیلیوں کا ریکارڈ</string>
 
-    <string name="manual_query_header_title">او ٹی اے ٹولز</string>
-    <string name="manual_query_header_subtitle">اپنے ماڈل، علاقے، سرور اور ایڈوانسڈ فیلڈز کا استعمال کرتے ہوئے او ٹی اے سرورز سے استفسار کریں۔</string>
-    <string name="manual_query_local_zip_label">مقامی طور پر ڈاؤن لوڈ کردہ او ٹی اے زپ</string>
-    <string name="manual_query_advanced_options_title">اعلی درجے کے اختیارات</string>
-    <string name="manual_query_advanced_options_desc">NV ID، طریقہ درخواست، گرے، بیٹا</string>
-    <string name="manual_query_beta_channel_title">بیٹا چینل</string>
-    <string name="manual_query_beta_channel_desc">تجرباتی فرم ویئر بلڈز کے لیے استفسار کریں</string>
-    <string name="btn_from_url">یو آر ایل سے</string>
-    <string name="btn_from_zip">زپ سے</string>
-    <string name="btn_auto_fill_label">خودکار پر کریں</string>
-    <string name="btn_check_for_update_label">اپ ڈیٹ چیک کریں</string>
-
-    <string name="about_btn_check_for_updates">اپ ڈیٹ چیک کریں</string>
-    <string name="about_connect_label">رابطہ کریں</string>
-    <string name="about_github_label">GitHub</string>
-    <string name="about_github_desc">سورس کوڈ</string>
-    <string name="about_telegram_label">Telegram</string>
-    <string name="about_telegram_desc">چینل</string>
-    <string name="about_paypal_label">PayPal</string>
-    <string name="about_support_dev_desc">ڈویلپر کی مدد</string>
-    <string name="about_upi_label">UPI</string>
-    <string name="about_copy_id_desc">آئی ڈی کاپی کریں</string>
-
-    <string name="btn_view_on_github">GitHub پر دیکھیں</string>
-
     <string name="developer_role">ڈویلپر اور ڈیزائنر</string>
-
-    <string name="dialog_add_download_section_title">ڈاؤن لوڈ URL</string>
-    <string name="dialog_add_download_url_hint">براہ راست فرم ویئر اور شیئر کردہ او ٹی اے زپ لنکس کو سپورٹ کرتا ہے۔</string>
-
-    <string name="add_device_toolbar_title">کسٹم ڈیوائس شامل کریں</string>
-
-    <string name="placeholder_item_title">آئٹم کا عنوان</string>
-    <string name="placeholder_item_value">آئٹم کی ویلیو</string>
 
     <!-- Home Update Panel -->
     <string name="software_update_panel_version_label">سافٹ ویئر ورژن</string>
-    <string name="btn_view">دیکھیں</string>
     <string name="software_update_panel_chip">سافٹ ویئر اپ ڈیٹ</string>
-    <string name="software_update_panel_device_label">موجودہ ڈیوائس</string>
     <string name="software_update_panel_meta_hint">لائیو ڈیوائس پروفائل سے بنایا گیا اور ایک ٹیپ چیک کے لیے تیار۔</string>
     <string name="update_available_label">اپ ڈیٹ دستیاب ہے</string>
 
@@ -402,3 +184,5 @@
     <string name="battery_optimization_dialog_message">پس منظر میں سافٹ ویئر اپ ڈیٹس کو قابل اعتماد طریقے سے چیک کرنے کے لیے، OTA Pulse کو بیٹری آپٹیمائزیشن سے مستثنیٰ قرار دیا جانا چاہیے۔ اس کے بغیر، سسٹم اپ ڈیٹ چیکس میں تاخیر یا انہیں منسوخ کر سکتا ہے۔</string>
     <string name="allow">اجازت دیں</string>
 </resources>
+
+
