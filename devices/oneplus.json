@@ -1200,6 +1200,19 @@
     }
   },
   {
+    "name": "OnePlus N6",
+    "ruiVersion": 7,
+    "firmwareGroups": {
+      "Android 16": [
+        {
+          "displayName": "IN",
+          "productModel": "CPH2955",
+          "productName": "CPH2955IN"
+        }
+      ]
+    }
+  },
+  {
     "name": "OnePlus Nord CE 4 Lite",
     "ruiVersion": 5,
     "firmwareGroups": {
