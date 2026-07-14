@@ -69,7 +69,7 @@ object BsDiffApplier {
             for (i in 0 until addLen.toInt()) {
                 val b = diffStream.read()
                 if (b == -1) throw IllegalArgumentException("Unexpected EOF in diff stream")
-                
+
                 val oldVal = if (oldOffset + i in oldData.indices) oldData[oldOffset + i] else 0
                 newData[newOffset + i] = (oldVal + b).toByte()
             }

@@ -308,7 +308,7 @@ class OtaExtractor(private val context: Context) {
         val resume = stateStore.load(partitionName)
 
         // If resuming, open in append mode.
-        val outputStream = java.io.FileOutputStream(file, resume != null)
+        val outputStream = java.io.BufferedOutputStream(java.io.FileOutputStream(file, resume != null), 1024 * 1024)
 
         outputStream.use { os ->
             extract(session, partitionName, os, onProgress)
@@ -326,7 +326,7 @@ class OtaExtractor(private val context: Context) {
 
         val finalState = if (session.extractor != null) {
             val extractorWithSource = if (sourceReader != null) {
-                PayloadExtractor(session.url, http, session.header, 
+                PayloadExtractor(session.url, http, session.header,
                     if (session.manifest.hasBlockSize()) session.manifest.blockSize.toLong() else 4096L,
                     sourceReader)
             } else session.extractor
@@ -384,14 +384,25 @@ class OtaExtractor(private val context: Context) {
         finalState
     }
 
-    private class FileSourceReader(private val file: java.io.File) : SourceReader {
+    private class FileSourceReader(private val file: java.io.File) : SourceReader, java.io.Closeable {
+        private val raf = java.io.RandomAccessFile(file, "r")
+        private val channel = raf.channel
+
         override fun readBlocks(startBlock: Long, numBlocks: Long, blockSize: Long): ByteArray {
-            val data = ByteArray((numBlocks * blockSize).toInt())
-            RandomAccessFile(file, "r").use { raf ->
-                raf.seek(startBlock * blockSize)
-                raf.readFully(data)
+            val length = (numBlocks * blockSize).toInt()
+            val data = ByteArray(length)
+            val buffer = java.nio.ByteBuffer.wrap(data)
+            var totalRead = 0
+            while (totalRead < length) {
+                val read = channel.read(buffer, startBlock * blockSize + totalRead)
+                if (read <= 0) error("Unexpected EOF while reading source partition.")
+                totalRead += read
             }
             return data
+        }
+
+        override fun close() {
+            raf.close()
         }
     }
 
