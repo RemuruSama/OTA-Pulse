@@ -1,5 +1,18 @@
 [
   {
+    "name": "realme Narzo 100 Lite 5G",
+    "ruiVersion": 7,
+    "firmwareGroups": {
+      "Android 16": [
+        {
+          "displayName": "IN",
+          "productModel": "RMX5261",
+          "productName": "RMX5261IN"
+        }
+      ]
+    }
+  },
+  {
     "name": "realme 16 5G",
     "ruiVersion": 5,
     "firmwareGroups": {
