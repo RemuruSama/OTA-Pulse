@@ -39,8 +39,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Code
 import androidx.compose.material.icons.rounded.Groups
+import androidx.compose.material.icons.rounded.Language
+import androidx.compose.material.icons.rounded.Schedule
 import androidx.compose.material.icons.rounded.Warning
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
@@ -69,6 +72,7 @@ import com.abhinav.otapulse.core.common.openExternalBrowser
 import com.abhinav.otapulse.core.ui.components.OtaOutlinedButton
 import com.abhinav.otapulse.core.ui.components.OtaPrimaryButton
 import com.abhinav.otapulse.core.ui.components.OtaTonalButton
+import com.abhinav.otapulse.core.ui.theme.OtaPulseTheme
 
 @Composable
 fun LanguageSelectionDialog(
@@ -102,81 +106,74 @@ fun LanguageSelectionDialog(
         "vi"    to context.getString(R.string.lang_vi)
     )
 
-    Dialog(onDismissRequest = onDismiss) {
-        ApplyDialogBlurEffect()
-        Surface(
-            shape = RoundedCornerShape(28.dp),
-            color = MaterialTheme.colorScheme.surface,
-            tonalElevation = 6.dp,
-            modifier = Modifier
-                .widthIn(max = 320.dp)
-                .fillMaxWidth()
-                .padding(horizontal = 24.dp)
-        ) {
-            Column(
+    val isHolo = OtaPulseTheme.holographicConfig.isEnabled
+    val containerColor = if (isHolo) OtaPulseTheme.extendedColors.glassPanel else AlertDialogDefaults.containerColor
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        containerColor = containerColor,
+        icon = {
+            Icon(
+                imageVector = Icons.Rounded.Language,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.size(28.dp)
+            )
+        },
+        title = {
+            Text(
+                text = context.getString(R.string.settings_app_language),
+                style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
+            )
+        },
+        text = {
+            LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 20.dp)
+                    .heightIn(max = 380.dp)
             ) {
-                Text(
-                    text = context.getString(R.string.settings_app_language),
-                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                    modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp),
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .heightIn(max = 400.dp)
-                ) {
-                    items(languages.entries.toList()) { entry ->
-                        val isSelected = entry.key == currentLocaleTag
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable {
-                                    onLanguageSelected(entry.key)
-                                    onDismiss()
-                                }
-                                .padding(vertical = 12.dp, horizontal = 24.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            RadioButton(
-                                selected = isSelected,
-                                onClick = {
-                                    onLanguageSelected(entry.key)
-                                    onDismiss()
-                                }
-                            )
-                            Text(
-                                text = entry.value,
-                                style = MaterialTheme.typography.bodyLarge.copy(
-                                    fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
-                                ),
-                                color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
-                                modifier = Modifier.padding(start = 16.dp)
-                            )
-                        }
-                    }
-                }
-
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(end = 16.dp, top = 8.dp),
-                    horizontalArrangement = Arrangement.End
-                ) {
-                    TextButton(onClick = onDismiss) {
+                items(languages.entries.toList()) { entry ->
+                    val isSelected = entry.key == currentLocaleTag
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(12.dp))
+                            .clickable {
+                                onLanguageSelected(entry.key)
+                                onDismiss()
+                            }
+                            .padding(vertical = 10.dp, horizontal = 4.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        RadioButton(
+                            selected = isSelected,
+                            onClick = {
+                                onLanguageSelected(entry.key)
+                                onDismiss()
+                            }
+                        )
                         Text(
-                            text = context.getString(R.string.cancel),
-                            style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold)
+                            text = entry.value,
+                            style = MaterialTheme.typography.bodyLarge.copy(
+                                fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
+                            ),
+                            color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier.padding(start = 12.dp)
                         )
                     }
                 }
             }
+        },
+        confirmButton = {
+            ApplyDialogBlurEffect()
+            TextButton(onClick = onDismiss) {
+                Text(
+                    text = context.getString(R.string.cancel),
+                    style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold)
+                )
+            }
         }
-    }
+    )
 }
 
 @Composable
@@ -195,77 +192,70 @@ fun CheckIntervalDialog(
         24L to context.getString(R.string.settings_check_interval_24h)
     )
 
-    Dialog(onDismissRequest = onDismiss) {
-        ApplyDialogBlurEffect()
-        Surface(
-            shape = RoundedCornerShape(28.dp),
-            color = MaterialTheme.colorScheme.surface,
-            tonalElevation = 6.dp,
-            modifier = Modifier
-                .widthIn(max = 320.dp)
-                .fillMaxWidth()
-                .padding(horizontal = 24.dp)
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 20.dp)
-            ) {
-                Text(
-                    text = context.getString(R.string.settings_check_interval_title),
-                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                    modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp),
-                    color = MaterialTheme.colorScheme.onSurface
-                )
+    val isHolo = OtaPulseTheme.holographicConfig.isEnabled
+    val containerColor = if (isHolo) OtaPulseTheme.extendedColors.glassPanel else AlertDialogDefaults.containerColor
 
-                Column(modifier = Modifier.fillMaxWidth()) {
-                    hourValues.forEach { hours ->
-                        val isSelected = hours == currentHours
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable {
-                                    onIntervalSelected(hours)
-                                    onDismiss()
-                                }
-                                .padding(vertical = 12.dp, horizontal = 24.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            RadioButton(
-                                selected = isSelected,
-                                onClick = {
-                                    onIntervalSelected(hours)
-                                    onDismiss()
-                                }
-                            )
-                            Text(
-                                text = labels[hours] ?: "${hours}h",
-                                style = MaterialTheme.typography.bodyLarge.copy(
-                                    fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
-                                ),
-                                color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
-                                modifier = Modifier.padding(start = 16.dp)
-                            )
-                        }
-                    }
-                }
-
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(end = 16.dp, top = 8.dp),
-                    horizontalArrangement = Arrangement.End
-                ) {
-                    TextButton(onClick = onDismiss) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        containerColor = containerColor,
+        icon = {
+            Icon(
+                imageVector = Icons.Rounded.Schedule,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.size(28.dp)
+            )
+        },
+        title = {
+            Text(
+                text = context.getString(R.string.settings_check_interval_title),
+                style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
+            )
+        },
+        text = {
+            Column(modifier = Modifier.fillMaxWidth()) {
+                hourValues.forEach { hours ->
+                    val isSelected = hours == currentHours
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(12.dp))
+                            .clickable {
+                                onIntervalSelected(hours)
+                                onDismiss()
+                            }
+                            .padding(vertical = 10.dp, horizontal = 4.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        RadioButton(
+                            selected = isSelected,
+                            onClick = {
+                                onIntervalSelected(hours)
+                                onDismiss()
+                            }
+                        )
                         Text(
-                            text = context.getString(R.string.cancel),
-                            style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold)
+                            text = labels[hours] ?: "${hours}h",
+                            style = MaterialTheme.typography.bodyLarge.copy(
+                                fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
+                            ),
+                            color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier.padding(start = 12.dp)
                         )
                     }
                 }
             }
+        },
+        confirmButton = {
+            ApplyDialogBlurEffect()
+            TextButton(onClick = onDismiss) {
+                Text(
+                    text = context.getString(R.string.cancel),
+                    style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold)
+                )
+            }
         }
-    }
+    )
 }
 
 @Composable
