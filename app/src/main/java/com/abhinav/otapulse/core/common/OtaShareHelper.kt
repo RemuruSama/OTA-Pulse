@@ -50,6 +50,7 @@ object OtaShareHelper {
      */
     fun buildShareText(data: OtaCardData): String = """
         • 𝗖𝗵𝗮𝗻𝗴𝗲𝗹𝗼𝗴: ${data.changelogUrl ?: "Not available"}
+        
         • 𝗗𝗼𝘄𝗻𝗹𝗼𝗮𝗱: ${data.downloadUrl}
 
         ━━━━━━━━━━━━━━━━━
