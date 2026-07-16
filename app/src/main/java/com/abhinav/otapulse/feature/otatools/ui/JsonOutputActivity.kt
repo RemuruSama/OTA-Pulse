@@ -129,7 +129,7 @@ class JsonOutputActivity : AppCompatActivity() {
                         onBack = { finish() },
                         onCopy = {
                             val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                            clipboard.setPrimaryClip(ClipData.newPlainText("OTA JSON Output", jsonOutput))
+                            clipboard.setPrimaryClip(ClipData.newPlainText(getString(R.string.json_output_title), jsonOutput))
                             Toast.makeText(this@JsonOutputActivity, getString(R.string.copy), Toast.LENGTH_SHORT).show()
                         },
                         onDownload = {

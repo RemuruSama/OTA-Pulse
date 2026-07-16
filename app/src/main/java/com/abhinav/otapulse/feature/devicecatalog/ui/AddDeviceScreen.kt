@@ -1,5 +1,7 @@
 package com.abhinav.otapulse.feature.devicecatalog.ui
 
+import com.abhinav.otapulse.R
+
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
@@ -78,6 +80,7 @@ import com.abhinav.otapulse.core.ui.components.OtaTextField
 import com.abhinav.otapulse.core.ui.components.OtaTonalButton
 import com.abhinav.otapulse.core.ui.components.OtaTopAppBar
 import com.abhinav.otapulse.feature.devices.ui.AddDeviceViewModel
+import androidx.compose.ui.res.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
@@ -132,7 +135,7 @@ fun AddDeviceScreen(
                     }) {
                         Icon(
                             imageVector = Icons.Rounded.ArrowBack,
-                            contentDescription = "Back",
+                            contentDescription = stringResource(R.string.action_back),
                             tint = MaterialTheme.colorScheme.onSurface
                         )
                     }
@@ -186,8 +189,8 @@ fun AddDeviceScreen(
                     OtaTextField(
                         value = uiState.deviceName,
                         onValueChange = { viewModel.onDeviceNameChanged(it) },
-                        label = { Text("Device Name (e.g. OnePlus 12)") },
-                        placeholder = { Text("Enter marketing name") },
+                        label = { Text(stringResource(R.string.add_dev_device_name_label)) },
+                        placeholder = { Text(stringResource(R.string.add_dev_enter_mkt_name)) },
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedContainerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
                             unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainerLowest
@@ -225,8 +228,8 @@ fun AddDeviceScreen(
                 if (uiState.firmwareGroups.isEmpty()) {
                     EmptyState(
                         icon = Icons.Rounded.Add,
-                        title = "No Firmware Groups",
-                        message = "Add an Android version group (e.g. Android 15) to start defining variants.",
+                        title = stringResource(R.string.add_dev_no_fw_groups),
+                        message = stringResource(R.string.add_dev_no_fw_groups_msg),
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 16.dp)
@@ -262,7 +265,7 @@ fun AddDeviceScreen(
                                         ) {
                                             Icon(
                                                 imageVector = Icons.Rounded.Edit,
-                                                contentDescription = "Edit Group",
+                                                contentDescription = stringResource(R.string.add_dev_edit_group_cd),
                                                 tint = MaterialTheme.colorScheme.onSurfaceVariant,
                                                 modifier = Modifier.size(18.dp)
                                             )
@@ -276,7 +279,7 @@ fun AddDeviceScreen(
                                         ) {
                                             Icon(
                                                 imageVector = Icons.Rounded.Delete,
-                                                contentDescription = "Delete Group",
+                                                contentDescription = stringResource(R.string.add_dev_delete_group_cd),
                                                 tint = MaterialTheme.colorScheme.error,
                                                 modifier = Modifier.size(18.dp)
                                             )
@@ -331,7 +334,7 @@ fun AddDeviceScreen(
                                                     ) {
                                                         Icon(
                                                             imageVector = Icons.Rounded.Delete,
-                                                            contentDescription = "Remove Variant",
+                                                            contentDescription = stringResource(R.string.add_dev_remove_variant_cd),
                                                             tint = MaterialTheme.colorScheme.error,
                                                             modifier = Modifier.size(16.dp)
                                                         )
@@ -365,15 +368,15 @@ fun AddDeviceScreen(
         var groupInput by remember { mutableStateOf("") }
         AlertDialog(
             onDismissRequest = { showAddGroupDialog = false },
-            title = { Text("Add Firmware Group") },
+            title = { Text(stringResource(R.string.add_dev_add_fw_group_title)) },
             text = {
                 Column {
-                    Text("Enter Android version name for this firmware group:", style = MaterialTheme.typography.bodyMedium)
+                    Text(stringResource(R.string.add_dev_enter_ver_name), style = MaterialTheme.typography.bodyMedium)
                     Spacer(modifier = Modifier.height(12.dp))
                     OtaTextField(
                         value = groupInput,
                         onValueChange = { groupInput = it },
-                        placeholder = { Text("e.g. Android 15") }
+                        placeholder = { Text(stringResource(R.string.add_dev_ver_placeholder)) }
                     )
                 }
             },
@@ -383,12 +386,12 @@ fun AddDeviceScreen(
                     showAddGroupDialog = false
                     viewModel.addFirmwareGroup(groupInput.trim())
                 }) {
-                    Text("Add", fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.action_add), fontWeight = FontWeight.Bold)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showAddGroupDialog = false }) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.action_cancel))
                 }
             }
         )
@@ -398,12 +401,12 @@ fun AddDeviceScreen(
         var newName by remember(oldName) { mutableStateOf(oldName) }
         AlertDialog(
             onDismissRequest = { groupToEdit = null },
-            title = { Text("Edit Firmware Group") },
+            title = { Text(stringResource(R.string.add_dev_edit_fw_group_title)) },
             text = {
                 OtaTextField(
                     value = newName,
                     onValueChange = { newName = it },
-                    label = { Text("Group Name") }
+                    label = { Text(stringResource(R.string.add_dev_group_name_label)) }
                 )
             },
             confirmButton = {
@@ -413,12 +416,12 @@ fun AddDeviceScreen(
                     groupToEdit = null
                     viewModel.editFirmwareGroup(oldName, nameToSave)
                 }) {
-                    Text("Save", fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.action_save), fontWeight = FontWeight.Bold)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { groupToEdit = null }) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.action_cancel))
                 }
             }
         )
@@ -427,20 +430,20 @@ fun AddDeviceScreen(
     groupToDelete?.let { groupName ->
         AlertDialog(
             onDismissRequest = { groupToDelete = null },
-            title = { Text("Delete Firmware Group?") },
-            text = { Text("Are you sure you want to delete '$groupName' and all its variants?") },
+            title = { Text(stringResource(R.string.add_dev_delete_group_title)) },
+            text = { Text(stringResource(R.string.add_dev_delete_group_msg, groupName)) },
             confirmButton = {
                 ApplyDialogBlurEffect()
                 TextButton(onClick = {
                     groupToDelete = null
                     viewModel.deleteFirmwareGroup(groupName)
                 }) {
-                    Text("Delete", color = MaterialTheme.colorScheme.error, fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.action_delete), color = MaterialTheme.colorScheme.error, fontWeight = FontWeight.Bold)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { groupToDelete = null }) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.action_cancel))
                 }
             }
         )
@@ -531,15 +534,15 @@ private fun AddVariantDialog(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 AddVariantSectionHeader(
-                    title = "Hardware Identification",
+                    title = stringResource(R.string.add_dev_hw_id_title),
                     icon = Icons.Rounded.Smartphone
                 )
 
                     OtaTextField(
                         value = productModel,
                         onValueChange = { productModel = it },
-                        label = { Text("Product Model") },
-                        placeholder = { Text("e.g. RMX3840") },
+                        label = { Text(stringResource(R.string.add_dev_model_label)) },
+                        placeholder = { Text(stringResource(R.string.add_dev_model_placeholder)) },
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedBorderColor = MaterialTheme.colorScheme.primary,
                             unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant
@@ -549,8 +552,8 @@ private fun AddVariantDialog(
                     OtaTextField(
                         value = productName,
                         onValueChange = { productName = it },
-                        label = { Text("Product Name") },
-                        placeholder = { Text("e.g. RMX3840export") },
+                        label = { Text(stringResource(R.string.add_dev_name_label)) },
+                        placeholder = { Text(stringResource(R.string.add_dev_name_placeholder)) },
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedBorderColor = MaterialTheme.colorScheme.primary,
                             unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant
@@ -558,7 +561,7 @@ private fun AddVariantDialog(
                     )
 
                 AddVariantSectionHeader(
-                    title = "Target Region Code",
+                    title = stringResource(R.string.add_dev_region_code_title),
                     icon = Icons.Rounded.Public
                 )
                 Row(
@@ -580,7 +583,7 @@ private fun AddVariantDialog(
                 }
 
                 AddVariantSectionHeader(
-                    title = "Branch Prefix Letter",
+                    title = stringResource(R.string.add_dev_branch_prefix_title),
                     icon = Icons.Rounded.Info
                 )
                 Row(
@@ -597,7 +600,7 @@ private fun AddVariantDialog(
                 }
 
                 AddVariantSectionHeader(
-                    title = "OTA Server Endpoint",
+                    title = stringResource(R.string.add_dev_server_endpoint_title),
                     icon = Icons.Rounded.Dns
                 )
                 Row(
@@ -614,7 +617,7 @@ private fun AddVariantDialog(
                 }
 
                 AddVariantSectionHeader(
-                    title = "Query Request Mode",
+                    title = stringResource(R.string.add_dev_query_mode_title),
                     icon = Icons.Rounded.Sync
                 )
                 Row(
@@ -631,7 +634,7 @@ private fun AddVariantDialog(
                 }
 
                 AddVariantSectionHeader(
-                    title = "Gray Flag (Beta/Stable)",
+                    title = stringResource(R.string.add_dev_gray_flag_title),
                     icon = Icons.Rounded.Flag
                 )
                 Row(
@@ -665,12 +668,12 @@ private fun AddVariantDialog(
                     }
                 }
             ) {
-                Text("Add Variant", fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.add_dev_add_variant_btn), fontWeight = FontWeight.Bold)
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel")
+                Text(stringResource(R.string.action_cancel))
             }
         }
     )

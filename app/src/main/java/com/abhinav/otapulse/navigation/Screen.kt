@@ -87,10 +87,10 @@ sealed class Screen(val route: String) {
  */
 data class BottomNavItem(
     val screen: Screen,
-    val label: String,
+    @androidx.annotation.StringRes val labelRes: Int,
     val icon: ImageVector,
     val selectedIcon: ImageVector,
-    val iconRes: Int? = null
+    @androidx.annotation.DrawableRes val iconRes: Int? = null
 )
 
 /**
@@ -99,32 +99,32 @@ data class BottomNavItem(
 val otaPulseBottomNavItems = listOf(
     BottomNavItem(
         screen = Screen.HomeUpdate,
-        label = "Update",
+        labelRes = R.string.nav_tab_update,
         icon = Icons.Outlined.SystemUpdate,
         selectedIcon = Icons.Filled.SystemUpdate
     ),
     BottomNavItem(
         screen = Screen.DeviceCatalog,
-        label = "Devices",
+        labelRes = R.string.nav_tab_devices,
         icon = Icons.Outlined.Devices,
         selectedIcon = Icons.Filled.Devices
     ),
     BottomNavItem(
         screen = Screen.OtaTools,
-        label = "Tools",
+        labelRes = R.string.nav_tab_tools,
         icon = Icons.Outlined.Build,
         selectedIcon = Icons.Filled.Build,
         iconRes = R.drawable.ic_tools
     ),
     BottomNavItem(
         screen = Screen.About,
-        label = "About",
+        labelRes = R.string.nav_tab_about,
         icon = Icons.Outlined.Info,
         selectedIcon = Icons.Filled.Info
     ),
     BottomNavItem(
         screen = Screen.Settings,
-        label = "Settings",
+        labelRes = R.string.nav_tab_settings,
         icon = Icons.Outlined.Settings,
         selectedIcon = Icons.Filled.Settings
     )

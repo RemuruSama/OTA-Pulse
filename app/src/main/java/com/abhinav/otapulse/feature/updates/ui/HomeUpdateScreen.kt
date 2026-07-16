@@ -200,7 +200,7 @@ fun HomeUpdateContent(
                     ) {
                         Icon(
                             imageVector = Icons.Rounded.History,
-                            contentDescription = "Update History",
+                            contentDescription = stringResource(R.string.home_update_history_cd),
                             tint = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
@@ -408,19 +408,19 @@ fun HomeUpdateContent(
                         OtaTextField(
                         value = uiState.deviceModel,
                         onValueChange = { onUpdateModel(it) },
-                        label = { Text("Product Model (Required)") }
+                        label = { Text(stringResource(R.string.home_model_required_label)) }
                     )
 
                     OtaTextField(
                         value = uiState.deviceName,
                         onValueChange = { onUpdateName(it) },
-                        label = { Text("Product Name") }
+                        label = { Text(stringResource(R.string.home_name_label)) }
                     )
 
                     OtaTextField(
                         value = uiState.nvId,
                         onValueChange = { onUpdateNvId(it) },
-                        label = { Text("NV ID (Optional)") }
+                        label = { Text(stringResource(R.string.home_nv_id_label)) }
                     )
 
                         Row(
@@ -492,7 +492,7 @@ fun HomeUpdateContent(
             }
 
             if (uiState.isLoading) {
-                LoadingState(message = "Searching across servers and versions...")
+                LoadingState(message = stringResource(R.string.home_searching_msg))
             }
 
             uiState.error?.let { err ->
@@ -579,17 +579,17 @@ fun HomeUpdateContent(
             onDismiss = { onSelectOta(null) },
             onDownload = { selected ->
                 onStartDownload(selected)
-                Toast.makeText(context, "Download started", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.home_download_started), Toast.LENGTH_SHORT).show()
                 onSelectOta(null)
             },
             onCopyLink = { url ->
                 val clipboard = context.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
-                clipboard.setPrimaryClip(android.content.ClipData.newPlainText("OTA URL", url))
+                clipboard.setPrimaryClip(android.content.ClipData.newPlainText(context.getString(R.string.home_ota_url_label), url))
                 Toast.makeText(context, R.string.toast_link_copied, Toast.LENGTH_SHORT).show()
             },
             onViewChangelog = { url ->
                 if (url.isNullOrBlank()) {
-                    Toast.makeText(context, "Changelog unavailable", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, context.getString(R.string.home_changelog_unavail), Toast.LENGTH_SHORT).show()
                 } else {
                     context.startActivity(InAppBrowserActivity.createIntent(context, url, "Changelog"))
                 }

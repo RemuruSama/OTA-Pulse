@@ -367,8 +367,8 @@ private fun AppearanceSection(
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 ThemeEngineCard(
-                    title = "Material You",
-                    subtitle = "Dynamic • Adaptive",
+                    title = stringResource(R.string.settings_material_you_title),
+                    subtitle = stringResource(R.string.settings_dynamic_adaptive_sub),
                     icon = Icons.Rounded.Palette,
                     tint = MaterialTheme.colorScheme.primary,
                     selected = themeSettings.themeMode == ThemeMode.MATERIAL_YOU,
@@ -376,8 +376,8 @@ private fun AppearanceSection(
                     onClick = { onThemeModeChanged(ThemeMode.MATERIAL_YOU) }
                 )
                 ThemeEngineCard(
-                    title = "Holographic",
-                    subtitle = "Glassmorphism • Neon",
+                    title = stringResource(R.string.settings_holographic_title),
+                    subtitle = stringResource(R.string.settings_glassmorphism_sub),
                     icon = Icons.Rounded.AutoAwesome,
                     tint = Color(0xFF00E5FF),
                     selected = themeSettings.themeMode == ThemeMode.HOLOGRAPHIC,
@@ -584,8 +584,8 @@ private fun AppearanceSection(
 
                     if (themeSettings.themeMode == ThemeMode.MATERIAL_YOU && Build.VERSION.SDK_INT >= 31) {
                         EnhancedToggleRow(
-                            title = "Dynamic Accent Colors",
-                            subtitle = "Extract personalized color palette from wallpaper",
+                            title = stringResource(R.string.settings_dynamic_accent_title),
+                            subtitle = stringResource(R.string.settings_dynamic_accent_sub),
                             icon = Icons.Rounded.ColorLens,
                             tint = MaterialTheme.colorScheme.primary,
                             checked = themeSettings.dynamicColor,
@@ -984,7 +984,7 @@ private fun AboutSection(
 
             SettingsClickableRow(
                 title = stringResource(R.string.developer_title),
-                subtitle = "Abhinav Verma",
+                subtitle = stringResource(R.string.settings_author_name),
                 onClick = onDeveloperClick
             )
         }

@@ -84,9 +84,9 @@ object OtaCardGenerator {
 
         val titleX = paddingLeft + headerIconRadius * 2 + 32f
         val titlePaint = textPaint(56f, colors.primary, Typeface.create(Typeface.DEFAULT, Typeface.BOLD))
-        canvas.drawText("OTA Pulse", titleX, cy - 6f, titlePaint)
+        canvas.drawText(context.getString(R.string.card_gen_app_title), titleX, cy - 6f, titlePaint)
         val subtitlePaint = textPaint(32f, colors.onSurfaceVariant)
-        canvas.drawText("Update Alert", titleX, cy + 40f, subtitlePaint)
+        canvas.drawText(context.getString(R.string.card_gen_update_alert), titleX, cy + 40f, subtitlePaint)
 
         // --- Top Right Header Pills (Region & Watermark) ---
         val hasRegion = !data.regionName.isNullOrBlank()

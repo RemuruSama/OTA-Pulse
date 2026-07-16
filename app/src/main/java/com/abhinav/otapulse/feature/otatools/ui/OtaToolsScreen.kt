@@ -222,8 +222,8 @@ fun OtaToolsScreen(
             // Tool 5: Active Downloads
             item {
                 ToolCard(
-                    title = "Active Downloads",
-                    description = "Monitor live OTA package downloads, speed charts, pause/resume queues, and verify MD5 checksums.",
+                    title = stringResource(R.string.tools_active_downloads_title),
+                    description = stringResource(R.string.tools_active_downloads_desc),
                     icon = Icons.Rounded.Download,
                     accentColor = MaterialTheme.colorScheme.secondary,
                     onClick = {
@@ -236,8 +236,8 @@ fun OtaToolsScreen(
             // Tool 6: Update History
             item {
                 ToolCard(
-                    title = "Update History",
-                    description = "Browse chronological logs of queried and downloaded firmware updates, search across models, or export JSON.",
+                    title = stringResource(R.string.tools_update_history_title),
+                    description = stringResource(R.string.tools_update_history_desc),
                     icon = Icons.Rounded.History,
                     accentColor = MaterialTheme.colorScheme.tertiary,
                     onClick = {

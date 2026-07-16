@@ -419,7 +419,7 @@ fun ArbCheckerScreen(
                                     ) {
                                         Icon(
                                             imageVector = Icons.Rounded.Close,
-                                            contentDescription = "Remove file",
+                                            contentDescription = stringResource(R.string.arb_remove_file_cd),
                                             tint = MaterialTheme.colorScheme.onSurfaceVariant
                                         )
                                     }
@@ -533,13 +533,13 @@ fun ArbCheckerScreen(
                                     modifier = Modifier.padding(14.dp),
                                     verticalArrangement = Arrangement.spacedBy(6.dp)
                                 ) {
-                                    Text("ARB Index: ${result.arbInfo.arbIndex}", style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold))
-                                    Text("Firmware Version: ${result.arbInfo.major}.${result.arbInfo.minor}", style = MaterialTheme.typography.bodySmall)
+                                    Text(stringResource(R.string.arb_index_label, result.arbInfo.arbIndex), style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold))
+                                    Text(stringResource(R.string.arb_firmware_ver_label, result.arbInfo.major, result.arbInfo.minor), style = MaterialTheme.typography.bodySmall)
                                     if (!result.arbInfo.deviceName.isNullOrBlank()) {
-                                        Text("Target Device: ${result.arbInfo.deviceName}", style = MaterialTheme.typography.bodySmall)
+                                        Text(stringResource(R.string.arb_target_dev_label, result.arbInfo.deviceName), style = MaterialTheme.typography.bodySmall)
                                     }
                                     if (!result.arbInfo.status.isNullOrBlank()) {
-                                        Text("Status Details: ${result.arbInfo.status}", style = MaterialTheme.typography.bodySmall)
+                                        Text(stringResource(R.string.arb_status_details_label, result.arbInfo.status), style = MaterialTheme.typography.bodySmall)
                                     }
                                 }
                             }

@@ -16,6 +16,8 @@
 
 package com.abhinav.otapulse.app
 
+import com.abhinav.otapulse.R
+
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -96,6 +98,7 @@ import com.abhinav.otapulse.feature.settings.AppUpdateRepository
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 
 @Composable
 fun OtaPulseApp(
@@ -200,7 +203,7 @@ fun OtaPulseApp(
                                     }
                                 }
                             ) {
-                                Icon(Icons.Rounded.Download, contentDescription = "Downloads")
+                                Icon(Icons.Rounded.Download, contentDescription = stringResource(R.string.tools_active_downloads_title))
                             }
                         }
                     }
@@ -315,14 +318,14 @@ private fun OtaPulseBottomBar(
                         if (item.iconRes != null) {
                             Icon(
                                 painter = painterResource(id = item.iconRes),
-                                contentDescription = item.label,
+                                contentDescription = stringResource(id = item.labelRes),
                                 tint = iconColor,
                                 modifier = Modifier.size(24.dp)
                             )
                         } else {
                             Icon(
                                 imageVector = if (selected) item.selectedIcon else item.icon,
-                                contentDescription = item.label,
+                                contentDescription = stringResource(id = item.labelRes),
                                 tint = iconColor,
                                 modifier = Modifier.size(24.dp)
                             )

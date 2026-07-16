@@ -41,6 +41,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.abhinav.otapulse.R
+import androidx.compose.ui.res.stringResource
 
 /**
  * A standard OutlinedTextField for OTA Pulse with 12dp rounded corners.
@@ -81,7 +82,7 @@ fun OtaTextField(
                     IconButton(onClick = { onValueChange("") }) {
                         Icon(
                             imageVector = Icons.Rounded.Close,
-                            contentDescription = "Clear",
+                            contentDescription = stringResource(R.string.action_clear),
                             tint = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
@@ -92,12 +93,12 @@ fun OtaTextField(
                         if (!text.isNullOrBlank()) {
                             onValueChange(text)
                         } else {
-                            Toast.makeText(context, "Clipboard empty", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, context.getString(R.string.toast_clipboard_empty), Toast.LENGTH_SHORT).show()
                         }
                     }) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_paste_stroke),
-                            contentDescription = "Paste",
+                            contentDescription = stringResource(R.string.action_paste),
                             tint = MaterialTheme.colorScheme.primary
                         )
                     }

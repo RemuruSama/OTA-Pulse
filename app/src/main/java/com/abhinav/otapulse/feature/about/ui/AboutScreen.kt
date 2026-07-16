@@ -168,7 +168,7 @@ fun AboutScreen(
                 if (lastUpdateResult != null) {
                     onNavigateToAppUpdate(lastUpdateResult)
                 } else {
-                    Toast.makeText(context, "OTA Pulse is up to date!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, context.getString(R.string.about_up_to_date), Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -233,8 +233,8 @@ fun AboutScreen(
                     onCopyVersion = {
                         context.performHapticFeedback()
                         val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                        clipboard.setPrimaryClip(ClipData.newPlainText("Version", currentVersion))
-                        Toast.makeText(context, "Copied version: v$currentVersion", Toast.LENGTH_SHORT).show()
+                        clipboard.setPrimaryClip(ClipData.newPlainText(context.getString(R.string.about_version_label), currentVersion))
+                        Toast.makeText(context, context.getString(R.string.about_copied_version, currentVersion), Toast.LENGTH_SHORT).show()
                     }
                 )
             }
@@ -248,8 +248,8 @@ fun AboutScreen(
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     MinimalBentoCard(
-                        title = "Website",
-                        subtitle = "Official",
+                        title = stringResource(R.string.about_website_title),
+                        subtitle = stringResource(R.string.about_official_sub),
                         icon = Icons.Rounded.Public,
                         tint = MaterialTheme.colorScheme.tertiary,
                         modifier = Modifier.weight(1f),
@@ -258,14 +258,14 @@ fun AboutScreen(
                             try {
                                 context.openExternalBrowser("https://remurusama.github.io/OTA-Pulse/")
                             } catch (e: Exception) {
-                                Toast.makeText(context, "Could not open Website", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, context.getString(R.string.about_err_website), Toast.LENGTH_SHORT).show()
                             }
                         }
                     )
 
                     MinimalBentoCard(
-                        title = "GitHub",
-                        subtitle = "Source",
+                        title = stringResource(R.string.about_github_title),
+                        subtitle = stringResource(R.string.about_source_sub),
                         icon = ImageVector.vectorResource(id = R.drawable.ic_github),
                         tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.weight(1f),
@@ -274,14 +274,14 @@ fun AboutScreen(
                             try {
                                 context.openExternalBrowser("https://github.com/RemuruSama/OTA-Pulse")
                             } catch (e: Exception) {
-                                Toast.makeText(context, "Could not open GitHub", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, context.getString(R.string.about_err_github), Toast.LENGTH_SHORT).show()
                             }
                         }
                     )
 
                     MinimalBentoCard(
-                        title = "Telegram",
-                        subtitle = "Community",
+                        title = stringResource(R.string.about_telegram_title),
+                        subtitle = stringResource(R.string.about_community_sub),
                         icon = Icons.AutoMirrored.Rounded.Send,
                         tint = MaterialTheme.colorScheme.secondary,
                         modifier = Modifier.weight(1f),
@@ -290,7 +290,7 @@ fun AboutScreen(
                             try {
                                 context.openInAppBrowser("https://t.me/abhinav_v1")
                             } catch (e: Exception) {
-                                Toast.makeText(context, "Could not open Telegram", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, context.getString(R.string.about_err_telegram), Toast.LENGTH_SHORT).show()
                             }
                         }
                     )
@@ -305,7 +305,7 @@ fun AboutScreen(
                         try {
                             context.openInAppBrowser("https://t.me/CodeSenseiX")
                         } catch (e: Exception) {
-                            Toast.makeText(context, "Could not open Telegram", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, context.getString(R.string.about_err_telegram), Toast.LENGTH_SHORT).show()
                         }
                     }
                 )
@@ -322,13 +322,13 @@ fun AboutScreen(
                         try {
                             context.openExternalBrowser("https://paypal.me/Abhinavftp?country.x=IN&locale.x=en_GB")
                         } catch (e: Exception) {
-                            Toast.makeText(context, "Could not open PayPal", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, context.getString(R.string.about_err_paypal), Toast.LENGTH_SHORT).show()
                         }
                     },
                     onCopyUpi = {
                         context.performHapticFeedback()
                         val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                        clipboard.setPrimaryClip(ClipData.newPlainText("UPI ID", upiId))
+                        clipboard.setPrimaryClip(ClipData.newPlainText(context.getString(R.string.about_upi_id_label), upiId))
                         Toast.makeText(context, upiCopiedToast, Toast.LENGTH_SHORT).show()
                     }
                 )
@@ -350,7 +350,7 @@ fun AboutScreen(
                         .fillMaxWidth()
                         .clickable {
                             context.performHapticFeedback()
-                            Toast.makeText(context, "OTA Pulse Engine Online 🚀", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, context.getString(R.string.about_engine_online) + " 🚀", Toast.LENGTH_SHORT).show()
                         }
                 )
             }
@@ -420,7 +420,7 @@ private fun MinimalHeroSection(
                     ) {
                         Image(
                             bitmap = appIconBitmap,
-                            contentDescription = "App Icon",
+                            contentDescription = stringResource(R.string.about_app_icon_cd),
                             modifier = Modifier.fillMaxSize()
                         )
                     }

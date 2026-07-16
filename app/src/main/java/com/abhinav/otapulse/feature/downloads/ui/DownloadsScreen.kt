@@ -20,6 +20,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.widget.Toast
+import androidx.compose.ui.res.stringResource
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -180,7 +181,7 @@ fun DownloadsContent(
         contentWindowInsets = androidx.compose.foundation.layout.WindowInsets(0, 0, 0, 0),
         topBar = {
             OtaTopAppBar(
-                title = "Downloads",
+                title = stringResource(R.string.downloads_screen_title),
                 scrollBehavior = scrollBehavior
             )
         },
@@ -196,7 +197,7 @@ fun DownloadsContent(
                 shape = CircleShape,
                 modifier = Modifier.padding(bottom = navBarsBottom + 88.dp)
             ) {
-                Icon(imageVector = Icons.Rounded.Add, contentDescription = "Add Download")
+                Icon(imageVector = Icons.Rounded.Add, contentDescription = stringResource(R.string.downloads_add_cd))
             }
         }
     ) { padding ->
@@ -208,9 +209,9 @@ fun DownloadsContent(
             if (downloads.isEmpty()) {
                 EmptyState(
                     icon = Icons.Rounded.Download,
-                    title = "No Downloads Active",
-                    message = "Queue OTA update downloads or paste a direct payload link to monitor speed and verify MD5 integrity.",
-                    actionLabel = "Add Direct Link",
+                    title = stringResource(R.string.downloads_empty_title),
+                    message = stringResource(R.string.downloads_empty_msg),
+                    actionLabel = stringResource(R.string.downloads_add_direct_link),
                     onAction = {
                         context.performHapticFeedback()
                         showAddDialog = true
@@ -270,7 +271,7 @@ fun DownloadsContent(
                             ) {
                                 Icon(
                                     imageVector = Icons.Rounded.Delete,
-                                    contentDescription = "Delete",
+                                    contentDescription = stringResource(R.string.action_delete),
                                     tint = MaterialTheme.colorScheme.error
                                 )
                             }
@@ -646,7 +647,7 @@ private fun AddDownloadDialog(
     AlertDialog(
         onDismissRequest = onDismiss,
         title = {
-            Text(text = "Add Direct OTA Download", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold))
+            Text(text = stringResource(R.string.downloads_add_direct_title), style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold))
         },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -661,7 +662,7 @@ private fun AddDownloadDialog(
                         urlInput = it
                         errorMessage = null
                     },
-                    label = { Text("OTA URL") },
+                    label = { Text(stringResource(R.string.downloads_ota_url_label)) },
                     placeholder = { Text("https://...") },
                     isError = errorMessage != null,
                     showPaste = true,
@@ -692,7 +693,7 @@ private fun AddDownloadDialog(
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel")
+                Text(stringResource(R.string.action_cancel))
             }
         }
     )
@@ -701,7 +702,7 @@ private fun AddDownloadDialog(
 private fun openDownloadedFile(context: Context, downloadInfo: DownloadInfo) {
     val file = File(downloadInfo.file)
     if (!file.exists()) {
-        Toast.makeText(context, "File not found on storage", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, context.getString(R.string.downloads_file_not_found), Toast.LENGTH_SHORT).show()
         return
     }
     try {

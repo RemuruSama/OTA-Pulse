@@ -184,12 +184,12 @@ fun ManualQueryScreen(
             },
             onCopyLink = { url ->
                 val clipboard = context.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
-                clipboard.setPrimaryClip(android.content.ClipData.newPlainText("OTA URL", url))
+                clipboard.setPrimaryClip(android.content.ClipData.newPlainText(context.getString(R.string.manual_ota_url_label), url))
                 Toast.makeText(context, context.getString(R.string.toast_url_copied), Toast.LENGTH_SHORT).show()
             },
             onViewChangelog = { url ->
                 if (url.isNullOrBlank()) {
-                    Toast.makeText(context, "Changelog unavailable", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, context.getString(R.string.manual_changelog_unavail), Toast.LENGTH_SHORT).show()
                 } else {
                     context.startActivity(InAppBrowserActivity.createIntent(context, url, "Changelog"))
                 }
@@ -243,7 +243,7 @@ fun ManualQueryScreen(
             confirmButton = {
                 ApplyDialogBlurEffect()
                 TextButton(onClick = { showInfoDialog = false }) {
-                    Text("Got it", style = MaterialTheme.typography.labelLarge)
+                    Text(stringResource(R.string.manual_got_it_btn), style = MaterialTheme.typography.labelLarge)
                 }
             },
             icon = {
@@ -273,25 +273,25 @@ fun ManualQueryScreen(
                     }
                     item {
                         InfoDetailRow(
-                            title = "Auto-Fill",
+                            title = stringResource(R.string.manual_autofill_title),
                             desc = "Automatically detects and populates your device's Product Model, NV Identifier, and active OTA branch instantly."
                         )
                     }
                     item {
                         InfoDetailRow(
-                            title = "Query Now",
+                            title = stringResource(R.string.manual_query_now_title),
                             desc = "Performs a single targeted update check using your exact entered parameters on the selected regional server."
                         )
                     }
                     item {
                         InfoDetailRow(
-                            title = "Multi-Server",
+                            title = stringResource(R.string.manual_multiserver_title),
                             desc = "Concurrently searches all 4 global server endpoints (Global, China, India, and Europe) to detect active updates across regions."
                         )
                     }
                     item {
                         InfoDetailRow(
-                            title = "Full Scan",
+                            title = stringResource(R.string.manual_fullscan_title),
                             desc = "Exhaustively sweeps across all 5 branch prefix letters (A, C, F, H, J), all 4 server endpoints, AND all 4 request modes (manual, server_auto, client_auto, taste) — 80 total checks — to uncover any hidden or staged OTA builds."
                         )
                     }
@@ -306,31 +306,31 @@ fun ManualQueryScreen(
                     }
                     item {
                         InfoDetailRow(
-                            title = "OS Major Version",
+                            title = stringResource(R.string.manual_os_major_title),
                             desc = "Target Realme UI version (RUI 2 to 7) or ColorOS API level (24 to 35)."
                         )
                     }
                     item {
                         InfoDetailRow(
-                            title = "Target Region Code",
+                            title = stringResource(R.string.manual_target_region_title),
                             desc = "Regional target payload filter: GLO (Global), EU (Europe/EEA), IN (India), CN (China), RU (Russia)."
                         )
                     }
                     item {
                         InfoDetailRow(
-                            title = "Branch Prefix Letter",
+                            title = stringResource(R.string.manual_branch_prefix_title),
                             desc = "First letter of the target OTA version string. 'A' is standard OTA, 'C' is ColorOS/RUI crossover, 'F' is carrier/factory build."
                         )
                     }
                     item {
                         InfoDetailRow(
-                            title = "OTA Server Endpoint",
+                            title = stringResource(R.string.manual_endpoint_title),
                             desc = "The regional server host queried: GL (otafs.coloros.com/otaupdater), CN, IN, or EU."
                         )
                     }
                     item {
                         InfoDetailRow(
-                            title = "NV Identifier & Advanced Overrides",
+                            title = stringResource(R.string.manual_nv_id_title),
                             desc = "Oppo/Realme NV carrier ID (ro.build.oplus_nv_id) override. When set, overrides default regional checks (101 for GLO/IN, 01000100 for CN, 10000100 for EU)."
                         )
                     }
@@ -368,7 +368,7 @@ fun ManualQueryScreen(
                     }) {
                         Icon(
                             imageVector = Icons.Rounded.Info,
-                            contentDescription = "Manual Query Guide & Details",
+                            contentDescription = stringResource(R.string.manual_guide_cd),
                             tint = MaterialTheme.colorScheme.primary
                         )
                     }
@@ -450,7 +450,7 @@ fun ManualQueryScreen(
                         verticalArrangement = Arrangement.spacedBy(14.dp)
                     ) {
                         SectionHeader(
-                            title = "Hardware Identification",
+                            title = stringResource(R.string.manual_hw_id_title),
                             icon = Icons.Rounded.Smartphone
                         )
 
@@ -458,7 +458,7 @@ fun ManualQueryScreen(
                             value = productModel,
                             onValueChange = { productModel = it },
                             label = { Text(stringResource(R.string.product_model_label)) },
-                            placeholder = { Text("e.g. RMX3840") },
+                            placeholder = { Text(stringResource(R.string.manual_model_placeholder)) },
                             colors = OutlinedTextFieldDefaults.colors(
                                 focusedBorderColor = MaterialTheme.colorScheme.primary,
                                 unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant
@@ -470,7 +470,7 @@ fun ManualQueryScreen(
                             value = productName,
                             onValueChange = { productName = it },
                             label = { Text(stringResource(R.string.product_name_label)) },
-                            placeholder = { Text("e.g. RMX3840IN") },
+                            placeholder = { Text(stringResource(R.string.manual_region_placeholder)) },
                             colors = OutlinedTextFieldDefaults.colors(
                                 focusedBorderColor = MaterialTheme.colorScheme.primary,
                                 unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant
@@ -494,7 +494,7 @@ fun ManualQueryScreen(
                         verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
                         SectionHeader(
-                            title = "Target Region Code",
+                            title = stringResource(R.string.manual_target_region_title),
                             icon = Icons.Rounded.Public
                         )
                         Row(
@@ -518,7 +518,7 @@ fun ManualQueryScreen(
                         }
 
                         SectionHeader(
-                            title = "Branch Prefix Letter",
+                            title = stringResource(R.string.manual_branch_prefix_title),
                             icon = Icons.Rounded.Info
                         )
                         Row(
@@ -538,7 +538,7 @@ fun ManualQueryScreen(
                         }
 
                         SectionHeader(
-                            title = "OTA Server Endpoint",
+                            title = stringResource(R.string.manual_endpoint_title),
                             icon = Icons.Rounded.Dns
                         )
                         Row(
@@ -558,7 +558,7 @@ fun ManualQueryScreen(
                         }
 
                         SectionHeader(
-                            title = "Request Mode",
+                            title = stringResource(R.string.manual_req_mode_title),
                             icon = Icons.Rounded.Tune
                         )
                         Row(
@@ -578,7 +578,7 @@ fun ManualQueryScreen(
                         }
 
                         SectionHeader(
-                            title = "Gray Release Channel",
+                            title = stringResource(R.string.manual_gray_channel_title),
                             icon = Icons.Rounded.Info
                         )
                         Row(
@@ -670,14 +670,14 @@ fun ManualQueryScreen(
                                 OtaTextField(
                                     value = nvId,
                                     onValueChange = { nvId = it },
-                                    label = { Text("NV ID / Carrier Variant") },
-                                    placeholder = { Text("e.g. 00011011") }
+                                    label = { Text(stringResource(R.string.manual_nv_carrier_label)) },
+                                    placeholder = { Text(stringResource(R.string.manual_nv_placeholder)) }
                                 )
 
                                 OtaTextField(
                                     value = imei,
                                     onValueChange = { imei = it },
-                                    label = { Text("IMEI Identifier Override") },
+                                    label = { Text(stringResource(R.string.manual_imei_override_label)) },
                                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                                 )
 
@@ -716,7 +716,7 @@ fun ManualQueryScreen(
                                     }
                                 }
 
-                                Text("Language Code", style = MaterialTheme.typography.labelMedium)
+                                Text(stringResource(R.string.manual_lang_code_label), style = MaterialTheme.typography.labelMedium)
                                 Row(
                                     modifier = Modifier.horizontalScroll(rememberScrollState()),
                                     horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -793,7 +793,7 @@ fun ManualQueryScreen(
                             onClick = {
                                 context.performHapticFeedback()
                                 if (productModel.isBlank()) {
-                                    Toast.makeText(context, "Please enter a Product Model", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(context, context.getString(R.string.manual_err_no_model), Toast.LENGTH_SHORT).show()
                                     return@OtaPrimaryButton
                                 }
                                 viewModel.sendRequest(
@@ -883,7 +883,7 @@ fun ManualQueryScreen(
             if (uiState.isLoading) {
                 item {
                     LoadingState(
-                        message = "Querying OTA servers across target channels...",
+                        message = stringResource(R.string.manual_querying_msg),
                         modifier = Modifier.padding(vertical = 32.dp)
                     )
                 }
@@ -1044,7 +1044,7 @@ private fun QueryOtaResultCard(
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                     Icon(
                         imageVector = Icons.Rounded.Android,
-                        contentDescription = "Android OS",
+                        contentDescription = stringResource(R.string.manual_android_os_cd),
                         tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.size(16.dp)
                     )
@@ -1064,7 +1064,7 @@ private fun QueryOtaResultCard(
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                     Icon(
                         imageVector = Icons.Rounded.VerifiedUser,
-                        contentDescription = "ARB Status",
+                        contentDescription = stringResource(R.string.manual_arb_status_cd),
                         tint = arbColor,
                         modifier = Modifier.size(16.dp)
                     )
@@ -1081,7 +1081,7 @@ private fun QueryOtaResultCard(
                 onClick = {
                     context.performHapticFeedback()
                     clipboardManager.setText(AnnotatedString(ota.downloadUrl))
-                    Toast.makeText(context, "Download URL copied to clipboard!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, context.getString(R.string.manual_url_copied_toast), Toast.LENGTH_SHORT).show()
                 },
                 color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.45f),
                 shape = RoundedCornerShape(10.dp),
@@ -1101,7 +1101,7 @@ private fun QueryOtaResultCard(
                     ) {
                         Icon(
                             imageVector = Icons.Rounded.Link,
-                            contentDescription = "URL",
+                            contentDescription = stringResource(R.string.manual_url_cd),
                             tint = MaterialTheme.colorScheme.primary,
                             modifier = Modifier.size(14.dp)
                         )
@@ -1117,7 +1117,7 @@ private fun QueryOtaResultCard(
                     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                         Icon(
                             imageVector = Icons.Rounded.ContentCopy,
-                            contentDescription = "Copy URL",
+                            contentDescription = stringResource(R.string.manual_copy_url_cd),
                             tint = MaterialTheme.colorScheme.primary,
                             modifier = Modifier.size(13.dp)
                         )
@@ -1137,7 +1137,7 @@ private fun QueryOtaResultCard(
                     icon = Icons.Rounded.Download,
                     onClick = {
                         viewModel.startDownload(ota, productModel, region)
-                        Toast.makeText(context, "Download queued", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, context.getString(R.string.manual_download_queued), Toast.LENGTH_SHORT).show()
                     },
                     modifier = Modifier.weight(1f).height(42.dp),
                     compact = true

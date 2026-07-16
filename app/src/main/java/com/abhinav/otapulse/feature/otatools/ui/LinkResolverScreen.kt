@@ -329,7 +329,7 @@ fun LinkResolverScreen(
                                     onClick = {
                                         context.performHapticFeedback()
                                         val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                                        clipboard.setPrimaryClip(ClipData.newPlainText("Resolved OTA Link", result.resolvedUrl))
+                                        clipboard.setPrimaryClip(ClipData.newPlainText(context.getString(R.string.tools_link_resolver_title), result.resolvedUrl))
                                         Toast.makeText(context, context.getString(R.string.toast_resolved_link_copied), Toast.LENGTH_SHORT).show()
                                     },
                                     modifier = Modifier.weight(1f)

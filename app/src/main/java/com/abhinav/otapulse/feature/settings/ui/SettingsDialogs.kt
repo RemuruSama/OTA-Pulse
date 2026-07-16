@@ -73,6 +73,7 @@ import com.abhinav.otapulse.core.ui.components.OtaOutlinedButton
 import com.abhinav.otapulse.core.ui.components.OtaPrimaryButton
 import com.abhinav.otapulse.core.ui.components.OtaTonalButton
 import com.abhinav.otapulse.core.ui.theme.OtaPulseTheme
+import androidx.compose.ui.res.stringResource
 
 @Composable
 fun LanguageSelectionDialog(
@@ -377,16 +378,16 @@ fun ContributorsDialog(onDismiss: () -> Unit) {
     AlertDialog(
         onDismissRequest = onDismiss,
         icon = { Icon(Icons.Rounded.Groups, contentDescription = null, modifier = Modifier.size(40.dp), tint = MaterialTheme.colorScheme.secondary) },
-        title = { Text(text = "Contributors") },
+        title = { Text(text = stringResource(R.string.settings_contributors_label)) },
         text = {
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = "Open Source Community", style = MaterialTheme.typography.titleMedium)
+                Text(text = stringResource(R.string.settings_open_source_sub), style = MaterialTheme.typography.titleMedium)
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "Special thanks to all contributors who helped build, translate, and improve OTA Pulse on GitHub.",
+                    text = stringResource(R.string.settings_special_thanks_msg),
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
@@ -394,7 +395,7 @@ fun ContributorsDialog(onDismiss: () -> Unit) {
         confirmButton = {
             ApplyDialogBlurEffect()
             OtaPrimaryButton(
-                text = "View on GitHub",
+                text = stringResource(R.string.settings_view_github_btn),
                 onClick = {
                     context.openExternalBrowser("https://github.com/RemuruSama/OTA-Pulse")
                     onDismiss()

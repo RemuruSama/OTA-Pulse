@@ -701,7 +701,7 @@ fun PartitionExtractionScreen(
                                     ) {
                                         Icon(
                                             imageVector = Icons.Rounded.Close,
-                                            contentDescription = "Remove file",
+                                            contentDescription = stringResource(R.string.partition_remove_file_cd),
                                             tint = MaterialTheme.colorScheme.onSurfaceVariant
                                         )
                                     }

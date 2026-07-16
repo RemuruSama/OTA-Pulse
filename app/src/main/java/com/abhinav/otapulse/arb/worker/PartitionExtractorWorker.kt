@@ -157,7 +157,7 @@ class PartitionExtractorWorker @AssistedInject constructor(
     ): ForegroundInfo {
         val cancelPendingIntent = WorkManager.getInstance(applicationContext)
             .createCancelPendingIntent(id)
-        val title = "Extracting $titleName"
+        val title = applicationContext.getString(R.string.worker_extracting_title, titleName)
         val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
             .setContentTitle(title)
             .setContentText(contentText ?: "$progress%")
@@ -204,7 +204,7 @@ class PartitionExtractorWorker @AssistedInject constructor(
 
         if (partitionNames.size > 1) {
             val namesStr = partitionNames.joinToString(", ")
-            builder.setStyle(NotificationCompat.BigTextStyle().bigText("Extracted: $namesStr"))
+            builder.setStyle(NotificationCompat.BigTextStyle().bigText(applicationContext.getString(R.string.worker_extracted_msg, namesStr)))
         }
 
         val manager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -214,7 +214,7 @@ class PartitionExtractorWorker @AssistedInject constructor(
     private fun showSinglePartitionSuccessNotification(partitionName: String, index: Int) {
         val builder = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
             .setContentTitle("Partition Extracted")
-            .setContentText("$partitionName saved successfully")
+            .setContentText(applicationContext.getString(R.string.worker_saved_success, partitionName))
             .setSmallIcon(R.drawable.ic_download)
             .setAutoCancel(true)
 
@@ -225,7 +225,7 @@ class PartitionExtractorWorker @AssistedInject constructor(
     private fun showErrorNotification(titleName: String) {
         val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
             .setContentTitle("Extraction Failed")
-            .setContentText("Failed to extract $titleName")
+            .setContentText(applicationContext.getString(R.string.worker_failed_extract, titleName))
             .setSmallIcon(R.drawable.ic_download)
             .setAutoCancel(true)
             .build()
@@ -237,7 +237,7 @@ class PartitionExtractorWorker @AssistedInject constructor(
     private fun showCancelledNotification(titleName: String) {
         val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
             .setContentTitle("Extraction Cancelled")
-            .setContentText("$titleName extraction was cancelled")
+            .setContentText(applicationContext.getString(R.string.worker_extraction_cancelled, titleName))
             .setSmallIcon(R.drawable.ic_cancel_circle)
             .setAutoCancel(true)
             .build()

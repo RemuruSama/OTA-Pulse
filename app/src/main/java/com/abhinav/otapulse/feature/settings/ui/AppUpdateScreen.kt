@@ -16,6 +16,7 @@
 
 package com.abhinav.otapulse.feature.settings.ui
 
+import com.abhinav.otapulse.R
 import android.content.Context
 import android.content.Intent
 import android.os.Environment
@@ -85,6 +86,7 @@ import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import java.io.File
 import java.net.URLDecoder
+import androidx.compose.ui.res.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -136,7 +138,7 @@ fun AppUpdateScreen(
         contentWindowInsets = androidx.compose.foundation.layout.WindowInsets(0, 0, 0, 0),
         topBar = {
             OtaTopAppBar(
-                title = "App Update",
+                title = stringResource(R.string.app_update_title),
                 scrollBehavior = scrollBehavior,
                 navigationIcon = {
                     IconButton(onClick = {
@@ -145,7 +147,7 @@ fun AppUpdateScreen(
                     }) {
                         Icon(
                             imageVector = Icons.Rounded.ArrowBack,
-                            contentDescription = "Back",
+                            contentDescription = stringResource(R.string.app_update_back_cd),
                             tint = MaterialTheme.colorScheme.onSurface
                         )
                     }
@@ -224,7 +226,7 @@ fun AppUpdateScreen(
                                     url = info.downloadUrl
                                     changelog = info.changelog
                                 } else {
-                                    Toast.makeText(context, "No newer updates found on GitHub", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(context, context.getString(R.string.app_update_no_newer), Toast.LENGTH_SHORT).show()
                                 }
                             }
                         },
@@ -378,7 +380,7 @@ fun AppUpdateScreen(
                                             try {
                                                 context.openExternalBrowser(url)
                                             } catch (e: Exception) {
-                                                Toast.makeText(context, "Could not open browser", Toast.LENGTH_SHORT).show()
+                                                Toast.makeText(context, context.getString(R.string.app_update_err_browser), Toast.LENGTH_SHORT).show()
                                             }
                                         },
                                         modifier = Modifier.fillMaxWidth()
@@ -458,6 +460,6 @@ private fun installApk(context: Context, apkFile: File) {
         context.startActivity(intent)
     } catch (e: Exception) {
         Log.e("AppUpdateScreen", "Failed to start install intent", e)
-        Toast.makeText(context, "Failed to install update", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, context.getString(R.string.app_update_err_install), Toast.LENGTH_SHORT).show()
     }
 }

@@ -16,6 +16,8 @@
 
 package com.abhinav.otapulse.core.ui.theme
 
+import com.abhinav.otapulse.R
+
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme

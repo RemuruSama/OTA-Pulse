@@ -1,5 +1,7 @@
 package com.abhinav.otapulse.core.download
 
+import com.abhinav.otapulse.R
+
 import android.app.Service
 import android.content.Context
 import android.content.Intent

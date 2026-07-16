@@ -16,6 +16,8 @@
 
 package com.abhinav.otapulse.core.ui.components
 
+import com.abhinav.otapulse.R
+
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -56,6 +58,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.abhinav.otapulse.core.ui.theme.OtaPulseTheme
+import androidx.compose.ui.res.stringResource
 
 /**
  * A floating capsule search bar component inspired by Google Material 3 / Pixel Launcher design.
@@ -139,7 +142,7 @@ private fun FloatingSearchBarContent(
     ) {
         Icon(
             imageVector = leadingIcon,
-            contentDescription = "Search",
+            contentDescription = stringResource(R.string.search_cd),
             tint = MaterialTheme.colorScheme.primary,
             modifier = Modifier.size(24.dp)
         )
@@ -209,7 +212,7 @@ private fun FloatingSearchBarContent(
             ) {
                 Icon(
                     imageVector = Icons.Rounded.Clear,
-                    contentDescription = "Clear search",
+                    contentDescription = stringResource(R.string.clear_search_cd),
                     tint = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.size(20.dp)
                 )

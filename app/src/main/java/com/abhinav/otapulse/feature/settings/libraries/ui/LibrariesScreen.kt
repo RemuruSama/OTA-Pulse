@@ -121,7 +121,7 @@ fun LibrariesScreen(
                     }) {
                         Icon(
                             imageVector = Icons.Rounded.ArrowBack,
-                            contentDescription = "Back",
+                            contentDescription = stringResource(R.string.libs_back_cd),
                             tint = MaterialTheme.colorScheme.onSurface
                         )
                     }
@@ -156,7 +156,7 @@ fun LibrariesScreen(
                         try {
                             context.openInAppBrowser(library.url, library.name)
                         } catch (e: Exception) {
-                            Toast.makeText(context, "Could not open link", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, context.getString(R.string.libs_err_open_link), Toast.LENGTH_SHORT).show()
                         }
                     }
                 )

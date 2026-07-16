@@ -154,7 +154,7 @@ fun DeviceCatalogScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Rounded.History,
-                            contentDescription = "Update History",
+                            contentDescription = stringResource(R.string.catalog_update_history_cd),
                             tint = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
@@ -252,7 +252,7 @@ fun DeviceCatalogScreen(
                 ) {
                     Icon(
                         imageVector = if (showSearchInput) Icons.Rounded.Clear else Icons.Rounded.Search,
-                        contentDescription = "Search Devices"
+                        contentDescription = stringResource(R.string.catalog_search_devices_cd)
                     )
                 }
 
@@ -267,7 +267,7 @@ fun DeviceCatalogScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Rounded.Add,
-                        contentDescription = "Add Custom Device"
+                        contentDescription = stringResource(R.string.catalog_add_custom_dev_cd)
                     )
                 }
             }
@@ -290,7 +290,7 @@ fun DeviceCatalogScreen(
                 when {
                     uiState.isLoading && uiState.devices.isEmpty() -> {
                         LoadingState(
-                            message = "Syncing device catalog...",
+                            message = stringResource(R.string.catalog_syncing_msg),
                             modifier = Modifier.align(Alignment.Center)
                         )
                     }
@@ -304,8 +304,8 @@ fun DeviceCatalogScreen(
                     uiState.devices.isEmpty() -> {
                         EmptyState(
                             icon = Icons.Rounded.PhoneAndroid,
-                            title = "No Devices Found",
-                            message = "Try adjusting your search query or brand filter.",
+                            title = stringResource(R.string.catalog_no_devices_title),
+                            message = stringResource(R.string.catalog_no_devices_msg),
                             modifier = Modifier.align(Alignment.Center)
                         )
                     }
@@ -346,17 +346,17 @@ fun DeviceCatalogScreen(
             onDismiss = { viewModel.clearOtaDetailsDialog() },
             onDownload = { selected ->
                 viewModel.startDownload(selected, dialogData.deviceName, dialogData.regionName)
-                Toast.makeText(context, "Download started", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.catalog_download_started), Toast.LENGTH_SHORT).show()
                 viewModel.clearOtaDetailsDialog()
             },
             onCopyLink = { url ->
                 val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                clipboard.setPrimaryClip(ClipData.newPlainText("OTA URL", url))
+                clipboard.setPrimaryClip(ClipData.newPlainText(context.getString(R.string.catalog_ota_url_label), url))
                 Toast.makeText(context, context.getString(R.string.toast_link_copied), Toast.LENGTH_SHORT).show()
             },
             onViewChangelog = { url ->
                 if (url.isNullOrBlank()) {
-                    Toast.makeText(context, "Changelog unavailable", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, context.getString(R.string.catalog_changelog_unavail), Toast.LENGTH_SHORT).show()
                 } else {
                     context.startActivity(InAppBrowserActivity.createIntent(context, url, "Changelog"))
                 }
@@ -424,7 +424,7 @@ fun DeviceCatalogScreen(
                     context.performHapticFeedback()
                     viewModel.confirmOverwriteDownload()
                 }) {
-                    Text("Overwrite", color = MaterialTheme.colorScheme.error, fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.catalog_overwrite_label), color = MaterialTheme.colorScheme.error, fontWeight = FontWeight.Bold)
                 }
             },
             dismissButton = {
@@ -432,7 +432,7 @@ fun DeviceCatalogScreen(
                     context.performHapticFeedback()
                     viewModel.cancelPendingDownload()
                 }) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.action_cancel))
                 }
             },
             shape = MaterialTheme.shapes.extraLarge,
@@ -539,7 +539,7 @@ private fun DeviceItemCard(
                     ) {
                         Icon(
                             imageVector = if (device.isFavorite) Icons.Rounded.Favorite else Icons.Rounded.FavoriteBorder,
-                            contentDescription = "Toggle Favorite",
+                            contentDescription = stringResource(R.string.catalog_toggle_fav_cd),
                             tint = if (device.isFavorite) Color(0xFFE91E63) else MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.size(20.dp)
                         )
@@ -556,7 +556,7 @@ private fun DeviceItemCard(
                             ) {
                                 Icon(
                                     imageVector = Icons.Rounded.MoreVert,
-                                    contentDescription = "More Options",
+                                    contentDescription = stringResource(R.string.history_more_options_cd),
                                     tint = MaterialTheme.colorScheme.onSurfaceVariant,
                                     modifier = Modifier.size(20.dp)
                                 )
@@ -567,7 +567,7 @@ private fun DeviceItemCard(
                                 onDismissRequest = { showMenu = false }
                             ) {
                                 DropdownMenuItem(
-                                    text = { Text("Edit Device") },
+                                    text = { Text(stringResource(R.string.catalog_edit_device_btn)) },
                                     leadingIcon = { Icon(Icons.Rounded.Edit, contentDescription = null) },
                                     onClick = {
                                         showMenu = false
@@ -575,7 +575,7 @@ private fun DeviceItemCard(
                                     }
                                 )
                                 DropdownMenuItem(
-                                    text = { Text("Delete", color = MaterialTheme.colorScheme.error) },
+                                    text = { Text(stringResource(R.string.action_delete), color = MaterialTheme.colorScheme.error) },
                                     leadingIcon = { Icon(Icons.Rounded.Delete, contentDescription = null, tint = MaterialTheme.colorScheme.error) },
                                     onClick = {
                                         showMenu = false

@@ -18,6 +18,7 @@ package com.abhinav.otapulse.feature.history.ui
 
 import android.net.Uri
 import android.widget.Toast
+import androidx.compose.ui.res.stringResource
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
@@ -119,14 +120,14 @@ fun HistoryScreen(
                     val list: List<OtaHistoryEntry> = Gson().fromJson(json, type) ?: emptyList()
                     if (list.isNotEmpty()) {
                         historyViewModel.importHistory(list)
-                        Toast.makeText(context, "Imported ${list.size} history records!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, context.getString(R.string.history_imported_count, list.size), Toast.LENGTH_SHORT).show()
                     } else {
-                        Toast.makeText(context, "No records found in file.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, context.getString(R.string.history_no_records_in_file), Toast.LENGTH_SHORT).show()
                     }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                Toast.makeText(context, "Failed to import history JSON.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.history_import_failed), Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -138,10 +139,10 @@ fun HistoryScreen(
                 context.contentResolver.openOutputStream(it)?.use { stream ->
                     stream.write(json.toByteArray())
                 }
-                Toast.makeText(context, "History exported successfully!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.history_exported_success), Toast.LENGTH_SHORT).show()
             } catch (e: Exception) {
                 e.printStackTrace()
-                Toast.makeText(context, "Failed to export history.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.history_export_failed), Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -149,22 +150,22 @@ fun HistoryScreen(
     if (showClearDialog) {
         AlertDialog(
             onDismissRequest = { showClearDialog = false },
-            title = { Text("Clear OTA History", fontWeight = FontWeight.Bold) },
-            text = { Text("Are you sure you want to clear all logged OTA update queries and records? This action cannot be undone.") },
+            title = { Text(stringResource(R.string.history_clear_all), fontWeight = FontWeight.Bold) },
+            text = { Text(stringResource(R.string.history_empty_msg)) },
             confirmButton = {
                 ApplyDialogBlurEffect()
                 OtaPrimaryButton(
-                    text = "Clear All",
+                    text = stringResource(R.string.history_clear_all),
                     onClick = {
                         historyViewModel.clearHistory(null)
                         showClearDialog = false
-                        Toast.makeText(context, "History cleared", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, context.getString(R.string.history_cleared_toast), Toast.LENGTH_SHORT).show()
                     }
                 )
             },
             dismissButton = {
                 TextButton(onClick = { showClearDialog = false }) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.action_cancel))
                 }
             }
         )
@@ -191,7 +192,7 @@ fun HistoryScreen(
         contentWindowInsets = androidx.compose.foundation.layout.WindowInsets(0, 0, 0, 0),
         topBar = {
             OtaTopAppBar(
-                title = "Update History",
+                title = stringResource(R.string.history_screen_title),
                 scrollBehavior = scrollBehavior,
                 actions = {
                     if (historyList.isNotEmpty()) {
@@ -200,7 +201,7 @@ fun HistoryScreen(
                             color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.6f)
                         ) {
                             Text(
-                                text = "${historyList.size} records",
+                                text = stringResource(R.string.history_records_count, historyList.size),
                                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                                 color = MaterialTheme.colorScheme.onPrimaryContainer,
                                 modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
@@ -214,14 +215,14 @@ fun HistoryScreen(
                             context.performHapticFeedback()
                             showMenu = true
                         }) {
-                            Icon(imageVector = Icons.Rounded.MoreVert, contentDescription = "More Options")
+                            Icon(imageVector = Icons.Rounded.MoreVert, contentDescription = stringResource(R.string.history_more_options_cd))
                         }
                         DropdownMenu(
                             expanded = showMenu,
                             onDismissRequest = { showMenu = false }
                         ) {
                             DropdownMenuItem(
-                                text = { Text("Import JSON") },
+                                text = { Text(stringResource(R.string.history_import_json)) },
                                 leadingIcon = { Icon(Icons.Rounded.FileUpload, contentDescription = null) },
                                 onClick = {
                                     showMenu = false
@@ -229,12 +230,12 @@ fun HistoryScreen(
                                 }
                             )
                             DropdownMenuItem(
-                                text = { Text("Export JSON") },
+                                text = { Text(stringResource(R.string.history_export_json)) },
                                 leadingIcon = { Icon(Icons.Rounded.FileDownload, contentDescription = null) },
                                 onClick = {
                                     showMenu = false
                                     if (historyList.isEmpty()) {
-                                        Toast.makeText(context, "No records to export", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(context, context.getString(R.string.history_no_records_export), Toast.LENGTH_SHORT).show()
                                     } else {
                                         exportLauncher.launch("ota_pulse_history.json")
                                     }
@@ -242,7 +243,7 @@ fun HistoryScreen(
                             )
                             if (historyList.isNotEmpty()) {
                                 DropdownMenuItem(
-                                    text = { Text("Clear All", color = MaterialTheme.colorScheme.error) },
+                                    text = { Text(stringResource(R.string.history_clear_all), color = MaterialTheme.colorScheme.error) },
                                     leadingIcon = { Icon(Icons.Rounded.DeleteForever, contentDescription = null, tint = MaterialTheme.colorScheme.error) },
                                     onClick = {
                                         showMenu = false
@@ -265,7 +266,7 @@ fun HistoryScreen(
                 FloatingSearchBar(
                     query = searchQuery,
                     onQueryChange = { searchQuery = it },
-                    placeholder = "Search by device, region or build version...",
+                    placeholder = stringResource(R.string.history_search_placeholder),
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
                 )
             }
@@ -274,9 +275,9 @@ fun HistoryScreen(
                 if (historyList.isEmpty()) {
                     EmptyState(
                         icon = Icons.Rounded.History,
-                        title = "No History Logged",
-                        message = "Whenever you query for OTA updates across devices, your results and lookup timestamps will appear here.",
-                        actionLabel = "Import JSON History",
+                        title = stringResource(R.string.history_empty_title),
+                        message = stringResource(R.string.history_empty_msg),
+                        actionLabel = stringResource(R.string.history_import_json),
                         onAction = {
                             context.performHapticFeedback()
                             importLauncher.launch(arrayOf("application/json"))
@@ -286,9 +287,9 @@ fun HistoryScreen(
                 } else if (filteredList.isEmpty()) {
                     EmptyState(
                         icon = Icons.Rounded.Search,
-                        title = "No Matches Found",
-                        message = "No history records match '$searchQuery'. Try checking your spelling or search terms.",
-                        actionLabel = "Reset Search",
+                        title = stringResource(R.string.history_no_matches_title),
+                        message = stringResource(R.string.history_no_matches_msg, searchQuery),
+                        actionLabel = stringResource(R.string.history_reset_search),
                         onAction = { searchQuery = "" },
                         modifier = Modifier.align(Alignment.Center)
                     )
@@ -324,17 +325,17 @@ fun HistoryScreen(
             onDismiss = { devicesViewModel.clearOtaDetailsDialog() },
             onDownload = { selected ->
                 devicesViewModel.startDownload(selected, dialogData.deviceName, dialogData.regionName)
-                Toast.makeText(context, "Download started", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.history_download_started), Toast.LENGTH_SHORT).show()
                 devicesViewModel.clearOtaDetailsDialog()
             },
             onCopyLink = { url ->
                 val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                clipboard.setPrimaryClip(ClipData.newPlainText("OTA URL", url))
+                clipboard.setPrimaryClip(ClipData.newPlainText(context.getString(R.string.history_ota_url_label), url))
                 Toast.makeText(context, context.getString(R.string.toast_link_copied), Toast.LENGTH_SHORT).show()
             },
             onViewChangelog = { url ->
                 if (url.isNullOrBlank()) {
-                    Toast.makeText(context, "Changelog unavailable", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, context.getString(R.string.history_changelog_unavail), Toast.LENGTH_SHORT).show()
                 } else {
                     context.startActivity(InAppBrowserActivity.createIntent(context, url, "Changelog"))
                 }
@@ -458,7 +459,7 @@ private fun HistoryEntryCard(
                             color = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.8f)
                         ) {
                             Text(
-                                text = "Region: ${entry.region}",
+                                text = stringResource(R.string.history_region_label, entry.region),
                                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                                 color = MaterialTheme.colorScheme.onSecondaryContainer,
                                 modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp)
@@ -473,7 +474,7 @@ private fun HistoryEntryCard(
                             color = MaterialTheme.colorScheme.surfaceContainerHighest
                         ) {
                             Text(
-                                text = "Android $androidVer",
+                                text = stringResource(R.string.history_android_ver_label, androidVer),
                                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.SemiBold),
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                                 modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp)
@@ -485,7 +486,7 @@ private fun HistoryEntryCard(
                             color = MaterialTheme.colorScheme.surfaceContainerHighest
                         ) {
                             Text(
-                                text = "Patch: ${entry.otaUpdate.securityPatch}",
+                                text = stringResource(R.string.history_patch_label, entry.otaUpdate.securityPatch),
                                 style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.SemiBold),
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                                 modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp)

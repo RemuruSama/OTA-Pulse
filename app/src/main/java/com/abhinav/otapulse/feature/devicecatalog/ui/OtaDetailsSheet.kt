@@ -442,12 +442,12 @@ fun OtaDetailsSheet(
                 )
                 ActionIconButton(
                     icon = Icons.Rounded.ContentCopy,
-                    contentDescription = "Copy Link",
+                    contentDescription = stringResource(R.string.catalog_copy_link_cd),
                     onClick = { onCopyLink(ota.url) }
                 )
                 ActionIconButton(
                     icon = Icons.Rounded.Share,
-                    contentDescription = "Share",
+                    contentDescription = stringResource(R.string.catalog_share_cd),
                     onClick = { onShare(ota) }
                 )
             }
@@ -534,7 +534,7 @@ fun OtaDetailsSheet(
                             } else if (!isExtracting) {
                                 Icon(
                                     imageVector = Icons.Rounded.KeyboardArrowDown,
-                                    contentDescription = "Select Partition",
+                                    contentDescription = stringResource(R.string.catalog_select_partition_cd),
                                     tint = MaterialTheme.colorScheme.onSurfaceVariant,
                                     modifier = Modifier.size(20.dp)
                                 )
@@ -747,7 +747,7 @@ fun PartitionSelectDialog(
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Default.Search,
-                            contentDescription = "Search",
+                            contentDescription = stringResource(R.string.search_cd),
                             tint = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     },
@@ -756,7 +756,7 @@ fun PartitionSelectDialog(
                             IconButton(onClick = { searchQuery = "" }) {
                                 Icon(
                                     imageVector = Icons.Default.Clear,
-                                    contentDescription = "Clear",
+                                    contentDescription = stringResource(R.string.action_clear),
                                     tint = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
                             }
