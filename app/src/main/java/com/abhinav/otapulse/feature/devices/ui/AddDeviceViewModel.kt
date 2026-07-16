@@ -87,7 +87,7 @@ class AddDeviceViewModel @Inject constructor(
         _uiState.update { it.copy(firmwareGroups = newGroups) }
     }
 
-    fun addVariantToGroup(androidVersion: String, productModel: String, productName: String, selectedRegion: RegionInfo?, versionLetter: String, ruiVersion: Int, reqMode: String, gray: Int, server: String) {
+    fun addVariantToGroup(androidVersion: String, productModel: String, productName: String, selectedRegion: RegionInfo?, versionLetter: String, reqMode: String, gray: Int, server: String) {
         if (productName.isBlank() || productModel.isBlank() || versionLetter.isBlank()) {
             _uiState.update { it.copy(errorMessage = "All variant fields are required.") }
             return
@@ -127,8 +127,7 @@ class AddDeviceViewModel @Inject constructor(
         newGroups[androidVersion] = variantsForGroup
         _uiState.update {
             it.copy(
-                firmwareGroups = newGroups,
-                ruiVersion = ruiVersion
+                firmwareGroups = newGroups
             )
         }
     }
@@ -141,7 +140,7 @@ class AddDeviceViewModel @Inject constructor(
         _uiState.update { it.copy(firmwareGroups = newGroups) }
     }
 
-    fun saveDevice(name: String, ruiVersion: Int) {
+    fun saveDevice(name: String) {
         if (name.isBlank()) {
             _uiState.update { it.copy(errorMessage = "Device Name is required.") }
             return
@@ -155,7 +154,7 @@ class AddDeviceViewModel @Inject constructor(
             try {
                 val newDevice = PredefinedDevice(
                     name = name,
-                    ruiVersion = ruiVersion,
+                    ruiVersion = _uiState.value.ruiVersion,
                     firmwareGroups = _uiState.value.firmwareGroups
                 )
                 

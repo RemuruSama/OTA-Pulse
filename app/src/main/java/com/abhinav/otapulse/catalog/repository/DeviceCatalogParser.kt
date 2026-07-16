@@ -48,7 +48,7 @@ object DeviceCatalogParser {
 
     private fun JsonObject.toPredefinedDeviceOrNull(defaultIsCustom: Boolean): PredefinedDevice? {
         val name = getString("name")?.takeIf { it.isNotBlank() } ?: return null
-        val ruiVersion = getInt("ruiVersion") ?: return null
+        val ruiVersion = getInt("ruiVersion") ?: 6
         val firmwareGroups = getAsJsonObject("firmwareGroups")
             ?.entrySet()
             ?.associate { (groupName, variantsElement) ->

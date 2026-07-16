@@ -53,7 +53,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -92,7 +91,6 @@ fun AddDeviceScreen(
     val focusManager = LocalFocusManager.current
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
-    var selectedRuiVersion by remember(uiState.ruiVersion) { mutableIntStateOf(uiState.ruiVersion) }
     var showAddGroupDialog by remember { mutableStateOf(false) }
     var groupToEdit by remember { mutableStateOf<String?>(null) }
     var groupToDelete by remember { mutableStateOf<String?>(null) }
@@ -154,7 +152,7 @@ fun AddDeviceScreen(
                         onClick = {
                             focusManager.clearFocus()
                             context.performHapticFeedback()
-                            viewModel.saveDevice(uiState.deviceName, selectedRuiVersion)
+                            viewModel.saveDevice(uiState.deviceName)
                         },
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -195,43 +193,6 @@ fun AddDeviceScreen(
                             unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainerLowest
                         )
                     )
-
-                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Text(
-                            text = "Base OS Version (Realme UI / ColorOS)",
-                            style = MaterialTheme.typography.labelMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                        Row(
-                            horizontalArrangement = Arrangement.spacedBy(8.dp),
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            listOf(4 to "RUI 4 / Android 13", 5 to "RUI 5 / Android 14", 6 to "RUI 6 / Android 15").forEach { (version, label) ->
-                                val isSelected = selectedRuiVersion == version
-                                Surface(
-                                    onClick = {
-                                        context.performHapticFeedback()
-                                        selectedRuiVersion = version
-                                    },
-                                    shape = MaterialTheme.shapes.small,
-                                    color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceContainerHighest,
-                                    contentColor = if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant,
-                                    modifier = Modifier.weight(1f)
-                                ) {
-                                    Box(
-                                        modifier = Modifier.padding(vertical = 10.dp),
-                                        contentAlignment = Alignment.Center
-                                    ) {
-                                        Text(
-                                            text = label.split(" / ")[0],
-                                            style = MaterialTheme.typography.labelMedium,
-                                            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
-                                        )
-                                    }
-                                }
-                            }
-                        }
-                    }
                 }
             }
 
@@ -497,7 +458,6 @@ fun AddDeviceScreen(
                     productName = name,
                     selectedRegion = region,
                     versionLetter = letter,
-                    ruiVersion = selectedRuiVersion,
                     reqMode = reqMode,
                     gray = gray,
                     server = server
