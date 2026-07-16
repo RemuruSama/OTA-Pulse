@@ -211,7 +211,7 @@ fun OtaToolsScreen(
                     title = stringResource(R.string.tools_arb_checker_title),
                     description = stringResource(R.string.tools_arb_checker_desc),
                     icon = Icons.Rounded.Security,
-                    accentColor = OtaPulseTheme.extendedColors.arbSafe,
+                    accentColor = MaterialTheme.colorScheme.primary,
                     onClick = {
                         context.performHapticFeedback()
                         onNavigateToArbChecker()
@@ -225,7 +225,7 @@ fun OtaToolsScreen(
                     title = "Active Downloads",
                     description = "Monitor live OTA package downloads, speed charts, pause/resume queues, and verify MD5 checksums.",
                     icon = Icons.Rounded.Download,
-                    accentColor = MaterialTheme.colorScheme.primary,
+                    accentColor = MaterialTheme.colorScheme.secondary,
                     onClick = {
                         context.performHapticFeedback()
                         onNavigateToDownloads()
@@ -239,7 +239,7 @@ fun OtaToolsScreen(
                     title = "Update History",
                     description = "Browse chronological logs of queried and downloaded firmware updates, search across models, or export JSON.",
                     icon = Icons.Rounded.History,
-                    accentColor = MaterialTheme.colorScheme.secondary,
+                    accentColor = MaterialTheme.colorScheme.tertiary,
                     onClick = {
                         context.performHapticFeedback()
                         onNavigateToHistory()

@@ -47,10 +47,23 @@ fun OtaPulseTheme(
 
     val (extendedColors, holoConfig) = when (themeMode) {
         ThemeMode.MATERIAL_YOU -> {
-            val ext = if (darkTheme) {
+            val baseExt = if (darkTheme) {
                 if (amoledDark) DarkExtendedColors.copy(glassPanel = Color.Black.copy(alpha = 0.8f)) else DarkExtendedColors
             } else {
                 LightExtendedColors
+            }
+            val ext = if (paletteStyle == PaletteStyle.Monochrome) {
+                val monoAccent = if (darkTheme) Color(0xFFD8C2BF) else Color(0xFF534341)
+                val monoContainer = if (darkTheme) Color(0xFF332D2C) else Color(0xFFE5DDDC)
+                val monoOnContainer = if (darkTheme) Color(0xFFEDE0DE) else Color(0xFF201A19)
+                baseExt.copy(
+                    arbSafe = monoAccent,
+                    arbWarning = monoAccent,
+                    successContainer = monoContainer,
+                    onSuccessContainer = monoOnContainer
+                )
+            } else {
+                baseExt
             }
             Pair(ext, HolographicConfig(isEnabled = false))
         }

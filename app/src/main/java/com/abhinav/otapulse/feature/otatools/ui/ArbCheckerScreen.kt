@@ -147,7 +147,7 @@ fun ArbCheckerScreen(
                             .background(
                                 Brush.verticalGradient(
                                     colors = listOf(
-                                        OtaPulseTheme.extendedColors.arbSafe.copy(alpha = 0.25f),
+                                        MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f),
                                         Color.Transparent
                                     )
                                 )
@@ -162,13 +162,13 @@ fun ArbCheckerScreen(
                                 modifier = Modifier
                                     .size(48.dp)
                                     .clip(RoundedCornerShape(12.dp))
-                                    .background(OtaPulseTheme.extendedColors.arbSafe.copy(alpha = 0.15f)),
+                                    .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.15f)),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Icon(
                                     imageVector = Icons.Rounded.Security,
                                     contentDescription = null,
-                                    tint = OtaPulseTheme.extendedColors.arbSafe,
+                                    tint = MaterialTheme.colorScheme.primary,
                                     modifier = Modifier.size(26.dp)
                                 )
                             }
@@ -180,7 +180,7 @@ fun ArbCheckerScreen(
                                 verticalArrangement = Arrangement.spacedBy(6.dp)
                             ) {
                                 Surface(
-                                    color = OtaPulseTheme.extendedColors.arbSafe,
+                                    color = MaterialTheme.colorScheme.primary,
                                     shape = RoundedCornerShape(6.dp)
                                 ) {
                                     Text(
@@ -189,7 +189,7 @@ fun ArbCheckerScreen(
                                             fontFamily = FontFamily.Monospace,
                                             fontWeight = FontWeight.Bold
                                         ),
-                                        color = Color.White,
+                                        color = MaterialTheme.colorScheme.onPrimary,
                                         modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
                                     )
                                 }
