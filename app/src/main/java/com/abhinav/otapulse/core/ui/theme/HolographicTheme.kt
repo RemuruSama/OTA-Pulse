@@ -60,19 +60,6 @@ fun holographicEdgeBrush(config: HolographicConfig = HolographicConfig()): Brush
 }
 
 /**
- * Creates a subtle diagonal gradient brush for screen backgrounds in Holographic mode.
- */
-fun holographicBackgroundBrush(): Brush {
-    return Brush.linearGradient(
-        colors = listOf(
-            HoloSurface,
-            Color(0xFF131324),
-            HoloSurface
-        )
-    )
-}
-
-/**
  * Modifier extension to apply a chromatic holographic border if enabled.
  */
 fun Modifier.holographicEdge(

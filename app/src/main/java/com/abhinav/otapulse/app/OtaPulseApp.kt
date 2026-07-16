@@ -82,7 +82,6 @@ import com.abhinav.otapulse.core.ui.theme.OtaPulseTheme
 import com.abhinav.otapulse.core.ui.theme.ThemeMode
 import com.abhinav.otapulse.core.ui.theme.HoloPrimary
 import com.abhinav.otapulse.core.ui.theme.HoloSecondary
-import com.abhinav.otapulse.core.ui.theme.holographicBackgroundBrush
 import com.abhinav.otapulse.core.ui.theme.holographicEdgeBrush
 import com.abhinav.otapulse.core.common.performHapticFeedback
 import com.abhinav.otapulse.navigation.OtaPulseNavGraph
@@ -167,17 +166,10 @@ fun OtaPulseApp(
         seedColor = Color(themeSettings.seedColor),
         paletteStyle = themeSettings.paletteStyle
     ) {
-        val backgroundBrush = if (themeSettings.themeMode == ThemeMode.HOLOGRAPHIC && themeSettings.gradientBackground) {
-            holographicBackgroundBrush()
-        } else null
-
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .then(
-                    if (backgroundBrush != null) Modifier.background(backgroundBrush)
-                    else Modifier.background(MaterialTheme.colorScheme.background)
-                )
+                .background(MaterialTheme.colorScheme.background)
         ) {
             Scaffold(
                 modifier = Modifier.fillMaxSize(),

@@ -54,7 +54,6 @@ import androidx.compose.material.icons.rounded.ChevronRight
 import androidx.compose.material.icons.rounded.ColorLens
 import androidx.compose.material.icons.rounded.DarkMode
 import androidx.compose.material.icons.rounded.Download
-import androidx.compose.material.icons.rounded.Gradient
 import androidx.compose.material.icons.rounded.Language
 import androidx.compose.material.icons.rounded.LightMode
 import androidx.compose.material.icons.rounded.Palette
@@ -131,7 +130,6 @@ fun SettingsScreen(
         onSetNightMode = viewModel::setNightMode,
         onSetAmoledDark = viewModel::setAmoledDark,
         onSetDynamicColor = viewModel::setDynamicColor,
-        onSetGradientBackground = viewModel::setGradientBackground,
         onSetSeedColor = viewModel::setSeedColor,
         onSetPaletteStyle = viewModel::setPaletteStyle,
         onSetAdvancedMode = viewModel::setAdvancedMode,
@@ -160,7 +158,6 @@ fun SettingsContent(
     onSetNightMode: (Int) -> Unit = {},
     onSetAmoledDark: (Boolean) -> Unit = {},
     onSetDynamicColor: (Boolean) -> Unit = {},
-    onSetGradientBackground: (Boolean) -> Unit = {},
     onSetSeedColor: (Long) -> Unit = {},
     onSetPaletteStyle: (PaletteStyle) -> Unit = {},
     onSetAdvancedMode: (Boolean) -> Unit = {},
@@ -220,7 +217,6 @@ fun SettingsContent(
                 onNightModeChanged = onSetNightMode,
                 onAmoledChanged = onSetAmoledDark,
                 onDynamicColorChanged = onSetDynamicColor,
-                onGradientChanged = onSetGradientBackground,
                 onSeedColorChanged = onSetSeedColor,
                 onPaletteStyleChanged = onSetPaletteStyle
             )
@@ -308,7 +304,6 @@ private fun AppearanceSection(
     onNightModeChanged: (Int) -> Unit,
     onAmoledChanged: (Boolean) -> Unit,
     onDynamicColorChanged: (Boolean) -> Unit,
-    onGradientChanged: (Boolean) -> Unit,
     onSeedColorChanged: (Long) -> Unit,
     onPaletteStyleChanged: (PaletteStyle) -> Unit
 ) {
@@ -595,17 +590,6 @@ private fun AppearanceSection(
                             tint = MaterialTheme.colorScheme.primary,
                             checked = themeSettings.dynamicColor,
                             onCheckedChange = onDynamicColorChanged
-                        )
-                    }
-
-                    if (themeSettings.themeMode == ThemeMode.HOLOGRAPHIC) {
-                        EnhancedToggleRow(
-                            title = stringResource(R.string.settings_gradient_bg_title),
-                            subtitle = stringResource(R.string.settings_gradient_bg_desc),
-                            icon = Icons.Rounded.Gradient,
-                            tint = Color(0xFF00E5FF),
-                            checked = themeSettings.gradientBackground,
-                            onCheckedChange = onGradientChanged
                         )
                     }
                 }

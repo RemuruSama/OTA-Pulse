@@ -83,7 +83,6 @@ class SettingsViewModel @Inject constructor(
     fun setNightMode(mode: Int) = themePreferences.setNightMode(mode)
     fun setAmoledDark(enabled: Boolean) = themePreferences.setAmoledDark(enabled)
     fun setDynamicColor(enabled: Boolean) = themePreferences.setDynamicColor(enabled)
-    fun setGradientBackground(enabled: Boolean) = themePreferences.setGradientBackground(enabled)
     fun setSeedColor(color: Long) = themePreferences.setSeedColor(color)
     fun setPaletteStyle(style: PaletteStyle) = themePreferences.setPaletteStyle(style)
 

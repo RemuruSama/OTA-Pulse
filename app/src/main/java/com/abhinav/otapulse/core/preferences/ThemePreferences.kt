@@ -33,7 +33,6 @@ data class ThemeSettings(
     val nightMode: Int = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM,
     val amoledDark: Boolean = false,
     val dynamicColor: Boolean = true,
-    val gradientBackground: Boolean = true,
     val seedColor: Long = 0xFFBA1A1A,
     val paletteStyle: PaletteStyle = PaletteStyle.TonalSpot
 )
@@ -50,7 +49,6 @@ class ThemePreferences @Inject constructor(
         const val PREF_NIGHT_MODE = "night_mode"
         const val PREF_AMOLED_MODE = "amoled_mode"
         const val PREF_DYNAMIC_COLOR = "dynamic_color_enabled"
-        const val PREF_GRADIENT_BACKGROUND = "gradient_background_enabled"
         const val PREF_SEED_COLOR = "seed_color"
         const val PREF_PALETTE_STYLE = "palette_style"
     }
@@ -74,7 +72,6 @@ class ThemePreferences @Inject constructor(
         val nightMode = prefs.getInt(PREF_NIGHT_MODE, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         val amoledDark = prefs.getBoolean(PREF_AMOLED_MODE, false)
         val dynamicColor = prefs.getBoolean(PREF_DYNAMIC_COLOR, true)
-        val gradientBackground = prefs.getBoolean(PREF_GRADIENT_BACKGROUND, true)
         val seedColor = prefs.getLong(PREF_SEED_COLOR, 0xFFBA1A1A)
         val paletteStyleStr = prefs.getString(PREF_PALETTE_STYLE, PaletteStyle.TonalSpot.name) ?: PaletteStyle.TonalSpot.name
         val paletteStyle = try {
@@ -88,7 +85,6 @@ class ThemePreferences @Inject constructor(
             nightMode = nightMode,
             amoledDark = amoledDark,
             dynamicColor = dynamicColor,
-            gradientBackground = gradientBackground,
             seedColor = seedColor,
             paletteStyle = paletteStyle
         )
@@ -115,10 +111,6 @@ class ThemePreferences @Inject constructor(
 
     fun setDynamicColor(enabled: Boolean) {
         prefs.edit().putBoolean(PREF_DYNAMIC_COLOR, enabled).apply()
-    }
-
-    fun setGradientBackground(enabled: Boolean) {
-        prefs.edit().putBoolean(PREF_GRADIENT_BACKGROUND, enabled).apply()
     }
 
     fun setSeedColor(color: Long) {

@@ -58,7 +58,6 @@ import com.abhinav.otapulse.core.ui.components.OtaTonalButton
 import com.abhinav.otapulse.core.ui.components.OtaTopAppBar
 import com.abhinav.otapulse.core.ui.theme.OtaPulseTheme
 import com.abhinav.otapulse.core.ui.theme.ThemeMode
-import com.abhinav.otapulse.core.ui.theme.holographicBackgroundBrush
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -120,17 +119,10 @@ class JsonOutputActivity : AppCompatActivity() {
                 amoledDark = themeSettings.amoledDark,
                 dynamicColor = themeSettings.dynamicColor
             ) {
-                val backgroundBrush = if (themeSettings.themeMode == ThemeMode.HOLOGRAPHIC && themeSettings.gradientBackground) {
-                    holographicBackgroundBrush()
-                } else null
-
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .then(
-                            if (backgroundBrush != null) Modifier.background(backgroundBrush)
-                            else Modifier.background(MaterialTheme.colorScheme.background)
-                        )
+                        .background(MaterialTheme.colorScheme.background)
                 ) {
                     JsonOutputScreen(
                         jsonOutput = jsonOutput,
