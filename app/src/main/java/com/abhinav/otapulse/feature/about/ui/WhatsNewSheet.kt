@@ -38,6 +38,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import com.abhinav.otapulse.core.ui.ApplyDialogBlurEffect
 import com.abhinav.otapulse.core.ui.components.OtaPrimaryButton
 import io.noties.markwon.Markwon
 
@@ -64,6 +65,7 @@ fun WhatsNewSheet(
         containerColor = MaterialTheme.colorScheme.surface,
         modifier = modifier
     ) {
+        ApplyDialogBlurEffect()
         Column(
             modifier = Modifier
                 .fillMaxWidth()

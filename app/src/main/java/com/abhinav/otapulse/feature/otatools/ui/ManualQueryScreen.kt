@@ -51,6 +51,7 @@ import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.material.icons.rounded.Unarchive
 import androidx.compose.material.icons.rounded.VerifiedUser
 import androidx.compose.material3.AlertDialog
+import com.abhinav.otapulse.core.ui.ApplyDialogBlurEffect
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -240,6 +241,7 @@ fun ManualQueryScreen(
         AlertDialog(
             onDismissRequest = { showInfoDialog = false },
             confirmButton = {
+                ApplyDialogBlurEffect()
                 TextButton(onClick = { showInfoDialog = false }) {
                     Text("Got it", style = MaterialTheme.typography.labelLarge)
                 }

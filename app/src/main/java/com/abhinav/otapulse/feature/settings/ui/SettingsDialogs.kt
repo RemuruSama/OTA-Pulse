@@ -63,6 +63,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.abhinav.otapulse.R
+import com.abhinav.otapulse.core.ui.ApplyDialogBlurEffect
 import com.abhinav.otapulse.core.common.LocaleHelper
 import com.abhinav.otapulse.core.common.openExternalBrowser
 import com.abhinav.otapulse.core.ui.components.OtaOutlinedButton
@@ -102,6 +103,7 @@ fun LanguageSelectionDialog(
     )
 
     Dialog(onDismissRequest = onDismiss) {
+        ApplyDialogBlurEffect()
         Surface(
             shape = RoundedCornerShape(28.dp),
             color = MaterialTheme.colorScheme.surface,
@@ -194,6 +196,7 @@ fun CheckIntervalDialog(
     )
 
     Dialog(onDismissRequest = onDismiss) {
+        ApplyDialogBlurEffect()
         Surface(
             shape = RoundedCornerShape(28.dp),
             color = MaterialTheme.colorScheme.surface,
@@ -277,6 +280,7 @@ fun ImportConfirmationDialog(
         title = { Text(text = context.getString(R.string.import_overwrite_title)) },
         text = { Text(text = context.getString(R.string.import_overwrite_message)) },
         confirmButton = {
+            ApplyDialogBlurEffect()
             OtaPrimaryButton(
                 text = context.getString(R.string.import_action),
                 onClick = {
@@ -298,6 +302,7 @@ fun ImportConfirmationDialog(
 fun DeveloperDialog(onDismiss: () -> Unit) {
     val context = LocalContext.current
     Dialog(onDismissRequest = onDismiss) {
+        ApplyDialogBlurEffect()
         Surface(
             shape = RoundedCornerShape(28.dp),
             color = MaterialTheme.colorScheme.surface,
@@ -397,6 +402,7 @@ fun ContributorsDialog(onDismiss: () -> Unit) {
             }
         },
         confirmButton = {
+            ApplyDialogBlurEffect()
             OtaPrimaryButton(
                 text = "View on GitHub",
                 onClick = {

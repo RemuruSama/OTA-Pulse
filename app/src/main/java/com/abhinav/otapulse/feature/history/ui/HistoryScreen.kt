@@ -45,6 +45,7 @@ import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.AlertDialog
+import com.abhinav.otapulse.core.ui.ApplyDialogBlurEffect
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -151,6 +152,7 @@ fun HistoryScreen(
             title = { Text("Clear OTA History", fontWeight = FontWeight.Bold) },
             text = { Text("Are you sure you want to clear all logged OTA update queries and records? This action cannot be undone.") },
             confirmButton = {
+                ApplyDialogBlurEffect()
                 OtaPrimaryButton(
                     text = "Clear All",
                     onClick = {

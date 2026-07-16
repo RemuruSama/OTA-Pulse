@@ -45,6 +45,7 @@ import com.abhinav.otapulse.core.common.setHapticClickListener
 import com.abhinav.otapulse.core.notifications.DownloadNotificationHelper
 import com.abhinav.otapulse.core.preferences.AppSettingsPreferences
 import com.abhinav.otapulse.core.preferences.ThemePreferences
+import com.abhinav.otapulse.core.ui.applyBackgroundBlur
 import com.abhinav.otapulse.databinding.DialogSupportDeveloperBinding
 import com.abhinav.otapulse.feature.browser.InAppBrowserActivity
 import com.abhinav.otapulse.feature.downloads.domain.DownloadRepository
@@ -251,7 +252,7 @@ class MainActivity : AppCompatActivity() {
                     .setNegativeButton(R.string.exit_action) { _, _ ->
                         finish()
                     }
-                    .show()
+                    .show().applyBackgroundBlur()
             } else {
                 checkNotificationPermission()
             }
@@ -294,7 +295,7 @@ class MainActivity : AppCompatActivity() {
                 dialog.dismiss()
                 checkBatteryOptimization()
             }
-            .show()
+            .show().applyBackgroundBlur()
     }
 
     private fun checkBatteryOptimization() {
@@ -317,7 +318,7 @@ class MainActivity : AppCompatActivity() {
                 .setNegativeButton(R.string.later_action) { _, _ ->
                     prefs.edit().putBoolean("has_prompted_battery_optimization", true).apply()
                 }
-                .show()
+                .show().applyBackgroundBlur()
         }
     }
 
@@ -362,7 +363,7 @@ class MainActivity : AppCompatActivity() {
             dismiss()
         }
 
-        dialog.show()
+        dialog.applyBackgroundBlur().show()
     }
 
     fun openInAppBrowser(url: String, title: String? = null) {

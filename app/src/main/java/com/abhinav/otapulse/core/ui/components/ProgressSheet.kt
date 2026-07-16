@@ -26,6 +26,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
+import com.abhinav.otapulse.core.ui.ApplyDialogBlurEffect
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -69,6 +70,7 @@ fun ProgressSheet(
         containerColor = containerColor,
         shape = MaterialTheme.shapes.extraLarge
     ) {
+        ApplyDialogBlurEffect()
         Column(
             modifier = Modifier
                 .fillMaxWidth()

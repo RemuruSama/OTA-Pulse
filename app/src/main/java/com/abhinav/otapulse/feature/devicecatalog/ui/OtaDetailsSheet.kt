@@ -61,6 +61,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
+import com.abhinav.otapulse.core.ui.ApplyDialogBlurEffect
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -211,6 +212,7 @@ fun OtaDetailsSheet(
         containerColor = containerColor,
         shape = MaterialTheme.shapes.extraLarge
     ) {
+        ApplyDialogBlurEffect()
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -694,6 +696,7 @@ fun PartitionSelectDialog(
         containerColor = containerColor,
         shape = MaterialTheme.shapes.extraLarge
     ) {
+        ApplyDialogBlurEffect()
         Column(
             modifier = Modifier
                 .fillMaxWidth()

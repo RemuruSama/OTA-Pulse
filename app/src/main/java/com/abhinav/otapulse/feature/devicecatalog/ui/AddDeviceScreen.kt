@@ -37,6 +37,7 @@ import androidx.compose.material.icons.rounded.Sync
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import com.abhinav.otapulse.core.ui.ApplyDialogBlurEffect
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -416,6 +417,7 @@ fun AddDeviceScreen(
                 }
             },
             confirmButton = {
+                ApplyDialogBlurEffect()
                 TextButton(onClick = {
                     showAddGroupDialog = false
                     viewModel.addFirmwareGroup(groupInput.trim())
@@ -444,6 +446,7 @@ fun AddDeviceScreen(
                 )
             },
             confirmButton = {
+                ApplyDialogBlurEffect()
                 TextButton(onClick = {
                     val nameToSave = newName.trim()
                     groupToEdit = null
@@ -466,6 +469,7 @@ fun AddDeviceScreen(
             title = { Text("Delete Firmware Group?") },
             text = { Text("Are you sure you want to delete '$groupName' and all its variants?") },
             confirmButton = {
+                ApplyDialogBlurEffect()
                 TextButton(onClick = {
                     groupToDelete = null
                     viewModel.deleteFirmwareGroup(groupName)
@@ -685,6 +689,7 @@ private fun AddVariantDialog(
             }
         },
         confirmButton = {
+            ApplyDialogBlurEffect()
             TextButton(
                 onClick = {
                     if (selectedRegion != null) {

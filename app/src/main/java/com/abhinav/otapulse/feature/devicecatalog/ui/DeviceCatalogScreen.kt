@@ -47,6 +47,7 @@ import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import com.abhinav.otapulse.core.ui.ApplyDialogBlurEffect
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FilterChip
@@ -418,6 +419,7 @@ fun DeviceCatalogScreen(
                 )
             },
             confirmButton = {
+                ApplyDialogBlurEffect()
                 TextButton(onClick = {
                     context.performHapticFeedback()
                     viewModel.confirmOverwriteDownload()
@@ -469,6 +471,7 @@ private fun DeviceItemCard(
             title = { Text(stringResource(R.string.delete_custom_device_title)) },
             text = { Text(stringResource(R.string.delete_custom_device_message, device.name)) },
             confirmButton = {
+                ApplyDialogBlurEffect()
                 TextButton(onClick = {
                     showDeleteConfirm = false
                     onDeleteCustomDevice(device)

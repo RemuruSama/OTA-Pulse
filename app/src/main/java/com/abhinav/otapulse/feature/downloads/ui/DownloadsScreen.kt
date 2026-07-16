@@ -73,6 +73,7 @@ import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.material.icons.rounded.Refresh
 import androidx.compose.material.icons.rounded.Schedule
 import androidx.compose.material3.AlertDialog
+import com.abhinav.otapulse.core.ui.ApplyDialogBlurEffect
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -676,6 +677,7 @@ private fun AddDownloadDialog(
             }
         },
         confirmButton = {
+            ApplyDialogBlurEffect()
             OtaPrimaryButton(
                 text = "Download",
                 onClick = {
