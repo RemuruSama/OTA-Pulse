@@ -306,12 +306,6 @@ fun ManualQueryScreen(
                     }
                     item {
                         InfoDetailRow(
-                            title = stringResource(R.string.manual_os_major_title),
-                            desc = "Target Realme UI version (RUI 2 to 7) or ColorOS API level (24 to 35)."
-                        )
-                    }
-                    item {
-                        InfoDetailRow(
                             title = stringResource(R.string.manual_target_region_title),
                             desc = "Regional target payload filter: GLO (Global), EU (Europe/EEA), IN (India), CN (China), RU (Russia)."
                         )
