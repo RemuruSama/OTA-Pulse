@@ -6875,6 +6875,27 @@
     }
   },
   {
+    "name": "realme C73 5G",
+    "ruiVersion": 6,
+    "firmwareGroups": {
+      "Android 15": [
+        {
+          "displayName": "IN",
+          "productModel": "RMX3945",
+          "productName": "RMX3945IN"
+        }
+      ],
+      "Android 16": [
+        {
+          "displayName": "IN",
+          "productModel": "RMX3945",
+          "productName": "RMX3945IN",
+          "versionLetter": "C"
+        }
+      ]
+    }
+  },
+  {
     "name": "realme C67 5G",
     "ruiVersion": 6,
     "firmwareGroups": {
