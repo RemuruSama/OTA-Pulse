@@ -46,7 +46,6 @@ import com.abhinav.otapulse.core.notifications.DownloadNotificationHelper
 import com.abhinav.otapulse.core.preferences.AppSettingsPreferences
 import com.abhinav.otapulse.core.preferences.ThemePreferences
 import com.abhinav.otapulse.core.ui.applyBackgroundBlur
-import com.abhinav.otapulse.databinding.DialogSupportDeveloperBinding
 import com.abhinav.otapulse.feature.browser.InAppBrowserActivity
 import com.abhinav.otapulse.feature.downloads.domain.DownloadRepository
 import com.abhinav.otapulse.feature.settings.AppUpdateRepository
@@ -160,12 +159,6 @@ class MainActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             checkForAppUpdates()
-            lifecycleScope.launch {
-                delay(800)
-                if (!isDestroyed && !isFinishing) {
-                    showSupportDeveloperDialog()
-                }
-            }
         }
     }
 
@@ -334,37 +327,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showSupportDeveloperDialog() {
-        val prefs = getSharedPreferences("support_dialog_prefs", Context.MODE_PRIVATE)
-        val lastShown = prefs.getLong("last_shown_time", 0L)
-        val oneDayMs = 24 * 60 * 60 * 1000L
-        if (System.currentTimeMillis() - lastShown < oneDayMs) return
-
-        val dialogBinding = DialogSupportDeveloperBinding.inflate(layoutInflater)
-        val dialog = MaterialAlertDialogBuilder(this)
-            .setView(dialogBinding.root)
-            .setCancelable(false)
-            .create()
-        dialog.setCanceledOnTouchOutside(false)
-
-        val dismiss = {
-            prefs.edit().putLong("last_shown_time", System.currentTimeMillis()).apply()
-            dialog.dismiss()
-        }
-
-        dialogBinding.btnClose.setHapticClickListener { dismiss() }
-        dialogBinding.btnMaybeLater.setHapticClickListener { dismiss() }
-        dialogBinding.btnStarGithub.setHapticClickListener {
-            openExternalBrowser(OTA_PULSE_REPO_URL)
-            dismiss()
-        }
-        dialogBinding.btnDonate.setHapticClickListener {
-            openExternalBrowser(DONATION_URL)
-            dismiss()
-        }
-
-        dialog.applyBackgroundBlur().show()
-    }
 
     fun openInAppBrowser(url: String, title: String? = null) {
         if (url.isBlank()) {

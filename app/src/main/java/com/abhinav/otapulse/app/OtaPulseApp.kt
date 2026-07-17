@@ -91,10 +91,12 @@ import com.abhinav.otapulse.navigation.Screen
 import com.abhinav.otapulse.navigation.otaPulseBottomNavItems
 import kotlinx.coroutines.flow.Flow
 
+import android.content.Context
 import androidx.compose.ui.platform.LocalContext
 import com.abhinav.otapulse.feature.about.ui.WhatsNewHelper
 import com.abhinav.otapulse.feature.about.ui.WhatsNewSheet
 import com.abhinav.otapulse.feature.settings.AppUpdateRepository
+import com.abhinav.otapulse.feature.settings.ui.SupportDeveloperDialog
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.painterResource
@@ -122,6 +124,7 @@ fun OtaPulseApp(
     val context = LocalContext.current
 
     var whatsNewData by remember { mutableStateOf<Pair<String, String>?>(null) }
+    var showSupportDeveloperDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(navigationEvent) {
         navigationEvent.collect { route ->
@@ -146,6 +149,14 @@ fun OtaPulseApp(
                 }
             }
         } catch (_: Exception) {}
+
+        val prefs = context.getSharedPreferences("support_dialog_prefs", Context.MODE_PRIVATE)
+        val lastShown = prefs.getLong("last_shown_time", 0L)
+        val oneDayMs = 24 * 60 * 60 * 1000L
+        if (System.currentTimeMillis() - lastShown >= oneDayMs) {
+            kotlinx.coroutines.delay(800)
+            showSupportDeveloperDialog = true
+        }
     }
 
     val visibleBottomNavItems = remember(appSettings.advancedMode) {
@@ -239,6 +250,16 @@ fun OtaPulseApp(
                     onDismiss = { whatsNewData = null },
                     version = whatsNewData!!.first,
                     changelog = whatsNewData!!.second
+                )
+            }
+
+            if (showSupportDeveloperDialog) {
+                SupportDeveloperDialog(
+                    onDismiss = {
+                        val prefs = context.getSharedPreferences("support_dialog_prefs", Context.MODE_PRIVATE)
+                        prefs.edit().putLong("last_shown_time", System.currentTimeMillis()).apply()
+                        showSupportDeveloperDialog = false
+                    }
                 )
             }
         }
