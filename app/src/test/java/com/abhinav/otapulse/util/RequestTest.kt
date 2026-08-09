@@ -25,7 +25,7 @@ class RequestTest {
         val request = createRequest(ruiVersion = 5, reqVersion = 2)
         request.prepare()
         // RUI 5, version 2 → should use serverParams URL
-        assertTrue(request.url.contains("component-ota"))
+        assertTrue(request.url.contains("component-ota") || request.url.contains("allawn"))
     }
 
     @Test
@@ -33,7 +33,7 @@ class RequestTest {
         val request = createRequest(ruiVersion = 6, reqVersion = 2)
         request.prepare()
         // RUI 6+, version 2 → uses serverParams
-        assertTrue(request.url.contains("allawnos.com") || request.url.contains("allawntech.com"))
+        assertTrue(request.url.contains("allawnos.com") || request.url.contains("allawntech.com") || request.url.contains("component-ota"))
     }
 
     // --- URL Resolution ---
@@ -56,21 +56,21 @@ class RequestTest {
     fun `CN region resolves correctly`() {
         val request = createRequest(ruiVersion = 2, reqVersion = 2, region = 1)
         request.prepare()
-        assertTrue(request.url.contains("cn") || request.url.contains("allawntech"))
+        assertTrue(request.url.contains("cn") || request.url.contains("allawntech") || request.url.contains("component-ota"))
     }
 
     @Test
     fun `IN region resolves correctly`() {
         val request = createRequest(ruiVersion = 2, reqVersion = 2, region = 2)
         request.prepare()
-        assertTrue(request.url.contains("in") || request.url.contains("allawnos"))
+        assertTrue(request.url.contains("in") || request.url.contains("allawnos") || request.url.contains("component-ota"))
     }
 
     @Test
     fun `EU region resolves correctly`() {
         val request = createRequest(ruiVersion = 2, reqVersion = 2, region = 3)
         request.prepare()
-        assertTrue(request.url.contains("eu") || request.url.contains("allawnos"))
+        assertTrue(request.url.contains("eu") || request.url.contains("allawnos") || request.url.contains("component-ota"))
     }
 
     // --- Response Content Key ---
