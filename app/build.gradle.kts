@@ -17,6 +17,9 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
+    testOptions {
+        unitTests.isReturnDefaultValues = true
+    }
     namespace = "com.abhinav.otapulse"
     compileSdk = 37
 
