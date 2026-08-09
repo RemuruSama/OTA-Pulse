@@ -17,22 +17,26 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    testOptions {
-        unitTests.isReturnDefaultValues = true
-    }
     namespace = "com.abhinav.otapulse"
     compileSdk = 37
 
     signingConfigs {
         create("release") {
-            storeFile = rootProject.file("keystore.jks")
-            storePassword = keystoreProperties["STORE_PASSWORD"] as? String ?: ""
-            keyAlias = "release"
-            keyPassword = keystoreProperties["KEY_PASSWORD"] as? String ?: ""
-
-            enableV1Signing = true
-            enableV2Signing = true
-            enableV3Signing = true
+            val keystoreFile = rootProject.file("keystore.jks")
+            if (keystoreFile.exists()) {
+                storeFile = keystoreFile
+                storePassword = keystoreProperties["STORE_PASSWORD"] as? String ?: ""
+                keyAlias = "release"
+                keyPassword = keystoreProperties["KEY_PASSWORD"] as? String ?: ""
+                enableV1Signing = true
+                enableV2Signing = true
+                enableV3Signing = true
+            } else {
+                storeFile = file(System.getProperty("user.home") + "/.android/debug.keystore")
+                storePassword = "android"
+                keyAlias = "androiddebugkey"
+                keyPassword = "android"
+            }
         }
     }
 
@@ -81,6 +85,10 @@ android {
         baseline = file("lint-baseline.xml")
         abortOnError = false
         checkReleaseBuilds = false
+    }
+
+    testOptions {
+        unitTests.isReturnDefaultValues = true
     }
 }
 
