@@ -44,6 +44,32 @@
     "name": "OnePlus 15",
     "ruiVersion": 7,
     "firmwareGroups": {
+      "Android 17": [
+        {
+          "displayName": "CN",
+          "productModel": "PLK110",
+          "productName": "PLK110",
+          "versionLetter": "C"
+        },
+        {
+          "displayName": "IN",
+          "productModel": "CPH2745",
+          "productName": "CPH2745IN",
+          "versionLetter": "C"
+        },
+        {
+          "displayName": "GLO",
+          "productModel": "CPH2747",
+          "productName": "CPH2747",
+          "versionLetter": "C"
+        },
+        {
+          "displayName": "EU",
+          "productModel": "CPH2747",
+          "productName": "CPH2747EEA",
+          "versionLetter": "C"
+        }
+      ],
       "Android 16": [
         {
           "displayName": "IN",

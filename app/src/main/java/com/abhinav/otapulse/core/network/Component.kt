@@ -48,6 +48,16 @@ data class NetworkComponent(
     val oplusSeparateSoft: String? = null,
     val descriptionUrl: String? = null,
     val nightUpdateLimit: String? = null,
-    val versionTypeH5: String? = null
+    val versionTypeH5: String? = null,
+    val androidApiLevel: String? = null,
+    val versionCode: Long? = null,
+    val upgradeTips: String? = null,
+    val secLevel: String? = null,
+    val componentAssembleType: Boolean? = null,
+    val firstTitle: String? = null,
+    val opexVersionName: String? = null,
+    val opexContent: String? = null,
+    val opexTitle: String? = null,
+    val oplusUpdateEngineVerifyDisable: String? = null
 ) : Parcelable
 

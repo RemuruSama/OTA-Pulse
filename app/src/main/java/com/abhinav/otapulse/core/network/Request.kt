@@ -9,7 +9,7 @@ data class RequestPayload(val body: String, val headers: Map<String, String>)
 
 /**
  * Refactored Request class to handle OTA protocol logic.
- * Adapted for ColorOS 16 / Android 16 JSON structure.
+ * Adapted for ColorOS 17 / Android 17 JSON structure (and legacy ColorOS/RUI).
  */
 class Request(
     private val reqVersion: Int,
@@ -71,19 +71,22 @@ class Request(
 
         properties["nvCarrier"] = resolveNvCarrier(nvId, region)
 
-        // Android Version Calculation
-        // For RUI 1-5: 10 + RUI - 1 (e.g. RUI 5 = Android 14)
-        // For RUI 6+: Direct offset of 10 (e.g. RUI 6 = Android 16)
-        val androidVer = if (ruiVersion >= 6) 10 + ruiVersion else 10 + ruiVersion - 1
-        properties["androidVersion"] = "Android${androidVer}.0"
+        // Android & ColorOS Version Calculation
+        // Supports unified RUI generation numbers (e.g. 7 = ColorOS 17, 6 = ColorOS 16)
+        // and direct ColorOS versions (e.g. 17 = ColorOS 17, 16 = ColorOS 16).
+        // On Android 17 / ColorOS 17, realme UI and OxygenOS merge into base ColorOS,
+        // so all supported devices query as unified ColorOS (isRealme = "0").
+        val (androidVer, cosVer) = when {
+            ruiVersion >= 11 -> Pair(ruiVersion, ruiVersion)
+            ruiVersion >= 6 -> Pair(10 + ruiVersion, 10 + ruiVersion)
+            ruiVersion == 1 -> Pair(10, 7)
+            else -> Pair(10 + ruiVersion - 1, 11 + ruiVersion - 2)
+        }
+        properties["androidVersion"] = if (androidVer >= 17) "Android $androidVer" else "Android${androidVer}.0"
+        properties["colorOSVersion"] = if (cosVer >= 17) "ColorOS $cosVer.0" else "ColorOS$cosVer"
 
-        // ColorOS Version Calculation
-        // For RUI 1: ColorOS 7
-        // For RUI 2-5: 11 + RUI - 2 (e.g. RUI 5 = ColorOS 14)
-        // For RUI 6+: Direct offset of 10 (e.g. RUI 6 = ColorOS 16)
-        val cosVer = if (ruiVersion >= 6) 10 + ruiVersion else if (ruiVersion == 1) 7 else 11 + ruiVersion - 2
-        properties["colorOSVersion"] = "ColorOS$cosVer"
-        properties["isRealme"] = if (model.contains("RMX", ignoreCase = true)) "1" else "0"
+        // On Android 17 (ColorOS 17+), realme & OxygenOS merge into base ColorOS with no separate brand flag
+        properties["isRealme"] = if (cosVer >= 17) "0" else if (model.contains("RMX", ignoreCase = true)) "1" else "0"
         properties["time"] = System.currentTimeMillis().toString()
 
         url = resolveUrl(ruiVersion, region)
@@ -204,6 +207,18 @@ class Request(
             val cleanPanelUrl = changelogUrl.filter { !it.isWhitespace() }
             val cleanH5Url = h5Url.filter { !it.isWhitespace() }
 
+            val opexObj = dataRoot.optJSONObject("opex")
+            val opexVersionName = opexObj?.optString("opexVersionName")?.takeIf { it.isNotEmpty() }
+            val opexContent = opexObj?.optString("content")?.takeIf { it.isNotEmpty() }
+            val opexTitle = opexObj?.optString("title")?.takeIf { it.isNotEmpty() }
+            val firstTitle = descriptionObj?.optString("firstTitle")?.takeIf { it.isNotEmpty() }
+            val androidApiLevel = dataRoot.optString("androidApiLevel").takeIf { it.isNotEmpty() }
+            val versionCode = dataRoot.optLong("versionCode", 0L).takeIf { it > 0 }
+            val upgradeTips = dataRoot.optString("upgradeTips").takeIf { it.isNotEmpty() }
+            val secLevel = dataRoot.optString("secLevel").takeIf { it.isNotEmpty() }
+            val componentAssembleType = if (dataRoot.has("componentAssembleType")) dataRoot.optBoolean("componentAssembleType") else null
+            val oplusUpdateEngineVerifyDisable = headerMap["oplus_update_engine_verify_disable"]
+
             componentsList.add(
                 NetworkComponent(
                     componentId = componentObject.getString("componentId"),
@@ -231,8 +246,8 @@ class Request(
                     publishedTime = dataRoot.optLong("publishedTime", 0),
                     status = dataRoot.optString("status"),
                     // Existing fields
-                    realAndroidVersion = dataRoot.optString("realAndroidVersion"),
-                    realOsVersion = dataRoot.optString("realOsVersion"),
+                    realAndroidVersion = dataRoot.optString("realAndroidVersion").takeIf { it.isNotEmpty() } ?: dataRoot.optString("androidVersion").takeIf { it.isNotEmpty() },
+                    realOsVersion = dataRoot.optString("realOsVersion").takeIf { it.isNotEmpty() } ?: dataRoot.optString("osVersion").takeIf { it.isNotEmpty() },
                     osVersion = dataRoot.optString("osVersion"),
                     colorOSVersion = dataRoot.optString("colorOSVersion"),
                     panelUrl = cleanPanelUrl,
@@ -247,7 +262,17 @@ class Request(
                     oplusSeparateSoft = headerMap["oplus_separate_soft"],
                     descriptionUrl = cleanH5Url.takeIf { it.isNotEmpty() },
                     nightUpdateLimit = dataRoot.optString("nightUpdateLimit").takeIf { it.isNotEmpty() },
-                    versionTypeH5 = dataRoot.optString("versionTypeH5").takeIf { it.isNotEmpty() }
+                    versionTypeH5 = dataRoot.optString("versionTypeH5").takeIf { it.isNotEmpty() },
+                    androidApiLevel = androidApiLevel,
+                    versionCode = versionCode,
+                    upgradeTips = upgradeTips,
+                    secLevel = secLevel,
+                    componentAssembleType = componentAssembleType,
+                    firstTitle = firstTitle,
+                    opexVersionName = opexVersionName,
+                    opexContent = opexContent,
+                    opexTitle = opexTitle,
+                    oplusUpdateEngineVerifyDisable = oplusUpdateEngineVerifyDisable
                 )
             )
         }

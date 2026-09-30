@@ -184,9 +184,10 @@ class HomeUpdateViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, error = null, multiResults = null, selectedOta = null, userMessage = null) }
 
+            val detectedRui = DeviceUtils.getRuiVersion(fallback = 7)
             val dummyDevice = Device(
                 name = "Custom|" + apiModelParam,
-                ruiVersion = 4,
+                ruiVersion = detectedRui,
                 imei = "0",
                 beta = false,
                 imageResId = null,

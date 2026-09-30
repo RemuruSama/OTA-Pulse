@@ -129,7 +129,7 @@ fun ManualQueryScreen(
     // Form inputs
     var productModel by remember { mutableStateOf("RMX3840") }
     var productName by remember { mutableStateOf("") }
-    var ruiVersion by remember { mutableStateOf("4") }
+    var ruiVersion by remember { mutableStateOf("7") }
     var region by remember { mutableStateOf("GLO") }
     var versionLetter by remember { mutableStateOf("A") }
     var server by remember { mutableStateOf("GL") }
@@ -144,7 +144,6 @@ fun ManualQueryScreen(
     var reqMode by remember { mutableStateOf("manual") }
     var gray by remember { mutableStateOf("0") }
 
-    val ruiOptions = listOf("2", "3", "4", "5", "6", "7")
     val regionOptions = remember { RegionData.regions.map { it.displayName } }
     val letterOptions = listOf("A", "C", "F", "H", "J")
     val serverOptions = listOf("GL", "CN", "IN", "EU")

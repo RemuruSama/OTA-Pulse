@@ -80,7 +80,17 @@ fun NetworkComponent.toDomain(): OtaUpdate {
         oplusSeparateSoft = this.oplusSeparateSoft,
         descriptionUrl = this.descriptionUrl,
         nightUpdateLimit = this.nightUpdateLimit,
-        versionTypeH5 = this.versionTypeH5
+        versionTypeH5 = this.versionTypeH5,
+        androidApiLevel = this.androidApiLevel,
+        versionCode = this.versionCode,
+        upgradeTips = this.upgradeTips,
+        secLevel = this.secLevel,
+        componentAssembleType = this.componentAssembleType,
+        firstTitle = this.firstTitle,
+        opexVersionName = this.opexVersionName,
+        opexContent = this.opexContent,
+        opexTitle = this.opexTitle,
+        oplusUpdateEngineVerifyDisable = this.oplusUpdateEngineVerifyDisable
     )
 }
 

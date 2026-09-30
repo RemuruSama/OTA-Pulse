@@ -1,0 +1,190 @@
+{
+  "body": {
+    "aid": "PLK110NV97_11.C",
+    "androidApiLevel": "37",
+    "androidVersion": "Android 17",
+    "colorOSVersion": "ColorOS 17.0",
+    "componentAssembleType": true,
+    "components": [
+      {
+        "componentId": "my_manifest_PLK110_11.C.75_1750_202609240641.97.3ad3d618",
+        "componentName": "my_manifest",
+        "componentPackets": {
+          "id": "domestic_my_manifest_PLK110_11.C.75_1750_202609240641.97.3ad3d618_1_56745dd76b1f4872583cf224d2e9d2f6",
+          "manualUrl": "https://component-ota-cn.allawntech.com/downloadCheck?c=58d9a5f0a8e85e8c7159e223f5f4a292\u0026p=a6c78fdd375c88883dced8aa4ace3261c679aee14d6754a381e85abd94795190b8bd6ad2e07f3126b56dd3282179\u0026d=e181cd82745f88956e8098ec0182623bca30a2a51b7b03ead6e04ce9ca7400d5b4e921c5b4276d\u0026g=10eab6008d5642cf42abd2aa41f847cb\u0026id=6aba3dd492ce7c01836a7795\u0026taste=1\u0026supportDLTaste=0\u0026mode=1\u0026tr=manual\u0026s=aae0ad946ed950dcb941d8cd18c5cdc1",
+          "md5": "56745dd76b1f4872583cf224d2e9d2f6",
+          "shardsSize": 1073741824,
+          "size": "9545769099",
+          "type": "1",
+          "url": "https://component-ota-cn.allawntech.com/downloadCheck?c=58d9a5f0a8e85e8c7159e223f5f4a292\u0026p=a6c78fdd375c88883dced8aa4ace3261c679aee14d6754a381e85abd94795190b8bd6ad2e07f3126b56dd3282179\u0026d=e181cd82745f88956e8098ec0182623bca30a2a51b3715b3daa301a5c5764fc3b6e3339cb92e7339ee6490\u0026g=10eab6008d5642cf42abd2aa41f847cb\u0026id=6aba3dd492ce7c01836a7795\u0026taste=1\u0026supportDLTaste=0\u0026mode=1\u0026tr=auto\u0026s=c61c656c091fed741e75db6254de9a33",
+          "vabInfo": {
+            "data": {
+              "extra_params": "metadata_hash:19e2320f27f13ec5c0b5cec9f627bc9e5d6c9b69159cfb278910a5104ae58ba5",
+              "header": [
+                "FILE_HASH=BKHomBdjLYNu1iWwD+GE118kNsv6As9vTeo+IOU95zA=",
+                "FILE_SIZE=9545762927",
+                "METADATA_HASH=5h1Dhq/oC8x6UbaoYsTDMy/DZs0qsA9Ej8BfxyGbAko=",
+                "METADATA_SIZE=348432",
+                "android_version=17",
+                "forbid_ota_local_update=false",
+                "ota_root_or_debug=false",
+                "oplus_update_engine_verify_disable=0",
+                "ota_target_version=PLK110_11.C.75_1750_202609240641",
+                "oplus_rom_version=V17.0.0",
+                "security_patch=2026-09-01",
+                "security_patch_vendor=2026-09-01",
+                "oplus_separate_soft=24831"
+              ],
+              "otaStreamingProperty": "payload_metadata.bin:61:348955,payload.bin:61:9545762927,payload_properties.txt:9545763040:429,care_map.pb:9545763510:505,metadata:9545765097:1170,metadata.pb:9545764077:961",
+              "vab_package_hash": "56745dd76b1f4872583cf224d2e9d2f6"
+            }
+          }
+        },
+        "componentVersion": "PLK110_11.C.75_1750_202609240641.97.3ad3d618"
+      }
+    ],
+    "decentralize": {
+      "offset": 16166,
+      "round": 28800,
+      "strategyVersion": "9"
+    },
+    "description": {
+      "firstTitle": "上手丝滑，久用流畅，全新流体设计，流动丝滑，鲜活自然。\n潮汐引擎再升级，更懂你的内存调度，前后台持久稳定流畅。\nOPPO AI，个性主动的新一代小布，懂你的意图，主动为你服务。\n影像创作、办公学习、运动健康，全场景处处有AI，软硬协同超高效。\n更多细节与惊喜体验，等你上手探索。",
+      "opex": {
+        "content": "• 优化部分场景的系统稳定性",
+        "title": "更新包（%s）"
+      },
+      "panelUrl": "https://gauss-compotacostauto-cn.allawnfs.com/remove-58d9a5f0a8e85e8c7159e223f5f4a292/component-ota/26/09/28/0e11e90d69974f76a2f941c2b51000e3.html",
+      "share": ".",
+      "url": "https://h5fs.coloros.com/d31a3e6937404b7198a51f99cc033e08/static/index.html#/about"
+    },
+    "gkaReq": 0,
+    "googlePatchInfo": "0",
+    "id": "6aba3dd492ce7c01836a7795",
+    "isBandwidthControl": true,
+    "isConfidential": 0,
+    "isNvDescription": true,
+    "isRecruit": false,
+    "isSecret": false,
+    "nightUpdateLimit": "00-99",
+    "noticeType": 0,
+    "nvId16": "NV97",
+    "opex": {
+      "content": "• 优化部分场景的系统稳定性",
+      "opexPackage": [
+        {
+          "businessCode": "ovl_update_5812",
+          "code": 200,
+          "info": {
+            "autoUrl": "https://gauss-opexcostauto-cn.allawnfs.com/remove-eabec3a1ff3220249ad132776e4a6c08/opex/26/09/25/ef749526bf044086a456cdd6858c8ba4.zip",
+            "bizExtra": "{\"cfgVer\": 3}",
+            "downloadType": 3,
+            "imgHash": "97cf7cc6a51ff0ec9be68e8c084a7f9d2599c64a4fafb1218abee2077d55d316",
+            "imgSize": 40773141,
+            "installType": 2,
+            "isHotfix": 0,
+            "manualUrl": "https://gauss-opexcostmanual-cn.allawnfs.com/remove-eabec3a1ff3220249ad132776e4a6c08/opex/26/09/25/ef749526bf044086a456cdd6858c8ba4.zip",
+            "needDialog": 0,
+            "type": 1,
+            "versionCode": 15,
+            "versionType": 1,
+            "zipHash": "97cf7cc6a51ff0ec9be68e8c084a7f9d2599c64a4fafb1218abee2077d55d316",
+            "zipSize": 40773141
+          }
+        },
+        {
+          "businessCode": "ovl_update_5820",
+          "code": 200,
+          "info": {
+            "autoUrl": "https://gauss-opexcostauto-cn.allawnfs.com/remove-abdec56a449a33215b62799e0f17ba48/opex/26/09/27/2f16812b05aa4da9851d2f7a78bbc67c.zip",
+            "bizExtra": "{\"cfgVer\": 3}",
+            "downloadType": 3,
+            "imgHash": "bc0ce6116e9c15652d32931ec055a8ad9267d97e2d6a69d06a11e217ac7c4e2c",
+            "imgSize": 53659119,
+            "installType": 2,
+            "isHotfix": 0,
+            "manualUrl": "https://gauss-opexcostmanual-cn.allawnfs.com/remove-abdec56a449a33215b62799e0f17ba48/opex/26/09/27/2f16812b05aa4da9851d2f7a78bbc67c.zip",
+            "needDialog": 0,
+            "type": 1,
+            "versionCode": 7,
+            "versionType": 1,
+            "zipHash": "bc0ce6116e9c15652d32931ec055a8ad9267d97e2d6a69d06a11e217ac7c4e2c",
+            "zipSize": 53659119
+          }
+        },
+        {
+          "businessCode": "ovl_update_5823",
+          "code": 200,
+          "info": {
+            "autoUrl": "https://gauss-opexcostauto-cn.allawnfs.com/remove-b93ffc3206cd8db24a52c8975d95d397/opex/26/09/27/50af0032c09e4c9cb9205ea34c0b4328.zip",
+            "bizExtra": "{\"cfgVer\": 3}",
+            "downloadType": 3,
+            "imgHash": "bab8850b7bd0355fa08af3b72448f78251c9a55491d0f3f0ea03528392423e69",
+            "imgSize": 99677709,
+            "installType": 2,
+            "isHotfix": 0,
+            "manualUrl": "https://gauss-opexcostmanual-cn.allawnfs.com/remove-b93ffc3206cd8db24a52c8975d95d397/opex/26/09/27/50af0032c09e4c9cb9205ea34c0b4328.zip",
+            "needDialog": 0,
+            "type": 1,
+            "versionCode": 4,
+            "versionType": 1,
+            "zipHash": "bab8850b7bd0355fa08af3b72448f78251c9a55491d0f3f0ea03528392423e69",
+            "zipSize": 99677709
+          }
+        }
+      ],
+      "opexVersionName": "17.0.0.102Patch03",
+      "title": "更新包（%s）"
+    },
+    "opexInfo": [
+      {
+        "aid": "ovl_update_5812",
+        "versionCode": "15"
+      },
+      {
+        "aid": "ovl_update_5820",
+        "versionCode": "7"
+      },
+      {
+        "aid": "ovl_update_5823",
+        "versionCode": "4"
+      }
+    ],
+    "osVersion": "ColorOS 17.0",
+    "otaVersion": "PLK110_11.C.75_1750_202609240641",
+    "paramFlag": 1,
+    "parent": "ota",
+    "publishedTime": 1790592789830,
+    "realAndroidVersion": "Android 17",
+    "realOsVersion": "ColorOS 17.0.0",
+    "realOtaVersion": "PLK110_11.C.75_1750_202609240641",
+    "realVersionName": "PLK110_17.0.0.102(CN01)",
+    "reminderType": 1,
+    "reminderValue": {
+      "download": {
+        "notice": [1, 1, 1, 3, 5, 7],
+        "pop": [1, 1, 1, 1, 1],
+        "version": "1790561369000"
+      },
+      "upgrade": {
+        "notice": [1, 1, 1, 3, 5, 7],
+        "pop": [1, 1, 1, 1, 1],
+        "version": "1790561369000"
+      }
+    },
+    "rid": "f5dbdac8-b1a0-45e4-a777-5b4c2386be54",
+    "secLevel": "5",
+    "securityPatch": "2026-09-01",
+    "securityPatchVendor": "2026-09-01",
+    "silenceUpdate": 0,
+    "status": "published",
+    "upgradeTips": "%s 超流畅，更懂你",
+    "versionCode": 1750,
+    "versionName": "PLK110_17.0.0.102(CN01)",
+    "versionTypeH5": "不显示",
+    "versionTypeId": "non_display",
+    "virtualFlag": false
+  },
+  "errMsg": "",
+  "responseCode": 200
+}

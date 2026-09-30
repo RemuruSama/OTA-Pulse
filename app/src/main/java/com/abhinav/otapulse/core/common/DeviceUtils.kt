@@ -292,26 +292,29 @@ object DeviceUtils {
     fun getKernelVersion(): String = System.getProperty("os.version") ?: "Unknown"
 
     /**
-     * Reads the real RUI (ColorOS ROM UI) version from system properties.
+     * Reads the real RUI or ColorOS version from system properties.
      *
      * Property priority:
-     *  1. ro.build.version.oplusrom.display  → e.g. "6.0" → ruiVersion = 6
-     *  2. ro.build.version.oplusrom          → numeric fallback
-     *  3. ro.oplusrom.version                → older devices
+     *  1. ro.build.version.oplusrom.display  → e.g. "17.0", "7.0", "6.0"
+     *  2. ro.build.version.oplusrom          → e.g. "V17.0.0", "17.0"
+     *  3. ro.build.version.opporom           → ColorOS Oppo devices
+     *  4. ro.oplusrom.version                → older devices
      *
-     * Returns the integer RUI version, or [fallback] (default 4) if no property is readable.
+     * Returns the integer RUI/ColorOS version, or [fallback] (default 4) if no property is readable.
      */
     fun getRuiVersion(fallback: Int = 4): Int {
         val candidates = listOf(
             "ro.build.version.oplusrom.display",
             "ro.build.version.oplusrom",
+            "ro.build.version.opporom",
             "ro.oplusrom.version"
         )
         for (key in candidates) {
             val raw = getSystemProperty(key).trim()
             if (raw.isBlank()) continue
-            // Strip trailing ".x" suffix (e.g. "6.0" → "6")
-            val major = raw.substringBefore(".").toIntOrNull()
+            // Extract the first numeric group (handles "V17.0.0", "ColorOS 17.0", "17.0", "7.0", "6.0")
+            val match = Regex("""(\d+)""").find(raw)
+            val major = match?.groupValues?.getOrNull(1)?.toIntOrNull()
             if (major != null && major > 0) return major
         }
         return fallback

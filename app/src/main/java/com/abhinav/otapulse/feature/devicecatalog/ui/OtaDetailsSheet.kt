@@ -271,6 +271,39 @@ fun OtaDetailsSheet(
 
             Spacer(modifier = Modifier.height(12.dp))
 
+            // Upgrade Tips Banner (ColorOS 17 / New Features)
+            if (!ota.upgradeTips.isNullOrBlank() || !ota.firstTitle.isNullOrBlank()) {
+                val tipText = ota.upgradeTips?.replace("%s", "")?.trim()?.takeIf { it.isNotEmpty() }
+                    ?: ota.firstTitle?.lines()?.firstOrNull()?.trim() ?: ""
+                if (tipText.isNotBlank()) {
+                    Surface(
+                        color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.35f),
+                        shape = RoundedCornerShape(12.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 12.dp)
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(12.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.Description,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier.size(18.dp)
+                            )
+                            Text(
+                                text = tipText,
+                                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Medium),
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
+                        }
+                    }
+                }
+            }
+
             // Details Grid Card
             OtaCard(
                 modifier = Modifier.fillMaxWidth(),
@@ -283,6 +316,9 @@ fun OtaDetailsSheet(
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     // Row 1: Android Version | Security Patch
+                    val apiLevelText = if (!ota.androidApiLevel.isNullOrBlank()) " (API ${ota.androidApiLevel})" else ""
+                    val androidText = (ota.realAndroidVersion?.removePrefix("Android ")?.trim() ?: stringResource(R.string.unknown)) + apiLevelText
+
                     Row(modifier = Modifier.fillMaxWidth()) {
                         Column(modifier = Modifier.weight(1f).padding(end = 8.dp)) {
                             Text(
@@ -291,7 +327,7 @@ fun OtaDetailsSheet(
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                             Text(
-                                text = ota.realAndroidVersion?.removePrefix("Android ")?.trim() ?: stringResource(R.string.unknown),
+                                text = androidText,
                                 style = MaterialTheme.typography.bodyMedium,
                                 fontWeight = FontWeight.Bold,
                                 color = MaterialTheme.colorScheme.onSurface

@@ -765,6 +765,7 @@ fun HomeUpdateContent(
                                             horizontalArrangement = Arrangement.spacedBy(8.dp),
                                             verticalArrangement = Arrangement.spacedBy(6.dp)
                                         ) {
+
                                             // Android Version
                                             val androidVer = ota.realAndroidVersion?.removePrefix("Android ")?.trim() ?: "Android"
                                             Surface(
@@ -777,6 +778,21 @@ fun HomeUpdateContent(
                                                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                                                     modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
                                                 )
+                                            }
+
+                                            // API Level (e.g. API 37)
+                                            if (!ota.androidApiLevel.isNullOrBlank()) {
+                                                Surface(
+                                                    color = MaterialTheme.colorScheme.surfaceVariant,
+                                                    shape = RoundedCornerShape(8.dp)
+                                                ) {
+                                                    Text(
+                                                        text = "API ${ota.androidApiLevel}",
+                                                        style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
+                                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                                                    )
+                                                }
                                             }
 
                                             // Size Badge
@@ -820,6 +836,26 @@ fun HomeUpdateContent(
                                                         style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
                                                         color = arbTextColor,
                                                         modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                                                    )
+                                                }
+                                            }
+                                        }
+
+                                        // Upgrade Tips / Summary Banner
+                                        if (!ota.upgradeTips.isNullOrBlank() || !ota.firstTitle.isNullOrBlank()) {
+                                            val tipText = ota.upgradeTips?.replace("%s", "")?.trim()?.takeIf { it.isNotEmpty() }
+                                                ?: ota.firstTitle?.lines()?.firstOrNull()?.trim() ?: ""
+                                            if (tipText.isNotBlank()) {
+                                                Surface(
+                                                    color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.35f),
+                                                    shape = RoundedCornerShape(8.dp),
+                                                    modifier = Modifier.fillMaxWidth()
+                                                ) {
+                                                    Text(
+                                                        text = tipText,
+                                                        style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Medium),
+                                                        color = MaterialTheme.colorScheme.onSurface,
+                                                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp)
                                                     )
                                                 }
                                             }
