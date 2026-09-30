@@ -7,6 +7,8 @@ interface OtaHistoryRepository {
     fun getAllHistory(): Flow<List<OtaHistoryEntry>>
     fun getHistoryForDevice(deviceName: String): Flow<List<OtaHistoryEntry>>
     suspend fun logOtaUpdate(entry: OtaHistoryEntry)
+    suspend fun deleteHistoryEntry(entry: OtaHistoryEntry)
+    suspend fun restoreHistoryEntry(entry: OtaHistoryEntry)
     suspend fun clearHistoryForDevice(deviceName: String)
     suspend fun clearAllHistory()
 }

@@ -36,5 +36,8 @@ interface OtaHistoryDao {
 
     @Query("DELETE FROM ota_history WHERE id = :id")
     fun deleteById(id: Long): Int
+
+    @Query("DELETE FROM ota_history WHERE (id > 0 AND id = :id) OR (timestamp = :timestamp AND deviceName = :deviceName)")
+    fun deleteEntry(id: Long, timestamp: Long, deviceName: String): Int
 }
 

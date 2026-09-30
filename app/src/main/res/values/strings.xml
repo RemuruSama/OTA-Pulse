@@ -555,6 +555,8 @@
     <string name="settings_special_thanks_msg">Special thanks to all contributors who helped build, translate, and improve OTA Pulse on GitHub.</string>
     <string name="settings_view_github_btn">View on GitHub</string>
     <string name="history_export_json">Export JSON History</string>
+    <string name="history_entry_deleted">History entry deleted</string>
+    <string name="action_undo">Undo</string>
 </resources>
 
 

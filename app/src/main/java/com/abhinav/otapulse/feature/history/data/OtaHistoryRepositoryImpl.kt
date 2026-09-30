@@ -64,6 +64,7 @@ class OtaHistoryRepositoryImpl @Inject constructor(
         return dao.getAllHistory().map { list ->
             list.map { entity ->
                 OtaHistoryEntry(
+                    id = entity.id,
                     timestamp = entity.timestamp,
                     deviceName = entity.deviceName,
                     region = entity.region,
@@ -77,6 +78,7 @@ class OtaHistoryRepositoryImpl @Inject constructor(
         return dao.getHistoryForDevice(deviceName).map { list ->
             list.map { entity ->
                 OtaHistoryEntry(
+                    id = entity.id,
                     timestamp = entity.timestamp,
                     deviceName = entity.deviceName,
                     region = entity.region,
@@ -110,6 +112,26 @@ class OtaHistoryRepositoryImpl @Inject constructor(
                 existingEntry.copy(
                     timestamp = entryToSave.timestamp,
                     otaUpdate = entryToSave.otaUpdate
+                )
+            )
+        }
+    }
+
+    override suspend fun deleteHistoryEntry(entry: OtaHistoryEntry) {
+        withContext(Dispatchers.IO) {
+            dao.deleteEntry(entry.id, entry.timestamp, entry.deviceName)
+        }
+    }
+
+    override suspend fun restoreHistoryEntry(entry: OtaHistoryEntry) {
+        withContext(Dispatchers.IO) {
+            dao.insert(
+                OtaHistoryEntity(
+                    id = 0,
+                    timestamp = entry.timestamp,
+                    deviceName = entry.deviceName,
+                    region = entry.region,
+                    otaUpdate = entry.otaUpdate
                 )
             )
         }

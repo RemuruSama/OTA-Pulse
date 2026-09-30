@@ -57,5 +57,17 @@ class OtaHistoryViewModel @Inject constructor(
             }
         }
     }
+
+    fun deleteHistoryEntry(entry: OtaHistoryEntry) {
+        viewModelScope.launch {
+            repository.deleteHistoryEntry(entry)
+        }
+    }
+
+    fun restoreHistoryEntry(entry: OtaHistoryEntry) {
+        viewModelScope.launch {
+            repository.restoreHistoryEntry(entry)
+        }
+    }
 }
 

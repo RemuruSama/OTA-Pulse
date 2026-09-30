@@ -4,6 +4,7 @@ data class OtaHistoryEntry(
     val timestamp: Long,
     val deviceName: String,
     val region: String,
-    val otaUpdate: OtaUpdate
+    val otaUpdate: OtaUpdate,
+    val id: Long = 0
 )
 

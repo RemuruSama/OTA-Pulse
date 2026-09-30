@@ -1,4 +1,4 @@
-﻿<resources>
+<resources>
     <string name="title_ota_tools">Outils</string>
     <string name="title_about">À propos</string>
     <string name="title_settings">Paramètres</string>
@@ -461,4 +461,6 @@
     <string name="settings_special_thanks_msg">Special thanks to all contributors who helped build, translate, and improve OTA Pulse on GitHub.</string>
     <string name="settings_view_github_btn">View on GitHub</string>
     <string name="history_export_json">Export JSON History</string>
+    <string name="history_entry_deleted">Entrée d\'historique supprimée</string>
+    <string name="action_undo">Annuler</string>
 </resources>

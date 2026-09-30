@@ -466,4 +466,6 @@
     <string name="about_upgrade_guide_badge">ColorOS • OxygenOS • Realme UI</string>
     <string name="about_upgrade_guide_copied">अपग्रेड गाइड क्लिपबोर्ड पर कॉपी हो गया</string>
     <string name="about_copy_guide">गाइड कॉपी करें</string>
+    <string name="history_entry_deleted">इतिहास प्रविष्टि हटाई गई</string>
+    <string name="action_undo">पूर्ववत करें</string>
 </resources>

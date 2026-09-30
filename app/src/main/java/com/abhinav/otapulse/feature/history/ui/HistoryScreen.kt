@@ -21,6 +21,7 @@ import android.widget.Toast
 import androidx.compose.ui.res.stringResource
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -45,6 +46,8 @@ import androidx.compose.material.icons.rounded.FileUpload
 import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.Search
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material3.AlertDialog
 import com.abhinav.otapulse.core.ui.ApplyDialogBlurEffect
 import androidx.compose.material3.DropdownMenu
@@ -55,7 +58,14 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Surface
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxState
+import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
@@ -65,11 +75,16 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import kotlinx.coroutines.launch
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -118,6 +133,8 @@ fun HistoryScreen(
     var searchQuery by remember { mutableStateOf("") }
     var showClearDialog by remember { mutableStateOf(false) }
     var showMenu by remember { mutableStateOf(false) }
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
 
     LaunchedEffect(searchQuery) {
         if (scrollBehavior.state.heightOffset < 0f) {
@@ -205,6 +222,12 @@ fun HistoryScreen(
             .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         contentWindowInsets = androidx.compose.foundation.layout.WindowInsets(0, 0, 0, 0),
+        snackbarHost = {
+            SnackbarHost(
+                hostState = snackbarHostState,
+                modifier = Modifier.padding(bottom = 12.dp)
+            )
+        },
         topBar = {
             OtaTopAppBar(
                 title = stringResource(R.string.history_screen_title),
@@ -327,18 +350,90 @@ fun HistoryScreen(
                 ) {
                     itemsIndexed(
                         items = filteredList,
-                        key = { index, entry -> "${entry.timestamp}_${entry.deviceName}_${entry.otaUpdate.versionName}_$index" }
+                        key = { _, entry -> "${entry.id}_${entry.timestamp}_${entry.deviceName}_${entry.otaUpdate.versionName}" }
                     ) { index, entry ->
-                        HistoryEntryCard(
-                            entry = entry,
-                            onClick = {
-                                view.haptic(HapticType.CLICK)
-                                devicesViewModel.showOtaDetailsFromHistory(entry)
+                        val currentEntry by rememberUpdatedState(entry)
+                        val density = LocalDensity.current
+                        val dismissState = remember(entry.id, entry.timestamp) {
+                            SwipeToDismissBoxState(
+                                initialValue = SwipeToDismissBoxValue.Settled,
+                                density = density,
+                                confirmValueChange = { dismissValue ->
+                                    if (dismissValue == SwipeToDismissBoxValue.EndToStart) {
+                                        view.haptic(HapticType.HEAVY_CLICK)
+                                        historyViewModel.deleteHistoryEntry(currentEntry)
+                                        scope.launch {
+                                            val result = snackbarHostState.showSnackbar(
+                                                message = context.getString(R.string.history_entry_deleted),
+                                                actionLabel = context.getString(R.string.action_undo),
+                                                duration = SnackbarDuration.Short
+                                            )
+                                            if (result == SnackbarResult.ActionPerformed) {
+                                                historyViewModel.restoreHistoryEntry(currentEntry)
+                                            }
+                                        }
+                                        true
+                                    } else {
+                                        false
+                                    }
+                                },
+                                positionalThreshold = { it * 0.4f }
+                            )
+                        }
+
+                        LaunchedEffect(entry.id, entry.timestamp) {
+                            if (dismissState.currentValue != SwipeToDismissBoxValue.Settled) {
+                                dismissState.snapTo(SwipeToDismissBoxValue.Settled)
+                            }
+                        }
+
+                        SwipeToDismissBox(
+                            state = dismissState,
+                            enableDismissFromStartToEnd = false,
+                            enableDismissFromEndToStart = true,
+                            backgroundContent = {
+                                val isDismissing = dismissState.targetValue == SwipeToDismissBoxValue.EndToStart
+                                val backgroundColor by animateColorAsState(
+                                    targetValue = if (isDismissing) MaterialTheme.colorScheme.errorContainer else MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.6f),
+                                    label = "swipe_delete_bg"
+                                )
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .clip(RoundedCornerShape(16.dp))
+                                        .background(backgroundColor)
+                                        .padding(horizontal = 20.dp),
+                                    contentAlignment = Alignment.CenterEnd
+                                ) {
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                    ) {
+                                        Text(
+                                            text = stringResource(R.string.action_delete),
+                                            style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold),
+                                            color = MaterialTheme.colorScheme.onErrorContainer
+                                        )
+                                        Icon(
+                                            imageVector = Icons.Rounded.Delete,
+                                            contentDescription = stringResource(R.string.action_delete),
+                                            tint = MaterialTheme.colorScheme.onErrorContainer
+                                        )
+                                    }
+                                }
                             },
                             modifier = Modifier
                                 .stackItemAppearance(index, searchQuery)
                                 .animateItem(placementSpec = OtaPulseMotion.StackReorderSpec)
-                        )
+                        ) {
+                            HistoryEntryCard(
+                                entry = entry,
+                                onClick = {
+                                    view.haptic(HapticType.CLICK)
+                                    devicesViewModel.showOtaDetailsFromHistory(entry)
+                                }
+                            )
+                        }
                     }
                 }
             }
