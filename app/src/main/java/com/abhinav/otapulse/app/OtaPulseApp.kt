@@ -156,7 +156,10 @@ fun OtaPulseApp(
         val prefs = context.getSharedPreferences("support_dialog_prefs", Context.MODE_PRIVATE)
         val lastShown = prefs.getLong("last_shown_time", 0L)
         val oneDayMs = 24 * 60 * 60 * 1000L
-        if (System.currentTimeMillis() - lastShown >= oneDayMs) {
+        if (lastShown == 0L) {
+            // First install / initial setup: don't show support dialog immediately. Start 24h timer from now.
+            prefs.edit().putLong("last_shown_time", System.currentTimeMillis()).apply()
+        } else if (System.currentTimeMillis() - lastShown >= oneDayMs) {
             kotlinx.coroutines.delay(800)
             showSupportDeveloperDialog = true
         }

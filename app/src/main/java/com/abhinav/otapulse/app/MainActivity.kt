@@ -30,6 +30,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
@@ -93,12 +94,19 @@ class MainActivity : AppCompatActivity() {
         private const val DONATION_URL = "https://paypal.me/Abhinavftp?country.x=IN&locale.x=en_GB"
     }
 
+    private var currentSetupDialog: AlertDialog? = null
+
     private val requestNotificationPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
             if (!isGranted) {
                 Toast.makeText(this, getString(R.string.notification_permission_denied), Toast.LENGTH_LONG).show()
             }
-            checkBatteryOptimization()
+            scheduleNextSetupStep { checkBatteryOptimization() }
+        }
+
+    private val notificationSettingsLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            scheduleNextSetupStep { checkBatteryOptimization() }
         }
 
     private val manageStoragePermissionLauncher = registerForActivityResult(
@@ -107,11 +115,25 @@ class MainActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             if (android.os.Environment.isExternalStorageManager()) {
                 Toast.makeText(this, getString(R.string.storage_permission_granted), Toast.LENGTH_SHORT).show()
-                checkNotificationPermission()
+                scheduleNextSetupStep { checkNotificationPermission() }
             } else {
                 Toast.makeText(this, getString(R.string.storage_permission_required), Toast.LENGTH_LONG).show()
+                scheduleNextSetupStep { checkStoragePermission() }
             }
+        } else {
+            scheduleNextSetupStep { checkNotificationPermission() }
         }
+    }
+
+    private val requestStoragePermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            Toast.makeText(this, getString(R.string.storage_permission_granted), Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, getString(R.string.storage_permission_required), Toast.LENGTH_LONG).show()
+        }
+        scheduleNextSetupStep { checkNotificationPermission() }
     }
 
     private val viewModel: MainViewModel by viewModels()
@@ -153,12 +175,15 @@ class MainActivity : AppCompatActivity() {
             )
         }
 
-        handleFirstLaunchPermissions()
+        startSetupPermissionFlow()
         observeAppUpdates()
         handleIntent(intent)
 
         if (savedInstanceState == null) {
-            checkForAppUpdates()
+            lifecycleScope.launch {
+                delay(3000L)
+                checkForAppUpdates()
+            }
         }
     }
 
@@ -221,21 +246,46 @@ class MainActivity : AppCompatActivity() {
         return false
     }
 
-    private fun handleFirstLaunchPermissions() {
-        checkStoragePermission()
+    private fun dismissCurrentSetupDialog() {
+        try {
+            currentSetupDialog?.dismiss()
+        } catch (_: Exception) {}
+        currentSetupDialog = null
+    }
+
+    private fun scheduleNextSetupStep(delayMs: Long = 350L, action: () -> Unit) {
+        dismissCurrentSetupDialog()
+        lifecycleScope.launch {
+            delay(delayMs)
+            while (!lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
+                delay(100L)
+                if (isFinishing || isDestroyed) return@launch
+            }
+            if (!isFinishing && !isDestroyed) {
+                action()
+            }
+        }
+    }
+
+    private fun startSetupPermissionFlow() {
+        scheduleNextSetupStep(delayMs = 400L) {
+            checkStoragePermission()
+        }
     }
 
     private fun checkStoragePermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             if (!android.os.Environment.isExternalStorageManager()) {
-                MaterialAlertDialogBuilder(this)
+                dismissCurrentSetupDialog()
+                currentSetupDialog = MaterialAlertDialogBuilder(this)
                     .setTitle(getString(R.string.permission_needed))
                     .setMessage(getString(R.string.broad_file_access_prompt))
                     .setCancelable(false)
                     .setPositiveButton(getString(R.string.settings)) { _, _ ->
                         try {
-                            val intent = Intent(android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
-                            intent.data = Uri.parse("package:$packageName")
+                            val intent = Intent(android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION).apply {
+                                data = Uri.parse("package:$packageName")
+                            }
                             manageStoragePermissionLauncher.launch(intent)
                         } catch (e: Exception) {
                             val intent = Intent(android.provider.Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION)
@@ -246,28 +296,32 @@ class MainActivity : AppCompatActivity() {
                         finish()
                     }
                     .show().applyBackgroundBlur()
-            } else {
-                checkNotificationPermission()
+                return
             }
-        } else {
-            checkNotificationPermission()
+        } else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                requestStoragePermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                return
+            }
         }
+        scheduleNextSetupStep { checkNotificationPermission() }
     }
 
     private fun checkNotificationPermission() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-            checkBatteryOptimization()
+            scheduleNextSetupStep { checkBatteryOptimization() }
             return
         }
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
-            checkBatteryOptimization()
+            scheduleNextSetupStep { checkBatteryOptimization() }
             return
         }
 
         val canRequestInApp = !permissionHelper.wasNotificationPermissionRequested() ||
             shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)
 
-        MaterialAlertDialogBuilder(this)
+        dismissCurrentSetupDialog()
+        currentSetupDialog = MaterialAlertDialogBuilder(this)
             .setTitle(R.string.notification_permission_title)
             .setMessage(
                 if (canRequestInApp) {
@@ -276,6 +330,7 @@ class MainActivity : AppCompatActivity() {
                     getString(R.string.notification_permission_settings_message)
                 }
             )
+            .setCancelable(false)
             .setPositiveButton(if (canRequestInApp) R.string.grant_action else R.string.settings) { _, _ ->
                 if (canRequestInApp) {
                     permissionHelper.markNotificationPermissionRequested()
@@ -284,9 +339,9 @@ class MainActivity : AppCompatActivity() {
                     openAppNotificationSettings()
                 }
             }
-            .setNegativeButton(R.string.later_action) { dialog, _ -> 
+            .setNegativeButton(R.string.later_action) { dialog, _ ->
                 dialog.dismiss()
-                checkBatteryOptimization()
+                scheduleNextSetupStep { checkBatteryOptimization() }
             }
             .show().applyBackgroundBlur()
     }
@@ -298,33 +353,50 @@ class MainActivity : AppCompatActivity() {
         if (!appSettingsPreferences.getAppSettings().autoSoftwareUpdateCheck) return
 
         val pm = getSystemService(Context.POWER_SERVICE) as android.os.PowerManager
-        if (!pm.isIgnoringBatteryOptimizations(packageName)) {
-            MaterialAlertDialogBuilder(this)
-                .setTitle(R.string.battery_optimization_dialog_title)
-                .setMessage(R.string.battery_optimization_dialog_message)
-                .setPositiveButton(R.string.allow) { _, _ ->
-                    prefs.edit().putBoolean("has_prompted_battery_optimization", true).apply()
-                    val intent = Intent(android.provider.Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS)
-                    intent.data = Uri.parse("package:$packageName")
-                    startActivity(intent)
-                }
-                .setNegativeButton(R.string.later_action) { _, _ ->
-                    prefs.edit().putBoolean("has_prompted_battery_optimization", true).apply()
-                }
-                .show().applyBackgroundBlur()
+        if (pm.isIgnoringBatteryOptimizations(packageName)) {
+            prefs.edit().putBoolean("has_prompted_battery_optimization", true).apply()
+            return
         }
+
+        dismissCurrentSetupDialog()
+        currentSetupDialog = MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.battery_optimization_dialog_title)
+            .setMessage(R.string.battery_optimization_dialog_message)
+            .setCancelable(false)
+            .setPositiveButton(R.string.allow) { _, _ ->
+                prefs.edit().putBoolean("has_prompted_battery_optimization", true).apply()
+                try {
+                    val intent = Intent(android.provider.Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS).apply {
+                        data = Uri.parse("package:$packageName")
+                    }
+                    startActivity(intent)
+                } catch (_: Exception) {
+                    try {
+                        startActivity(Intent(android.provider.Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS))
+                    } catch (_: Exception) {}
+                }
+            }
+            .setNegativeButton(R.string.later_action) { _, _ ->
+                prefs.edit().putBoolean("has_prompted_battery_optimization", true).apply()
+            }
+            .show().applyBackgroundBlur()
     }
 
     private fun openAppNotificationSettings() {
         try {
-            startActivity(
-                Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                    data = "package:$packageName".toUri()
-                }
-            )
+            val intent = Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                data = "package:$packageName".toUri()
+            }
+            notificationSettingsLauncher.launch(intent)
         } catch (_: Exception) {
             Toast.makeText(this, getString(R.string.cannot_open_app_settings), Toast.LENGTH_SHORT).show()
+            scheduleNextSetupStep { checkBatteryOptimization() }
         }
+    }
+
+    override fun onDestroy() {
+        dismissCurrentSetupDialog()
+        super.onDestroy()
     }
 
 

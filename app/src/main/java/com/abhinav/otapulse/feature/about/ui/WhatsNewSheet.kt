@@ -133,6 +133,11 @@ object WhatsNewHelper {
     fun shouldShow(context: Context, currentVersion: String): Boolean {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         val lastShown = prefs.getString(KEY_LAST_SHOWN_VERSION, null)
+        if (lastShown == null) {
+            // First install / initial setup: record version and do not show changelog sheet
+            markShown(context, currentVersion)
+            return false
+        }
         return lastShown != currentVersion
     }
 
