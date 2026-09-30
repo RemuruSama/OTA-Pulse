@@ -68,6 +68,7 @@ class HomeUpdateViewModel @Inject constructor(
         val displayOtaVersion = DeviceUtils.getDisplayOtaVersion()
         val fallbackOtaVersion = DeviceUtils.getOtaVersion()
         val detectedRegion = DeviceUtils.getDeviceRegion()
+        val buildType = DeviceUtils.getBuildType()
 
         val defaultModel = if (model.isNotBlank()) model else "RMX3840"
         val defaultName = if (name.isNotBlank()) name else defaultModel
@@ -87,9 +88,15 @@ class HomeUpdateViewModel @Inject constructor(
                 reqMode = defaultReq,
                 osVersion = osVersion,
                 displayOtaVersion = displayOtaVersion,
-                fallbackOtaVersion = fallbackOtaVersion
+                fallbackOtaVersion = fallbackOtaVersion,
+                buildType = buildType
             )
         }
+    }
+
+    fun resetToSystemDefaults() {
+        populateDeviceInputs()
+        _uiState.update { it.copy(userMessage = "Reset fields to system defaults") }
     }
 
     fun updateModel(value: String) {

@@ -316,5 +316,34 @@ object DeviceUtils {
         }
         return fallback
     }
+
+    /**
+     * Reads the build type from ADB system properties.
+     *
+     * Checks ro.oplusupgrade.alpha.version, ro.version.confidential,
+     * ro.build.type ("user", "userdebug", "eng"), and ro.build.tags ("release-keys", "test-keys").
+     */
+    fun getBuildType(): String {
+        val isAlpha = getSystemProperty("ro.oplusupgrade.alpha.version").equals("true", ignoreCase = true) ||
+                getSystemProperty("ro.version.confidential").equals("true", ignoreCase = true)
+        if (isAlpha) return "Official Alpha"
+
+        val displayId = getOsVersion()
+        val otaVer = getDisplayOtaVersion()
+        if (displayId.contains("Beta", ignoreCase = true) || otaVer.contains("Beta", ignoreCase = true)) {
+            return "Official Beta"
+        }
+
+        val buildType = getSystemProperty("ro.build.type")
+        val buildTags = getSystemProperty("ro.build.tags")
+
+        return when {
+            buildType == "user" && buildTags == "release-keys" -> "Official Stable"
+            buildType == "userdebug" -> "UserDebug"
+            buildType == "eng" -> "Engineering"
+            buildTags == "test-keys" -> "Test Build"
+            else -> "Official Stable"
+        }
+    }
 }
 

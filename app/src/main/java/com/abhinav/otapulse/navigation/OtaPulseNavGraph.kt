@@ -58,7 +58,11 @@ fun OtaPulseNavGraph(
             popExitTransition = { NavigationAnimations.bottomNavExitTransition() }
         ) {
             com.abhinav.otapulse.feature.updates.ui.HomeUpdateScreen(
-                onNavigateToHistory = { navController.navigate(Screen.History.route) }
+                onNavigateToHistory = { navController.navigate(Screen.History.route) },
+                onNavigateToDownloads = { navController.navigate(Screen.Downloads.route) },
+                onNavigateToDeviceCatalog = { navController.navigate(Screen.DeviceCatalog.route) },
+                onNavigateToAbout = { navController.navigate(Screen.About.route) },
+                onNavigateToSettings = { navController.navigate(Screen.Settings.route) }
             )
         }
 

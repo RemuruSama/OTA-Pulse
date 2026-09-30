@@ -16,27 +16,33 @@
 
 package com.abhinav.otapulse.feature.updates.ui
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -48,18 +54,23 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.ChevronRight
+import androidx.compose.material.icons.rounded.ContentCopy
+import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material.icons.rounded.History
+import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material.icons.rounded.KeyboardArrowUp
-import androidx.compose.material.icons.rounded.SystemUpdateAlt
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.material.icons.rounded.Refresh
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material.icons.rounded.RestartAlt
+import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material.icons.rounded.Settings
+import androidx.compose.material.icons.rounded.SystemUpdateAlt
+import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -67,7 +78,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -77,6 +90,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
@@ -85,34 +102,41 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.abhinav.otapulse.R
 import com.abhinav.otapulse.core.common.FormatUtils
+import com.abhinav.otapulse.core.common.HapticType
 import com.abhinav.otapulse.core.common.OtaCardData
 import com.abhinav.otapulse.core.common.OtaShareHelper
+import com.abhinav.otapulse.core.common.rememberHaptic
 import com.abhinav.otapulse.core.common.toFullRegionName
 import com.abhinav.otapulse.core.model.OtaUpdate
 import com.abhinav.otapulse.core.ui.components.ErrorState
 import com.abhinav.otapulse.core.ui.components.LoadingState
 import com.abhinav.otapulse.core.ui.components.OtaCard
-import com.abhinav.otapulse.core.ui.components.OtaTextField
-import com.abhinav.otapulse.core.ui.components.StaggeredItem
 import com.abhinav.otapulse.core.ui.components.OtaPrimaryButton
-import com.abhinav.otapulse.core.ui.components.OtaTopAppBar
+import com.abhinav.otapulse.core.ui.components.OtaTextField
+import com.abhinav.otapulse.core.ui.components.OtaTonalButton
+import com.abhinav.otapulse.core.ui.components.StaggeredItem
+import com.abhinav.otapulse.core.ui.theme.OtaPulseTheme
+import com.abhinav.otapulse.core.ui.theme.ThemeMode
 import com.abhinav.otapulse.feature.browser.InAppBrowserActivity
 import com.abhinav.otapulse.feature.devicecatalog.ui.OtaDetailsSheet
 import com.abhinav.otapulse.feature.otatools.ui.JsonOutputActivity
-import androidx.compose.ui.tooling.preview.Preview
-import com.abhinav.otapulse.core.ui.theme.OtaPulseTheme
-import com.abhinav.otapulse.core.ui.theme.ThemeMode
+import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeUpdateScreen(
     modifier: Modifier = Modifier,
     onNavigateToHistory: () -> Unit = {},
+    onNavigateToDownloads: () -> Unit = {},
+    onNavigateToDeviceCatalog: () -> Unit = {},
+    onNavigateToAbout: () -> Unit = {},
+    onNavigateToSettings: () -> Unit = {},
     viewModel: HomeUpdateViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -120,12 +144,17 @@ fun HomeUpdateScreen(
         uiState = uiState,
         modifier = modifier,
         onNavigateToHistory = onNavigateToHistory,
+        onNavigateToDownloads = onNavigateToDownloads,
+        onNavigateToDeviceCatalog = onNavigateToDeviceCatalog,
+        onNavigateToAbout = onNavigateToAbout,
+        onNavigateToSettings = onNavigateToSettings,
         onUpdateModel = viewModel::updateModel,
         onUpdateName = viewModel::updateName,
         onUpdateNvId = viewModel::updateNvId,
         onUpdateDeviceRegion = viewModel::updateDeviceRegion,
         onUpdateVersionLetter = viewModel::updateVersionLetter,
         onUpdateReqMode = viewModel::updateReqMode,
+        onResetDefaults = viewModel::resetToSystemDefaults,
         onCheckForUpdate = viewModel::checkForUpdate,
         onSelectOta = viewModel::selectOta,
         onClearUserMessage = viewModel::clearUserMessage,
@@ -137,45 +166,38 @@ fun HomeUpdateScreen(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun HomeUpdateContent(
     uiState: HomeUpdateUiState,
     modifier: Modifier = Modifier,
     onNavigateToHistory: () -> Unit = {},
+    onNavigateToDownloads: () -> Unit = {},
+    onNavigateToDeviceCatalog: () -> Unit = {},
+    onNavigateToAbout: () -> Unit = {},
+    onNavigateToSettings: () -> Unit = {},
     onUpdateModel: (String) -> Unit = {},
     onUpdateName: (String) -> Unit = {},
     onUpdateNvId: (String) -> Unit = {},
     onUpdateDeviceRegion: (String) -> Unit = {},
     onUpdateVersionLetter: (String) -> Unit = {},
     onUpdateReqMode: (String) -> Unit = {},
+    onResetDefaults: () -> Unit = {},
     onCheckForUpdate: () -> Unit = {},
     onSelectOta: (OtaUpdate?) -> Unit = {},
     onClearUserMessage: () -> Unit = {},
     onStartDownload: (OtaUpdate) -> Unit = {},
     onFetchPartitions: (OtaUpdate) -> Unit = {},
     onClearPartitionDialog: () -> Unit = {},
-    onExtractPartitions: (String, String, List<String>) -> java.util.UUID = { _, _, _ -> java.util.UUID.randomUUID() },
+    onExtractPartitions: (String, String, List<String>) -> UUID = { _, _, _ -> UUID.randomUUID() },
     onClearStartingExtraction: () -> Unit = {}
 ) {
     val context = LocalContext.current
     val focusManager = LocalFocusManager.current
+    val haptic = rememberHaptic()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
-    var showManualFields by remember { mutableStateOf(false) }
-    
     var showSections by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) { showSections = true }
-
-    val infiniteTransition = rememberInfiniteTransition(label = "live_pulse")
-    val dotAlpha by infiniteTransition.animateFloat(
-        initialValue = 0.4f,
-        targetValue = 1f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(1200, easing = LinearEasing),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "dot_alpha"
-    )
 
     if (showSections) {
         LaunchedEffect(uiState.userMessage) {
@@ -186,461 +208,666 @@ fun HomeUpdateContent(
         }
     }
 
+    val copyToClipboard = { label: String, text: String ->
+        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        clipboard.setPrimaryClip(ClipData.newPlainText(label, text))
+        haptic(HapticType.CLICK)
+        Toast.makeText(context, R.string.toast_link_copied, Toast.LENGTH_SHORT).show()
+    }
+
     Scaffold(
         modifier = modifier
             .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection),
-        contentWindowInsets = androidx.compose.foundation.layout.WindowInsets(0, 0, 0, 0),
+        contentWindowInsets = WindowInsets(0, 0, 0, 0),
         topBar = {
-            OtaTopAppBar(
-                title = stringResource(R.string.app_name),
-                subtitle = stringResource(R.string.app_tagline),
-                scrollBehavior = scrollBehavior,
+            TopAppBar(
+                title = {
+                    Column {
+                        Text(
+                            text = stringResource(R.string.app_name),
+                            style = MaterialTheme.typography.headlineMedium.copy(
+                                fontWeight = FontWeight.Black,
+                                fontSize = 28.sp
+                            ),
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                        Text(
+                            text = stringResource(R.string.app_tagline),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f)
+                        )
+                    }
+                },
                 actions = {
                     IconButton(
                         onClick = {
+                            haptic(HapticType.CLICK)
                             onNavigateToHistory()
                         }
                     ) {
                         Icon(
                             imageVector = Icons.Rounded.History,
                             contentDescription = stringResource(R.string.home_update_history_cd),
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                            tint = MaterialTheme.colorScheme.onSurface
                         )
                     }
-                }
+                },
+                scrollBehavior = scrollBehavior,
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    scrolledContainerColor = MaterialTheme.colorScheme.surface
+                )
             )
         }
     ) { innerPadding ->
-        Column(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .verticalScroll(rememberScrollState())
-                .padding(horizontal = 16.dp, vertical = 12.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            StaggeredItem(visible = showSections, index = 0) {
-                OtaCard(
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(24.dp)
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(
-                                Brush.verticalGradient(
-                                    0.0f to MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.8f),
-                                    0.5f to MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.4f),
-                                    1.0f to MaterialTheme.colorScheme.surface,
-                                )
-                            )
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = 16.dp, vertical = 12.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                // HERO DEVICE CARD
+                StaggeredItem(visible = showSections, index = 0) {
+                    OtaCard(
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(28.dp)
                     ) {
-                        Column(
+                        Box(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(20.dp),
-                            verticalArrangement = Arrangement.spacedBy(16.dp)
+                                .background(
+                                    Brush.verticalGradient(
+                                        0.0f to MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.55f),
+                                        0.5f to MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.25f),
+                                        1.0f to MaterialTheme.colorScheme.surfaceContainerLow
+                                    )
+                                )
                         ) {
-                            // Top Row: Badges
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceBetween,
-                                verticalAlignment = Alignment.CenterVertically
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(18.dp),
+                                verticalArrangement = Arrangement.spacedBy(16.dp)
                             ) {
-                                Surface(
-                                    color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
-                                    border = BorderStroke(
-                                        1.dp,
-                                        MaterialTheme.colorScheme.primary.copy(alpha = 0.2f)
-                                    ),
-                                    shape = CircleShape
-                                ) {
-                                    Text(
-                                        text = stringResource(R.string.software_update_panel_chip).uppercase(),
-                                        style = MaterialTheme.typography.labelSmall.copy(
-                                            fontWeight = FontWeight.ExtraBold,
-                                            letterSpacing = 0.5.sp
-                                        ),
-                                        color = MaterialTheme.colorScheme.primary,
-                                        modifier = Modifier.padding(
-                                            horizontal = 10.dp,
-                                            vertical = 4.dp
-                                        )
-                                    )
-                                }
-
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.spacedBy(4.dp)
-                                ) {
-                                    Box(
-                                        modifier = Modifier
-                                            .size(8.dp)
-                                            .background(
-                                                Color(0xFF4CAF50).copy(alpha = dotAlpha),
-                                                CircleShape
-                                            ) // Pulsating green dot
-                                    )
-                                    Text(
-                                        text = stringResource(R.string.software_update_panel_version_badge),
-                                        style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                                    )
-                                }
-                            }
-
-                            // Device Info
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Column(modifier = Modifier.weight(1f)) {
-                                    Text(
-                                        text = uiState.marketName.ifBlank { stringResource(R.string.unknown) },
-                                        style = MaterialTheme.typography.headlineSmall,
-                                        fontWeight = FontWeight.Black,
-                                        color = MaterialTheme.colorScheme.onSurface
-                                    )
-                                    Row(
-                                        verticalAlignment = Alignment.CenterVertically,
-                                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                                        modifier = Modifier.padding(top = 2.dp)
-                                    ) {
-                                        Text(
-                                            text = uiState.deviceName.ifBlank { stringResource(R.string.unknown) },
-                                            style = MaterialTheme.typography.titleSmall,
-                                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(
-                                                alpha = 0.7f
-                                            )
-                                        )
-
-                                        if (uiState.deviceRegion.isNotBlank()) {
-                                            Surface(
-                                                color = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.6f),
-                                                border = BorderStroke(
-                                                    1.dp,
-                                                    MaterialTheme.colorScheme.secondary.copy(alpha = 0.2f)
-                                                ),
-                                                shape = RoundedCornerShape(6.dp)
-                                            ) {
-                                                Row(
-                                                    modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
-                                                    verticalAlignment = Alignment.CenterVertically,
-                                                    horizontalArrangement = Arrangement.spacedBy(4.dp)
-                                                ) {
-                                                    Icon(
-                                                        painter = painterResource(id = R.drawable.ic_language),
-                                                        contentDescription = null,
-                                                        tint = MaterialTheme.colorScheme.secondary,
-                                                        modifier = Modifier.size(12.dp)
-                                                    )
-                                                    Text(
-                                                        text = "${uiState.deviceRegion} (${uiState.deviceRegion.toFullRegionName()})",
-                                                        style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                                                        color = MaterialTheme.colorScheme.onSecondaryContainer
-                                                    )
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-
-                                Surface(
-                                    shape = RoundedCornerShape(16.dp),
-                                    color = MaterialTheme.colorScheme.surfaceContainerHighest.copy(
-                                        alpha = 0.5f
-                                    ),
-                                    modifier = Modifier.size(56.dp)
-                                ) {
-                                    Box(contentAlignment = Alignment.Center) {
-                                        Icon(
-                                            painter = painterResource(id = R.drawable.ic_device),
-                                            contentDescription = null,
-                                            tint = MaterialTheme.colorScheme.primary,
-                                            modifier = Modifier.size(28.dp)
-                                        )
-                                    }
-                                }
-                            }
-
-                            HorizontalDivider(
-                                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f),
-                                thickness = 1.dp
-                            )
-
-                            // Current Version section
-                            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                                // Top Badges Row
                                 Row(
                                     modifier = Modifier.fillMaxWidth(),
                                     horizontalArrangement = Arrangement.SpaceBetween,
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
-                                    Row(
-                                        verticalAlignment = Alignment.CenterVertically,
-                                        horizontalArrangement = Arrangement.spacedBy(6.dp)
+                                    Surface(
+                                        color = MaterialTheme.colorScheme.surface.copy(alpha = 0.7f),
+                                        border = BorderStroke(
+                                            1.dp,
+                                            MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f)
+                                        ),
+                                        shape = CircleShape
                                     ) {
-                                        Icon(
-                                            painter = painterResource(id = R.drawable.ic_ota_version),
-                                            contentDescription = null,
-                                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                                            modifier = Modifier.size(16.dp)
-                                        )
-                                        Text(
-                                            text = stringResource(R.string.software_update_panel_version_label),
-                                            style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold),
-                                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                                        )
+                                        Row(
+                                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp),
+                                            verticalAlignment = Alignment.CenterVertically,
+                                            horizontalArrangement = Arrangement.spacedBy(6.dp)
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Rounded.Settings,
+                                                contentDescription = null,
+                                                tint = MaterialTheme.colorScheme.primary,
+                                                modifier = Modifier.size(14.dp)
+                                            )
+                                            Text(
+                                                text = stringResource(R.string.software_update_panel_chip),
+                                                style = MaterialTheme.typography.labelMedium.copy(
+                                                    fontWeight = FontWeight.SemiBold
+                                                ),
+                                                color = MaterialTheme.colorScheme.onSurface
+                                            )
+                                        }
                                     }
 
-                                    if (uiState.nvId.isNotBlank()) {
-                                        Text(
-                                            text = "NV ID: ${uiState.nvId}",
-                                            style = MaterialTheme.typography.labelSmall.copy(
-                                                fontFamily = FontFamily.Monospace,
-                                                fontWeight = FontWeight.Bold
-                                            ),
-                                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f)
-                                        )
-                                    }
-                                }
-
-                                val currentVer = uiState.osVersion.ifBlank {
-                                    uiState.displayOtaVersion.ifBlank {
-                                        uiState.fallbackOtaVersion.ifBlank { stringResource(R.string.unknown_version) }
-                                    }
-                                }
-
-                                Surface(
-                                    shape = RoundedCornerShape(12.dp),
-                                    color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f),
-                                    border = BorderStroke(
-                                        1.dp,
-                                        MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
-                                    )
-                                ) {
-                                    Text(
-                                        text = currentVer,
-                                        style = MaterialTheme.typography.bodyMedium.copy(
-                                            fontFamily = FontFamily.Monospace,
-                                            fontWeight = FontWeight.Bold
+                                    Surface(
+                                        color = MaterialTheme.colorScheme.surface.copy(alpha = 0.7f),
+                                        border = BorderStroke(
+                                            1.dp,
+                                            MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f)
                                         ),
-                                        color = MaterialTheme.colorScheme.primary,
-                                        modifier = Modifier.padding(
-                                            horizontal = 12.dp,
-                                            vertical = 8.dp
-                                        ),
-                                        maxLines = 1,
-                                        overflow = TextOverflow.Ellipsis
-                                    )
-                                }
-                            }
-
-                            Text(
-                                text = stringResource(R.string.software_update_panel_meta_hint),
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
-                                lineHeight = 16.sp
-                            )
-                        }
-                    }
-                }
-            }
-
-            AnimatedVisibility(visible = showManualFields) {
-                OtaCard(modifier = Modifier.fillMaxWidth()) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        Text(
-                            text = stringResource(R.string.software_update_panel_summary),
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurface
-                        )
-
-                        OtaTextField(
-                            value = uiState.deviceModel,
-                            onValueChange = { onUpdateModel(it) },
-                            label = { Text(stringResource(R.string.home_model_required_label)) }
-                        )
-
-                        OtaTextField(
-                            value = uiState.deviceName,
-                            onValueChange = { onUpdateName(it) },
-                            label = { Text(stringResource(R.string.home_name_label)) }
-                        )
-
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.spacedBy(12.dp)
-                        ) {
-                            OtaTextField(
-                                value = uiState.deviceRegion,
-                                onValueChange = { onUpdateDeviceRegion(it) },
-                                label = { Text("Device Region") },
-                                modifier = Modifier.weight(1f)
-                            )
-
-                            OtaTextField(
-                                value = uiState.nvId,
-                                onValueChange = { onUpdateNvId(it) },
-                                label = { Text(stringResource(R.string.home_nv_id_label)) },
-                                modifier = Modifier.weight(1f)
-                            )
-                        }
-
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.spacedBy(12.dp)
-                        ) {
-                            DropdownField(
-                                label = stringResource(R.string.hint_ver_letter),
-                                selectedOption = uiState.versionLetter,
-                                options = listOf("A", "C", "F", "H", "J"),
-                                onOptionSelected = { onUpdateVersionLetter(it) },
-                                modifier = Modifier.weight(1f)
-                            )
-                            DropdownField(
-                                label = "Req Mode",
-                                selectedOption = uiState.reqMode,
-                                options = listOf("manual", "server_auto", "client_auto", "taste"),
-                                onOptionSelected = { onUpdateReqMode(it) },
-                                modifier = Modifier.weight(1f)
-                            )
-                        }
-
-                        Text(
-                            text = stringResource(R.string.software_update_panel_footer),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                }
-            }
-
-            StaggeredItem(visible = showSections, index = 1) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { showManualFields = !showManualFields }
-                        .padding(vertical = 6.dp),
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = if (showManualFields) "Hide Manual Identity Overrides" else "Show Manual Identity Overrides",
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.primary
-                    )
-                    Icon(
-                        imageVector = if (showManualFields) Icons.Rounded.KeyboardArrowUp else Icons.Rounded.KeyboardArrowDown,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.padding(start = 4.dp).size(18.dp)
-                    )
-                }
-            }
-
-            StaggeredItem(visible = showSections, index = 2) {
-                OtaPrimaryButton(
-                    text = if (uiState.isLoading) "Checking across servers..." else stringResource(R.string.btn_check_for_update),
-                    onClick = {
-                        focusManager.clearFocus()
-                        onCheckForUpdate()
-                    },
-                    enabled = !uiState.isLoading,
-                    icon = if (uiState.isLoading) null else Icons.Rounded.Refresh,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 24.dp),
-                    compact = true
-                )
-            }
-
-            if (uiState.isLoading) {
-                LoadingState(message = stringResource(R.string.home_searching_msg))
-            }
-
-            uiState.error?.let { err ->
-                ErrorState(
-                    message = err,
-                    onRetry = { onCheckForUpdate() },
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
-
-            val results = uiState.multiResults
-            if (!results.isNullOrEmpty()) {
-                var showResults by remember(results) { mutableStateOf(false) }
-                LaunchedEffect(results) { showResults = true }
-                Text(
-                    text = "${stringResource(R.string.update_available_label)} (${results.size})",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-
-                results.forEachIndexed { index, ota ->
-                    StaggeredItem(visible = showResults, index = index) {
-                        OtaCard(
-                            modifier = Modifier.fillMaxWidth(),
-                            onClick = { onSelectOta(ota) }
-                        ) {
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(16.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Box(
-                                    modifier = Modifier
-                                        .size(48.dp)
-                                        .clip(RoundedCornerShape(12.dp))
-                                        .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.15f)),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Rounded.SystemUpdateAlt,
-                                        contentDescription = null,
-                                        tint = MaterialTheme.colorScheme.primary,
-                                        modifier = Modifier.size(26.dp)
-                                    )
+                                        shape = CircleShape,
+                                        modifier = Modifier.clickable {
+                                            haptic(HapticType.CLICK)
+                                            onNavigateToDeviceCatalog()
+                                        }
+                                    ) {
+                                        Row(
+                                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp),
+                                            verticalAlignment = Alignment.CenterVertically,
+                                            horizontalArrangement = Arrangement.spacedBy(6.dp)
+                                        ) {
+                                            Box(
+                                                modifier = Modifier
+                                                    .size(7.dp)
+                                                    .background(
+                                                        Color(0xFF4CAF50),
+                                                        CircleShape
+                                                    )
+                                            )
+                                            Text(
+                                                text = "Live profile",
+                                                style = MaterialTheme.typography.labelMedium.copy(
+                                                    fontWeight = FontWeight.SemiBold
+                                                ),
+                                                color = MaterialTheme.colorScheme.onSurface
+                                            )
+                                            Icon(
+                                                imageVector = Icons.Rounded.ChevronRight,
+                                                contentDescription = null,
+                                                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                                modifier = Modifier.size(16.dp)
+                                            )
+                                        }
+                                    }
                                 }
 
-                                Spacer(modifier = Modifier.width(12.dp))
-
-                                Column(modifier = Modifier.weight(1f)) {
+                                // Device Info Row
+                                Column(modifier = Modifier.fillMaxWidth()) {
                                     Text(
-                                        text = ota.versionName ?: stringResource(R.string.unknown_version),
-                                        style = MaterialTheme.typography.titleSmall,
-                                        fontWeight = FontWeight.Bold,
+                                        text = uiState.marketName.ifBlank { "OnePlus 12" },
+                                        style = MaterialTheme.typography.headlineMedium,
+                                        fontWeight = FontWeight.ExtraBold,
                                         color = MaterialTheme.colorScheme.onSurface,
                                         maxLines = 1,
                                         overflow = TextOverflow.Ellipsis
                                     )
-                                    Spacer(modifier = Modifier.height(4.dp))
+                                    Spacer(modifier = Modifier.height(2.dp))
+                                    FlowRow(
+                                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                        verticalArrangement = Arrangement.spacedBy(4.dp),
+                                        modifier = Modifier.padding(top = 2.dp)
+                                    ) {
+                                        Text(
+                                            text = uiState.deviceName.ifBlank { uiState.deviceModel },
+                                            style = MaterialTheme.typography.titleMedium,
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.85f),
+                                            fontWeight = FontWeight.Medium
+                                        )
+                                    }
+                                    Spacer(modifier = Modifier.height(6.dp))
                                     Text(
-                                        text = "${ota.realAndroidVersion?.removePrefix("Android ")?.trim() ?: "Android"} • ${ota.size}",
-                                        style = MaterialTheme.typography.bodyMedium,
-                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                        text = "Official device profile loaded from live data",
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
                                     )
                                 }
 
-                                Icon(
-                                    imageVector = Icons.Rounded.ChevronRight,
-                                    contentDescription = null,
-                                    tint = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
+                                // CURRENT VERSION INNER CARD
+                                Surface(
+                                    shape = RoundedCornerShape(20.dp),
+                                    color = MaterialTheme.colorScheme.surface.copy(alpha = 0.9f),
+                                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f)),
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    Column(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(14.dp),
+                                        verticalArrangement = Arrangement.spacedBy(10.dp)
+                                    ) {
+                                        Row(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            horizontalArrangement = Arrangement.SpaceBetween,
+                                            verticalAlignment = Alignment.CenterVertically
+                                        ) {
+                                            Row(
+                                                verticalAlignment = Alignment.CenterVertically,
+                                                horizontalArrangement = Arrangement.spacedBy(6.dp)
+                                            ) {
+                                                Icon(
+                                                    imageVector = Icons.Rounded.Download,
+                                                    contentDescription = null,
+                                                    tint = MaterialTheme.colorScheme.primary,
+                                                    modifier = Modifier.size(18.dp)
+                                                )
+                                                Text(
+                                                    text = stringResource(R.string.software_update_panel_version_label),
+                                                    style = MaterialTheme.typography.titleSmall,
+                                                    fontWeight = FontWeight.Bold,
+                                                    color = MaterialTheme.colorScheme.onSurface
+                                                )
+                                            }
+
+                                            if (uiState.nvId.isNotBlank()) {
+                                                Text(
+                                                    text = "NV ID: ${uiState.nvId}",
+                                                    style = MaterialTheme.typography.labelMedium.copy(
+                                                        fontFamily = FontFamily.Monospace,
+                                                        fontWeight = FontWeight.Bold
+                                                    ),
+                                                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f)
+                                                )
+                                            }
+                                        }
+
+                                        val currentVer = uiState.osVersion.ifBlank {
+                                            uiState.displayOtaVersion.ifBlank {
+                                                uiState.fallbackOtaVersion.ifBlank { stringResource(R.string.unknown_version) }
+                                            }
+                                        }
+
+                                        // Large Version Box
+                                        Surface(
+                                            shape = RoundedCornerShape(14.dp),
+                                            color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.35f),
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .clickable { copyToClipboard("Version", currentVer) }
+                                        ) {
+                                            Row(
+                                                modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp),
+                                                verticalAlignment = Alignment.CenterVertically,
+                                                horizontalArrangement = Arrangement.SpaceBetween
+                                            ) {
+                                                Text(
+                                                    text = currentVer,
+                                                    style = MaterialTheme.typography.titleSmall.copy(
+                                                        fontFamily = FontFamily.Monospace,
+                                                        fontWeight = FontWeight.Black
+                                                    ),
+                                                    color = MaterialTheme.colorScheme.primary,
+                                                    maxLines = 1,
+                                                    overflow = TextOverflow.Ellipsis,
+                                                    modifier = Modifier.weight(1f)
+                                                )
+                                                Icon(
+                                                    imageVector = Icons.Rounded.ContentCopy,
+                                                    contentDescription = "Copy Version",
+                                                    tint = MaterialTheme.colorScheme.primary,
+                                                    modifier = Modifier.size(16.dp)
+                                                )
+                                            }
+                                        }
+
+                                        // Side-by-Side Spec Cards
+                                        Row(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            horizontalArrangement = Arrangement.spacedBy(10.dp)
+                                        ) {
+                                            // Build Type
+                                            Surface(
+                                                shape = RoundedCornerShape(14.dp),
+                                                color = MaterialTheme.colorScheme.surfaceContainerHigh.copy(alpha = 0.5f),
+                                                modifier = Modifier.weight(1f)
+                                            ) {
+                                                Column(
+                                                    modifier = Modifier.padding(horizontal = 14.dp, vertical = 12.dp),
+                                                    verticalArrangement = Arrangement.spacedBy(2.dp)
+                                                ) {
+                                                    Text(
+                                                        text = "Build Type",
+                                                        style = MaterialTheme.typography.labelSmall,
+                                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                                    )
+                                                    Text(
+                                                        text = uiState.buildType.ifBlank { "Official Stable" },
+                                                        style = MaterialTheme.typography.titleSmall,
+                                                        fontWeight = FontWeight.Bold,
+                                                        color = MaterialTheme.colorScheme.onSurface
+                                                    )
+                                                }
+                                            }
+
+                                            // Region
+                                            Surface(
+                                                shape = RoundedCornerShape(14.dp),
+                                                color = MaterialTheme.colorScheme.surfaceContainerHigh.copy(alpha = 0.5f),
+                                                modifier = Modifier.weight(1f)
+                                            ) {
+                                                Column(
+                                                    modifier = Modifier.padding(horizontal = 14.dp, vertical = 12.dp),
+                                                    verticalArrangement = Arrangement.spacedBy(2.dp)
+                                                ) {
+                                                    Text(
+                                                        text = "Region",
+                                                        style = MaterialTheme.typography.labelSmall,
+                                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                                    )
+                                                    Text(
+                                                        text = "${uiState.deviceRegion} (${uiState.deviceRegion.toFullRegionName()})",
+                                                        style = MaterialTheme.typography.titleSmall,
+                                                        fontWeight = FontWeight.Bold,
+                                                        color = MaterialTheme.colorScheme.onSurface,
+                                                        maxLines = 1,
+                                                        overflow = TextOverflow.Ellipsis
+                                                    )
+                                                }
+                                            }
+                                        }
+
+                                        Text(
+                                            text = "Built from the live device profile and ready for a one-tap check.",
+                                            style = MaterialTheme.typography.bodySmall,
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
+                                            lineHeight = 15.sp
+                                        )
+                                    }
+                                }
                             }
                         }
                     }
                 }
-            }
 
-            Spacer(modifier = Modifier.height(88.dp))
+                // PRIMARY FULL-WIDTH CTA BUTTON
+                StaggeredItem(visible = showSections, index = 1) {
+                    OtaPrimaryButton(
+                        text = if (uiState.isLoading) "Checking across update servers..." else stringResource(R.string.btn_check_for_update),
+                        onClick = {
+                            focusManager.clearFocus()
+                            haptic(HapticType.CLICK)
+                            onCheckForUpdate()
+                        },
+                        enabled = !uiState.isLoading,
+                        isLoading = false,
+                        icon = Icons.Rounded.Refresh,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(56.dp)
+                            .clip(CircleShape),
+                        compact = false
+                    )
+                }
+
+                // LOADING & ERROR STATES
+                if (uiState.isLoading) {
+                    LoadingState(message = stringResource(R.string.home_searching_msg))
+                }
+
+                uiState.error?.let { err ->
+                    ErrorState(
+                        message = err,
+                        onRetry = {
+                            haptic(HapticType.CLICK)
+                            onCheckForUpdate()
+                        },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+
+                // RESULTS SECTION
+                val results = uiState.multiResults
+                if (!results.isNullOrEmpty()) {
+                    var showResults by remember(results) { mutableStateOf(false) }
+                    LaunchedEffect(results) { showResults = true }
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 16.dp, bottom = 8.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.SystemUpdateAlt,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier.size(22.dp)
+                            )
+                            Text(
+                                text = "Updates Found",
+                                style = MaterialTheme.typography.titleLarge,
+                                fontWeight = FontWeight.ExtraBold,
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
+                            Surface(
+                                color = MaterialTheme.colorScheme.primaryContainer,
+                                shape = CircleShape
+                            ) {
+                                Text(
+                                    text = "${results.size} Available",
+                                    style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
+                                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                    modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp)
+                                )
+                            }
+                        }
+                    }
+
+                    results.forEachIndexed { index, ota ->
+                        StaggeredItem(visible = showResults, index = index) {
+                            OtaCard(
+                                modifier = Modifier.fillMaxWidth(),
+                                shape = RoundedCornerShape(24.dp),
+                                onClick = {
+                                    haptic(HapticType.CLICK)
+                                    onSelectOta(ota)
+                                }
+                            ) {
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .background(
+                                            Brush.verticalGradient(
+                                                0.0f to MaterialTheme.colorScheme.surfaceContainerHigh.copy(alpha = 0.5f),
+                                                1.0f to MaterialTheme.colorScheme.surfaceContainerLow
+                                            )
+                                        )
+                                ) {
+                                    Column(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(18.dp),
+                                        verticalArrangement = Arrangement.spacedBy(14.dp)
+                                    ) {
+                                        // Top Badges Bar
+                                        Row(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            horizontalArrangement = Arrangement.SpaceBetween,
+                                            verticalAlignment = Alignment.CenterVertically
+                                        ) {
+                                            Surface(
+                                                color = MaterialTheme.colorScheme.primary.copy(alpha = 0.12f),
+                                                border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.25f)),
+                                                shape = CircleShape
+                                            ) {
+                                                Row(
+                                                    modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp),
+                                                    verticalAlignment = Alignment.CenterVertically,
+                                                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                                                ) {
+                                                    Icon(
+                                                        imageVector = Icons.Rounded.SystemUpdateAlt,
+                                                        contentDescription = null,
+                                                        tint = MaterialTheme.colorScheme.primary,
+                                                        modifier = Modifier.size(13.dp)
+                                                    )
+                                                    Text(
+                                                        text = "OFFICIAL UPDATE",
+                                                        style = MaterialTheme.typography.labelSmall.copy(
+                                                            fontWeight = FontWeight.Black,
+                                                            letterSpacing = 0.5.sp
+                                                        ),
+                                                        color = MaterialTheme.colorScheme.primary
+                                                    )
+                                                }
+                                            }
+
+                                            if (!ota.securityPatch.isNullOrBlank()) {
+                                                Surface(
+                                                    color = MaterialTheme.colorScheme.surface.copy(alpha = 0.8f),
+                                                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.35f)),
+                                                    shape = CircleShape
+                                                ) {
+                                                    Text(
+                                                        text = "Patch: ${ota.securityPatch}",
+                                                        style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
+                                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp)
+                                                    )
+                                                }
+                                            }
+                                        }
+
+                                        // Version Name Display Box
+                                        Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                                            Text(
+                                                text = "VERSION PACKAGE",
+                                                style = MaterialTheme.typography.labelSmall.copy(
+                                                    fontWeight = FontWeight.Bold,
+                                                    letterSpacing = 0.5.sp
+                                                ),
+                                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                                            )
+                                            val verName = ota.versionName ?: stringResource(R.string.unknown_version)
+                                            Surface(
+                                                shape = RoundedCornerShape(14.dp),
+                                                color = MaterialTheme.colorScheme.surface,
+                                                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.35f)),
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .clickable { copyToClipboard("Version Package", verName) }
+                                            ) {
+                                                Row(
+                                                    modifier = Modifier.padding(horizontal = 14.dp, vertical = 11.dp),
+                                                    verticalAlignment = Alignment.CenterVertically,
+                                                    horizontalArrangement = Arrangement.SpaceBetween
+                                                ) {
+                                                    Text(
+                                                        text = verName,
+                                                        style = MaterialTheme.typography.titleSmall.copy(
+                                                            fontFamily = FontFamily.Monospace,
+                                                            fontWeight = FontWeight.Black
+                                                        ),
+                                                        color = MaterialTheme.colorScheme.onSurface,
+                                                        maxLines = 1,
+                                                        overflow = TextOverflow.Ellipsis,
+                                                        modifier = Modifier.weight(1f)
+                                                    )
+                                                    Spacer(modifier = Modifier.width(8.dp))
+                                                    Icon(
+                                                        imageVector = Icons.Rounded.ContentCopy,
+                                                        contentDescription = "Copy Version Package",
+                                                        tint = MaterialTheme.colorScheme.primary,
+                                                        modifier = Modifier.size(16.dp)
+                                                    )
+                                                }
+                                            }
+                                        }
+
+                                        // Metadata Spec Badges Row
+                                        FlowRow(
+                                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                            verticalArrangement = Arrangement.spacedBy(6.dp)
+                                        ) {
+                                            // Android Version
+                                            val androidVer = ota.realAndroidVersion?.removePrefix("Android ")?.trim() ?: "Android"
+                                            Surface(
+                                                color = MaterialTheme.colorScheme.primaryContainer,
+                                                shape = RoundedCornerShape(8.dp)
+                                            ) {
+                                                Text(
+                                                    text = "Android $androidVer",
+                                                    style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
+                                                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                                                )
+                                            }
+
+                                            // Size Badge
+                                            Surface(
+                                                color = MaterialTheme.colorScheme.secondaryContainer,
+                                                shape = RoundedCornerShape(8.dp)
+                                            ) {
+                                                Text(
+                                                    text = ota.size,
+                                                    style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
+                                                    color = MaterialTheme.colorScheme.onSecondaryContainer,
+                                                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                                                )
+                                            }
+
+                                            // ARB Status Badge
+                                            if (!ota.arbStatus.isNullOrBlank() && ota.arbStatus != "N/A") {
+                                                val isProtected = ota.arbStatus.contains("Protected", ignoreCase = true) ||
+                                                        ota.arbStatus.contains("Warning", ignoreCase = true) ||
+                                                        ota.arbStatus.contains("Risk", ignoreCase = true) ||
+                                                        (!ota.arbStatus.contains("Safe", ignoreCase = true) && !ota.arbStatus.endsWith("0"))
+
+                                                val arbBgColor = if (isProtected) {
+                                                    MaterialTheme.colorScheme.errorContainer
+                                                } else {
+                                                    MaterialTheme.colorScheme.tertiaryContainer
+                                                }
+
+                                                val arbTextColor = if (isProtected) {
+                                                    MaterialTheme.colorScheme.onErrorContainer
+                                                } else {
+                                                    MaterialTheme.colorScheme.onTertiaryContainer
+                                                }
+
+                                                Surface(
+                                                    color = arbBgColor,
+                                                    shape = RoundedCornerShape(8.dp)
+                                                ) {
+                                                    Text(
+                                                        text = "ARB: ${ota.arbStatus}",
+                                                        style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
+                                                        color = arbTextColor,
+                                                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                                                    )
+                                                }
+                                            }
+                                        }
+
+                                        HorizontalDivider(
+                                            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.35f),
+                                            thickness = 1.dp
+                                        )
+
+                                        // Inline Quick Actions
+                                        Row(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                            verticalAlignment = Alignment.CenterVertically
+                                        ) {
+                                            OtaTonalButton(
+                                                text = "View Details",
+                                                onClick = {
+                                                    haptic(HapticType.CLICK)
+                                                    onSelectOta(ota)
+                                                },
+                                                icon = Icons.Rounded.Info,
+                                                compact = true,
+                                                modifier = Modifier.weight(1f)
+                                            )
+
+                                            OtaPrimaryButton(
+                                                text = "Download",
+                                                onClick = {
+                                                    haptic(HapticType.CLICK)
+                                                    onStartDownload(ota)
+                                                    Toast.makeText(context, R.string.home_download_started, Toast.LENGTH_SHORT).show()
+                                                },
+                                                icon = Icons.Rounded.Download,
+                                                compact = true,
+                                                modifier = Modifier.weight(1f)
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(160.dp))
+            }
         }
     }
 
@@ -650,17 +877,17 @@ fun HomeUpdateContent(
             onDismiss = { onSelectOta(null) },
             onDownload = { selected ->
                 onStartDownload(selected)
-                Toast.makeText(context, context.getString(R.string.home_download_started), Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, R.string.home_download_started, Toast.LENGTH_SHORT).show()
                 onSelectOta(null)
             },
             onCopyLink = { url ->
-                val clipboard = context.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
-                clipboard.setPrimaryClip(android.content.ClipData.newPlainText(context.getString(R.string.home_ota_url_label), url))
+                val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                clipboard.setPrimaryClip(ClipData.newPlainText("OTA Link", url))
                 Toast.makeText(context, R.string.toast_link_copied, Toast.LENGTH_SHORT).show()
             },
             onViewChangelog = { url ->
                 if (url.isNullOrBlank()) {
-                    Toast.makeText(context, context.getString(R.string.home_changelog_unavail), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, R.string.home_changelog_unavail, Toast.LENGTH_SHORT).show()
                 } else {
                     context.startActivity(InAppBrowserActivity.createIntent(context, url, "Changelog"))
                 }
@@ -689,7 +916,7 @@ fun HomeUpdateContent(
             },
             onViewJson = { selected ->
                 if (selected.rawJson.isNullOrBlank()) {
-                    Toast.makeText(context, context.getString(R.string.json_output_unavailable), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, R.string.json_output_unavailable, Toast.LENGTH_SHORT).show()
                 } else {
                     context.startActivity(JsonOutputActivity.createIntent(context, selected, "GLO"))
                 }
@@ -708,50 +935,6 @@ fun HomeUpdateContent(
         )
 
         Spacer(modifier = Modifier.height(84.dp))
-    }
-}
-
-@Composable
-private fun DropdownField(
-    label: String,
-    selectedOption: String,
-    options: List<String>,
-    onOptionSelected: (String) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    var expanded by remember { mutableStateOf(false) }
-
-    Box(modifier = modifier) {
-        OtaTextField(
-            value = selectedOption,
-            onValueChange = {},
-            label = { Text(label) },
-            trailingIcon = {
-                Icon(
-                    imageVector = if (expanded) Icons.Rounded.KeyboardArrowUp else Icons.Rounded.KeyboardArrowDown,
-                    contentDescription = null
-                )
-            }
-        )
-        Box(
-            modifier = Modifier
-                .matchParentSize()
-                .clickable { expanded = true }
-        )
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false }
-        ) {
-            options.forEach { option ->
-                DropdownMenuItem(
-                    text = { Text(option) },
-                    onClick = {
-                        onOptionSelected(option)
-                        expanded = false
-                    }
-                )
-            }
-        }
     }
 }
 

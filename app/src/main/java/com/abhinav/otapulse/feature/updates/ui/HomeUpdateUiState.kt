@@ -30,6 +30,7 @@ data class HomeUpdateUiState(
     val osVersion: String = "",
     val displayOtaVersion: String = "",
     val fallbackOtaVersion: String = "",
+    val buildType: String = "Official Stable",
     val isLoading: Boolean = false,
     val multiResults: List<OtaUpdate>? = null,
     val error: String? = null,
