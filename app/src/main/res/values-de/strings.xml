@@ -1,4 +1,4 @@
-<resources>
+﻿<resources>
     <string name="title_ota_tools">Tools</string>
     <string name="title_about">Über</string>
     <string name="title_settings">Einstellungen</string>
@@ -364,7 +364,7 @@
     <string name="add_dev_query_mode_title">Abfragemodus</string>
     <string name="add_dev_gray_flag_title">Gray-Flag (Beta/Stabil)</string>
     <string name="add_dev_add_variant_btn">Variante hinzufügen</string>
-    <string name="catalog_update_history_cd">Update History</string>
+    <string name="catalog_update_history_cd">Search History</string>
     <string name="catalog_search_devices_cd">Search Devices</string>
     <string name="catalog_add_custom_dev_cd">Add Custom Device</string>
     <string name="catalog_syncing_msg">Gerätekatalog wird synchronisiert...</string>
@@ -444,7 +444,7 @@
     <string name="settings_glassmorphism_sub">Glassmorphism • Neon</string>
     <string name="settings_dynamic_accent_sub">Farbpalette aus dem Hintergrundbild extrahieren</string>
     <string name="settings_author_name">Abhinav Verma</string>
-    <string name="home_update_history_cd">Update History</string>
+    <string name="home_update_history_cd">Search History</string>
     <string name="home_model_required_label">Produktmodell (Erforderlich)</string>
     <string name="home_name_label">Produktname</string>
     <string name="home_nv_id_label">NV-ID (Optional)</string>

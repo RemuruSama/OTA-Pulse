@@ -258,7 +258,7 @@ fun OtaToolsScreen(
                 }
             }
 
-            // Tool 6: Update History
+            // Tool 6: Search History
             item {
                 StaggeredItem(visible = showSections, index = 7) {
                     ToolCard(

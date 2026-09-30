@@ -234,7 +234,7 @@
     <string name="upi_id_value">abhinavftp98@axl</string>
     <string name="tools_active_downloads_title">सक्रिय डाउनलोड (Active Downloads)</string>
     <string name="tools_active_downloads_desc">लाइव ओटीए पैकेज डाउनलोड, स्पीड चार्ट्स, पॉज़/रिज़्यूम कतारों की निगरानी करें और MD5 चेकसम सत्यापित करें।</string>
-    <string name="tools_update_history_title">अपडेट इतिहास (Update History)</string>
+    <string name="tools_update_history_title">सर्च इतिहास (Search History)</string>
     <string name="tools_update_history_desc">क्वेरी किए गए और डाउनलोड किए गए फ़र्मवेयर अपडेट के कालानुक्रमिक लॉग ब्राउज़ करें, मॉडल खोजें या JSON निर्यात करें।</string>
     <string name="downloads_screen_title">सक्रिय डाउनलोड (Active Downloads)</string>
     <string name="downloads_add_cd">डाउनलोड जोड़ें</string>
@@ -242,7 +242,7 @@
     <string name="downloads_empty_msg">ओटीए अपडेट डाउनलोड को कतार में जोड़ें या स्पीड और MD5 अखंडता की निगरानी के लिए सीधे पेलोड लिंक पेस्ट करें।</string>
     <string name="downloads_add_direct_link">सीधा लिंक जोड़ें</string>
     <string name="history_clear_all">सभी साफ़ करें</string>
-    <string name="history_screen_title">अपडेट इतिहास (Update History)</string>
+    <string name="history_screen_title">सर्च इतिहास (Search History)</string>
     <string name="history_records_count">%1$d रिकॉर्ड्स</string>
     <string name="history_more_options_cd">अधिक विकल्प</string>
     <string name="history_search_placeholder">डिवाइस, क्षेत्र या बिल्ड संस्करण द्वारा खोजें...</string>
@@ -364,7 +364,7 @@
     <string name="add_dev_query_mode_title">क्वेरी अनुरोध मोड</string>
     <string name="add_dev_gray_flag_title">ग्रे फ़्लैग (बीटा/स्टेबल)</string>
     <string name="add_dev_add_variant_btn">वेरिएंट जोड़ें</string>
-    <string name="catalog_update_history_cd">अपडेट इतिहास</string>
+    <string name="catalog_update_history_cd">सर्च इतिहास</string>
     <string name="catalog_search_devices_cd">डिवाइस खोजें</string>
     <string name="catalog_add_custom_dev_cd">कस्टम डिवाइस जोड़ें</string>
     <string name="catalog_syncing_msg">डिवाइस कैटलॉग सिंक हो रहा है...</string>
@@ -444,7 +444,7 @@
     <string name="settings_glassmorphism_sub">ग्लासमॉर्फ़िज़्म · नियॉन</string>
     <string name="settings_dynamic_accent_sub">वॉलपेपर से व्यक्तिगत रंग पैलेट निकालें</string>
     <string name="settings_author_name">अभिनव वर्मा (Abhinav Verma)</string>
-    <string name="home_update_history_cd">अपडेट इतिहास</string>
+    <string name="home_update_history_cd">सर्च इतिहास</string>
     <string name="home_model_required_label">उत्पाद मॉडल (अनिवार्य)</string>
     <string name="home_name_label">उत्पाद का नाम</string>
     <string name="home_nv_id_label">NV ID (वैकल्पिक)</string>

@@ -323,7 +323,7 @@
     <string name="arb_checker_check_local_btn">Check Local ZIP ARB</string>
     <string name="tools_active_downloads_title">Active Downloads</string>
     <string name="tools_active_downloads_desc">Monitor live OTA package downloads, speed charts, pause/resume queues, and verify MD5 checksums.</string>
-    <string name="tools_update_history_title">Update History</string>
+    <string name="tools_update_history_title">Search History</string>
     <string name="tools_update_history_desc">Browse chronological logs of queried and downloaded firmware updates, search across models, or export JSON.</string>
     <string name="downloads_screen_title">Downloads</string>
     <string name="downloads_add_cd">Add Download</string>
@@ -331,7 +331,7 @@
     <string name="downloads_empty_msg">Queue OTA update downloads or paste a direct payload link to monitor speed and verify MD5 integrity.</string>
     <string name="downloads_add_direct_link">Add Direct Link</string>
     <string name="history_clear_all">Clear All</string>
-    <string name="history_screen_title">Update History</string>
+    <string name="history_screen_title">Search History</string>
     <string name="history_records_count">%1$d records</string>
     <string name="history_more_options_cd">More Options</string>
     <string name="history_search_placeholder">Search by device, region or build version...</string>
@@ -453,7 +453,7 @@
     <string name="add_dev_query_mode_title">Query Request Mode</string>
     <string name="add_dev_gray_flag_title">Gray Flag (Beta/Stable)</string>
     <string name="add_dev_add_variant_btn">Add Variant</string>
-    <string name="catalog_update_history_cd">Update History</string>
+    <string name="catalog_update_history_cd">Search History</string>
     <string name="catalog_search_devices_cd">Search Devices</string>
     <string name="catalog_add_custom_dev_cd">Add Custom Device</string>
     <string name="catalog_syncing_msg">Syncing device catalog...</string>
@@ -533,7 +533,7 @@
     <string name="settings_glassmorphism_sub">Glassmorphism • Neon</string>
     <string name="settings_dynamic_accent_sub">Extract personalized color palette from wallpaper</string>
     <string name="settings_author_name">Abhinav Verma</string>
-    <string name="home_update_history_cd">Update History</string>
+    <string name="home_update_history_cd">Search History</string>
     <string name="home_model_required_label">Product Model (Required)</string>
     <string name="home_name_label">Product Name</string>
     <string name="home_nv_id_label">NV ID (Optional)</string>

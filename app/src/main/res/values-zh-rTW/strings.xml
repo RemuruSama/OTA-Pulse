@@ -1,4 +1,4 @@
-<resources>
+﻿<resources>
     <string name="title_ota_tools">工具</string>
     <string name="title_about">關於</string>
     <string name="title_settings">設定</string>
@@ -364,7 +364,7 @@
     <string name="add_dev_query_mode_title">查询请求模式</string>
     <string name="add_dev_gray_flag_title">灰度标志 (Beta/Stable)</string>
     <string name="add_dev_add_variant_btn">添加变种</string>
-    <string name="catalog_update_history_cd">Update History</string>
+    <string name="catalog_update_history_cd">Search History</string>
     <string name="catalog_search_devices_cd">Search Devices</string>
     <string name="catalog_add_custom_dev_cd">Add Custom Device</string>
     <string name="catalog_syncing_msg">正在同步设备目录...</string>
@@ -444,7 +444,7 @@
     <string name="settings_glassmorphism_sub">Glassmorphism • Neon</string>
     <string name="settings_dynamic_accent_sub">从当前桌面壁纸中提取个性化配色方案</string>
     <string name="settings_author_name">Abhinav Verma</string>
-    <string name="home_update_history_cd">Update History</string>
+    <string name="home_update_history_cd">Search History</string>
     <string name="home_model_required_label">产品型号 (必填)</string>
     <string name="home_name_label">产品名称</string>
     <string name="home_nv_id_label">NV ID (选填)</string>
