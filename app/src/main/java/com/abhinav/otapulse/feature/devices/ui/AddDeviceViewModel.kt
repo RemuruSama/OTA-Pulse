@@ -18,7 +18,7 @@ import javax.inject.Inject
 data class AddDeviceUiState(
     val deviceName: String = "",
     val firmwareGroups: Map<String, List<RegionVariant>> = emptyMap(),
-    val ruiVersion: Int = 7,
+    val ruiVersion: Int = 6,
     val isSaveSuccess: Boolean = false,
     val errorMessage: String? = null,
     val isEditMode: Boolean = false,
@@ -49,9 +49,6 @@ class AddDeviceViewModel @Inject constructor(
         _uiState.update { it.copy(deviceName = name) }
     }
 
-    fun onRuiVersionChanged(version: Int) {
-        _uiState.update { it.copy(ruiVersion = version) }
-    }
 
     fun addFirmwareGroup(androidVersion: String) {
         if (androidVersion.isBlank()) {

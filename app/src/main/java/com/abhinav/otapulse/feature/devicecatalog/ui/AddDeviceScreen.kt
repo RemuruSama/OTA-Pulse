@@ -200,41 +200,6 @@ fun AddDeviceScreen(
                         )
                     )
 
-                    Text(
-                        text = "OS Generation",
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    Row(
-                        modifier = Modifier.horizontalScroll(rememberScrollState()),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        listOf(
-                            7 to "ColorOS 17 (Android 17)",
-                            6 to "ColorOS 16 / RUI 6 (Android 16)",
-                            5 to "ColorOS 14 / RUI 5 (Android 14)",
-                            4 to "ColorOS 13 / RUI 4 (Android 13)"
-                        ).forEach { (ver, label) ->
-                            val selected = uiState.ruiVersion == ver
-                            Surface(
-                                shape = RoundedCornerShape(20.dp),
-                                color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant,
-                                modifier = Modifier.clickable {
-                                    view.haptic(HapticType.CLICK)
-                                    viewModel.onRuiVersionChanged(ver)
-                                }
-                            ) {
-                                Text(
-                                    text = label,
-                                    style = MaterialTheme.typography.labelMedium.copy(
-                                        fontWeight = if (selected) FontWeight.Bold else FontWeight.Medium
-                                    ),
-                                    color = if (selected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant,
-                                    modifier = Modifier.padding(horizontal = 14.dp, vertical = 8.dp)
-                                )
-                            }
-                        }
-                    }
                 }
             }
 
@@ -417,26 +382,6 @@ fun AddDeviceScreen(
                         onValueChange = { groupInput = it },
                         placeholder = { Text(stringResource(R.string.add_dev_ver_placeholder)) }
                     )
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Row(
-                        modifier = Modifier.horizontalScroll(rememberScrollState()),
-                        horizontalArrangement = Arrangement.spacedBy(6.dp)
-                    ) {
-                        listOf("Android 17", "Android 16", "Android 15", "Android 14").forEach { suggestion ->
-                            Surface(
-                                shape = RoundedCornerShape(8.dp),
-                                color = if (groupInput == suggestion) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceVariant,
-                                modifier = Modifier.clickable { groupInput = suggestion }
-                            ) {
-                                Text(
-                                    text = suggestion,
-                                    style = MaterialTheme.typography.labelSmall,
-                                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
-                                    color = if (groupInput == suggestion) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
-                        }
-                    }
                 }
             },
             confirmButton = {
