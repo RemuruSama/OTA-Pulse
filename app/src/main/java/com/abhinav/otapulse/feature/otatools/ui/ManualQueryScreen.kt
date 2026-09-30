@@ -95,6 +95,7 @@ import com.abhinav.otapulse.R
 import com.abhinav.otapulse.catalog.model.RegionData
 import com.abhinav.otapulse.core.common.DeviceUtils
 import com.abhinav.otapulse.core.common.FormatUtils
+import com.abhinav.otapulse.core.common.OtaJsonOutputHelper
 import com.abhinav.otapulse.core.common.OtaShareHelper
 import com.abhinav.otapulse.core.common.HapticType
 import com.abhinav.otapulse.core.common.haptic
@@ -219,11 +220,12 @@ fun ManualQueryScreen(
                 )
             },
             onViewJson = { selected ->
-                if (selected.rawJson.isNullOrBlank()) {
-                    Toast.makeText(context, context.getString(R.string.json_output_unavailable), Toast.LENGTH_SHORT).show()
+                val otaWithJson = if (selected.rawJson.isNullOrBlank()) {
+                    selected.copy(rawJson = OtaJsonOutputHelper.getJsonOutput(selected))
                 } else {
-                    context.startActivity(JsonOutputActivity.createIntent(context, selected, "GLO"))
+                    selected
                 }
+                context.startActivity(JsonOutputActivity.createIntent(context, otaWithJson, "GLO"))
             },
             isFetchingPartitions = uiState.isFetchingPartitions,
             onFetchPartitions = { update -> viewModel.fetchExtractablePartitions(update) },

@@ -96,7 +96,7 @@ class JsonOutputActivity : AppCompatActivity() {
             intent.getParcelableExtra(EXTRA_OTA_UPDATE)
         }
         val update = otaUpdate
-        if (update == null || update.rawJson.isNullOrBlank()) {
+        if (update == null) {
             Toast.makeText(this, getString(R.string.json_output_unavailable), Toast.LENGTH_SHORT).show()
             finish()
             return

@@ -124,6 +124,7 @@ import com.abhinav.otapulse.core.ui.components.StaggeredItem
 import com.abhinav.otapulse.core.ui.theme.OtaPulseTheme
 import com.abhinav.otapulse.core.ui.theme.ThemeMode
 import com.abhinav.otapulse.feature.browser.InAppBrowserActivity
+import com.abhinav.otapulse.core.common.OtaJsonOutputHelper
 import com.abhinav.otapulse.feature.devicecatalog.ui.OtaDetailsSheet
 import com.abhinav.otapulse.feature.otatools.ui.JsonOutputActivity
 import java.util.UUID
@@ -951,11 +952,12 @@ fun HomeUpdateContent(
                 )
             },
             onViewJson = { selected ->
-                if (selected.rawJson.isNullOrBlank()) {
-                    Toast.makeText(context, R.string.json_output_unavailable, Toast.LENGTH_SHORT).show()
+                val otaWithJson = if (selected.rawJson.isNullOrBlank()) {
+                    selected.copy(rawJson = OtaJsonOutputHelper.getJsonOutput(selected))
                 } else {
-                    context.startActivity(JsonOutputActivity.createIntent(context, selected, "GLO"))
+                    selected
                 }
+                context.startActivity(JsonOutputActivity.createIntent(context, otaWithJson, "GLO"))
             },
             isFetchingPartitions = uiState.isFetchingPartitions,
             onFetchPartitions = { selected -> onFetchPartitions(selected) },

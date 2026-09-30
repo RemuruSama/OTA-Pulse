@@ -47,7 +47,7 @@ class OtaHistoryRepositoryImpl @Inject constructor(
                                 timestamp = entry.timestamp,
                                 deviceName = entry.deviceName,
                                 region = entry.region,
-                                otaUpdate = entry.otaUpdate.copy(rawJson = null) // strip rawJson on migration
+                                otaUpdate = entry.otaUpdate
                             )
                         )
                     }
@@ -86,24 +86,29 @@ class OtaHistoryRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun logOtaUpdate(entry: OtaHistoryEntry) = withContext(Dispatchers.IO) {
-        // Strip rawJson to prevent database bloat
-        val entryToSave = entry.copy(
-            otaUpdate = entry.otaUpdate.copy(rawJson = null)
-        )
+    override suspend fun logOtaUpdate(entry: OtaHistoryEntry): Unit = withContext(Dispatchers.IO) {
+        val entryToSave = entry
         
         // Basic deduplication: Check recent history
         val recentHistory = dao.getRecentHistoryForDeviceAndRegion(entryToSave.deviceName, entryToSave.region)
-        val isDuplicate = recentHistory.any {
+        val existingEntry = recentHistory.firstOrNull {
             (it.otaUpdate.versionName ?: it.otaUpdate.componentVersion) == (entryToSave.otaUpdate.versionName ?: entryToSave.otaUpdate.componentVersion)
         }
 
-        if (!isDuplicate) {
+        if (existingEntry == null) {
             dao.insert(
                 OtaHistoryEntity(
                     timestamp = entryToSave.timestamp,
                     deviceName = entryToSave.deviceName,
                     region = entryToSave.region,
+                    otaUpdate = entryToSave.otaUpdate
+                )
+            )
+        } else if (existingEntry.otaUpdate.rawJson.isNullOrBlank() && !entryToSave.otaUpdate.rawJson.isNullOrBlank()) {
+            // Upgrade existing history entry to include rawJson without duplicating the item
+            dao.insert(
+                existingEntry.copy(
+                    timestamp = entryToSave.timestamp,
                     otaUpdate = entryToSave.otaUpdate
                 )
             )
