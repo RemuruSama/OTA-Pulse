@@ -51,23 +51,20 @@ fun StaggeredItem(
         enter = fadeIn(
             animationSpec = tween(
                 durationMillis = OtaPulseMotion.StackEnterDuration,
-                delayMillis = index.coerceAtMost(OtaPulseMotion.StaggerMaxItems) * OtaPulseMotion.StaggerDelayMs
+                delayMillis = OtaPulseMotion.staggerDelayForIndex(index).toInt()
             )
         ) + slideInVertically(
-            initialOffsetY = { it / 3 },
-            animationSpec = spring(
-                dampingRatio = 0.8f,
-                stiffness = Spring.StiffnessLow
-            )
+            initialOffsetY = { it / 4 },
+            animationSpec = OtaPulseMotion.StackSlideOffset
         ) + scaleIn(
-            initialScale = 0.94f,
-            animationSpec = spring(
-                dampingRatio = 0.8f,
-                stiffness = Spring.StiffnessLow
-            )
+            initialScale = 0.95f,
+            animationSpec = OtaPulseMotion.StackScaleSpring
         ),
         exit = fadeOut(
-            animationSpec = tween(durationMillis = OtaPulseMotion.StackExitDuration)
+            animationSpec = OtaPulseMotion.FadeOutSpec
+        ) + androidx.compose.animation.scaleOut(
+            targetScale = 0.96f,
+            animationSpec = OtaPulseMotion.SpringSnappy
         )
     ) {
         content()
@@ -82,7 +79,7 @@ fun StaggeredItem(
 fun StaggeredSection(
     visible: Boolean,
     index: Int,
-    staggerDelayMs: Int = 60,
+    staggerDelayMs: Int = 40,
     content: @Composable () -> Unit
 ) {
     if (LocalReduceMotion.current) {
@@ -99,19 +96,15 @@ fun StaggeredSection(
                 delayMillis = index * staggerDelayMs
             )
         ) + slideInVertically(
-            initialOffsetY = { it / 4 },
-            animationSpec = spring(
-                dampingRatio = 0.85f,
-                stiffness = Spring.StiffnessLow
-            )
+            initialOffsetY = { it / 5 },
+            animationSpec = OtaPulseMotion.SpringGentleOffset
         ) + scaleIn(
-            initialScale = 0.96f,
-            animationSpec = spring(
-                dampingRatio = 0.85f,
-                stiffness = Spring.StiffnessLow
-            )
+            initialScale = 0.97f,
+            animationSpec = OtaPulseMotion.SpringGentle
         ),
-        exit = fadeOut()
+        exit = fadeOut(
+            animationSpec = OtaPulseMotion.FadeOutSpec
+        )
     ) {
         content()
     }

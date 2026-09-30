@@ -27,6 +27,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
+import com.abhinav.otapulse.core.ui.theme.OtaPulseMotion
+
 /**
  * Staggered Bento Grid Layout for device catalogs and dashboards.
  *
@@ -58,7 +60,7 @@ fun <T> BentoGrid(
             Box(
                 modifier = Modifier
                     .stackItemAppearance(index, sessionKey)
-                    .animateItem()
+                    .animateItem(placementSpec = OtaPulseMotion.StackReorderSpec)
             ) {
                 itemContent(item)
             }

@@ -30,7 +30,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import com.abhinav.otapulse.core.ui.components.stackItemAppearance
+import com.abhinav.otapulse.core.ui.theme.OtaPulseMotion
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
@@ -151,7 +153,7 @@ fun LibrariesScreen(
                 )
             }
 
-            items(libraries, key = { it.name }) { library ->
+            itemsIndexed(libraries, key = { _, it -> it.name }) { index, library ->
                 LibraryCard(
                     library = library,
                     onClick = {
@@ -161,7 +163,10 @@ fun LibrariesScreen(
                         } catch (e: Exception) {
                             Toast.makeText(context, context.getString(R.string.libs_err_open_link), Toast.LENGTH_SHORT).show()
                         }
-                    }
+                    },
+                    modifier = Modifier
+                        .stackItemAppearance(index)
+                        .animateItem(placementSpec = OtaPulseMotion.StackReorderSpec)
                 )
             }
 

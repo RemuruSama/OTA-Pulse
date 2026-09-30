@@ -83,6 +83,7 @@ import com.abhinav.otapulse.core.ui.components.FloatingSearchBar
 import com.abhinav.otapulse.core.ui.components.OtaCard
 import com.abhinav.otapulse.core.ui.components.OtaPrimaryButton
 import com.abhinav.otapulse.core.ui.components.stackItemAppearance
+import com.abhinav.otapulse.core.ui.theme.OtaPulseMotion
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -312,7 +313,9 @@ fun HistoryScreen(
                                     view.haptic(HapticType.CLICK)
                                     devicesViewModel.showOtaDetailsFromHistory(entry)
                                 },
-                                modifier = Modifier.stackItemAppearance(index, searchQuery).animateItem()
+                                modifier = Modifier
+                                    .stackItemAppearance(index, searchQuery)
+                                    .animateItem(placementSpec = OtaPulseMotion.StackReorderSpec)
                             )
                         }
                     }

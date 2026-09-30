@@ -66,12 +66,12 @@ fun OtaCard(
     val shouldAnimatePress = !reduceMotion && isPressed && (onClick != null)
     val scale by animateFloatAsState(
         targetValue = if (shouldAnimatePress) 0.96f else 1f,
-        animationSpec = OtaPulseMotion.SpringStiff,
+        animationSpec = if (isPressed) OtaPulseMotion.StackPressSpring else OtaPulseMotion.StackReleaseSpring,
         label = "card_scale"
     )
     val pressElevation by animateFloatAsState(
         targetValue = if (shouldAnimatePress) 2f else 0f,
-        animationSpec = OtaPulseMotion.SpringStiff,
+        animationSpec = if (isPressed) OtaPulseMotion.StackPressSpring else OtaPulseMotion.StackReleaseSpring,
         label = "card_elevation"
     )
 

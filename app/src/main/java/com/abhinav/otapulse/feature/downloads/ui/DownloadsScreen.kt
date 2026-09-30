@@ -30,6 +30,7 @@ import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.exponentialDecay
 import androidx.compose.animation.core.tween
+import com.abhinav.otapulse.core.ui.theme.OtaPulseMotion
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.AnchoredDraggableState
@@ -245,10 +246,7 @@ fun DownloadsContent(
                                 },
                                 positionalThreshold = { distance -> distance * 0.3f },
                                 velocityThreshold = { with(density) { 125.dp.toPx() } },
-                                snapAnimationSpec = spring(
-                                    dampingRatio = Spring.DampingRatioNoBouncy,
-                                    stiffness = Spring.StiffnessMediumLow
-                                ),
+                                snapAnimationSpec = OtaPulseMotion.StackSwipeSpring,
                                 decayAnimationSpec = decaySpec
                             )
                         }
@@ -258,7 +256,7 @@ fun DownloadsContent(
                                 .fillMaxWidth()
                                 .height(IntrinsicSize.Max)
                                 .stackItemAppearance(index)
-                                .animateItem()
+                                .animateItem(placementSpec = OtaPulseMotion.StackReorderSpec)
                                 .clip(RoundedCornerShape(16.dp))
                         ) {
                             // Delete Button (revealed behind)

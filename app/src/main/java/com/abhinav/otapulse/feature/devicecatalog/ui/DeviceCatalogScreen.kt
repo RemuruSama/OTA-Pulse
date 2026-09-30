@@ -349,7 +349,9 @@ fun DeviceCatalogScreen(
                                     device = device,
                                     uiState = uiState,
                                     viewModel = viewModel,
-                                    modifier = Modifier.stackItemAppearance(index, sessionKey),
+                                    modifier = Modifier
+                                        .stackItemAppearance(index, sessionKey)
+                                        .animateItem(placementSpec = OtaPulseMotion.StackReorderSpec),
                                     onNavigateToEditDevice = { onNavigateToAddDevice(it) },
                                     onDeleteCustomDevice = { viewModel.deleteCustomDevice(it.name) }
                                 )

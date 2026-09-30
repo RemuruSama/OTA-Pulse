@@ -164,7 +164,107 @@ object OtaPulseMotion {
 
     // ── Stack List Animation Specs ────────────────────────────────────────
 
-    /** Enter duration for list items. */
+    /**
+     * Slide spring for stack items entering view.
+     * High-FPS optimized: stiffness 500f and damping 0.74f provide swift,
+     * fluid overshoot that settles cleanly within 200ms at 120Hz/144Hz.
+     */
+    val StackSlideSpring = spring<Float>(
+        dampingRatio = 0.74f,
+        stiffness = 500f
+    )
+
+    /**
+     * Scale spring for stack items popping and settling into their bounds.
+     */
+    val StackScaleSpring = spring<Float>(
+        dampingRatio = 0.72f,
+        stiffness = 520f
+    )
+
+    /**
+     * Rapid alpha spring for clean opacity transition without ghosting.
+     */
+    val StackAlphaSpring = spring<Float>(
+        dampingRatio = 0.90f,
+        stiffness = 700f
+    )
+
+    /**
+     * 3D tilt spring for subtle spatial rotation settling.
+     */
+    val StackTiltSpring = spring<Float>(
+        dampingRatio = 0.76f,
+        stiffness = 520f
+    )
+
+    /**
+     * Responsive touch compression spring when user presses an item.
+     * High stiffness (850f) provides immediate tactile feedback.
+     */
+    val StackPressSpring = spring<Float>(
+        dampingRatio = 0.68f,
+        stiffness = 850f
+    )
+
+    /**
+     * Bouncy rebound spring when user releases a pressed item.
+     * Lower damping ratio (0.58f) produces a lively, playful snap back.
+     */
+    val StackReleaseSpring = spring<Float>(
+        dampingRatio = 0.58f,
+        stiffness = 520f
+    )
+
+    /**
+     * Spring for list/grid items reshuffling or shifting after deletion/reordering.
+     */
+    val StackReorderSpec = spring<IntOffset>(
+        dampingRatio = 0.78f,
+        stiffness = 550f
+    )
+
+    /**
+     * Bouncy tactile snap spring for swipe gestures (e.g. swipe-to-delete).
+     */
+    val StackSwipeSpring = spring<Float>(
+        dampingRatio = 0.65f,
+        stiffness = 580f
+    )
+
+    // ── Stack Typed Overloads ─────────────────────────────────────────────
+
+    val StackSlideDp = spring<Dp>(
+        dampingRatio = 0.74f,
+        stiffness = 500f
+    )
+
+    val StackSlideOffset = spring<IntOffset>(
+        dampingRatio = 0.74f,
+        stiffness = 500f
+    )
+
+    val SpringGentleOffset = spring<IntOffset>(
+        dampingRatio = 0.8f,
+        stiffness = 200f
+    )
+
+    val StackPressDp = spring<Dp>(
+        dampingRatio = 0.68f,
+        stiffness = 850f
+    )
+
+    val StackReleaseDp = spring<Dp>(
+        dampingRatio = 0.58f,
+        stiffness = 520f
+    )
+
+    val StackSizeSpring = spring<androidx.compose.ui.unit.IntSize>(
+        dampingRatio = 0.75f,
+        stiffness = 450f
+    )
+
+    /** Enter duration for list items (legacy fallback). */
     const val StackEnterDuration = 220
 
     /** Exit duration for list items. */
@@ -173,22 +273,42 @@ object OtaPulseMotion {
     /** Press animation duration feel. */
     const val StackPressDuration = 120
 
-    /** Stagger delay between list items (ms). */
-    const val StaggerDelayMs = 40
+    /** Stagger delay between list items (ms), synchronized with 120Hz frame pacing. */
+    const val StaggerDelayMs = 16
 
     /** Max items to stagger (items beyond this appear without extra delay). */
-    const val StaggerMaxItems = 8
+    const val StaggerMaxItems = 12
 
-    /** Standard entrance easing for list items. */
+    /** Standard entrance spring for list items. */
+    val StackEnterSpringSpec = spring<Float>(
+        dampingRatio = 0.74f,
+        stiffness = 500f
+    )
+
+    /** Standard entrance easing for list items (tween fallback). */
     val StackEnterSpec = tween<Float>(
         durationMillis = StackEnterDuration,
         easing = FastOutSlowInEasing
     )
 
-    /** Reorder spring for animated list item movement. */
-    val StackReorderSpec = spring<IntOffset>(
-        dampingRatio = 0.8f,
-        stiffness = 600f
-    )
+    /**
+     * Computes a natural diminishing stagger delay (in milliseconds) for item at [index].
+     * Uses a decaying interval curve so initial items pop quickly and later items do not
+     * create a prolonged wait.
+     */
+    fun staggerDelayForIndex(
+        index: Int,
+        maxItems: Int = StaggerMaxItems,
+        baseDelayMs: Long = StaggerDelayMs.toLong()
+    ): Long {
+        if (index <= 0) return 0L
+        val clampedIndex = index.coerceAtMost(maxItems)
+        var total = 0L
+        for (i in 0 until clampedIndex) {
+            val decayFactor = (1.0 - (i * 0.08)).coerceAtLeast(0.45)
+            total += (baseDelayMs * decayFactor).toLong()
+        }
+        return total
+    }
 }
 
