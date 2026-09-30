@@ -208,7 +208,7 @@
     <string name="notif_md5_verified">ダウンロード検証完了 ✓</string>
     <string name="notif_software_update_available">ソフトウェアアップデートが利用可能</string>
     <string name="notif_software_update_body">お使いのデバイスで新しいバージョン %s が利用可能です</string>
-    <string name="partition_extraction_confirm_selection">選択を確定 (%1$d)</string>
+    <string name="partition_extraction_confirm_selection">選択を確定</string>
     <string name="partition_extraction_deselect_all">すべての選択を解除</string>
     <string name="partition_extraction_load_local_btn">ローカルパーティションを読み込む</string>
     <string name="partition_extraction_load_url_btn">URLからパーティションを読み込む</string>

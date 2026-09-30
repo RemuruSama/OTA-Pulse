@@ -969,7 +969,7 @@ fun PartitionSelectDialog(
                             .height(56.dp)
                     ) {
                         Text(
-                            text = if (isStartingExtraction) stringResource(R.string.cancel) else stringResource(R.string.partition_extraction_confirm_selection, selectedPartitions.size),
+                            text = if (isStartingExtraction) stringResource(R.string.cancel) else stringResource(R.string.partition_extraction_confirm_selection),
                             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
                         )
                     }

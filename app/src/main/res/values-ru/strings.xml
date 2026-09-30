@@ -208,7 +208,7 @@
     <string name="notif_md5_verified">Загрузка проверена ✓</string>
     <string name="notif_software_update_available">Доступно обновление ПО</string>
     <string name="notif_software_update_body">Для вашего устройства доступна новая версия %s</string>
-    <string name="partition_extraction_confirm_selection">Подтвердить выбор (%1$d)</string>
+    <string name="partition_extraction_confirm_selection">Подтвердить выбор</string>
     <string name="partition_extraction_deselect_all">Снять выделение со всего</string>
     <string name="partition_extraction_load_local_btn">Загрузить локальные разделы</string>
     <string name="partition_extraction_load_url_btn">Загрузить разделы по URL</string>

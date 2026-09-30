@@ -208,7 +208,7 @@
     <string name="notif_md5_verified">下載驗證通過 ✓</string>
     <string name="notif_software_update_available">發現新的系統更新</string>
     <string name="notif_software_update_body">您的裝置有新版本 %s 可供更新</string>
-    <string name="partition_extraction_confirm_selection">確認選擇 (%1$d)</string>
+    <string name="partition_extraction_confirm_selection">確認選擇</string>
     <string name="partition_extraction_deselect_all">取消全選</string>
     <string name="partition_extraction_load_local_btn">載入本機分區</string>
     <string name="partition_extraction_load_url_btn">從 URL 載入分區</string>

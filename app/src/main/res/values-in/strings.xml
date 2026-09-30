@@ -208,7 +208,7 @@
     <string name="notif_md5_verified">Unduhan terverifikasi ✓</string>
     <string name="notif_software_update_available">Pembaruan Perangkat Lunak Tersedia</string>
     <string name="notif_software_update_body">Versi baru %s tersedia untuk perangkat Anda</string>
-    <string name="partition_extraction_confirm_selection">Konfirmasi Pilihan (%1$d)</string>
+    <string name="partition_extraction_confirm_selection">Konfirmasi Pilihan</string>
     <string name="partition_extraction_deselect_all">Batal Pilih Semua</string>
     <string name="partition_extraction_load_local_btn">Muat Partisi Lokal</string>
     <string name="partition_extraction_load_url_btn">Muat Partisi dari URL</string>

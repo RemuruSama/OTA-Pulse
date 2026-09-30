@@ -208,7 +208,7 @@
     <string name="notif_md5_verified">تم التحقق من التنزيل ✓</string>
     <string name="notif_software_update_available">تحديث البرنامج متاح</string>
     <string name="notif_software_update_body">إصدار جديد %s متاح لجهازك</string>
-    <string name="partition_extraction_confirm_selection">تأكيد الاختيار (%1$d)</string>
+    <string name="partition_extraction_confirm_selection">تأكيد الاختيار</string>
     <string name="partition_extraction_deselect_all">إلغاء تحديد الكل</string>
     <string name="partition_extraction_load_local_btn">تحميل الأقسام المحلية</string>
     <string name="partition_extraction_load_url_btn">تحميل الأقسام من الرابط</string>

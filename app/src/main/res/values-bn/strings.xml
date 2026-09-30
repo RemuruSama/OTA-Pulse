@@ -208,7 +208,7 @@
     <string name="notif_md5_verified">ডাউনলোড যাচাই করা হয়েছে ✓</string>
     <string name="notif_software_update_available">সফটওয়্যার আপডেট উপলব্ধ</string>
     <string name="notif_software_update_body">আপনার ডিভাইসের জন্য একটি নতুন ভার্সন %s উপলব্ধ</string>
-    <string name="partition_extraction_confirm_selection">নির্বাচন নিশ্চিত করুন (%1$d)</string>
+    <string name="partition_extraction_confirm_selection">নির্বাচন নিশ্চিত করুন</string>
     <string name="partition_extraction_deselect_all">সব নির্বাচন বাতিল করুন</string>
     <string name="partition_extraction_load_local_btn">লোকাল পার্টিশন লোড করুন</string>
     <string name="partition_extraction_load_url_btn">URL থেকে পার্টিশন লোড করুন</string>

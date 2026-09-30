@@ -208,7 +208,7 @@
     <string name="notif_md5_verified">डाउनलोड सत्यापित ✓</string>
     <string name="notif_software_update_available">सॉफ़्टवेयर अपडेट उपलब्ध है</string>
     <string name="notif_software_update_body">आपके डिवाइस के लिए नया संस्करण %s उपलब्ध है</string>
-    <string name="partition_extraction_confirm_selection">चयन की पुष्टि करें (%1$d)</string>
+    <string name="partition_extraction_confirm_selection">चयन की पुष्टि करें</string>
     <string name="partition_extraction_deselect_all">सभी का चयन हटाएं</string>
     <string name="partition_extraction_load_local_btn">लोकल विभाजन लोड करें</string>
     <string name="partition_extraction_load_url_btn">URL से विभाजन लोड करें</string>

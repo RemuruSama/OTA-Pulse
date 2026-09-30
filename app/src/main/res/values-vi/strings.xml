@@ -208,7 +208,7 @@
     <string name="notif_md5_verified">Tải xuống đã được xác minh ✓</string>
     <string name="notif_software_update_available">Có bản cập nhật phần mềm mới</string>
     <string name="notif_software_update_body">Phiên bản mới %s đã sẵn sàng cho thiết bị của bạn</string>
-    <string name="partition_extraction_confirm_selection">Xác nhận chọn (%1$d)</string>
+    <string name="partition_extraction_confirm_selection">Xác nhận chọn</string>
     <string name="partition_extraction_deselect_all">Bỏ chọn tất cả</string>
     <string name="partition_extraction_load_local_btn">Tải phân vùng cục bộ</string>
     <string name="partition_extraction_load_url_btn">Tải phân vùng từ URL</string>

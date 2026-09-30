@@ -208,7 +208,7 @@
     <string name="notif_md5_verified">Na-verify ang download ✓</string>
     <string name="notif_software_update_available">May Available na Software Update</string>
     <string name="notif_software_update_body">May bagong bersyon na %s para sa iyong device</string>
-    <string name="partition_extraction_confirm_selection">Kumpirmahin ang pinili (%1$d)</string>
+    <string name="partition_extraction_confirm_selection">Kumpirmahin ang pinili</string>
     <string name="partition_extraction_deselect_all">Alisin ang pagkakapili sa lahat</string>
     <string name="partition_extraction_load_local_btn">I-load ang Local Partitions</string>
     <string name="partition_extraction_load_url_btn">I-load ang Partitions mula sa URL</string>

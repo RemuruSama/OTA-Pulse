@@ -208,7 +208,7 @@
     <string name="notif_md5_verified">Muat turun disahkan ✓</string>
     <string name="notif_software_update_available">Kemas Kini Perisian Tersedia</string>
     <string name="notif_software_update_body">Versi baharu %s tersedia untuk peranti anda</string>
-    <string name="partition_extraction_confirm_selection">Sahkan Pilihan (%1$d)</string>
+    <string name="partition_extraction_confirm_selection">Sahkan Pilihan</string>
     <string name="partition_extraction_deselect_all">Nyahpilih Semua</string>
     <string name="partition_extraction_load_local_btn">Muat Partisi Lokal</string>
     <string name="partition_extraction_load_url_btn">Muat Partisi dari URL</string>

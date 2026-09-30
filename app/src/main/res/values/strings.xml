@@ -296,7 +296,7 @@
     <string name="lang_vi" translatable="false">Tiếng Việt (Vietnamese)</string>
 
     <!-- Cursor Decoration (non-translatable) -->
-    <string name="partition_extraction_confirm_selection">Confirm Selection (%1$d)</string>
+    <string name="partition_extraction_confirm_selection">Confirm Selection</string>
 
     <!-- Phase 5 Compose Strings -->
     <string name="nav_back">Back</string>

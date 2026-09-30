@@ -208,7 +208,7 @@
     <string name="notif_md5_verified">Téléchargement vérifié ✓</string>
     <string name="notif_software_update_available">Mise à jour logicielle disponible</string>
     <string name="notif_software_update_body">Une nouvelle version %s est disponible pour votre appareil</string>
-    <string name="partition_extraction_confirm_selection">Confirmer la sélection (%1$d)</string>
+    <string name="partition_extraction_confirm_selection">Confirmer la sélection</string>
     <string name="partition_extraction_deselect_all">Tout désélectionner</string>
     <string name="partition_extraction_load_local_btn">Charger les partitions locales</string>
     <string name="partition_extraction_load_url_btn">Charger les partitions via URL</string>

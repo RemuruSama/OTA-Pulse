@@ -208,7 +208,7 @@
     <string name="notif_md5_verified">ตรวจสอบการดาวน์โหลดเรียบร้อย ✓</string>
     <string name="notif_software_update_available">มีการอัปเดตซอฟต์แวร์ใหม่</string>
     <string name="notif_software_update_body">เวอร์ชันใหม่ %s พร้อมใช้งานสำหรับอุปกรณ์ของคุณแล้ว</string>
-    <string name="partition_extraction_confirm_selection">ยืนยันการเลือก (%1$d)</string>
+    <string name="partition_extraction_confirm_selection">ยืนยันการเลือก</string>
     <string name="partition_extraction_deselect_all">ยกเลิกการเลือกทั้งหมด</string>
     <string name="partition_extraction_load_local_btn">โหลดพาร์ติชันภายในเครื่อง</string>
     <string name="partition_extraction_load_url_btn">โหลดพาร์ติชันจาก URL</string>
