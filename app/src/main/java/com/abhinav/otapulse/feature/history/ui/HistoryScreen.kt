@@ -60,6 +60,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -69,6 +70,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -107,6 +109,7 @@ fun HistoryScreen(
 ) {
     val context = LocalContext.current
     val view = androidx.compose.ui.platform.LocalView.current
+    val focusManager = LocalFocusManager.current
     val historyList by historyViewModel.historyFlow.collectAsState()
     val devicesUiState by devicesViewModel.uiState.collectAsState()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
@@ -114,6 +117,13 @@ fun HistoryScreen(
     var searchQuery by remember { mutableStateOf("") }
     var showClearDialog by remember { mutableStateOf(false) }
     var showMenu by remember { mutableStateOf(false) }
+
+    LaunchedEffect(searchQuery) {
+        if (scrollBehavior.state.heightOffset < 0f) {
+            scrollBehavior.state.heightOffset = 0f
+            scrollBehavior.state.contentOffset = 0f
+        }
+    }
 
     val importLauncher = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri: Uri? ->
         uri?.let {
@@ -257,67 +267,77 @@ fun HistoryScreen(
                             }
                         }
                     }
+                },
+                bottomContent = {
+                    if (historyList.isNotEmpty()) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp)
+                                .padding(bottom = 8.dp)
+                        ) {
+                            FloatingSearchBar(
+                                query = searchQuery,
+                                onQueryChange = { searchQuery = it },
+                                placeholder = stringResource(R.string.history_search_placeholder),
+                                onClear = {
+                                    view.haptic(HapticType.TICK)
+                                    searchQuery = ""
+                                    focusManager.clearFocus()
+                                }
+                            )
+                        }
+                    }
                 }
             )
         }
     ) { padding ->
-        Column(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
         ) {
-            if (historyList.isNotEmpty()) {
-                FloatingSearchBar(
-                    query = searchQuery,
-                    onQueryChange = { searchQuery = it },
-                    placeholder = stringResource(R.string.history_search_placeholder),
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+            if (historyList.isEmpty()) {
+                EmptyState(
+                    icon = Icons.Rounded.History,
+                    title = stringResource(R.string.history_empty_title),
+                    message = stringResource(R.string.history_empty_msg),
+                    actionLabel = stringResource(R.string.history_import_json),
+                    onAction = {
+                        view.haptic(HapticType.CLICK)
+                        importLauncher.launch(arrayOf("application/json"))
+                    },
+                    modifier = Modifier.align(Alignment.Center)
                 )
-            }
-
-            Box(modifier = Modifier.fillMaxSize()) {
-                if (historyList.isEmpty()) {
-                    EmptyState(
-                        icon = Icons.Rounded.History,
-                        title = stringResource(R.string.history_empty_title),
-                        message = stringResource(R.string.history_empty_msg),
-                        actionLabel = stringResource(R.string.history_import_json),
-                        onAction = {
-                            view.haptic(HapticType.CLICK)
-                            importLauncher.launch(arrayOf("application/json"))
-                        },
-                        modifier = Modifier.align(Alignment.Center)
-                    )
-                } else if (filteredList.isEmpty()) {
-                    EmptyState(
-                        icon = Icons.Rounded.Search,
-                        title = stringResource(R.string.history_no_matches_title),
-                        message = stringResource(R.string.history_no_matches_msg, searchQuery),
-                        actionLabel = stringResource(R.string.history_reset_search),
-                        onAction = { searchQuery = "" },
-                        modifier = Modifier.align(Alignment.Center)
-                    )
-                } else {
-                    LazyColumn(
-                        modifier = Modifier.fillMaxSize(),
-                        contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 84.dp),
-                        verticalArrangement = Arrangement.spacedBy(10.dp)
-                    ) {
-                        itemsIndexed(
-                            items = filteredList,
-                            key = { index, entry -> "${entry.timestamp}_${entry.deviceName}_${entry.otaUpdate.versionName}_$index" }
-                        ) { index, entry ->
-                            HistoryEntryCard(
-                                entry = entry,
-                                onClick = {
-                                    view.haptic(HapticType.CLICK)
-                                    devicesViewModel.showOtaDetailsFromHistory(entry)
-                                },
-                                modifier = Modifier
-                                    .stackItemAppearance(index, searchQuery)
-                                    .animateItem(placementSpec = OtaPulseMotion.StackReorderSpec)
-                            )
-                        }
+            } else if (filteredList.isEmpty()) {
+                EmptyState(
+                    icon = Icons.Rounded.Search,
+                    title = stringResource(R.string.history_no_matches_title),
+                    message = stringResource(R.string.history_no_matches_msg, searchQuery),
+                    actionLabel = stringResource(R.string.history_reset_search),
+                    onAction = { searchQuery = "" },
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            } else {
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 84.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    itemsIndexed(
+                        items = filteredList,
+                        key = { index, entry -> "${entry.timestamp}_${entry.deviceName}_${entry.otaUpdate.versionName}_$index" }
+                    ) { index, entry ->
+                        HistoryEntryCard(
+                            entry = entry,
+                            onClick = {
+                                view.haptic(HapticType.CLICK)
+                                devicesViewModel.showOtaDetailsFromHistory(entry)
+                            },
+                            modifier = Modifier
+                                .stackItemAppearance(index, searchQuery)
+                                .animateItem(placementSpec = OtaPulseMotion.StackReorderSpec)
+                        )
                     }
                 }
             }
