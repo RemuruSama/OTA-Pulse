@@ -127,7 +127,7 @@ fun ManualQueryScreen(
     val view = LocalView.current
 
     // Form inputs
-    var productModel by remember { mutableStateOf("RMX3840") }
+    var productModel by remember { mutableStateOf("") }
     var productName by remember { mutableStateOf("") }
     var ruiVersion by remember { mutableStateOf("7") }
     var region by remember { mutableStateOf("GLO") }
@@ -455,6 +455,8 @@ fun ManualQueryScreen(
                             onValueChange = { productModel = it },
                             label = { Text(stringResource(R.string.product_model_label)) },
                             placeholder = { Text(stringResource(R.string.manual_model_placeholder)) },
+                            showPaste = true,
+                            showClear = true,
                             colors = OutlinedTextFieldDefaults.colors(
                                 focusedBorderColor = MaterialTheme.colorScheme.primary,
                                 unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant
@@ -467,6 +469,8 @@ fun ManualQueryScreen(
                             onValueChange = { productName = it },
                             label = { Text(stringResource(R.string.product_name_label)) },
                             placeholder = { Text(stringResource(R.string.manual_region_placeholder)) },
+                            showPaste = true,
+                            showClear = true,
                             colors = OutlinedTextFieldDefaults.colors(
                                 focusedBorderColor = MaterialTheme.colorScheme.primary,
                                 unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant
