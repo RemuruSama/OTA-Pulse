@@ -461,4 +461,9 @@
     <string name="settings_special_thanks_msg">गिटहब पर OTA Pulse को बनाने, अनुवाद करने और सुधारने में मदद करने वाले सभी योगदानकर्ताओं का विशेष धन्यवाद।</string>
     <string name="settings_view_github_btn">गिटहब पर देखें</string>
     <string name="history_export_json">JSON इतिहास निर्यात करें</string>
+    <string name="about_upgrade_guide_title">अपग्रेड गाइड</string>
+    <string name="about_upgrade_guide_sub">लोकल OTA अपडेट के माध्यम से</string>
+    <string name="about_upgrade_guide_badge">ColorOS • OxygenOS • Realme UI</string>
+    <string name="about_upgrade_guide_copied">अपग्रेड गाइड क्लिपबोर्ड पर कॉपी हो गया</string>
+    <string name="about_copy_guide">गाइड कॉपी करें</string>
 </resources>

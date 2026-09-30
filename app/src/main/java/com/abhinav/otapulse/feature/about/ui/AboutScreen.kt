@@ -57,16 +57,20 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.Send
-import androidx.compose.material.icons.rounded.Code
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.Favorite
+import androidx.compose.material.icons.rounded.Info
+import androidx.compose.material.icons.rounded.KeyboardArrowDown
+import androidx.compose.material.icons.rounded.KeyboardArrowUp
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material.icons.rounded.Public
 import androidx.compose.material.icons.rounded.Refresh
 import androidx.compose.material.icons.rounded.SystemUpdate
+import androidx.compose.material.icons.rounded.SystemUpdateAlt
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -337,10 +341,43 @@ fun AboutScreen(
                 )
             }
 
+            // 5. Upgrade Guide Card (via Local OTA Update) - at last
+            StaggeredItem(visible = showSections, index = 4) {
+                UpgradeGuideCard(
+                    onCopyGuide = {
+                        view.haptic(HapticType.CLICK)
+                        val guideText = """
+Upgrade Guide: Local OTA Update
+
+1. Download ROM Package:
+Download the latest ROM upgrade zip package from the specified server.
+
+2. Copy to Phone Storage:
+Copy the ROM upgrade package to the phone storage (root directory or Downloads). Do not extract it manually.
+
+3. Enable Developer Mode:
+Go to Settings -> About device -> Version -> Click Build number 7 times and enter the password, now you are in the developer mode.
+
+4. Select Local Install:
+Go back to Settings -> About device -> Up to date -> Click the top right button -> Local install -> Click on the corresponding installation package.
+
+5. Extract & Upgrade:
+Click Extract -> Upgrade -> Wait until system upgrade is completed to 100%.
+
+6. Restart Device:
+After the upgrade is complete, click Restart. Update successful!
+                        """.trimIndent()
+                        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                        clipboard.setPrimaryClip(ClipData.newPlainText("OTA Upgrade Guide", guideText))
+                        Toast.makeText(context, context.getString(R.string.about_upgrade_guide_copied), Toast.LENGTH_SHORT).show()
+                    }
+                )
+            }
+
             Spacer(modifier = Modifier.height(12.dp))
 
-            // 5. Minimal Signature Footer
-            StaggeredItem(visible = showSections, index = 4) {
+            // 6. Minimal Signature Footer
+            StaggeredItem(visible = showSections, index = 5) {
                 Text(
                     text = "OTA Pulse • Made with ❤️ for Android",
                     style = MaterialTheme.typography.labelSmall.copy(
@@ -791,6 +828,233 @@ private fun MinimalSupportCard(
                         style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                         color = MaterialTheme.colorScheme.onPrimaryContainer,
                         modifier = Modifier.padding(horizontal = 12.dp, vertical = 5.dp)
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun UpgradeGuideCard(
+    onCopyGuide: () -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
+    val isHolo = OtaPulseTheme.holographicConfig.isEnabled
+    val cardShape = RoundedCornerShape(20.dp)
+    val view = LocalView.current
+
+    val steps = listOf(
+        Triple(
+            "01",
+            "Download ROM Package",
+            "Download the latest ROM upgrade zip package from the specified server."
+        ),
+        Triple(
+            "02",
+            "Copy to Phone Storage",
+            "Copy the ROM upgrade package to the phone storage root or Downloads (keep as .zip)."
+        ),
+        Triple(
+            "03",
+            "Enable Developer Mode",
+            "Go to Settings -> About device -> Version -> Click Build number 7 times and enter the password, now you are in the developer mode."
+        ),
+        Triple(
+            "04",
+            "Select Local Install",
+            "Go back to Settings -> About device -> Up to date -> Click the top right button -> Local install -> Click on the corresponding installation package."
+        ),
+        Triple(
+            "05",
+            "Extract & Upgrade",
+            "Click Extract -> Upgrade -> Wait until system upgrade is completed to 100%."
+        ),
+        Triple(
+            "06",
+            "Restart Device",
+            "After the upgrade is complete, click Restart. Update successful!"
+        )
+    )
+
+    OtaCard(
+        shape = cardShape,
+        modifier = Modifier
+            .fillMaxWidth()
+            .shadow(
+                elevation = if (isHolo) 6.dp else 1.dp,
+                shape = cardShape,
+                ambientColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.08f),
+                spotColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.12f)
+            ),
+        onClick = {
+            view.haptic(HapticType.CLICK)
+            expanded = !expanded
+        }
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
+            // Header Row
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Surface(
+                    shape = RoundedCornerShape(12.dp),
+                    color = MaterialTheme.colorScheme.primary.copy(alpha = 0.12f),
+                    modifier = Modifier.size(42.dp)
+                ) {
+                    Box(contentAlignment = Alignment.Center) {
+                        Icon(
+                            imageVector = Icons.Rounded.SystemUpdateAlt,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.size(22.dp)
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.width(14.dp))
+
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = stringResource(R.string.about_upgrade_guide_title),
+                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    Text(
+                        text = stringResource(R.string.about_upgrade_guide_sub),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+
+                Surface(
+                    shape = CircleShape,
+                    color = if (expanded) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.7f)
+                ) {
+                    Row(
+                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        Text(
+                            text = if (expanded) "Hide" else "Guide",
+                            style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
+                            color = if (expanded) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        Icon(
+                            imageVector = if (expanded) Icons.Rounded.KeyboardArrowUp else Icons.Rounded.KeyboardArrowDown,
+                            contentDescription = null,
+                            modifier = Modifier.size(16.dp),
+                            tint = if (expanded) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
+            }
+
+            AnimatedVisibility(visible = expanded) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 16.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Surface(
+                        shape = CircleShape,
+                        color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.45f)
+                    ) {
+                        Text(
+                            text = stringResource(R.string.about_upgrade_guide_badge),
+                            style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
+                            color = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp)
+                        )
+                    }
+
+                    steps.forEach { (num, title, desc) ->
+                        Surface(
+                            shape = RoundedCornerShape(12.dp),
+                            color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.35f),
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Row(
+                                modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp),
+                                verticalAlignment = Alignment.Top
+                            ) {
+                                Surface(
+                                    shape = CircleShape,
+                                    color = MaterialTheme.colorScheme.primaryContainer,
+                                    modifier = Modifier.size(24.dp)
+                                ) {
+                                    Box(contentAlignment = Alignment.Center) {
+                                        Text(
+                                            text = num,
+                                            style = MaterialTheme.typography.labelSmall.copy(
+                                                fontWeight = FontWeight.Bold,
+                                                fontFamily = FontFamily.Monospace
+                                            ),
+                                            color = MaterialTheme.colorScheme.onPrimaryContainer
+                                        )
+                                    }
+                                }
+                                Spacer(modifier = Modifier.width(10.dp))
+                                Column(modifier = Modifier.weight(1f)) {
+                                    Text(
+                                        text = title,
+                                        style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold),
+                                        color = MaterialTheme.colorScheme.onSurface
+                                    )
+                                    Spacer(modifier = Modifier.height(2.dp))
+                                    Text(
+                                        text = desc,
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                }
+                            }
+                        }
+                    }
+
+                    // Notice / Tip Box
+                    Surface(
+                        shape = RoundedCornerShape(12.dp),
+                        color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f)),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 4.dp)
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(12.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.Info,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier.size(18.dp)
+                            )
+                            Spacer(modifier = Modifier.width(10.dp))
+                            Text(
+                                text = "Keep phone battery ≥ 40% and do not power off or restart manually during installation.",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                    }
+
+                    // Action button: Copy Guide
+                    OtaTonalButton(
+                        text = stringResource(R.string.about_copy_guide),
+                        icon = Icons.Rounded.ContentCopy,
+                        onClick = onCopyGuide,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 8.dp)
                     )
                 }
             }
