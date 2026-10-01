@@ -16,7 +16,6 @@
 
 package com.abhinav.otapulse.feature.downloads.ui
 
-import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.widget.Toast
@@ -24,6 +23,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.spring
@@ -31,6 +31,7 @@ import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.exponentialDecay
 import androidx.compose.animation.core.tween
 import com.abhinav.otapulse.core.ui.theme.OtaPulseMotion
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.AnchoredDraggableState
@@ -64,7 +65,9 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material.icons.rounded.CloudDownload
 import androidx.compose.material.icons.rounded.ContentPaste
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Download
@@ -75,6 +78,10 @@ import androidx.compose.material.icons.rounded.Pause
 import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.material.icons.rounded.Refresh
 import androidx.compose.material.icons.rounded.Schedule
+import androidx.compose.material.icons.rounded.Share
+import androidx.compose.material.icons.rounded.Smartphone
+import androidx.compose.material.icons.rounded.Speed
+import androidx.compose.material.icons.rounded.Timer
 import androidx.compose.material3.AlertDialog
 import com.abhinav.otapulse.core.ui.ApplyDialogBlurEffect
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -99,15 +106,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.content.FileProvider
+import com.abhinav.otapulse.core.download.DownloadError
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.abhinav.otapulse.R
 import com.abhinav.otapulse.core.common.FormatUtils
@@ -257,14 +268,14 @@ fun DownloadsContent(
                                 .height(IntrinsicSize.Max)
                                 .stackItemAppearance(index)
                                 .animateItem(placementSpec = OtaPulseMotion.StackReorderSpec)
-                                .clip(RoundedCornerShape(16.dp))
+                                .clip(RoundedCornerShape(20.dp))
                         ) {
                             // Delete Button (revealed behind)
                             Box(
                                 modifier = Modifier
                                     .fillMaxHeight()
                                     .align(Alignment.CenterEnd)
-                                    .width(80.dp)
+                                    .width(88.dp)
                                     .background(MaterialTheme.colorScheme.errorContainer)
                                     .clickable {
                                         view.haptic(HapticType.HEAVY_CLICK)
@@ -272,11 +283,22 @@ fun DownloadsContent(
                                     },
                                 contentAlignment = Alignment.Center
                             ) {
-                                Icon(
-                                    imageVector = Icons.Rounded.Delete,
-                                    contentDescription = stringResource(R.string.action_delete),
-                                    tint = MaterialTheme.colorScheme.error
-                                )
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Rounded.Delete,
+                                        contentDescription = stringResource(R.string.action_delete),
+                                        tint = MaterialTheme.colorScheme.error,
+                                        modifier = Modifier.size(24.dp)
+                                    )
+                                    Text(
+                                        text = stringResource(R.string.action_delete),
+                                        style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
+                                        color = MaterialTheme.colorScheme.error
+                                    )
+                                }
                             }
 
                             // Foreground Content
@@ -285,7 +307,7 @@ fun DownloadsContent(
                                     .fillMaxWidth()
                                     .offset { IntOffset(state.requireOffset().roundToInt(), 0) }
                                     .anchoredDraggable(state, Orientation.Horizontal)
-                                    .background(MaterialTheme.colorScheme.surface)
+                                    .clip(RoundedCornerShape(20.dp))
                             ) {
                                 DownloadItemCard(
                                     download = download,
@@ -293,7 +315,8 @@ fun DownloadsContent(
                                     onResume = { onResumeDownload(download) },
                                     onCancel = { onCancelDownload(download) },
                                     onRetry = { onRetryDownload(download) },
-                                    onOpen = { openDownloadedFile(context, download) }
+                                    onOpen = { openDownloadedFile(context, download) },
+                                    onShare = { shareDownloadedFile(context, download) }
                                 )
                             }
                         }
@@ -312,292 +335,500 @@ private fun DownloadItemCard(
     onCancel: () -> Unit,
     onRetry: () -> Unit,
     onOpen: () -> Unit,
+    onShare: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
     val view = androidx.compose.ui.platform.LocalView.current
 
+    val (statusColor, containerTint) = when (download.status) {
+        DownloadStatus.DOWNLOADING -> MaterialTheme.colorScheme.primary to MaterialTheme.colorScheme.primary.copy(alpha = 0.08f)
+        DownloadStatus.PAUSED -> MaterialTheme.colorScheme.secondary to MaterialTheme.colorScheme.secondary.copy(alpha = 0.08f)
+        DownloadStatus.COMPLETED -> OtaPulseTheme.extendedColors.arbSafe to OtaPulseTheme.extendedColors.arbSafe.copy(alpha = 0.07f)
+        DownloadStatus.FAILED -> MaterialTheme.colorScheme.error to MaterialTheme.colorScheme.error.copy(alpha = 0.07f)
+        DownloadStatus.CANCELLED -> MaterialTheme.colorScheme.outline to MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.2f)
+        else -> MaterialTheme.colorScheme.tertiary to MaterialTheme.colorScheme.tertiary.copy(alpha = 0.08f)
+    }
+
     val statusIcon = when (download.status) {
         DownloadStatus.DOWNLOADING -> Icons.Rounded.Download
         DownloadStatus.PAUSED -> Icons.Rounded.Pause
-        DownloadStatus.COMPLETED -> Icons.Rounded.FolderZip
+        DownloadStatus.COMPLETED -> Icons.Rounded.CheckCircle
         DownloadStatus.FAILED -> Icons.Rounded.ErrorOutline
         DownloadStatus.CANCELLED -> Icons.Rounded.Close
         else -> Icons.Rounded.Schedule
     }
 
-    val iconTint = when (download.status) {
-        DownloadStatus.DOWNLOADING -> MaterialTheme.colorScheme.primary
-        DownloadStatus.PAUSED -> MaterialTheme.colorScheme.secondary
-        DownloadStatus.COMPLETED -> MaterialTheme.colorScheme.primary
-        DownloadStatus.FAILED -> MaterialTheme.colorScheme.error
-        DownloadStatus.CANCELLED -> MaterialTheme.colorScheme.outline
-        else -> MaterialTheme.colorScheme.tertiary
-    }
-
     val isDownloading = download.status == DownloadStatus.DOWNLOADING
     val infiniteTransition = rememberInfiniteTransition(label = "download_animation")
     val arrowOffsetY by infiniteTransition.animateFloat(
-        initialValue = -3.5f,
-        targetValue = 3.5f,
+        initialValue = -3f,
+        targetValue = 3f,
         animationSpec = infiniteRepeatable(
-            animation = tween(durationMillis = 700, easing = FastOutSlowInEasing),
+            animation = tween(durationMillis = 650, easing = FastOutSlowInEasing),
             repeatMode = RepeatMode.Reverse
         ),
         label = "arrow_offset"
     )
     val iconAlpha by infiniteTransition.animateFloat(
-        initialValue = 0.6f,
+        initialValue = 0.65f,
         targetValue = 1f,
         animationSpec = infiniteRepeatable(
-            animation = tween(durationMillis = 700, easing = FastOutSlowInEasing),
+            animation = tween(durationMillis = 650, easing = FastOutSlowInEasing),
             repeatMode = RepeatMode.Reverse
         ),
         label = "icon_alpha"
     )
 
+    val animatedProgress by animateFloatAsState(
+        targetValue = (download.progress / 100f).coerceIn(0f, 1f),
+        animationSpec = tween(durationMillis = 350, easing = FastOutSlowInEasing),
+        label = "download_progress"
+    )
+
     OtaCard(
+        shape = RoundedCornerShape(20.dp),
         modifier = modifier.fillMaxWidth(),
-        onClick = null
+        onClick = if (download.status == DownloadStatus.COMPLETED) {
+            { onOpen() }
+        } else null
     ) {
-        Column(
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(14.dp)
+                .background(
+                    Brush.verticalGradient(
+                        0.0f to containerTint,
+                        0.35f to Color.Transparent
+                    )
+                )
         ) {
-            // Top Bar: Animated Status Icon + Device/Region info + Status Badge
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                verticalAlignment = Alignment.CenterVertically
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(14.dp)
             ) {
-                Surface(
-                    shape = RoundedCornerShape(14.dp),
-                    color = iconTint.copy(alpha = 0.12f),
-                    modifier = Modifier.size(48.dp)
-                ) {
-                    Box(contentAlignment = Alignment.Center) {
-                        Icon(
-                            imageVector = statusIcon,
-                            contentDescription = null,
-                            tint = iconTint,
-                            modifier = Modifier
-                                .size(26.dp)
-                                .offset(y = if (isDownloading) arrowOffsetY.dp else 0.dp)
-                                .alpha(if (isDownloading) iconAlpha else 1f)
-                        )
-                    }
-                }
-
+                // Header Row: Lead Icon + Device/Target Info + Status Pill
                 Row(
-                    modifier = Modifier.weight(1f),
-                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Column(modifier = Modifier.weight(1f, fill = false)) {
-                        Text(
-                            text = if (download.deviceName.isNotBlank()) "${download.deviceName} • ${download.regionName}" else "OTA Package",
-                            style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
-                            color = MaterialTheme.colorScheme.primary,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                    }
-                    Spacer(modifier = Modifier.width(8.dp))
-                    DownloadStatusBadge(status = download.status, md5Status = download.md5Status)
-                }
-            }
-
-            // Middle Row: Filename visible in a single line with ellipsis
-            Text(
-                text = download.fileName.ifBlank { "OTA Update Package" },
-                style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
-                color = MaterialTheme.colorScheme.onSurface,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            // Progress Bar & Timing/Stats block
-            if (download.status in listOf(DownloadStatus.DOWNLOADING, DownloadStatus.PAUSED, DownloadStatus.QUEUED, DownloadStatus.ADDED)) {
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
+                    // Lead Squircle Icon
+                    Surface(
+                        shape = RoundedCornerShape(14.dp),
+                        color = statusColor.copy(alpha = 0.12f),
+                        border = BorderStroke(1.dp, statusColor.copy(alpha = 0.25f)),
+                        modifier = Modifier.size(46.dp)
                     ) {
-                        Text(
-                            text = "${FormatUtils.formatSize(download.downloadedBytes)} / ${FormatUtils.formatSize(download.totalBytes)}",
-                            style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.SemiBold),
-                            color = MaterialTheme.colorScheme.onSurface
-                        )
-                        Text(
-                            text = "${download.progress}%",
-                            style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold),
-                            color = if (download.status == DownloadStatus.PAUSED) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.primary
-                        )
-                    }
-
-                    LinearProgressIndicator(
-                        progress = { if (download.progress > 0) download.progress / 100f else 0f },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(8.dp)
-                            .clip(RoundedCornerShape(4.dp)),
-                        color = if (download.status == DownloadStatus.PAUSED) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.primary,
-                        trackColor = MaterialTheme.colorScheme.surfaceVariant
-                    )
-
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        if (download.status == DownloadStatus.DOWNLOADING) {
-                            Text(
-                                text = if (download.speed > 0) FormatUtils.formatDownloadSpeed(download.speed) else "Downloading...",
-                                style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
-                                color = MaterialTheme.colorScheme.primary
-                            )
-                            val etaStr = FormatUtils.formatEta(download.eta)
-                            if (etaStr != "--") {
-                                Text(
-                                    text = etaStr,
-                                    style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Medium),
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
-                        } else if (download.status == DownloadStatus.PAUSED) {
-                            Text(
-                                text = "Paused",
-                                style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
-                                color = MaterialTheme.colorScheme.secondary
-                            )
-                            Text(
-                                text = "Tap Resume to continue",
-                                style = MaterialTheme.typography.labelSmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        } else {
-                            Text(
-                                text = "Queued for download...",
-                                style = MaterialTheme.typography.labelMedium,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                        Box(contentAlignment = Alignment.Center) {
+                            Icon(
+                                imageVector = statusIcon,
+                                contentDescription = null,
+                                tint = statusColor,
+                                modifier = Modifier
+                                    .size(24.dp)
+                                    .offset(y = if (isDownloading) arrowOffsetY.dp else 0.dp)
+                                    .alpha(if (isDownloading) iconAlpha else 1f)
                             )
                         }
                     }
-                }
-            } else if (download.status == DownloadStatus.FAILED) {
-                Surface(
-                    shape = RoundedCornerShape(8.dp),
-                    color = MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.5f),
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Row(
-                        modifier = Modifier.padding(10.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Rounded.ErrorOutline,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.error,
-                            modifier = Modifier.size(16.dp)
-                        )
-                        Text(
-                            text = "Error: ${download.error.name}",
-                            style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Medium),
-                            color = MaterialTheme.colorScheme.onErrorContainer
-                        )
-                    }
-                }
-            }
 
-            // Footer actions row with clear labeled buttons and support for retry, cancel, delete, pause/resume
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.End,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
+                    // Device / Target info
+                    Row(
+                        modifier = Modifier.weight(1f),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(6.dp)
+                    ) {
+                        if (download.deviceName.isNotBlank()) {
+                            Icon(
+                                imageVector = Icons.Rounded.Smartphone,
+                                contentDescription = null,
+                                modifier = Modifier.size(13.dp),
+                                tint = statusColor
+                            )
+                            Text(
+                                text = download.deviceName,
+                                style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
+                                color = statusColor,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                        } else {
+                            Icon(
+                                imageVector = Icons.Rounded.CloudDownload,
+                                contentDescription = null,
+                                modifier = Modifier.size(13.dp),
+                                tint = statusColor
+                            )
+                            Text(
+                                text = "OTA Package",
+                                style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
+                                color = statusColor
+                            )
+                        }
+                    }
+
+                    // Status Badge
+                    DownloadStatusBadge(
+                        status = download.status,
+                        md5Status = download.md5Status
+                    )
+                }
+
+                // Full Package Name (untruncated)
+                val packageName = when {
+                    download.fileName.isNotBlank() && !download.fileName.startsWith("ota_", ignoreCase = true) -> download.fileName
+                    !download.otaUpdate?.fileName.isNullOrBlank() -> download.otaUpdate.fileName
+                    !download.otaUpdate?.versionName.isNullOrBlank() -> download.otaUpdate.versionName
+                    download.fileName.isNotBlank() -> download.fileName
+                    else -> "OTA Update Package"
+                }
+                Text(
+                    text = packageName,
+                    style = MaterialTheme.typography.titleSmall.copy(
+                        fontWeight = FontWeight.Bold,
+                        letterSpacing = (-0.1).sp
+                    ),
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier.fillMaxWidth()
+                )
+
+                // Middle Section: Status-specific layout
                 when (download.status) {
-                    DownloadStatus.DOWNLOADING, DownloadStatus.QUEUED, DownloadStatus.ADDED -> {
-                        OtaOutlinedButton(
-                            text = "Pause",
-                            icon = Icons.Rounded.Pause,
-                            compact = true,
-                            onClick = {
-                                view.haptic(HapticType.CLICK)
-                                onPause()
+                    DownloadStatus.DOWNLOADING, DownloadStatus.PAUSED, DownloadStatus.QUEUED, DownloadStatus.ADDED -> {
+                        Column(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            // Telemetry Sizes & Percentage Row
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                                ) {
+                                    Text(
+                                        text = FormatUtils.formatSize(download.downloadedBytes),
+                                        style = MaterialTheme.typography.labelLarge.copy(
+                                            fontWeight = FontWeight.Bold,
+                                            fontFamily = FontFamily.Monospace
+                                        ),
+                                        color = MaterialTheme.colorScheme.onSurface
+                                    )
+                                    Text(
+                                        text = "/",
+                                        style = MaterialTheme.typography.labelSmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
+                                    )
+                                    Text(
+                                        text = FormatUtils.formatSize(download.totalBytes),
+                                        style = MaterialTheme.typography.labelMedium.copy(
+                                            fontWeight = FontWeight.Medium,
+                                            fontFamily = FontFamily.Monospace
+                                        ),
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                }
+
+                                Surface(
+                                    shape = CircleShape,
+                                    color = statusColor.copy(alpha = 0.14f)
+                                ) {
+                                    Text(
+                                        text = "${download.progress}%",
+                                        style = MaterialTheme.typography.labelMedium.copy(
+                                            fontWeight = FontWeight.ExtraBold,
+                                            fontFamily = FontFamily.Monospace
+                                        ),
+                                        color = statusColor,
+                                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp)
+                                    )
+                                }
                             }
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        OtaTonalButton(
-                            text = "Cancel",
-                            icon = Icons.Rounded.Close,
-                            compact = true,
-                            onClick = {
-                                view.haptic(HapticType.CLICK)
-                                onCancel()
+
+                            // Dynamic Gradient Progress Bar
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(8.dp)
+                                    .clip(CircleShape)
+                                    .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.6f))
+                            ) {
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth(fraction = animatedProgress.coerceAtLeast(0.01f))
+                                        .fillMaxHeight()
+                                        .clip(CircleShape)
+                                        .background(
+                                            Brush.horizontalGradient(
+                                                colors = if (download.status == DownloadStatus.PAUSED) {
+                                                    listOf(
+                                                        MaterialTheme.colorScheme.secondary,
+                                                        MaterialTheme.colorScheme.secondary.copy(alpha = 0.8f)
+                                                    )
+                                                } else {
+                                                    listOf(
+                                                        MaterialTheme.colorScheme.primary,
+                                                        MaterialTheme.colorScheme.tertiary
+                                                    )
+                                                }
+                                            )
+                                        )
+                                )
                             }
-                        )
+
+                            // Speed & Time Remaining Row
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                if (download.status == DownloadStatus.DOWNLOADING) {
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Rounded.Speed,
+                                            contentDescription = null,
+                                            tint = MaterialTheme.colorScheme.primary,
+                                            modifier = Modifier.size(14.dp)
+                                        )
+                                        Text(
+                                            text = if (download.speed > 0) FormatUtils.formatDownloadSpeed(download.speed) else "Calculating...",
+                                            style = MaterialTheme.typography.labelMedium.copy(
+                                                fontWeight = FontWeight.Bold,
+                                                fontFamily = FontFamily.Monospace
+                                            ),
+                                            color = MaterialTheme.colorScheme.primary
+                                        )
+                                    }
+
+                                    val etaStr = FormatUtils.formatEta(download.eta)
+                                    if (etaStr != "--") {
+                                        Row(
+                                            verticalAlignment = Alignment.CenterVertically,
+                                            horizontalArrangement = Arrangement.spacedBy(4.dp)
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Rounded.Timer,
+                                                contentDescription = null,
+                                                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                                modifier = Modifier.size(13.dp)
+                                            )
+                                            Text(
+                                                text = "$etaStr left",
+                                                style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Medium),
+                                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                                            )
+                                        }
+                                    }
+                                } else if (download.status == DownloadStatus.PAUSED) {
+                                    Text(
+                                        text = "Download paused",
+                                        style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.SemiBold),
+                                        color = MaterialTheme.colorScheme.secondary
+                                    )
+                                    Text(
+                                        text = "Tap Resume to continue",
+                                        style = MaterialTheme.typography.labelSmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                } else {
+                                    Text(
+                                        text = "Queued in download manager",
+                                        style = MaterialTheme.typography.labelMedium,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                }
+                            }
+                        }
                     }
-                    DownloadStatus.PAUSED -> {
-                        OtaPrimaryButton(
-                            text = "Resume",
-                            icon = Icons.Rounded.PlayArrow,
-                            compact = true,
-                            onClick = {
-                                view.haptic(HapticType.CLICK)
-                                onResume()
-                            }
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        OtaOutlinedButton(
-                            text = "Cancel",
-                            icon = Icons.Rounded.Close,
-                            compact = true,
-                            onClick = {
-                                view.haptic(HapticType.CLICK)
-                                onCancel()
-                            }
-                        )
-                    }
-                    DownloadStatus.FAILED, DownloadStatus.CANCELLED -> {
-                        OtaPrimaryButton(
-                            text = "Retry",
-                            icon = Icons.Rounded.Refresh,
-                            compact = true,
-                            onClick = {
-                                view.haptic(HapticType.CLICK)
-                                onRetry()
-                            }
-                        )
-                    }
+
                     DownloadStatus.COMPLETED -> {
-                        OtaPrimaryButton(
-                            text = "Open ZIP",
-                            icon = Icons.Rounded.FolderOpen,
-                            compact = true,
-                            onClick = {
-                                view.haptic(HapticType.CLICK)
-                                onOpen()
+                        Surface(
+                            shape = RoundedCornerShape(12.dp),
+                            color = OtaPulseTheme.extendedColors.arbSafe.copy(alpha = 0.08f),
+                            border = BorderStroke(1.dp, OtaPulseTheme.extendedColors.arbSafe.copy(alpha = 0.25f)),
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 12.dp, vertical = 10.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(10.dp)
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Rounded.FolderZip,
+                                    contentDescription = null,
+                                    tint = OtaPulseTheme.extendedColors.arbSafe,
+                                    modifier = Modifier.size(20.dp)
+                                )
+                                Column(modifier = Modifier.weight(1f)) {
+                                    Text(
+                                        text = "Package Size: ${FormatUtils.formatSize(download.totalBytes.takeIf { it > 0 } ?: download.downloadedBytes)}",
+                                        style = MaterialTheme.typography.labelMedium.copy(
+                                            fontWeight = FontWeight.Bold,
+                                            fontFamily = FontFamily.Monospace
+                                        ),
+                                        color = MaterialTheme.colorScheme.onSurface
+                                    )
+                                    Text(
+                                        text = if (download.md5Status == Md5Status.VERIFIED) "MD5 Checksum Verified • Ready to install" else "Saved to Downloads/OTA Pulse",
+                                        style = MaterialTheme.typography.labelSmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                }
                             }
-                        )
+                        }
                     }
-                    else -> {
-                        OtaOutlinedButton(
-                            text = "Retry",
-                            icon = Icons.Rounded.Refresh,
-                            compact = true,
+
+                    DownloadStatus.FAILED -> {
+                        Surface(
+                            shape = RoundedCornerShape(12.dp),
+                            color = MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.45f),
+                            border = BorderStroke(1.dp, MaterialTheme.colorScheme.error.copy(alpha = 0.25f)),
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Row(
+                                modifier = Modifier.padding(12.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(10.dp)
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Rounded.ErrorOutline,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.error,
+                                    modifier = Modifier.size(20.dp)
+                                )
+                                Column {
+                                    Text(
+                                        text = "Download Failed",
+                                        style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
+                                        color = MaterialTheme.colorScheme.onErrorContainer
+                                    )
+                                    Text(
+                                        text = formatErrorMessage(download.error),
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.onErrorContainer.copy(alpha = 0.85f)
+                                    )
+                                }
+                            }
+                        }
+                    }
+
+                    else -> Unit
+                }
+
+                // Actions Footer: Share utility on Left (if completed), Primary Actions on Right
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = if (download.status == DownloadStatus.COMPLETED) Arrangement.SpaceBetween else Arrangement.End,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    if (download.status == DownloadStatus.COMPLETED) {
+                        IconButton(
                             onClick = {
                                 view.haptic(HapticType.CLICK)
-                                onRetry()
+                                onShare()
+                            },
+                            modifier = Modifier.size(34.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.Share,
+                                contentDescription = "Share File",
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                modifier = Modifier.size(18.dp)
+                            )
+                        }
+                    }
+
+                    // Right Contextual Action Buttons
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        when (download.status) {
+                            DownloadStatus.DOWNLOADING, DownloadStatus.QUEUED, DownloadStatus.ADDED -> {
+                                OtaTonalButton(
+                                    text = "Pause",
+                                    icon = Icons.Rounded.Pause,
+                                    compact = true,
+                                    onClick = {
+                                        view.haptic(HapticType.CLICK)
+                                        onPause()
+                                    }
+                                )
+                                OtaOutlinedButton(
+                                    text = "Cancel",
+                                    icon = Icons.Rounded.Close,
+                                    compact = true,
+                                    onClick = {
+                                        view.haptic(HapticType.CLICK)
+                                        onCancel()
+                                    }
+                                )
                             }
-                        )
+                            DownloadStatus.PAUSED -> {
+                                OtaPrimaryButton(
+                                    text = "Resume",
+                                    icon = Icons.Rounded.PlayArrow,
+                                    compact = true,
+                                    onClick = {
+                                        view.haptic(HapticType.CLICK)
+                                        onResume()
+                                    }
+                                )
+                                OtaOutlinedButton(
+                                    text = "Cancel",
+                                    icon = Icons.Rounded.Close,
+                                    compact = true,
+                                    onClick = {
+                                        view.haptic(HapticType.CLICK)
+                                        onCancel()
+                                    }
+                                )
+                            }
+                            DownloadStatus.FAILED, DownloadStatus.CANCELLED -> {
+                                OtaPrimaryButton(
+                                    text = "Retry",
+                                    icon = Icons.Rounded.Refresh,
+                                    compact = true,
+                                    onClick = {
+                                        view.haptic(HapticType.CLICK)
+                                        onRetry()
+                                    }
+                                )
+                            }
+                            DownloadStatus.COMPLETED -> {
+                                OtaPrimaryButton(
+                                    text = "Open ZIP",
+                                    icon = Icons.Rounded.FolderOpen,
+                                    compact = true,
+                                    onClick = {
+                                        view.haptic(HapticType.CLICK)
+                                        onOpen()
+                                    }
+                                )
+                            }
+                            else -> {
+                                OtaPrimaryButton(
+                                    text = "Retry",
+                                    icon = Icons.Rounded.Refresh,
+                                    compact = true,
+                                    onClick = {
+                                        view.haptic(HapticType.CLICK)
+                                        onRetry()
+                                    }
+                                )
+                            }
+                        }
                     }
                 }
             }
@@ -610,34 +841,62 @@ private fun DownloadStatusBadge(
     status: DownloadStatus,
     md5Status: Md5Status
 ) {
-    val (label, color) = when (status) {
-        DownloadStatus.DOWNLOADING -> "Downloading" to MaterialTheme.colorScheme.primary
-        DownloadStatus.PAUSED -> "Paused" to MaterialTheme.colorScheme.secondary
-        DownloadStatus.QUEUED -> "Queued" to MaterialTheme.colorScheme.tertiary
+    val (label, icon, color) = when (status) {
+        DownloadStatus.DOWNLOADING -> Triple("Downloading", Icons.Rounded.Download, MaterialTheme.colorScheme.primary)
+        DownloadStatus.PAUSED -> Triple("Paused", Icons.Rounded.Pause, MaterialTheme.colorScheme.secondary)
+        DownloadStatus.QUEUED -> Triple("Queued", Icons.Rounded.Schedule, MaterialTheme.colorScheme.tertiary)
         DownloadStatus.COMPLETED -> {
             when (md5Status) {
-                Md5Status.VERIFIED -> "Verified MD5" to MaterialTheme.colorScheme.primary
-                Md5Status.FAILED -> "MD5 Failed" to MaterialTheme.colorScheme.error
-                Md5Status.VERIFYING -> "Verifying..." to MaterialTheme.colorScheme.tertiary
-                else -> "Completed" to MaterialTheme.colorScheme.primary
+                Md5Status.VERIFIED -> Triple("Verified", Icons.Rounded.CheckCircle, OtaPulseTheme.extendedColors.arbSafe)
+                Md5Status.FAILED -> Triple("MD5 Error", Icons.Rounded.ErrorOutline, MaterialTheme.colorScheme.error)
+                Md5Status.VERIFYING -> Triple("Verifying", Icons.Rounded.Schedule, MaterialTheme.colorScheme.tertiary)
+                else -> Triple("Completed", Icons.Rounded.CheckCircle, OtaPulseTheme.extendedColors.arbSafe)
             }
         }
-        DownloadStatus.FAILED -> "Failed" to MaterialTheme.colorScheme.error
-        DownloadStatus.CANCELLED -> "Cancelled" to MaterialTheme.colorScheme.outline
-        else -> status.name to MaterialTheme.colorScheme.outline
+        DownloadStatus.FAILED -> Triple("Failed", Icons.Rounded.ErrorOutline, MaterialTheme.colorScheme.error)
+        DownloadStatus.CANCELLED -> Triple("Cancelled", Icons.Rounded.Close, MaterialTheme.colorScheme.outline)
+        else -> Triple(status.name, null, MaterialTheme.colorScheme.outline)
     }
 
     Surface(
-        shape = RoundedCornerShape(8.dp),
-        color = color.copy(alpha = 0.12f)
+        shape = CircleShape,
+        color = color.copy(alpha = 0.12f),
+        border = BorderStroke(1.dp, color.copy(alpha = 0.25f))
     ) {
-        Text(
-            text = label,
-            style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-            color = color,
-            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
-        )
+        Row(
+            modifier = Modifier.padding(horizontal = 9.dp, vertical = 4.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            if (icon != null) {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = null,
+                    tint = color,
+                    modifier = Modifier.size(12.dp)
+                )
+            }
+            Text(
+                text = label,
+                style = MaterialTheme.typography.labelSmall.copy(
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 11.sp
+                ),
+                color = color
+            )
+        }
     }
+}
+
+private fun formatErrorMessage(error: DownloadError): String = when (error) {
+    DownloadError.NO_NETWORK_CONNECTION -> "No internet connection detected"
+    DownloadError.CONNECTION_TIMED_OUT -> "Server connection timed out"
+    DownloadError.HTTP_NOT_FOUND -> "OTA package not found on server (404)"
+    DownloadError.REQUEST_NOT_SUCCESSFUL -> "Server request failed"
+    DownloadError.INSUFFICIENT_STORAGE -> "Insufficient device storage space"
+    DownloadError.UNKNOWN_IO_ERROR -> "Storage I/O write error"
+    DownloadError.UNKNOWN -> "Unexpected download failure"
+    DownloadError.NONE -> "Unknown error"
 }
 
 @Composable
@@ -720,6 +979,29 @@ private fun openDownloadedFile(context: Context, downloadInfo: DownloadInfo) {
             flags = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_ACTIVITY_NEW_TASK
         }
         context.startActivity(intent)
+    } catch (e: Exception) {
+        Toast.makeText(context, context.getString(R.string.could_not_open_link), Toast.LENGTH_SHORT).show()
+    }
+}
+
+private fun shareDownloadedFile(context: Context, downloadInfo: DownloadInfo) {
+    val file = File(downloadInfo.file)
+    if (!file.exists()) {
+        Toast.makeText(context, context.getString(R.string.downloads_file_not_found), Toast.LENGTH_SHORT).show()
+        return
+    }
+    try {
+        val uri = FileProvider.getUriForFile(
+            context,
+            "${context.packageName}.fileprovider",
+            file
+        )
+        val shareIntent = Intent(Intent.ACTION_SEND).apply {
+            type = "application/zip"
+            putExtra(Intent.EXTRA_STREAM, uri)
+            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+        }
+        context.startActivity(Intent.createChooser(shareIntent, "Share OTA Package"))
     } catch (e: Exception) {
         Toast.makeText(context, context.getString(R.string.could_not_open_link), Toast.LENGTH_SHORT).show()
     }
