@@ -25,7 +25,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Dns
@@ -131,21 +130,7 @@ fun AddDeviceScreen(
         topBar = {
             OtaTopAppBar(
                 title = if (uiState.isEditMode) "Edit Custom Device" else "Add Custom Device",
-                scrollBehavior = scrollBehavior,
-                navigationIcon = {
-                    IconButton(onClick = {
-                        view.haptic(HapticType.TICK)
-                        focusManager.clearFocus()
-                        keyboardController?.hide()
-                        onNavigateBack()
-                    }) {
-                        Icon(
-                            imageVector = Icons.Rounded.ArrowBack,
-                            contentDescription = stringResource(R.string.action_back),
-                            tint = MaterialTheme.colorScheme.onSurface
-                        )
-                    }
-                }
+                scrollBehavior = scrollBehavior
             )
         },
         bottomBar = {
