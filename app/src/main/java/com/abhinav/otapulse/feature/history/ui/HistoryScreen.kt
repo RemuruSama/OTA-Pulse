@@ -47,9 +47,17 @@ import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.material.icons.rounded.Delete
+import androidx.compose.material.icons.rounded.Info
+import androidx.compose.material.icons.rounded.Security
+import androidx.compose.material.icons.rounded.VerifiedUser
+import androidx.compose.material.icons.rounded.Warning
 import androidx.compose.material3.AlertDialog
 import com.abhinav.otapulse.core.ui.ApplyDialogBlurEffect
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -90,6 +98,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.abhinav.otapulse.core.common.FormatUtils
 import com.abhinav.otapulse.core.common.HapticType
@@ -101,6 +110,7 @@ import com.abhinav.otapulse.core.ui.components.OtaCard
 import com.abhinav.otapulse.core.ui.components.OtaPrimaryButton
 import com.abhinav.otapulse.core.ui.components.stackItemAppearance
 import com.abhinav.otapulse.core.ui.theme.OtaPulseMotion
+import com.abhinav.otapulse.core.ui.theme.OtaPulseTheme
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -127,6 +137,8 @@ fun HistoryScreen(
     val view = androidx.compose.ui.platform.LocalView.current
     val focusManager = LocalFocusManager.current
     val historyList by historyViewModel.historyFlow.collectAsState()
+    val checkingArbIds by historyViewModel.checkingArbIds.collectAsState()
+    val userMessage by historyViewModel.userMessage.collectAsState()
     val devicesUiState by devicesViewModel.uiState.collectAsState()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
@@ -135,6 +147,13 @@ fun HistoryScreen(
     var showMenu by remember { mutableStateOf(false) }
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
+
+    LaunchedEffect(userMessage) {
+        userMessage?.let {
+            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+            historyViewModel.clearUserMessage()
+        }
+    }
 
     LaunchedEffect(searchQuery) {
         if (scrollBehavior.state.heightOffset < 0f) {
@@ -280,6 +299,14 @@ fun HistoryScreen(
                                 }
                             )
                             if (historyList.isNotEmpty()) {
+                                DropdownMenuItem(
+                                    text = { Text("Check Missing ARB") },
+                                    leadingIcon = { Icon(Icons.Rounded.Security, contentDescription = null) },
+                                    onClick = {
+                                        showMenu = false
+                                        historyViewModel.checkAllMissingArb(historyList)
+                                    }
+                                )
                                 DropdownMenuItem(
                                     text = { Text(stringResource(R.string.history_clear_all), color = MaterialTheme.colorScheme.error) },
                                     leadingIcon = { Icon(Icons.Rounded.DeleteForever, contentDescription = null, tint = MaterialTheme.colorScheme.error) },
@@ -428,6 +455,11 @@ fun HistoryScreen(
                         ) {
                             HistoryEntryCard(
                                 entry = entry,
+                                isCheckingArb = checkingArbIds.contains(entry.id),
+                                onCheckArb = {
+                                    view.haptic(HapticType.CLICK)
+                                    historyViewModel.checkAndSaveArbStatus(entry)
+                                },
                                 onClick = {
                                     view.haptic(HapticType.CLICK)
                                     devicesViewModel.showOtaDetailsFromHistory(entry)
@@ -442,9 +474,18 @@ fun HistoryScreen(
 
     // OTA Details Bottom Sheet from History
     devicesUiState.showOtaDetailsDialog?.let { dialogData ->
+        val currentOta = historyList.find {
+            it.otaUpdate.url == dialogData.otaUpdate.url || it.otaUpdate.downloadUrl == dialogData.otaUpdate.downloadUrl
+        }?.otaUpdate ?: dialogData.otaUpdate
+
         OtaDetailsSheet(
-            ota = dialogData.otaUpdate,
+            ota = currentOta,
             onDismiss = { devicesViewModel.clearOtaDetailsDialog() },
+            onCheckArb = { ota ->
+                historyList.find { it.otaUpdate.url == ota.url || it.otaUpdate.downloadUrl == ota.downloadUrl }?.let {
+                    historyViewModel.checkAndSaveArbStatus(it)
+                }
+            },
             onDownload = { selected ->
                 devicesViewModel.startDownload(selected, dialogData.deviceName, dialogData.regionName)
                 Toast.makeText(context, context.getString(R.string.history_download_started), Toast.LENGTH_SHORT).show()
@@ -507,9 +548,13 @@ fun HistoryScreen(
 @Composable
 private fun HistoryEntryCard(
     entry: OtaHistoryEntry,
+    isCheckingArb: Boolean,
+    onCheckArb: () -> Unit,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val view = androidx.compose.ui.platform.LocalView.current
+
     OtaCard(
         modifier = modifier.fillMaxWidth(),
         onClick = onClick
@@ -566,15 +611,16 @@ private fun HistoryEntryCard(
                 modifier = Modifier.fillMaxWidth()
             )
 
-            // Bottom Row: Metadata Badges (Region, Android Version/Security Patch, Size)
+            // Bottom Row: Metadata Badges (Region, Android Version/Security Patch, ARB Status, Size)
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Row(
+                FlowRow(
+                    modifier = Modifier.weight(1f),
                     horizontalArrangement = Arrangement.spacedBy(6.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalArrangement = Arrangement.spacedBy(6.dp)
                 ) {
                     if (entry.region.isNotBlank() && !isHomeUpdateRecord) {
                         Surface(
@@ -616,11 +662,115 @@ private fun HistoryEntryCard(
                             )
                         }
                     }
+
+                    // ARB Status Badge / Interactive Check Action
+                    val arbStatus = entry.otaUpdate.arbStatus
+                    if (isCheckingArb) {
+                        Surface(
+                            shape = RoundedCornerShape(6.dp),
+                            color = MaterialTheme.colorScheme.primary.copy(alpha = 0.12f),
+                            border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.3f))
+                        ) {
+                            Row(
+                                modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                            ) {
+                                CircularProgressIndicator(
+                                    modifier = Modifier.size(11.dp),
+                                    strokeWidth = 1.5.dp,
+                                    color = MaterialTheme.colorScheme.primary
+                                )
+                                Text(
+                                    text = "Checking...",
+                                    style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
+                                    color = MaterialTheme.colorScheme.primary
+                                )
+                            }
+                        }
+                    } else if (!arbStatus.isNullOrBlank() && arbStatus != "N/A") {
+                        val isSafe = arbStatus.equals("Safe", ignoreCase = true) || arbStatus.contains("Safe", ignoreCase = true)
+                        val isProtected = arbStatus.contains("Protected", ignoreCase = true)
+                        val badgeColor = when {
+                            isSafe -> OtaPulseTheme.extendedColors.arbSafe
+                            isProtected -> OtaPulseTheme.extendedColors.arbWarning
+                            else -> MaterialTheme.colorScheme.onSurfaceVariant
+                        }
+                        val badgeIcon = when {
+                            isSafe -> Icons.Rounded.VerifiedUser
+                            isProtected -> Icons.Rounded.Warning
+                            else -> Icons.Rounded.Security
+                        }
+                        val displayText = when {
+                            isSafe -> "ARB 0 (Safe)"
+                            isProtected -> arbStatus
+                            else -> "ARB: $arbStatus"
+                        }
+
+                        Surface(
+                            shape = RoundedCornerShape(6.dp),
+                            color = badgeColor.copy(alpha = 0.15f),
+                            border = BorderStroke(1.dp, badgeColor.copy(alpha = 0.35f)),
+                            modifier = Modifier.clickable {
+                                view.haptic(HapticType.CLICK)
+                                onCheckArb()
+                            }
+                        ) {
+                            Row(
+                                modifier = Modifier.padding(horizontal = 7.dp, vertical = 3.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                            ) {
+                                Icon(
+                                    imageVector = badgeIcon,
+                                    contentDescription = null,
+                                    tint = badgeColor,
+                                    modifier = Modifier.size(12.dp)
+                                )
+                                Text(
+                                    text = displayText,
+                                    style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
+                                    color = badgeColor
+                                )
+                            }
+                        }
+                    } else {
+                        Surface(
+                            shape = RoundedCornerShape(6.dp),
+                            color = MaterialTheme.colorScheme.primary.copy(alpha = 0.10f),
+                            border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.25f)),
+                            modifier = Modifier.clickable {
+                                view.haptic(HapticType.CLICK)
+                                onCheckArb()
+                            }
+                        ) {
+                            Row(
+                                modifier = Modifier.padding(horizontal = 7.dp, vertical = 3.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Rounded.Security,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.primary,
+                                    modifier = Modifier.size(12.dp)
+                                )
+                                Text(
+                                    text = "Check ARB",
+                                    style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
+                                    color = MaterialTheme.colorScheme.primary
+                                )
+                            }
+                        }
+                    }
                 }
 
-                if (!entry.otaUpdate.size.isNullOrBlank() && entry.otaUpdate.size != "0") {
+                Spacer(modifier = Modifier.width(8.dp))
+
+                val size = entry.otaUpdate.size
+                if (!size.isNullOrBlank() && size != "0") {
                     Text(
-                        text = entry.otaUpdate.size!!,
+                        text = size,
                         style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.ExtraBold),
                         color = MaterialTheme.colorScheme.onSurface
                     )

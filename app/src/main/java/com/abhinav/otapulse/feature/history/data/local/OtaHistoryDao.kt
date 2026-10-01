@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -17,6 +18,15 @@ interface OtaHistoryDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(entry: OtaHistoryEntity): Long
+
+    @Update
+    fun update(entry: OtaHistoryEntity): Int
+
+    @Query("SELECT * FROM ota_history WHERE id = :id LIMIT 1")
+    fun getById(id: Long): OtaHistoryEntity?
+
+    @Query("SELECT * FROM ota_history WHERE (id > 0 AND id = :id) OR (timestamp = :timestamp AND deviceName = :deviceName) LIMIT 1")
+    fun findEntry(id: Long, timestamp: Long, deviceName: String): OtaHistoryEntity?
 
     @Query("DELETE FROM ota_history WHERE deviceName = :deviceName")
     fun deleteForDevice(deviceName: String): Int

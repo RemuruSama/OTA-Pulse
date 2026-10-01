@@ -45,6 +45,7 @@ class HomeUpdateViewModel @Inject constructor(
     private val downloadRepository: DownloadRepository,
     private val arbLookupService: ArbLookupService,
     private val otaExtractor: OtaExtractor,
+    private val otaHistoryRepository: com.abhinav.otapulse.feature.history.data.OtaHistoryRepository,
     @dagger.hilt.android.qualifiers.ApplicationContext private val context: android.content.Context,
     private val appSettingsPreferences: AppSettingsPreferences
 ) : ViewModel() {
@@ -226,7 +227,18 @@ class HomeUpdateViewModel @Inject constructor(
                                     .let { ota ->
                                         val enriched = if (isArbDetectionEnabled) {
                                             val arbInfo = arbLookupService.lookupByUrl(ota.downloadUrl)
-                                            if (arbInfo != null) ota.copy(arbStatus = arbInfo.toDisplayString()) else ota
+                                            if (arbInfo != null) {
+                                                val withArb = ota.copy(arbStatus = arbInfo.toDisplayString())
+                                                otaHistoryRepository.logOtaUpdate(
+                                                    com.abhinav.otapulse.core.model.OtaHistoryEntry(
+                                                        timestamp = System.currentTimeMillis(),
+                                                        deviceName = "This Device",
+                                                        region = regionVariant.displayName.ifBlank { regionVariant.region },
+                                                        otaUpdate = withArb
+                                                    )
+                                                )
+                                                withArb
+                                            } else ota
                                         } else {
                                             ota.copy(arbStatus = "N/A")
                                         }

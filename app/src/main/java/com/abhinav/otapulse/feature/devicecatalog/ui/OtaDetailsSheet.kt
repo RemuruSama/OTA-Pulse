@@ -32,6 +32,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -126,7 +127,8 @@ fun OtaDetailsSheet(
     onDismissPartitionDialog: () -> Unit = {},
     onExtractPartitions: (url: String, versionName: String, partitionNames: List<String>) -> UUID? = { _, _, _ -> null },
     isStartingExtraction: Boolean = false,
-    onClearStartingExtraction: () -> Unit = {}
+    onClearStartingExtraction: () -> Unit = {},
+    onCheckArb: ((OtaUpdate) -> Unit)? = null
 ) {
     var selectedPartitions by remember { mutableStateOf(setOf<PartitionInfo>()) }
     var cachedPartitionDialogData by remember { mutableStateOf<PartitionSelectDialogData?>(null) }
@@ -351,14 +353,33 @@ fun OtaDetailsSheet(
                     // Row 2: ARB Status | Update Size
                     Row(modifier = Modifier.fillMaxWidth()) {
                         Column(modifier = Modifier.weight(1f).padding(end = 8.dp)) {
-                            Text(
-                                text = stringResource(R.string.arb_status_label),
-                                style = MaterialTheme.typography.labelSmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(6.dp)
+                            ) {
+                                Text(
+                                    text = stringResource(R.string.arb_status_label),
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                                if (onCheckArb != null) {
+                                    Surface(
+                                        shape = RoundedCornerShape(4.dp),
+                                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.12f),
+                                        modifier = Modifier.clickable { onCheckArb(ota) }
+                                    ) {
+                                        Text(
+                                            text = if (ota.arbStatus.isNullOrBlank() || ota.arbStatus == "N/A") "Check" else "Verify",
+                                            style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold, fontSize = 9.sp),
+                                            color = MaterialTheme.colorScheme.primary,
+                                            modifier = Modifier.padding(horizontal = 4.dp, vertical = 1.dp)
+                                        )
+                                    }
+                                }
+                            }
                             val arbStatusText = ota.arbStatus ?: "N/A"
                             val arbColor = when {
-                                arbStatusText.equals("Safe", ignoreCase = true) -> OtaPulseTheme.extendedColors.arbSafe
+                                arbStatusText.equals("Safe", ignoreCase = true) || arbStatusText.startsWith("Safe", ignoreCase = true) -> OtaPulseTheme.extendedColors.arbSafe
                                 arbStatusText.contains("Protected", ignoreCase = true) -> OtaPulseTheme.extendedColors.arbWarning
                                 else -> MaterialTheme.colorScheme.onSurface
                             }

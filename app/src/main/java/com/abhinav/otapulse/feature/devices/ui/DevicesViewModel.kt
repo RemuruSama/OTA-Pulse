@@ -67,6 +67,7 @@ class DevicesViewModel @Inject constructor(
     private val deviceRepository: com.abhinav.otapulse.catalog.repository.DeviceRepository,
     private val arbLookupService: ArbLookupService,
     private val otaExtractor: com.abhinav.otapulse.ota.engine.OtaExtractor,
+    private val otaHistoryRepository: com.abhinav.otapulse.feature.history.data.OtaHistoryRepository,
     @dagger.hilt.android.qualifiers.ApplicationContext private val context: android.content.Context,
     private val appSettingsPreferences: com.abhinav.otapulse.core.preferences.AppSettingsPreferences
 ) : ViewModel() {
@@ -186,6 +187,19 @@ class DevicesViewModel @Inject constructor(
                     } else ota
                 } else {
                     ota.copy(arbStatus = "N/A")
+                }
+            }
+
+            enrichedResult.getOrNull()?.let { enrichedOta ->
+                if (!enrichedOta.arbStatus.isNullOrBlank() && enrichedOta.arbStatus != "N/A") {
+                    otaHistoryRepository.logOtaUpdate(
+                        com.abhinav.otapulse.core.model.OtaHistoryEntry(
+                            timestamp = System.currentTimeMillis(),
+                            deviceName = device.name,
+                            region = variant.displayName.ifBlank { variant.region },
+                            otaUpdate = enrichedOta
+                        )
+                    )
                 }
             }
 

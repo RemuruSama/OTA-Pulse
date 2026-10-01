@@ -106,15 +106,32 @@ class OtaHistoryRepositoryImpl @Inject constructor(
                     otaUpdate = entryToSave.otaUpdate
                 )
             )
-        } else if (existingEntry.otaUpdate.rawJson.isNullOrBlank() && !entryToSave.otaUpdate.rawJson.isNullOrBlank()) {
-            // Upgrade existing history entry to include rawJson without duplicating the item
-            dao.insert(
-                existingEntry.copy(
-                    timestamp = entryToSave.timestamp,
-                    otaUpdate = entryToSave.otaUpdate
+        } else {
+            var updatedOta = existingEntry.otaUpdate
+            var needsUpdate = false
+            if (updatedOta.rawJson.isNullOrBlank() && !entryToSave.otaUpdate.rawJson.isNullOrBlank()) {
+                updatedOta = updatedOta.copy(rawJson = entryToSave.otaUpdate.rawJson)
+                needsUpdate = true
+            }
+            if (updatedOta.arbStatus.isNullOrBlank() && !entryToSave.otaUpdate.arbStatus.isNullOrBlank()) {
+                updatedOta = updatedOta.copy(arbStatus = entryToSave.otaUpdate.arbStatus)
+                needsUpdate = true
+            }
+            if (needsUpdate) {
+                dao.update(
+                    existingEntry.copy(
+                        timestamp = entryToSave.timestamp,
+                        otaUpdate = updatedOta
+                    )
                 )
-            )
+            }
         }
+    }
+
+    override suspend fun updateArbStatus(entry: OtaHistoryEntry, arbStatus: String): Unit = withContext(Dispatchers.IO) {
+        val existing = dao.findEntry(entry.id, entry.timestamp, entry.deviceName) ?: return@withContext
+        val updatedOta = existing.otaUpdate.copy(arbStatus = arbStatus)
+        dao.update(existing.copy(otaUpdate = updatedOta))
     }
 
     override suspend fun deleteHistoryEntry(entry: OtaHistoryEntry) {
