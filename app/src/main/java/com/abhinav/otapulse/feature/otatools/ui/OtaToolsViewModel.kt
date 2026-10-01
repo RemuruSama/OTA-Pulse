@@ -38,6 +38,7 @@ data class OtaToolsUiState(
     val showPartitionSelectDialog: ManualQuerySelectDialogData? = null,
     val resolverResult: ResolvedLinkUiState? = null,
     val arbCheckResult: ArbCheckUiState? = null,
+    val arbCheckNotFound: ArbNotFoundUiState? = null,
     val userMessage: String? = null
 )
 
@@ -59,6 +60,14 @@ data class ArbCheckUiState(
     val sourceLabel: String,
     val displayName: String,
     val arbInfo: ArbLookupService.ArbInfo
+)
+
+data class ArbNotFoundUiState(
+    val source: String,
+    val sourceLabel: String,
+    val displayName: String,
+    val isLocal: Boolean,
+    val reason: String
 )
 
 @HiltViewModel
@@ -489,7 +498,16 @@ class OtaToolsViewModel @Inject constructor(
                 return@launch
             }
 
-            _uiState.update { it.copy(isCheckingArb = true, checkingArbSource = source, arbCheckResult = null) }
+            _uiState.update {
+                it.copy(
+                    isCheckingArb = true,
+                    checkingArbSource = source,
+                    arbCheckResult = null,
+                    arbCheckNotFound = null
+                )
+            }
+
+            val isLocal = !trimmedSource.startsWith("http", ignoreCase = true)
 
             runCatching { arbLookupService.lookup(trimmedSource) }
                 .onSuccess { arbInfo ->
@@ -503,25 +521,58 @@ class OtaToolsViewModel @Inject constructor(
                                     sourceLabel = sourceLabel,
                                     displayName = displayName,
                                     arbInfo = arbInfo
-                                )
+                                ),
+                                arbCheckNotFound = null
                             )
                         }
                     } else {
+                        val message = if (isLocal) {
+                            "No anti-rollback (ARB) metadata was detected in this local ZIP. The package may be an incremental update, does not contain xbl_config.img, or belongs to a non-Qualcomm chipset."
+                        } else {
+                            "No anti-rollback (ARB) metadata was detected for this URL. The package may be for a non-Qualcomm (e.g. MediaTek) device, an incremental update without xbl_config, or the server blocked byte-range requests."
+                        }
+                        val toastMsg = if (isLocal) {
+                            "No ARB status found in local ZIP"
+                        } else {
+                            "No ARB status found for this URL"
+                        }
                         _uiState.update {
                             it.copy(
                                 isCheckingArb = false,
                                 checkingArbSource = null,
-                                userMessage = "Could not extract ARB metadata from this package."
+                                arbCheckResult = null,
+                                arbCheckNotFound = ArbNotFoundUiState(
+                                    source = trimmedSource,
+                                    sourceLabel = sourceLabel,
+                                    displayName = displayName,
+                                    isLocal = isLocal,
+                                    reason = message
+                                ),
+                                userMessage = toastMsg
                             )
                         }
                     }
                 }
                 .onFailure { error ->
+                    val failureReason = error.message ?: "Failed to inspect package."
+                    val message = if (isLocal) {
+                        "Failed to inspect local ZIP for ARB status: $failureReason"
+                    } else {
+                        "Failed to inspect URL for ARB status: $failureReason"
+                    }
                     _uiState.update {
                         it.copy(
                             isCheckingArb = false,
                             checkingArbSource = null,
-                            userMessage = "Could not check ARB: ${error.message}"
+                            arbCheckResult = null,
+                            arbCheckNotFound = ArbNotFoundUiState(
+                                source = trimmedSource,
+                                sourceLabel = sourceLabel,
+                                displayName = displayName,
+                                isLocal = isLocal,
+                                reason = message
+                            ),
+                            userMessage = "Could not check ARB: ${error.message ?: "Unknown error"}"
                         )
                     }
                 }
@@ -533,7 +584,7 @@ class OtaToolsViewModel @Inject constructor(
     }
 
     fun clearArbCheckResult() {
-        _uiState.update { it.copy(arbCheckResult = null) }
+        _uiState.update { it.copy(arbCheckResult = null, arbCheckNotFound = null) }
     }
 
     fun extractPartitions(source: String, versionName: String, partitionNames: List<String>, regionName: String? = null): java.util.UUID {

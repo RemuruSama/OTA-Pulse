@@ -321,6 +321,17 @@
     <string name="arb_checker_check_url_btn">Check ARB Status</string>
     <string name="arb_checker_local_zip_title">Local OTA ZIP</string>
     <string name="arb_checker_check_local_btn">Check Local ZIP ARB</string>
+    <string name="arb_not_found_title">No ARB Status Found</string>
+    <string name="arb_not_found_badge">NOT DETECTED</string>
+    <string name="arb_not_found_url_msg">No anti-rollback (ARB) metadata was detected for this URL. The package may be for a non-Qualcomm (e.g. MediaTek) device, an incremental update without xbl_config, or the server blocked byte-range requests.</string>
+    <string name="arb_not_found_local_msg">No anti-rollback (ARB) metadata was detected in this local ZIP. The package may be an incremental update, does not contain xbl_config.img, or belongs to a non-Qualcomm chipset.</string>
+    <string name="arb_not_found_reason_qualcomm_title">Qualcomm Architecture</string>
+    <string name="arb_not_found_reason_qualcomm_desc">Anti-rollback index is stored within Qualcomm xbl_config or abl firmware partitions. MediaTek (Dimensity) chipsets do not use this structure.</string>
+    <string name="arb_not_found_reason_package_title">Full vs Incremental OTA</string>
+    <string name="arb_not_found_reason_package_desc">Incremental delta packages only contain updated blocks and omit complete bootloader images.</string>
+    <string name="arb_not_found_reason_range_title">HTTP Byte-Range Requests</string>
+    <string name="arb_not_found_reason_range_desc">Inspecting remote packages requires CDN support for HTTP 206 Partial Content range requests.</string>
+    <string name="arb_not_found_dismiss">Dismiss</string>
     <string name="tools_active_downloads_title">Active Downloads</string>
     <string name="tools_active_downloads_desc">Monitor live OTA package downloads, speed charts, pause/resume queues, and verify MD5 checksums.</string>
     <string name="tools_update_history_title">Search History</string>
