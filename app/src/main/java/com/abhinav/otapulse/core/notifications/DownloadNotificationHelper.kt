@@ -72,6 +72,9 @@ class DownloadNotificationHelper @Inject constructor(
                 NotificationManager.IMPORTANCE_HIGH
             ).apply {
                 description = context.getString(R.string.notif_channel_software_update_desc)
+                enableLights(true)
+                enableVibration(true)
+                setShowBadge(true)
             }
 
             notificationManager.createNotificationChannel(progressChannel)
@@ -232,23 +235,51 @@ class DownloadNotificationHelper @Inject constructor(
         region: String,
         device: com.abhinav.otapulse.core.model.Device
     ) {
+        val deviceDisplayName = if (device.name.isNotBlank() && device.name != "This Device") {
+            device.name
+        } else {
+            com.abhinav.otapulse.core.common.DeviceUtils.getDeviceName()
+        }
+
         val title = context.getString(R.string.notif_software_update_available)
-        val shortContentText = context.getString(R.string.notif_software_update_body, versionName)
-        
+        val shortContentText = if (otaUpdate.size.isNotBlank()) {
+            "$versionName • ${otaUpdate.size}"
+        } else {
+            context.getString(R.string.notif_software_update_body, versionName)
+        }
+
+        val subText = if (region.isNotBlank()) "$deviceDisplayName • $region" else deviceDisplayName
+
         val expandedText = buildString {
-            append("Version: ").append(versionName)
-            if (!otaUpdate.realAndroidVersion.isNullOrBlank()) {
-                append("\nAndroid Version: ").append(otaUpdate.realAndroidVersion?.removePrefix("Android ")?.trim())
+            append("📦 Version: ").append(versionName)
+            val androidVer = otaUpdate.realAndroidVersion?.removePrefix("Android ")?.trim()
+                ?: otaUpdate.androidVersion?.removePrefix("Android ")?.trim()
+            if (!androidVer.isNullOrBlank()) {
+                append("\n🤖 Android: ").append(androidVer)
+            }
+            if (!otaUpdate.securityPatch.isNullOrBlank()) {
+                append("\n🛡️ Security Patch: ").append(otaUpdate.securityPatch)
             }
             if (otaUpdate.size.isNotBlank()) {
-                append("\nSize: ").append(otaUpdate.size)
+                append("\n💾 Package Size: ").append(otaUpdate.size)
+            }
+            if (!otaUpdate.arbStatus.isNullOrBlank() && otaUpdate.arbStatus != "N/A") {
+                append("\n🔒 ARB: ").append(otaUpdate.arbStatus)
+            }
+            val buildDate = FormatUtils.formatBuildDate(otaUpdate)
+            if (buildDate.isNotBlank()) {
+                append("\n📅 Released: ").append(buildDate)
             }
         }
 
+        val otaJson = com.google.gson.Gson().toJson(otaUpdate)
         val intent = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
-            // Open specifically to the OTA details, or at least open the app
             action = "com.abhinav.otapulse.ACTION_OPEN_OTA_DETAILS"
+            putExtra("ota_update_json", otaJson)
+            putExtra("device_name", deviceDisplayName)
+            putExtra("region", region)
+            putExtra(DownloadActionReceiver.EXTRA_OTA_UPDATE, otaUpdate)
         }
 
         val pendingIntent = PendingIntent.getActivity(
@@ -258,22 +289,22 @@ class DownloadNotificationHelper @Inject constructor(
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
-        // Action to open app
+        // Action to open app and view details
         val viewAction = NotificationCompat.Action.Builder(
-            R.drawable.ic_search, // fallback icon
+            R.drawable.ic_search,
             "View Details",
             pendingIntent
         ).build()
 
         val downloadPendingIntent = PendingIntent.getBroadcast(
             context,
-            SOFTWARE_UPDATE_NOTIFICATION_ID + 1, // unique request code
-            com.abhinav.otapulse.core.receiver.DownloadActionReceiver.getStartDownloadIntent(context, otaUpdate, device.name, region),
+            SOFTWARE_UPDATE_NOTIFICATION_ID + 1,
+            DownloadActionReceiver.getStartDownloadIntent(context, otaUpdate, deviceDisplayName, region),
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
         val downloadAction = NotificationCompat.Action.Builder(
-            R.drawable.ic_download, // fallback icon
+            R.drawable.ic_download,
             "Download",
             downloadPendingIntent
         ).build()
@@ -282,9 +313,15 @@ class DownloadNotificationHelper @Inject constructor(
             .setSmallIcon(R.drawable.ic_download)
             .setContentTitle(title)
             .setContentText(shortContentText)
-            .setStyle(NotificationCompat.BigTextStyle().bigText(expandedText))
+            .setSubText(subText)
+            .setStyle(
+                NotificationCompat.BigTextStyle()
+                    .bigText(expandedText)
+                    .setSummaryText(deviceDisplayName)
+            )
             .setContentIntent(pendingIntent)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setCategory(NotificationCompat.CATEGORY_RECOMMENDATION)
             .setAutoCancel(true)
             .addAction(downloadAction)
             .addAction(viewAction)

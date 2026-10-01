@@ -242,6 +242,14 @@ class MainActivity : AppCompatActivity() {
                 navigationEvent.tryEmit(Screen.AppUpdate.createRoute())
                 return true
             }
+            "com.abhinav.otapulse.ACTION_OPEN_OTA_DETAILS" -> {
+                val otaJson = intent.getStringExtra("ota_update_json")
+                if (!otaJson.isNullOrBlank()) {
+                    com.abhinav.otapulse.core.common.PendingOtaDetailsHolder.setPendingOta(otaJson)
+                }
+                navigationEvent.tryEmit(Screen.HomeUpdate.route)
+                return true
+            }
         }
         return false
     }

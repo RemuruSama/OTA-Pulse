@@ -348,5 +348,29 @@ object DeviceUtils {
             else -> "Official Stable"
         }
     }
+
+    /**
+     * Returns the device build timestamp in milliseconds since epoch.
+     * Prefers ro.build.date.utc (seconds) and falls back to Build.TIME (milliseconds).
+     */
+    fun getDeviceBuildTime(): Long {
+        val utcSeconds = getSystemProperty("ro.build.date.utc").toLongOrNull()
+        if (utcSeconds != null && utcSeconds > 0) {
+            return utcSeconds * 1000L
+        }
+        return Build.TIME
+    }
+
+    /**
+     * Resolves the current device OTA version from ro.build.version.ota,
+     * ro.build.display.ota, or ro.build.display.id.
+     */
+    fun getCurrentDeviceOtaVersion(): String {
+        return listOf(
+            getOtaVersion(),
+            getDisplayOtaVersion(),
+            getOsVersion()
+        ).firstOrNull { it.isNotBlank() } ?: ""
+    }
 }
 

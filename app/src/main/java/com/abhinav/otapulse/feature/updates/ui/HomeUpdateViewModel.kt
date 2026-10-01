@@ -23,6 +23,9 @@ import com.abhinav.otapulse.core.model.Device
 import com.abhinav.otapulse.catalog.model.RegionData
 import com.abhinav.otapulse.core.model.RegionVariant
 import com.abhinav.otapulse.core.common.DeviceUtils
+import com.abhinav.otapulse.core.common.OtaUtils
+import com.abhinav.otapulse.core.common.OtaUtils.resolvedOtaVersion
+import com.abhinav.otapulse.core.common.PendingOtaDetailsHolder
 import com.abhinav.otapulse.core.model.OtaUpdate
 import com.abhinav.otapulse.core.preferences.AppSettingsPreferences
 import com.abhinav.otapulse.feature.devicecatalog.ui.PartitionSelectDialogData
@@ -57,6 +60,28 @@ class HomeUpdateViewModel @Inject constructor(
 
     init {
         populateDeviceInputs()
+        observePendingOta()
+    }
+
+    private fun observePendingOta() {
+        viewModelScope.launch {
+            PendingOtaDetailsHolder.pendingOtaJson.collect { json ->
+                if (!json.isNullOrBlank()) {
+                    val ota = OtaUpdate.fromString(json)
+                    if (ota != null) {
+                        _uiState.update {
+                            it.copy(
+                                multiResults = listOf(ota),
+                                selectedOta = ota,
+                                isLoading = false,
+                                error = null
+                            )
+                        }
+                        PendingOtaDetailsHolder.consumePendingOta()
+                    }
+                }
+            }
+        }
     }
 
     private fun populateDeviceInputs() {
@@ -76,7 +101,7 @@ class HomeUpdateViewModel @Inject constructor(
         val defaultMarket = if (marketName.isNotBlank()) marketName else defaultName
         val defaultLetter = if (otaVersionLetter.isNotBlank()) otaVersionLetter else "A"
         val defaultReq = if (isOnePlusDevice()) "taste" else "manual"
-        val defaultRegion = if (detectedRegion.isNotBlank()) detectedRegion else inferRegionFromNvId(nvId)
+        val defaultRegion = if (detectedRegion.isNotBlank()) detectedRegion else OtaUtils.inferRegionFromNvId(nvId)
 
         _uiState.update {
             it.copy(
@@ -109,7 +134,7 @@ class HomeUpdateViewModel @Inject constructor(
     }
 
     fun updateNvId(value: String) {
-        val inferred = inferRegionFromNvId(value)
+        val inferred = OtaUtils.inferRegionFromNvId(value)
         _uiState.update { state ->
             state.copy(
                 nvId = value,
@@ -162,25 +187,14 @@ class HomeUpdateViewModel @Inject constructor(
             return
         }
 
-        val baseOtaVersion = getBaseOtaString(model)
-        val selectedRegion = _uiState.value.deviceRegion.trim().ifBlank { inferRegionFromNvId(nvIdInput) }
+        val selectedRegion = _uiState.value.deviceRegion.trim().ifBlank { OtaUtils.inferRegionFromNvId(nvIdInput) }
         val region = selectedRegion
         val apiModelParam = if (name.isNotBlank()) name else model
         val finalNvId = nvIdInput
 
-        val baseServerSearchOrder = when (selectedRegion.uppercase()) {
-            "IN" -> listOf("IN", "GL", "EU", "CN")
-            "CN" -> listOf("CN", "GL", "EU", "IN")
-            "EU", "RU", "TR" -> listOf("EU", "GL", "IN", "CN")
-            else -> listOf("EU", "GL", "IN", "CN")
-        }
-        val customSearchOrder = if (finalNvId == "10010111") {
-            listOf("CN") + (baseServerSearchOrder - "CN")
-        } else {
-            baseServerSearchOrder
-        }
-
-        val letters = listOf("A", "C", "F", "H", "J")
+        val customSearchOrder = OtaUtils.getServerSearchOrder(selectedRegion, finalNvId)
+        val currentLetter = _uiState.value.versionLetter.trim().ifBlank { "A" }
+        val letters = OtaUtils.prioritizeLetters(currentLetter)
 
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, error = null, multiResults = null, selectedOta = null, userMessage = null) }
@@ -199,17 +213,11 @@ class HomeUpdateViewModel @Inject constructor(
 
             val isArbDetectionEnabled = appSettingsPreferences.getAppSettings().arbDetection
 
-            val nvSuffix = if (finalNvId.trim().startsWith("NV", ignoreCase = true) && finalNvId.trim().length == 4) {
-                finalNvId.trim().uppercase()
-            } else {
-                ""
-            }
-
             data class ServerResult(val server: String, val letter: String, val ota: OtaUpdate)
 
             val successfulResults: List<ServerResult> = coroutineScope {
                 letters.flatMap { l ->
-                    val otaVersion = "${baseOtaVersion}${nvSuffix}_11.${l}.01_0001_100001010000"
+                    val otaVersion = OtaUtils.constructOtaString(model, finalNvId, l)
                     customSearchOrder.map { server ->
                         async {
                             val regionVariant = RegionVariant(
@@ -266,8 +274,6 @@ class HomeUpdateViewModel @Inject constructor(
                 .map { (_, results) -> results.maxWith(compareBy { it.ota.resolvedOtaVersion() }) }
                 .sortedByDescending { it.letter }
 
-            val bestOverall = bestResultsPerLetter.maxWithOrNull(compareBy { it.ota.resolvedOtaVersion() })
-
             _uiState.update {
                 it.copy(
                     isLoading = false,
@@ -281,7 +287,7 @@ class HomeUpdateViewModel @Inject constructor(
     fun startDownload(otaUpdate: OtaUpdate) {
         viewModelScope.launch {
             val deviceName = _uiState.value.deviceName.ifBlank { _uiState.value.deviceModel }
-            val regionName = inferRegionFromNvId(_uiState.value.nvId)
+            val regionName = OtaUtils.inferRegionFromNvId(_uiState.value.nvId)
             downloadRepository.enqueueDownload(otaUpdate, deviceName, regionName, true)
         }
     }
@@ -342,32 +348,5 @@ class HomeUpdateViewModel @Inject constructor(
         val brand = DeviceUtils.getDeviceBrand()
         return brand.equals("OnePlus", ignoreCase = true) || model.startsWith("CPH", ignoreCase = true) || model.startsWith("P", ignoreCase = true)
     }
-
-    private fun inferRegionFromNvId(nvId: String): String {
-        val normalizedNvId = nvId.trim()
-        val nvRegion = RegionData.regions.firstOrNull {
-            it.nvid.equals(normalizedNvId, ignoreCase = true)
-        }?.displayName
-        return nvRegion ?: "GLO"
-    }
-
-    private fun getBaseOtaString(rawId: String): String {
-        val suffixesToStrip = listOf("EEA", "IN", "RU", "TR", "CN", "EU", "TW", "MEA", "SA", "SG", "TH", "LATAM", "BR", "MY", "ID", "KZ", "OCA", "VN", "GLO")
-            .distinct()
-        var baseModel = rawId.substringBefore("_11").substringBefore(".")
-        for (suffix in suffixesToStrip) {
-            if (baseModel.endsWith(suffix, ignoreCase = true)) {
-                baseModel = baseModel.dropLast(suffix.length)
-                break
-            }
-        }
-
-        return baseModel.replace(Regex("NV[0-9A-Z]{2}$", RegexOption.IGNORE_CASE), "")
-    }
-
-    private fun OtaUpdate.resolvedOtaVersion(): String =
-        realOtaVersion
-            ?: componentVersion.substringBefore(".")
-                .let { base -> if (base.count { it == '_' } >= 3) base else componentVersion }
 }
 
