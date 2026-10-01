@@ -246,10 +246,78 @@ fun AboutScreen(
                 )
             }
 
-            Spacer(modifier = Modifier.height(4.dp))
-
-            // 2. Community & Links Bento Grid (Clean 3-item Row)
+            // 2. Upgrade Guide Card (via Local OTA Update) - before creator
             StaggeredItem(visible = showSections, index = 1) {
+                UpgradeGuideCard(
+                    onCopyGuide = {
+                        view.haptic(HapticType.CLICK)
+                        val guideText = """
+Upgrade Guide: Local OTA Update
+
+1. Download ROM Package:
+Download the latest ROM upgrade zip package from the specified server.
+
+2. Copy to Phone Storage:
+Copy the ROM upgrade package to the phone storage (root directory or Downloads). Do not extract it manually.
+
+3. Enable Developer Mode:
+Go to Settings -> About device -> Version -> Click Build number 7 times and enter the password, now you are in the developer mode.
+
+4. Select Local Install:
+Go back to Settings -> About device -> Up to date -> Click the top right button -> Local install -> Click on the corresponding installation package.
+
+5. Extract & Upgrade:
+Click Extract -> Upgrade -> Wait until system upgrade is completed to 100%.
+
+6. Restart Device:
+After the upgrade is complete, click Restart. Update successful!
+                        """.trimIndent()
+                        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                        clipboard.setPrimaryClip(ClipData.newPlainText("OTA Upgrade Guide", guideText))
+                        Toast.makeText(context, context.getString(R.string.about_upgrade_guide_copied), Toast.LENGTH_SHORT).show()
+                    }
+                )
+            }
+
+            // 3. Lead Architect Spotlight Card (Clean Single Row)
+            StaggeredItem(visible = showSections, index = 2) {
+                MinimalCreatorCard(
+                    onClick = {
+                        view.haptic(HapticType.CLICK)
+                        try {
+                            context.openInAppBrowser("https://t.me/CodeSenseiX")
+                        } catch (e: Exception) {
+                            Toast.makeText(context, context.getString(R.string.about_err_telegram), Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                )
+            }
+
+            // 4. Support & Funding Card (Minimalist Rows)
+            val upiId = stringResource(R.string.upi_id_value)
+            val upiCopiedToast = stringResource(R.string.upi_id_copied_toast)
+            StaggeredItem(visible = showSections, index = 3) {
+                MinimalSupportCard(
+                    upiId = upiId,
+                    onOpenPayPal = {
+                        view.haptic(HapticType.CLICK)
+                        try {
+                            context.openExternalBrowser("https://paypal.me/Abhinavftp?country.x=IN&locale.x=en_GB")
+                        } catch (e: Exception) {
+                            Toast.makeText(context, context.getString(R.string.about_err_paypal), Toast.LENGTH_SHORT).show()
+                        }
+                    },
+                    onCopyUpi = {
+                        view.haptic(HapticType.CLICK)
+                        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                        clipboard.setPrimaryClip(ClipData.newPlainText(context.getString(R.string.about_upi_id_label), upiId))
+                        Toast.makeText(context, upiCopiedToast, Toast.LENGTH_SHORT).show()
+                    }
+                )
+            }
+
+            // 5. Community & Links Bento Grid (Clean 3-item Row) - at last
+            StaggeredItem(visible = showSections, index = 4) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
@@ -302,76 +370,6 @@ fun AboutScreen(
                         }
                     )
                 }
-            }
-
-            // 3. Lead Architect Spotlight Card (Clean Single Row)
-            StaggeredItem(visible = showSections, index = 2) {
-                MinimalCreatorCard(
-                    onClick = {
-                        view.haptic(HapticType.CLICK)
-                        try {
-                            context.openInAppBrowser("https://t.me/CodeSenseiX")
-                        } catch (e: Exception) {
-                            Toast.makeText(context, context.getString(R.string.about_err_telegram), Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                )
-            }
-
-            // 4. Support & Funding Card (Minimalist Rows)
-            val upiId = stringResource(R.string.upi_id_value)
-            val upiCopiedToast = stringResource(R.string.upi_id_copied_toast)
-            StaggeredItem(visible = showSections, index = 3) {
-                MinimalSupportCard(
-                    upiId = upiId,
-                    onOpenPayPal = {
-                        view.haptic(HapticType.CLICK)
-                        try {
-                            context.openExternalBrowser("https://paypal.me/Abhinavftp?country.x=IN&locale.x=en_GB")
-                        } catch (e: Exception) {
-                            Toast.makeText(context, context.getString(R.string.about_err_paypal), Toast.LENGTH_SHORT).show()
-                        }
-                    },
-                    onCopyUpi = {
-                        view.haptic(HapticType.CLICK)
-                        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                        clipboard.setPrimaryClip(ClipData.newPlainText(context.getString(R.string.about_upi_id_label), upiId))
-                        Toast.makeText(context, upiCopiedToast, Toast.LENGTH_SHORT).show()
-                    }
-                )
-            }
-
-            // 5. Upgrade Guide Card (via Local OTA Update) - at last
-            StaggeredItem(visible = showSections, index = 4) {
-                UpgradeGuideCard(
-                    onCopyGuide = {
-                        view.haptic(HapticType.CLICK)
-                        val guideText = """
-Upgrade Guide: Local OTA Update
-
-1. Download ROM Package:
-Download the latest ROM upgrade zip package from the specified server.
-
-2. Copy to Phone Storage:
-Copy the ROM upgrade package to the phone storage (root directory or Downloads). Do not extract it manually.
-
-3. Enable Developer Mode:
-Go to Settings -> About device -> Version -> Click Build number 7 times and enter the password, now you are in the developer mode.
-
-4. Select Local Install:
-Go back to Settings -> About device -> Up to date -> Click the top right button -> Local install -> Click on the corresponding installation package.
-
-5. Extract & Upgrade:
-Click Extract -> Upgrade -> Wait until system upgrade is completed to 100%.
-
-6. Restart Device:
-After the upgrade is complete, click Restart. Update successful!
-                        """.trimIndent()
-                        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                        clipboard.setPrimaryClip(ClipData.newPlainText("OTA Upgrade Guide", guideText))
-                        Toast.makeText(context, context.getString(R.string.about_upgrade_guide_copied), Toast.LENGTH_SHORT).show()
-                    }
-                )
             }
 
             Spacer(modifier = Modifier.height(12.dp))
