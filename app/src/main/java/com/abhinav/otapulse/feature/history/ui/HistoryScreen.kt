@@ -86,9 +86,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import kotlinx.coroutines.launch
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
@@ -420,32 +423,44 @@ fun HistoryScreen(
                             enableDismissFromEndToStart = true,
                             backgroundContent = {
                                 val isDismissing = dismissState.targetValue == SwipeToDismissBoxValue.EndToStart
+                                val isSwiping = dismissState.dismissDirection == SwipeToDismissBoxValue.EndToStart || isDismissing
                                 val backgroundColor by animateColorAsState(
-                                    targetValue = if (isDismissing) MaterialTheme.colorScheme.errorContainer else MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.6f),
+                                    targetValue = if (isSwiping) {
+                                        if (isDismissing) MaterialTheme.colorScheme.errorContainer else MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.75f)
+                                    } else {
+                                        Color.Transparent
+                                    },
                                     label = "swipe_delete_bg"
                                 )
-                                Box(
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .clip(RoundedCornerShape(16.dp))
-                                        .background(backgroundColor)
-                                        .padding(horizontal = 20.dp),
-                                    contentAlignment = Alignment.CenterEnd
-                                ) {
-                                    Row(
-                                        verticalAlignment = Alignment.CenterVertically,
-                                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                val contentAlpha by animateFloatAsState(
+                                    targetValue = if (isSwiping) 1f else 0f,
+                                    label = "swipe_delete_content_alpha"
+                                )
+                                if (contentAlpha > 0.001f || isSwiping) {
+                                    Box(
+                                        modifier = Modifier
+                                            .fillMaxSize()
+                                            .clip(RoundedCornerShape(16.dp))
+                                            .background(backgroundColor)
+                                            .padding(horizontal = 20.dp),
+                                        contentAlignment = Alignment.CenterEnd
                                     ) {
-                                        Text(
-                                            text = stringResource(R.string.action_delete),
-                                            style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold),
-                                            color = MaterialTheme.colorScheme.onErrorContainer
-                                        )
-                                        Icon(
-                                            imageVector = Icons.Rounded.Delete,
-                                            contentDescription = stringResource(R.string.action_delete),
-                                            tint = MaterialTheme.colorScheme.onErrorContainer
-                                        )
+                                        Row(
+                                            modifier = Modifier.alpha(contentAlpha),
+                                            verticalAlignment = Alignment.CenterVertically,
+                                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                        ) {
+                                            Text(
+                                                text = stringResource(R.string.action_delete),
+                                                style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold),
+                                                color = MaterialTheme.colorScheme.onErrorContainer
+                                            )
+                                            Icon(
+                                                imageVector = Icons.Rounded.Delete,
+                                                contentDescription = stringResource(R.string.action_delete),
+                                                tint = MaterialTheme.colorScheme.onErrorContainer
+                                            )
+                                        }
                                     }
                                 }
                             },

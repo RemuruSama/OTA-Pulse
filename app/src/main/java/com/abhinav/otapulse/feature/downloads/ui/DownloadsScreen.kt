@@ -270,34 +270,41 @@ fun DownloadsContent(
                                 .animateItem(placementSpec = OtaPulseMotion.StackReorderSpec)
                                 .clip(RoundedCornerShape(20.dp))
                         ) {
-                            // Delete Button (revealed behind)
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxHeight()
-                                    .align(Alignment.CenterEnd)
-                                    .width(88.dp)
-                                    .background(MaterialTheme.colorScheme.errorContainer)
-                                    .clickable {
-                                        view.haptic(HapticType.HEAVY_CLICK)
-                                        onDeleteDownload(download)
-                                    },
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Column(
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                            val currentOffset = runCatching { state.requireOffset() }.getOrDefault(0f)
+                            val isSwiping = currentOffset < -1f || state.targetValue == DragValue.Swiped
+                            val swipeFraction = ((-currentOffset) / swipeWidth).coerceIn(0f, 1f)
+
+                            if (isSwiping && swipeFraction > 0.001f) {
+                                // Delete Button (revealed behind only when swiping)
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxHeight()
+                                        .align(Alignment.CenterEnd)
+                                        .width(88.dp)
+                                        .alpha(swipeFraction)
+                                        .background(MaterialTheme.colorScheme.errorContainer)
+                                        .clickable {
+                                            view.haptic(HapticType.HEAVY_CLICK)
+                                            onDeleteDownload(download)
+                                        },
+                                    contentAlignment = Alignment.Center
                                 ) {
-                                    Icon(
-                                        imageVector = Icons.Rounded.Delete,
-                                        contentDescription = stringResource(R.string.action_delete),
-                                        tint = MaterialTheme.colorScheme.error,
-                                        modifier = Modifier.size(24.dp)
-                                    )
-                                    Text(
-                                        text = stringResource(R.string.action_delete),
-                                        style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                                        color = MaterialTheme.colorScheme.error
-                                    )
+                                    Column(
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Rounded.Delete,
+                                            contentDescription = stringResource(R.string.action_delete),
+                                            tint = MaterialTheme.colorScheme.error,
+                                            modifier = Modifier.size(24.dp)
+                                        )
+                                        Text(
+                                            text = stringResource(R.string.action_delete),
+                                            style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
+                                            color = MaterialTheme.colorScheme.error
+                                        )
+                                    }
                                 }
                             }
 
