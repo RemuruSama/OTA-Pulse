@@ -4,10 +4,13 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -34,7 +37,11 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Clear
@@ -79,17 +86,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.abhinav.otapulse.R
+import com.abhinav.otapulse.core.ui.theme.holographicEdgeBrush
 import com.abhinav.otapulse.core.common.FormatUtils
 import com.abhinav.otapulse.core.common.OtaCardData
 import com.abhinav.otapulse.core.common.OtaShareHelper
@@ -129,6 +141,7 @@ fun DeviceCatalogScreen(
     val context = LocalContext.current
     val view = LocalView.current
     val focusManager = LocalFocusManager.current
+    val keyboardController = LocalSoftwareKeyboardController.current
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     var showSearchInput by rememberSaveable { mutableStateOf(false) }
     val searchFocusRequester = remember { FocusRequester() }
@@ -137,14 +150,20 @@ fun DeviceCatalogScreen(
         "${uiState.selectedBrand}_${uiState.searchQuery}"
     }
 
+    BackHandler(enabled = showSearchInput) {
+        view.haptic(HapticType.TICK)
+        showSearchInput = false
+        viewModel.onSearchQueryChanged("")
+        focusManager.clearFocus()
+        keyboardController?.hide()
+    }
+
     LaunchedEffect(showSearchInput) {
         if (showSearchInput) {
-            scrollBehavior.state.heightOffset = 0f
-            scrollBehavior.state.contentOffset = 0f
             kotlinx.coroutines.delay(100)
             try {
                 searchFocusRequester.requestFocus()
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 // Ignore if not attached yet
             }
         }
@@ -157,88 +176,154 @@ fun DeviceCatalogScreen(
         contentWindowInsets = androidx.compose.foundation.layout.WindowInsets(0, 0, 0, 0),
         topBar = {
             OtaTopAppBar(
-                title = stringResource(R.string.title_devices),
+                title = if (!showSearchInput) stringResource(R.string.title_devices) else "",
                 scrollBehavior = scrollBehavior,
-                actions = {
-                    IconButton(
-                        onClick = {
-                            view.haptic(HapticType.TICK)
-                            onNavigateToHistory()
+                titleContent = if (showSearchInput) {
+                    {
+                        val isHolo = OtaPulseTheme.holographicConfig.isEnabled
+                        val searchBarModifier = if (isHolo) {
+                            Modifier
+                                .fillMaxWidth()
+                                .height(44.dp)
+                                .clip(RoundedCornerShape(22.dp))
+                                .background(Color(0xFF0D0D1A).copy(alpha = 0.88f))
+                                .border(1.dp, holographicEdgeBrush(), RoundedCornerShape(22.dp))
+                                .padding(horizontal = 14.dp)
+                        } else {
+                            Modifier
+                                .fillMaxWidth()
+                                .height(44.dp)
+                                .clip(RoundedCornerShape(22.dp))
+                                .background(MaterialTheme.colorScheme.surfaceContainerHigh)
+                                .padding(horizontal = 14.dp)
                         }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Rounded.History,
-                            contentDescription = stringResource(R.string.catalog_update_history_cd),
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
+                        Box(
+                            modifier = searchBarModifier,
+                            contentAlignment = Alignment.CenterStart
+                        ) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Rounded.Search,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
+                                    modifier = Modifier.size(20.dp)
+                                )
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Box(
+                                    modifier = Modifier.weight(1f),
+                                    contentAlignment = Alignment.CenterStart
+                                ) {
+                                    if (uiState.searchQuery.isEmpty()) {
+                                        Text(
+                                            text = stringResource(R.string.search_device_hint),
+                                            style = MaterialTheme.typography.bodyLarge,
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
+                                            maxLines = 1
+                                        )
+                                    }
+                                    BasicTextField(
+                                        value = uiState.searchQuery,
+                                        onValueChange = { viewModel.onSearchQueryChanged(it) },
+                                        singleLine = true,
+                                        textStyle = MaterialTheme.typography.bodyLarge.copy(
+                                            color = MaterialTheme.colorScheme.onSurface,
+                                            fontWeight = FontWeight.Medium
+                                        ),
+                                        cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
+                                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                                        keyboardActions = KeyboardActions(
+                                            onSearch = {
+                                                focusManager.clearFocus()
+                                                keyboardController?.hide()
+                                            }
+                                        ),
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .focusRequester(searchFocusRequester)
+                                    )
+                                }
+                                if (uiState.searchQuery.isNotEmpty()) {
+                                    IconButton(
+                                        onClick = {
+                                            view.haptic(HapticType.TICK)
+                                            viewModel.onSearchQueryChanged("")
+                                            try {
+                                                searchFocusRequester.requestFocus()
+                                            } catch (_: Exception) {}
+                                        },
+                                        modifier = Modifier.size(28.dp)
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Rounded.Clear,
+                                            contentDescription = stringResource(R.string.clear_search_cd),
+                                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                            modifier = Modifier.size(18.dp)
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else null,
+                actions = {
+                    if (!showSearchInput) {
+                        IconButton(
+                            onClick = {
+                                view.haptic(HapticType.TICK)
+                                onNavigateToHistory()
+                            }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.History,
+                                contentDescription = stringResource(R.string.catalog_update_history_cd),
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
                     }
                 },
                 bottomContent = {
-                    Column(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    // Brand Filter Chips directly inside header with full-width scroll & padding
+                    val brands = listOf("All", "OnePlus", "Realme", "OPPO")
+                    LazyRow(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 8.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
+                        contentPadding = PaddingValues(horizontal = 16.dp)
                     ) {
-                        // Brand Filter Chips directly inside header with full-width scroll & padding
-                        val brands = listOf("All", "OnePlus", "Realme", "OPPO")
-                        LazyRow(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(bottom = 8.dp),
-                            horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
-                            contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 16.dp)
-                        ) {
-                            items(brands) { brand ->
-                                val isSelected = uiState.selectedBrand.equals(brand, ignoreCase = true)
-                                FilterChip(
-                                    selected = isSelected,
-                                    onClick = {
-                                        view.haptic(HapticType.TICK)
-                                        viewModel.onBrandSelected(brand)
-                                    },
-                                    label = {
-                                        Text(
-                                            text = brand,
-                                            style = MaterialTheme.typography.labelLarge,
-                                            fontWeight = if (isSelected) androidx.compose.ui.text.font.FontWeight.Bold else androidx.compose.ui.text.font.FontWeight.Normal
+                        items(brands) { brand ->
+                            val isSelected = uiState.selectedBrand.equals(brand, ignoreCase = true)
+                            FilterChip(
+                                selected = isSelected,
+                                onClick = {
+                                    view.haptic(HapticType.TICK)
+                                    viewModel.onBrandSelected(brand)
+                                },
+                                label = {
+                                    Text(
+                                        text = brand,
+                                        style = MaterialTheme.typography.labelLarge,
+                                        fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
+                                    )
+                                },
+                                leadingIcon = if (isSelected) {
+                                    {
+                                        Icon(
+                                            imageVector = Icons.Rounded.Check,
+                                            contentDescription = null,
+                                            modifier = Modifier.size(FilterChipDefaults.IconSize)
                                         )
-                                    },
-                                    leadingIcon = if (isSelected) {
-                                        {
-                                            Icon(
-                                                imageVector = Icons.Rounded.Check,
-                                                contentDescription = null,
-                                                modifier = Modifier.size(FilterChipDefaults.IconSize)
-                                            )
-                                        }
-                                    } else null,
-                                    colors = FilterChipDefaults.filterChipColors(
-                                        selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
-                                        selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer
-                                    ),
-                                    shape = MaterialTheme.shapes.small
-                                )
-                            }
-                        }
-
-                        // Search Bar inside header when active
-                        androidx.compose.animation.AnimatedVisibility(visible = showSearchInput || uiState.searchQuery.isNotEmpty()) {
-                            androidx.compose.foundation.layout.Box(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 16.dp)
-                                    .padding(bottom = 8.dp)
-                            ) {
-                                FloatingSearchBar(
-                                    query = uiState.searchQuery,
-                                    onQueryChange = { viewModel.onSearchQueryChanged(it) },
-                                    placeholder = stringResource(R.string.search_device_hint),
-                                    onClear = {
-                                        view.haptic(HapticType.TICK)
-                                        focusManager.clearFocus()
-                                    },
-                                    focusRequester = searchFocusRequester
-                                )
-                            }
+                                    }
+                                } else null,
+                                colors = FilterChipDefaults.filterChipColors(
+                                    selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                                    selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer
+                                ),
+                                shape = MaterialTheme.shapes.small
+                            )
                         }
                     }
                 }
@@ -258,9 +343,7 @@ fun DeviceCatalogScreen(
                         if (!showSearchInput) {
                             viewModel.onSearchQueryChanged("")
                             focusManager.clearFocus()
-                        } else {
-                            scrollBehavior.state.heightOffset = 0f
-                            scrollBehavior.state.contentOffset = 0f
+                            keyboardController?.hide()
                         }
                     },
                     containerColor = if (showSearchInput) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceContainerHigh,
