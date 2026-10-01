@@ -52,7 +52,12 @@
     <!-- Removed as Razorpay is gone and we have a new UPI copy card -->
     
     <string name="upi_id_value">abhinavftp98@axl</string>
-    <string name="upi_id_copied_toast">UPI ID copied to clipboard</string>
+    <string name="upi_id_copied_toast">UPI copied to clipboard</string>
+
+    <string name="crypto_wallet_title">Crypto Wallet</string>
+    <string name="crypto_usdt_address">0xc1ffc00909f26a75b545ffb60fa7b2382d2a9753</string>
+    <string name="crypto_network_name">BNB Smart Chain (BEP20)</string>
+    <string name="crypto_address_copied_toast">USDT (BEP20) address copied to clipboard</string>
 
 
     <!-- Strings for DevicesFragment (ensure these are all present and correct) -->
@@ -436,7 +441,7 @@
     <string name="about_community_sub">Community</string>
     <string name="about_err_telegram">Could not open Telegram</string>
     <string name="about_err_paypal">Could not open PayPal</string>
-    <string name="about_upi_id_label">UPI ID</string>
+    <string name="about_upi_id_label">UPI</string>
     <string name="about_engine_online">OTA Pulse Engine Online</string>
     <string name="about_app_icon_cd">App Icon</string>
     <string name="about_upgrade_guide_title">Upgrade Guide</string>

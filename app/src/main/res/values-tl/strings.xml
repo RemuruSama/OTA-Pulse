@@ -336,7 +336,7 @@
     <string name="about_community_sub">Community</string>
     <string name="about_err_telegram">Could not open Telegram</string>
     <string name="about_err_paypal">Could not open PayPal</string>
-    <string name="about_upi_id_label">UPI ID</string>
+    <string name="about_upi_id_label">UPI</string>
     <string name="about_engine_online">OTA Pulse Engine Online</string>
     <string name="about_app_icon_cd">App Icon</string>
     <string name="add_dev_device_name_label">Device Name (e.g. OnePlus 12)</string>

@@ -19,9 +19,11 @@ package com.abhinav.otapulse.feature.about.ui
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutSlowInEasing
@@ -37,9 +39,11 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -103,6 +107,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import kotlinx.coroutines.delay
 import com.abhinav.otapulse.R
 import com.abhinav.otapulse.core.common.openExternalBrowser
@@ -294,8 +300,27 @@ After the upgrade is complete, click Restart. Update successful!
             }
 
             // 4. Support & Funding Card (Minimalist Rows)
+            var showCryptoDialog by remember { mutableStateOf(false) }
             val upiId = stringResource(R.string.upi_id_value)
             val upiCopiedToast = stringResource(R.string.upi_id_copied_toast)
+            val cryptoAddress = stringResource(R.string.crypto_usdt_address)
+            val cryptoNetwork = stringResource(R.string.crypto_network_name)
+            val cryptoCopiedToast = stringResource(R.string.crypto_address_copied_toast)
+
+            if (showCryptoDialog) {
+                CryptoWalletDialog(
+                    usdtAddress = cryptoAddress,
+                    networkName = cryptoNetwork,
+                    onDismiss = { showCryptoDialog = false },
+                    onCopyAddress = {
+                        view.haptic(HapticType.HEAVY_CLICK)
+                        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                        clipboard.setPrimaryClip(ClipData.newPlainText("USDT Address", cryptoAddress))
+                        Toast.makeText(context, cryptoCopiedToast, Toast.LENGTH_SHORT).show()
+                    }
+                )
+            }
+
             StaggeredItem(visible = showSections, index = 3) {
                 MinimalSupportCard(
                     upiId = upiId,
@@ -308,10 +333,33 @@ After the upgrade is complete, click Restart. Update successful!
                         }
                     },
                     onCopyUpi = {
-                        view.haptic(HapticType.CLICK)
+                        view.haptic(HapticType.HEAVY_CLICK)
                         val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                         clipboard.setPrimaryClip(ClipData.newPlainText(context.getString(R.string.about_upi_id_label), upiId))
                         Toast.makeText(context, upiCopiedToast, Toast.LENGTH_SHORT).show()
+                    },
+                    onPayUpi = {
+                        view.haptic(HapticType.CLICK)
+                        try {
+                            val upiUri = Uri.parse("upi://pay?pa=$upiId&pn=Abhinav&cu=INR")
+                            val intent = Intent(Intent.ACTION_VIEW, upiUri)
+                            val chooser = Intent.createChooser(intent, "Pay via UPI")
+                            context.startActivity(chooser)
+                        } catch (e: Exception) {
+                            val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                            clipboard.setPrimaryClip(ClipData.newPlainText(context.getString(R.string.about_upi_id_label), upiId))
+                            Toast.makeText(context, "No UPI app found. $upiCopiedToast", Toast.LENGTH_SHORT).show()
+                        }
+                    },
+                    onOpenCrypto = {
+                        view.haptic(HapticType.CLICK)
+                        showCryptoDialog = true
+                    },
+                    onCopyCrypto = {
+                        view.haptic(HapticType.HEAVY_CLICK)
+                        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                        clipboard.setPrimaryClip(ClipData.newPlainText("USDT Address", cryptoAddress))
+                        Toast.makeText(context, cryptoCopiedToast, Toast.LENGTH_SHORT).show()
                     }
                 )
             }
@@ -719,11 +767,15 @@ private fun MinimalCreatorCard(onClick: () -> Unit) {
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun MinimalSupportCard(
     upiId: String,
     onOpenPayPal: () -> Unit,
-    onCopyUpi: () -> Unit
+    onCopyUpi: () -> Unit,
+    onPayUpi: () -> Unit,
+    onOpenCrypto: () -> Unit,
+    onCopyCrypto: () -> Unit
 ) {
     OtaCard(modifier = Modifier.fillMaxWidth()) {
         Column(modifier = Modifier.fillMaxWidth()) {
@@ -752,12 +804,18 @@ private fun MinimalSupportCard(
 
                 Spacer(modifier = Modifier.width(14.dp))
 
-                Text(
-                    text = "Buy Me a Coffee",
-                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                    color = MaterialTheme.colorScheme.onSurface,
-                    modifier = Modifier.weight(1f)
-                )
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = "Buy Me a Coffee",
+                        style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    Text(
+                        text = "PayPal",
+                        style = MaterialTheme.typography.labelSmall.copy(fontSize = 11.sp),
+                        color = Color(0xFFE91E63)
+                    )
+                }
 
                 Surface(
                     shape = CircleShape,
@@ -777,11 +835,14 @@ private fun MinimalSupportCard(
                 color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f)
             )
 
-            // Row 2: UPI ID
+            // Row 2: UPI (Tap to pay, Hold to copy)
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable { onCopyUpi() }
+                    .combinedClickable(
+                        onClick = onPayUpi,
+                        onLongClick = onCopyUpi
+                    )
                     .padding(horizontal = 16.dp, vertical = 14.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -804,7 +865,7 @@ private fun MinimalSupportCard(
 
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = "UPI ID",
+                        text = stringResource(R.string.about_upi_id_label),
                         style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
                         color = MaterialTheme.colorScheme.onSurface
                     )
@@ -812,7 +873,12 @@ private fun MinimalSupportCard(
                         text = upiId,
                         style = MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace),
                         color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
+                    )
+                    Text(
+                        text = "Tap to pay • Hold to copy",
+                        style = MaterialTheme.typography.labelSmall.copy(fontSize = 11.sp),
+                        color = MaterialTheme.colorScheme.primary
+                    )
                 }
 
                 Spacer(modifier = Modifier.width(8.dp))
@@ -822,12 +888,226 @@ private fun MinimalSupportCard(
                     color = MaterialTheme.colorScheme.primaryContainer
                 ) {
                     Text(
-                        text = "Copy",
+                        text = "Pay",
                         style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                         color = MaterialTheme.colorScheme.onPrimaryContainer,
                         modifier = Modifier.padding(horizontal = 12.dp, vertical = 5.dp)
                     )
                 }
+            }
+
+            HorizontalDivider(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f)
+            )
+
+            // Row 3: Crypto Wallet (USDT BEP20)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .combinedClickable(
+                        onClick = onOpenCrypto,
+                        onLongClick = onCopyCrypto
+                    )
+                    .padding(horizontal = 16.dp, vertical = 14.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Surface(
+                    shape = RoundedCornerShape(10.dp),
+                    color = Color(0xFFF0B90B).copy(alpha = 0.18f),
+                    modifier = Modifier.size(38.dp)
+                ) {
+                    Box(contentAlignment = Alignment.Center) {
+                        Icon(
+                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_crypto_wallet),
+                            contentDescription = null,
+                            tint = Color(0xFFD49B00),
+                            modifier = Modifier.size(20.dp)
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.width(14.dp))
+
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = stringResource(R.string.crypto_wallet_title),
+                        style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    Text(
+                        text = "Tap for QR • Hold to copy",
+                        style = MaterialTheme.typography.labelSmall.copy(fontSize = 11.sp),
+                        color = Color(0xFFD49B00)
+                    )
+                }
+
+                Spacer(modifier = Modifier.width(8.dp))
+
+                Surface(
+                    shape = CircleShape,
+                    color = Color(0xFFF0B90B).copy(alpha = 0.20f)
+                ) {
+                    Text(
+                        text = "QR",
+                        style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
+                        color = Color(0xFFB38300),
+                        modifier = Modifier.padding(horizontal = 14.dp, vertical = 5.dp)
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun CryptoWalletDialog(
+    usdtAddress: String,
+    networkName: String,
+    onDismiss: () -> Unit,
+    onCopyAddress: () -> Unit
+) {
+    Dialog(onDismissRequest = onDismiss) {
+        OtaCard(
+            shape = RoundedCornerShape(24.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp)
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(20.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(14.dp)
+            ) {
+                // Header
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Surface(
+                        shape = RoundedCornerShape(12.dp),
+                        color = Color(0xFFF0B90B).copy(alpha = 0.18f),
+                        modifier = Modifier.size(40.dp)
+                    ) {
+                        Box(contentAlignment = Alignment.Center) {
+                            Icon(
+                                imageVector = ImageVector.vectorResource(id = R.drawable.ic_crypto_wallet),
+                                contentDescription = null,
+                                tint = Color(0xFFD49B00),
+                                modifier = Modifier.size(22.dp)
+                            )
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.width(12.dp))
+
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            text = stringResource(R.string.crypto_wallet_title),
+                            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                        Text(
+                            text = "USDT • $networkName",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+
+                    IconButton(
+                        onClick = onDismiss,
+                        modifier = Modifier.size(32.dp)
+                    ) {
+                        Icon(
+                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_close),
+                            contentDescription = "Close",
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.size(20.dp)
+                        )
+                    }
+                }
+
+                // QR Code Display
+                Surface(
+                    shape = RoundedCornerShape(16.dp),
+                    color = Color.White,
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f)),
+                    shadowElevation = 2.dp
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.qr_crypto_usdt),
+                        contentDescription = "USDT BEP20 QR Code",
+                        modifier = Modifier
+                            .size(220.dp)
+                            .padding(8.dp)
+                            .clip(RoundedCornerShape(12.dp)),
+                        contentScale = ContentScale.Fit
+                    )
+                }
+
+                // Network Tag
+                Surface(
+                    shape = CircleShape,
+                    color = Color(0xFFF0B90B).copy(alpha = 0.15f),
+                    border = BorderStroke(1.dp, Color(0xFFF0B90B).copy(alpha = 0.4f))
+                ) {
+                    Row(
+                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 5.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(6.dp)
+                    ) {
+                        Surface(
+                            shape = CircleShape,
+                            color = Color(0xFFF0B90B),
+                            modifier = Modifier.size(7.dp)
+                        ) {}
+                        Text(
+                            text = "Network: $networkName",
+                            style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
+                }
+
+                // Address Box
+                Surface(
+                    shape = RoundedCornerShape(12.dp),
+                    color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f)),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Column(
+                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = "USDT Address (BEP20)",
+                            style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.SemiBold),
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = usdtAddress,
+                            style = MaterialTheme.typography.bodySmall.copy(
+                                fontFamily = FontFamily.Monospace,
+                                fontWeight = FontWeight.Medium,
+                                fontSize = 11.sp
+                            ),
+                            color = MaterialTheme.colorScheme.onSurface,
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                }
+
+                // Action button: Copy Address
+                OtaPrimaryButton(
+                    text = "Copy USDT Address",
+                    icon = Icons.Rounded.ContentCopy,
+                    onClick = onCopyAddress,
+                    modifier = Modifier.fillMaxWidth()
+                )
             }
         }
     }

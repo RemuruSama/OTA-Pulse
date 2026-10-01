@@ -336,7 +336,7 @@
     <string name="about_community_sub">समुदाय</string>
     <string name="about_err_telegram">टेलीग्राम नहीं खुल सका</string>
     <string name="about_err_paypal">पेपल नहीं खुल सका</string>
-    <string name="about_upi_id_label">UPI ID</string>
+    <string name="about_upi_id_label">UPI</string>
     <string name="about_engine_online">OTA Pulse इंजन ऑनलाइन</string>
     <string name="about_app_icon_cd">ऐप आइकन</string>
     <string name="add_dev_device_name_label">डिवाइस का नाम (जैसे OnePlus 12)</string>
