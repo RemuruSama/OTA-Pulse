@@ -41,12 +41,13 @@ class FetchOtaDetailsUseCase @Inject constructor(
         val nvIdentifier = variant.nvId ?: regionInfo?.nvid ?: "0"
 
         // 3. Resolve reqMode & beta
+        // If variant has an explicit reqMode (e.g. "taste" defined in device JSON), it overrides for any device.
         val resolvedReqMode = when {
-            !reqMode.isNullOrBlank() && reqMode != "manual" -> reqMode
-            variant.reqMode != null && variant.reqMode != "manual" -> variant.reqMode
-            device.name.contains("OnePlus 15", ignoreCase = true) || variant.productModel.startsWith("PLK", ignoreCase = true) -> "taste"
-            else -> reqMode ?: variant.reqMode ?: "manual"
+            !variant.reqMode.isNullOrBlank() && variant.reqMode != "manual" -> variant.reqMode
+            !reqMode.isNullOrBlank() -> reqMode
+            else -> variant.reqMode ?: "manual"
         }
+        val isTaste = resolvedReqMode.equals("taste", ignoreCase = true)
 
         // 4. Construct Request
         val otaRequest = OtaRequest(
@@ -56,7 +57,7 @@ class FetchOtaDetailsUseCase @Inject constructor(
             region = regionId,
             ruiVersion = device.ruiVersion,
             imei0 = device.imei,
-            beta = device.beta || resolvedReqMode == "taste",
+            beta = device.beta || isTaste,
             nvIdentifier = nvIdentifier,
             language = variant.language,
             reqMode = resolvedReqMode,

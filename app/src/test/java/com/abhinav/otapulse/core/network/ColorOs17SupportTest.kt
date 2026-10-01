@@ -175,7 +175,7 @@ class ColorOs17SupportTest {
     }
 
     @Test
-    fun `Request prepare supports taste reqMode for OnePlus 15 Android 17 release`() {
+    fun `Request prepare supports taste reqMode override for any device release`() {
         val request = Request(
             reqVersion = 2,
             model = "PLK110",
