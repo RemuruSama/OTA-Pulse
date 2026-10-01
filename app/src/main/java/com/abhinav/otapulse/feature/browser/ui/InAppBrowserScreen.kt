@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2026 OTA Pulse
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.abhinav.otapulse.feature.browser.ui
 
 import android.annotation.SuppressLint
@@ -7,6 +23,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.ViewGroup
 import android.webkit.WebChromeClient
@@ -18,6 +35,7 @@ import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,9 +47,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -52,6 +68,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
@@ -65,6 +83,8 @@ import com.abhinav.otapulse.R
 import com.abhinav.otapulse.core.common.HapticType
 import com.abhinav.otapulse.core.common.haptic
 import com.abhinav.otapulse.core.preferences.AppSettingsPreferences
+import com.abhinav.otapulse.core.ui.components.HolographicSurface
+import com.abhinav.otapulse.core.ui.theme.OtaPulseTheme
 
 private const val DESKTOP_VIEWPORT_SCRIPT = """
     (function() {
@@ -82,6 +102,7 @@ private const val DESKTOP_VIEWPORT_SCRIPT = """
 fun InAppBrowserScreen(
     initialUrl: String,
     initialTitle: String?,
+    isDark: Boolean = isSystemInDarkTheme(),
     savedInstanceState: Bundle?,
     onWebViewCreated: (WebView) -> Unit,
     onFinish: () -> Unit
@@ -90,6 +111,9 @@ fun InAppBrowserScreen(
     val view = LocalView.current
     val configuration = LocalConfiguration.current
     val screenWidthDp = configuration.screenWidthDp
+    val isHolo = OtaPulseTheme.holographicConfig.isEnabled
+    val surfaceColor = MaterialTheme.colorScheme.surface
+    val surfaceColorInt = surfaceColor.toArgb()
 
     val browserPrefs = remember {
         context.getSharedPreferences(AppSettingsPreferences.PREFS_NAME, Context.MODE_PRIVATE)
@@ -174,13 +198,19 @@ fun InAppBrowserScreen(
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        containerColor = MaterialTheme.colorScheme.surface,
+        containerColor = Color.Transparent,
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
         topBar = {
+            val topBarBg = if (isHolo) {
+                OtaPulseTheme.extendedColors.glassPanel
+            } else {
+                MaterialTheme.colorScheme.surfaceContainer
+            }
+
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.surfaceContainer)
+                    .background(topBarBg)
                     .statusBarsPadding()
                     .padding(horizontal = 12.dp, vertical = 8.dp),
                 verticalAlignment = Alignment.CenterVertically
@@ -198,8 +228,11 @@ fun InAppBrowserScreen(
 
                 Surface(
                     shape = RoundedCornerShape(22.dp),
-                    color = MaterialTheme.colorScheme.surfaceContainerHighest,
-                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
+                    color = if (isHolo) OtaPulseTheme.extendedColors.glassPanel else MaterialTheme.colorScheme.surfaceContainerHighest,
+                    border = BorderStroke(
+                        1.dp,
+                        if (isHolo) MaterialTheme.colorScheme.primary.copy(alpha = 0.35f) else MaterialTheme.colorScheme.outlineVariant
+                    ),
                     modifier = Modifier
                         .weight(1f)
                         .padding(horizontal = 4.dp)
@@ -281,6 +314,7 @@ fun InAppBrowserScreen(
                             ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.MATCH_PARENT
                         )
+                        applyWebViewTheme(this, isDark, surfaceColorInt)
                         settings.apply {
                             @SuppressLint("SetJavaScriptEnabled")
                             javaScriptEnabled = true
@@ -347,28 +381,146 @@ fun InAppBrowserScreen(
                         onWebViewCreated(this)
                     }
                 },
-                update = { _ -> },
+                update = { webView ->
+                    applyWebViewTheme(webView, isDark, surfaceColorInt)
+                },
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.surface)
+                    .background(surfaceColor)
             )
 
-                // Progress Bar overlay
-                if (isLoading && progress in 0..99) {
-                    LinearProgressIndicator(
-                        progress = { progress / 100f },
+            // Progress Bar overlay
+            if (isLoading && progress in 0..99) {
+                LinearProgressIndicator(
+                    progress = { progress / 100f },
+                    modifier = Modifier
+                        .align(Alignment.TopCenter)
+                        .fillMaxWidth(),
+                    color = MaterialTheme.colorScheme.primary,
+                    trackColor = if (isHolo) Color.Transparent else MaterialTheme.colorScheme.surfaceVariant
+                )
+            }
+
+            if (showControls) {
+                val bottomControlsContent: @Composable () -> Unit = {
+                    Row(
                         modifier = Modifier
-                            .align(Alignment.TopCenter)
-                            .fillMaxWidth(),
-                        color = MaterialTheme.colorScheme.primary,
-                        trackColor = MaterialTheme.colorScheme.surfaceVariant
-                    )
+                            .padding(horizontal = 6.dp, vertical = 4.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        IconButton(
+                            onClick = {
+                                view.haptic(HapticType.TICK)
+                                webViewInstance?.goBack()
+                                webViewInstance?.let {
+                                    canGoBack = it.canGoBack()
+                                    canGoForward = it.canGoForward()
+                                }
+                            },
+                            enabled = canGoBack
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_arrow_back),
+                                contentDescription = stringResource(id = R.string.browser_back),
+                                tint = if (canGoBack) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
+                            )
+                        }
+
+                        IconButton(
+                            onClick = {
+                                view.haptic(HapticType.TICK)
+                                webViewInstance?.goForward()
+                                webViewInstance?.let {
+                                    canGoBack = it.canGoBack()
+                                    canGoForward = it.canGoForward()
+                                }
+                            },
+                            enabled = canGoForward
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_arrow_back),
+                                contentDescription = stringResource(id = R.string.browser_forward),
+                                modifier = Modifier.rotate(180f),
+                                tint = if (canGoForward) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
+                            )
+                        }
+
+                        IconButton(
+                            onClick = {
+                                view.haptic(HapticType.TICK)
+                                webViewInstance?.reload()
+                            }
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_retry),
+                                contentDescription = stringResource(id = R.string.browser_reload),
+                                tint = MaterialTheme.colorScheme.onSurface
+                            )
+                        }
+
+                        IconButton(
+                            onClick = { toggleDesktopMode() }
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_desktop_windows),
+                                contentDescription = stringResource(
+                                    id = if (effectiveDesktopMode) R.string.browser_disable_desktop_mode else R.string.browser_enable_desktop_mode
+                                ),
+                                tint = if (effectiveDesktopMode) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+
+                        IconButton(
+                            onClick = {
+                                view.haptic(HapticType.CLICK)
+                                val url = webViewInstance?.url ?: currentUrl
+                                val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                                clipboard.setPrimaryClip(ClipData.newPlainText(context.getString(R.string.button_copy_link), url))
+                                Toast.makeText(context, R.string.link_copied, Toast.LENGTH_SHORT).show()
+                            }
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_copy_stroke),
+                                contentDescription = stringResource(id = R.string.browser_copy_link),
+                                tint = MaterialTheme.colorScheme.onSurface
+                            )
+                        }
+
+                        IconButton(
+                            onClick = {
+                                view.haptic(HapticType.CLICK)
+                                val url = webViewInstance?.url ?: currentUrl
+                                val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                                    type = "text/plain"
+                                    putExtra(Intent.EXTRA_TEXT, url)
+                                }
+                                context.startActivity(Intent.createChooser(shareIntent, context.getString(R.string.browser_share)))
+                            }
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_share_stroke),
+                                contentDescription = stringResource(id = R.string.browser_share),
+                                tint = MaterialTheme.colorScheme.onSurface
+                            )
+                        }
+                    }
                 }
 
-                if (showControls) {
+                if (isHolo) {
+                    HolographicSurface(
+                        modifier = Modifier
+                            .align(Alignment.BottomCenter)
+                            .navigationBarsPadding()
+                            .padding(bottom = 16.dp),
+                        shape = RoundedCornerShape(26.dp)
+                    ) {
+                        bottomControlsContent()
+                    }
+                } else {
                     Surface(
                         shape = RoundedCornerShape(26.dp),
-                        color = MaterialTheme.colorScheme.surface,
+                        color = MaterialTheme.colorScheme.surfaceContainerHigh,
                         shadowElevation = 8.dp,
                         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
                         modifier = Modifier
@@ -376,113 +528,20 @@ fun InAppBrowserScreen(
                             .navigationBarsPadding()
                             .padding(bottom = 16.dp)
                     ) {
-                        Row(
-                            modifier = Modifier
-                                .padding(horizontal = 6.dp, vertical = 4.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.Center
-                        ) {
-                            IconButton(
-                                onClick = {
-                                    view.haptic(HapticType.TICK)
-                                    webViewInstance?.goBack()
-                                    webViewInstance?.let {
-                                        canGoBack = it.canGoBack()
-                                        canGoForward = it.canGoForward()
-                                    }
-                                },
-                                enabled = canGoBack
-                            ) {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.ic_arrow_back),
-                                    contentDescription = stringResource(id = R.string.browser_back),
-                                    tint = if (canGoBack) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
-                                )
-                            }
-
-                            IconButton(
-                                onClick = {
-                                    view.haptic(HapticType.TICK)
-                                    webViewInstance?.goForward()
-                                    webViewInstance?.let {
-                                        canGoBack = it.canGoBack()
-                                        canGoForward = it.canGoForward()
-                                    }
-                                },
-                                enabled = canGoForward
-                            ) {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.ic_arrow_back),
-                                    contentDescription = stringResource(id = R.string.browser_forward),
-                                    modifier = Modifier.rotate(180f),
-                                    tint = if (canGoForward) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
-                                )
-                            }
-
-                            IconButton(
-                                onClick = {
-                                    view.haptic(HapticType.TICK)
-                                    webViewInstance?.reload()
-                                }
-                            ) {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.ic_retry),
-                                    contentDescription = stringResource(id = R.string.browser_reload),
-                                    tint = MaterialTheme.colorScheme.onSurface
-                                )
-                            }
-
-                            IconButton(
-                                onClick = { toggleDesktopMode() }
-                            ) {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.ic_desktop_windows),
-                                    contentDescription = stringResource(
-                                        id = if (effectiveDesktopMode) R.string.browser_disable_desktop_mode else R.string.browser_enable_desktop_mode
-                                    ),
-                                    tint = if (effectiveDesktopMode) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.72f)
-                                )
-                            }
-
-                            IconButton(
-                                onClick = {
-                                    view.haptic(HapticType.CLICK)
-                                    val url = webViewInstance?.url ?: currentUrl
-                                    val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                                    clipboard.setPrimaryClip(ClipData.newPlainText(context.getString(R.string.button_copy_link), url))
-                                    Toast.makeText(context, R.string.link_copied, Toast.LENGTH_SHORT).show()
-                                }
-                            ) {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.ic_copy_stroke),
-                                    contentDescription = stringResource(id = R.string.browser_copy_link),
-                                    tint = MaterialTheme.colorScheme.onSurface
-                                )
-                            }
-
-                            IconButton(
-                                onClick = {
-                                    view.haptic(HapticType.CLICK)
-                                    val url = webViewInstance?.url ?: currentUrl
-                                    val shareIntent = Intent(Intent.ACTION_SEND).apply {
-                                        type = "text/plain"
-                                        putExtra(Intent.EXTRA_TEXT, url)
-                                    }
-                                    context.startActivity(Intent.createChooser(shareIntent, context.getString(R.string.browser_share)))
-                                }
-                            ) {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.ic_share_stroke),
-                                    contentDescription = stringResource(id = R.string.browser_share),
-                                    tint = MaterialTheme.colorScheme.onSurface
-                                )
-                            }
-                        }
+                        bottomControlsContent()
                     }
                 }
             }
         }
     }
+}
+
+private fun applyWebViewTheme(webView: WebView, isDark: Boolean, backgroundColorInt: Int) {
+    webView.setBackgroundColor(backgroundColorInt)
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        webView.settings.isAlgorithmicDarkeningAllowed = isDark
+    }
+}
 
 private fun buildDesktopUserAgent(baseUserAgent: String): String {
     return baseUserAgent
@@ -506,4 +565,3 @@ private fun openExternally(context: Context, url: String) {
         Toast.makeText(context, R.string.could_not_open_link, Toast.LENGTH_SHORT).show()
     }
 }
-
