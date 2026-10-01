@@ -146,6 +146,30 @@ object OtaPulseMotion {
         stiffness = 600f
     )
 
+    // ── Navigation Transitions ────────────────────────────────────────────
+
+    /**
+     * Fast, responsive spring for navigation push/pop slide transitions.
+     * High stiffness (1000f) eliminates initial input lag/delay, while high damping (0.90f)
+     * settles cleanly in ~220ms without prolonged oscillation or sluggish tails.
+     */
+    val NavSlideSpring = spring<IntOffset>(
+        dampingRatio = 0.90f,
+        stiffness = 1000f
+    )
+
+    /**
+     * Scale spring for navigation depth transitions (0.96f <-> 1.0f).
+     */
+    val NavScaleSpring = spring<Float>(
+        dampingRatio = 0.90f,
+        stiffness = 1000f
+    )
+
+    /** Synchronized fade transitions for navigation push/pop. */
+    val NavFadeInSpec = tween<Float>(durationMillis = 200, easing = FastOutSlowInEasing)
+    val NavFadeOutSpec = tween<Float>(durationMillis = 180, easing = FastOutSlowInEasing)
+
     // ── Content Transitions (Tween) ──────────────────────────────────────
 
     val FadeInSpec = tween<Float>(durationMillis = 200, easing = EaseOut)

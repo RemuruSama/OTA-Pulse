@@ -95,6 +95,7 @@ fun AddDeviceScreen(
     val context = LocalContext.current
     val view = LocalView.current
     val focusManager = LocalFocusManager.current
+    val keyboardController = androidx.compose.ui.platform.LocalSoftwareKeyboardController.current
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
     var showAddGroupDialog by remember { mutableStateOf(false) }
@@ -134,6 +135,8 @@ fun AddDeviceScreen(
                 navigationIcon = {
                     IconButton(onClick = {
                         view.haptic(HapticType.TICK)
+                        focusManager.clearFocus()
+                        keyboardController?.hide()
                         onNavigateBack()
                     }) {
                         Icon(
