@@ -1,4 +1,4 @@
-﻿<resources>
+<resources>
     <string name="title_ota_tools">الأدوات</string>
     <string name="title_about">حول</string>
     <string name="title_settings">الإعدادات</string>
@@ -340,7 +340,7 @@
     <string name="about_engine_online">OTA Pulse Engine Online</string>
     <string name="about_app_icon_cd">App Icon</string>
     <string name="add_dev_device_name_label">Device Name (e.g. OnePlus 12)</string>
-    <string name="add_dev_enter_mkt_name">Enter marketing name</string>
+    <string name="add_dev_enter_mkt_name">e.g. OnePlus 12</string>
     <string name="add_dev_no_fw_groups">لا توجد مجموعات برامج ثابتة</string>
     <string name="add_dev_no_fw_groups_msg">أضف مجموعة إصدار Android (مثل Android 15) للبدء في تحديد المتغيرات.</string>
     <string name="add_dev_edit_group_cd">Edit Group</string>

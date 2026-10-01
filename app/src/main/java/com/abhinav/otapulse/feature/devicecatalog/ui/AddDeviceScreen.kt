@@ -183,7 +183,7 @@ fun AddDeviceScreen(
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     Text(
-                        text = "Device Information",
+                        text = "Device Name",
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.primary
@@ -192,7 +192,6 @@ fun AddDeviceScreen(
                     OtaTextField(
                         value = uiState.deviceName,
                         onValueChange = { viewModel.onDeviceNameChanged(it) },
-                        label = { Text(stringResource(R.string.add_dev_device_name_label)) },
                         placeholder = { Text(stringResource(R.string.add_dev_enter_mkt_name)) },
                         showPaste = true,
                         showClear = true,

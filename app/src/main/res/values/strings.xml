@@ -434,7 +434,7 @@
     <string name="about_upgrade_guide_copied">Upgrade guide copied to clipboard</string>
     <string name="about_copy_guide">Copy Guide</string>
     <string name="add_dev_device_name_label">Device Name (e.g. OnePlus 12)</string>
-    <string name="add_dev_enter_mkt_name">Enter marketing name</string>
+    <string name="add_dev_enter_mkt_name">e.g. OnePlus 12</string>
     <string name="add_dev_no_fw_groups">No Firmware Groups</string>
     <string name="add_dev_no_fw_groups_msg">Add an Android version group (e.g. Android 15) to start defining variants.</string>
     <string name="add_dev_edit_group_cd">Edit Group</string>

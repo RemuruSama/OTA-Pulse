@@ -1,4 +1,4 @@
-﻿<resources>
+<resources>
     <string name="title_ota_tools">Strumenti</string>
     <string name="title_about">Informazioni</string>
     <string name="title_settings">Impostazioni</string>
@@ -340,7 +340,7 @@
     <string name="about_engine_online">OTA Pulse Engine Online</string>
     <string name="about_app_icon_cd">App Icon</string>
     <string name="add_dev_device_name_label">Device Name (e.g. OnePlus 12)</string>
-    <string name="add_dev_enter_mkt_name">Enter marketing name</string>
+    <string name="add_dev_enter_mkt_name">e.g. OnePlus 12</string>
     <string name="add_dev_no_fw_groups">Nessun gruppo firmware</string>
     <string name="add_dev_no_fw_groups_msg">Aggiungi un gruppo di versione Android (es. Android 15) per iniziare a definire le varianti.</string>
     <string name="add_dev_edit_group_cd">Edit Group</string>

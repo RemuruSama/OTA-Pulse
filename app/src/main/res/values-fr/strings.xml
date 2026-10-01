@@ -340,7 +340,7 @@
     <string name="about_engine_online">Moteur OTA Pulse en ligne</string>
     <string name="about_app_icon_cd">App Icon</string>
     <string name="add_dev_device_name_label">Nom de l\'appareil (ex. OnePlus 12)</string>
-    <string name="add_dev_enter_mkt_name">Entrer le nom commercial</string>
+    <string name="add_dev_enter_mkt_name">e.g. OnePlus 12</string>
     <string name="add_dev_no_fw_groups">Aucun groupe de micrologiciel</string>
     <string name="add_dev_no_fw_groups_msg">Ajoutez un groupe de version Android (ex. Android 15) pour commencer à définir des variantes.</string>
     <string name="add_dev_edit_group_cd">Edit Group</string>

@@ -1,4 +1,4 @@
-﻿<resources>
+<resources>
     <string name="title_ota_tools">工具</string>
     <string name="title_about">關於</string>
     <string name="title_settings">設定</string>
@@ -340,7 +340,7 @@
     <string name="about_engine_online">OTA Pulse 引擎在线</string>
     <string name="about_app_icon_cd">App Icon</string>
     <string name="add_dev_device_name_label">设备名称 (例如 OnePlus 12)</string>
-    <string name="add_dev_enter_mkt_name">输入市场名称</string>
+    <string name="add_dev_enter_mkt_name">e.g. OnePlus 12</string>
     <string name="add_dev_no_fw_groups">暫無韌體分組</string>
     <string name="add_dev_no_fw_groups_msg">請先新增一個 Android 版本分組（如 Android 15），再為此型號定義具體的渠道與變種。</string>
     <string name="add_dev_edit_group_cd">Edit Group</string>
