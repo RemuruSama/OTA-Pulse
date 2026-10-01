@@ -101,6 +101,12 @@ class OtaApi @Inject constructor(private val httpClient: OkHttpClient) {
 
         Log.d(TAG, "Fetching OTA: Model=${variant.productName}, Region=${variant.region} (Index=$regionIndex, NV=$nvIdentifier)")
 
+        val resolvedReqMode = when {
+            variant.reqMode != null && variant.reqMode != "manual" -> variant.reqMode
+            device.name.contains("OnePlus 15", ignoreCase = true) || variant.productModel.startsWith("PLK", ignoreCase = true) -> "taste"
+            else -> variant.reqMode ?: "manual"
+        }
+
         val request = Request(
             reqVersion = if (device.ruiVersion == 1) 1 else 2,
             model = variant.productName,
@@ -108,9 +114,11 @@ class OtaApi @Inject constructor(private val httpClient: OkHttpClient) {
             region = regionIndex,
             ruiVersion = device.ruiVersion,
             imei0 = device.imei,
-            beta = device.beta,
+            beta = device.beta || resolvedReqMode == "taste",
             nvIdentifier = nvIdentifier,
-            language = variant.language
+            language = variant.language,
+            reqMode = resolvedReqMode,
+            gray = variant.gray
         )
 
         request.prepare()

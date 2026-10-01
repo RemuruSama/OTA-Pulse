@@ -49,25 +49,29 @@
           "displayName": "CN",
           "productModel": "PLK110",
           "productName": "PLK110",
-          "versionLetter": "C"
+          "versionLetter": "C",
+          "reqMode": "taste"
         },
         {
           "displayName": "IN",
           "productModel": "CPH2745",
           "productName": "CPH2745IN",
-          "versionLetter": "C"
+          "versionLetter": "C",
+          "reqMode": "taste"
         },
         {
           "displayName": "GLO",
           "productModel": "CPH2747",
           "productName": "CPH2747",
-          "versionLetter": "C"
+          "versionLetter": "C",
+          "reqMode": "taste"
         },
         {
           "displayName": "EU",
           "productModel": "CPH2747",
           "productName": "CPH2747EEA",
-          "versionLetter": "C"
+          "versionLetter": "C",
+          "reqMode": "taste"
         }
       ],
       "Android 16": [

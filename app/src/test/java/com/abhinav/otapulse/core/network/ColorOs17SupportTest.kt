@@ -173,4 +173,29 @@ class ColorOs17SupportTest {
         assertEquals("ColorOS 17.0", properties["colorOSVersion"])
         assertEquals("0", properties["isRealme"])
     }
+
+    @Test
+    fun `Request prepare supports taste reqMode for OnePlus 15 Android 17 release`() {
+        val request = Request(
+            reqVersion = 2,
+            model = "PLK110",
+            firmwareVersion = "PLK110_11.C.75_1750_202609240641",
+            region = 1,
+            ruiVersion = 7,
+            imei0 = "0",
+            beta = false,
+            reqMode = "taste"
+        )
+        request.prepare()
+
+        val payload = request.getPayload()
+        assertEquals("taste", payload.headers["mode"])
+
+        val propField = Request::class.java.getDeclaredField("properties")
+        propField.isAccessible = true
+        @Suppress("UNCHECKED_CAST")
+        val properties = propField.get(request) as Map<String, Any>
+        assertEquals("taste", properties["reqMode"])
+    }
 }
+

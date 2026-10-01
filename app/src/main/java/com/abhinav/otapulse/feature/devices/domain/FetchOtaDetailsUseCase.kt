@@ -40,7 +40,15 @@ class FetchOtaDetailsUseCase @Inject constructor(
         // 2. Resolve NV Identifier
         val nvIdentifier = variant.nvId ?: regionInfo?.nvid ?: "0"
 
-        // 3. Construct Request
+        // 3. Resolve reqMode & beta
+        val resolvedReqMode = when {
+            !reqMode.isNullOrBlank() && reqMode != "manual" -> reqMode
+            variant.reqMode != null && variant.reqMode != "manual" -> variant.reqMode
+            device.name.contains("OnePlus 15", ignoreCase = true) || variant.productModel.startsWith("PLK", ignoreCase = true) -> "taste"
+            else -> reqMode ?: variant.reqMode ?: "manual"
+        }
+
+        // 4. Construct Request
         val otaRequest = OtaRequest(
             version = if (device.ruiVersion == 1) 1 else 2,
             model = variant.productName,
@@ -48,10 +56,10 @@ class FetchOtaDetailsUseCase @Inject constructor(
             region = regionId,
             ruiVersion = device.ruiVersion,
             imei0 = device.imei,
-            beta = device.beta,
+            beta = device.beta || resolvedReqMode == "taste",
             nvIdentifier = nvIdentifier,
             language = variant.language,
-            reqMode = reqMode,
+            reqMode = resolvedReqMode,
             gray = gray
         )
 
