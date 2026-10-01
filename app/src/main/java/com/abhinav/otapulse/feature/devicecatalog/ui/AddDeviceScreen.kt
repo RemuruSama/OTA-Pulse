@@ -194,6 +194,8 @@ fun AddDeviceScreen(
                         onValueChange = { viewModel.onDeviceNameChanged(it) },
                         label = { Text(stringResource(R.string.add_dev_device_name_label)) },
                         placeholder = { Text(stringResource(R.string.add_dev_enter_mkt_name)) },
+                        showPaste = true,
+                        showClear = true,
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedContainerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
                             unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainerLowest
@@ -380,7 +382,9 @@ fun AddDeviceScreen(
                     OtaTextField(
                         value = groupInput,
                         onValueChange = { groupInput = it },
-                        placeholder = { Text(stringResource(R.string.add_dev_ver_placeholder)) }
+                        placeholder = { Text(stringResource(R.string.add_dev_ver_placeholder)) },
+                        showPaste = true,
+                        showClear = true
                     )
                 }
             },
@@ -410,7 +414,9 @@ fun AddDeviceScreen(
                 OtaTextField(
                     value = newName,
                     onValueChange = { newName = it },
-                    label = { Text(stringResource(R.string.add_dev_group_name_label)) }
+                    label = { Text(stringResource(R.string.add_dev_group_name_label)) },
+                    showPaste = true,
+                    showClear = true
                 )
             },
             confirmButton = {
@@ -547,6 +553,8 @@ private fun AddVariantDialog(
                         onValueChange = { productModel = it },
                         label = { Text(stringResource(R.string.add_dev_model_label)) },
                         placeholder = { Text(stringResource(R.string.add_dev_model_placeholder)) },
+                        showPaste = true,
+                        showClear = true,
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedBorderColor = MaterialTheme.colorScheme.primary,
                             unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant
@@ -558,6 +566,8 @@ private fun AddVariantDialog(
                         onValueChange = { productName = it },
                         label = { Text(stringResource(R.string.add_dev_name_label)) },
                         placeholder = { Text(stringResource(R.string.add_dev_name_placeholder)) },
+                        showPaste = true,
+                        showClear = true,
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedBorderColor = MaterialTheme.colorScheme.primary,
                             unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant

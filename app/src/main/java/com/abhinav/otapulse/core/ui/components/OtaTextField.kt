@@ -41,7 +41,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.abhinav.otapulse.R
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
+import com.abhinav.otapulse.core.common.HapticType
+import com.abhinav.otapulse.core.common.haptic
 
 /**
  * A standard OutlinedTextField for OTA Pulse with 12dp rounded corners.
@@ -71,6 +74,7 @@ fun OtaTextField(
     colors: TextFieldColors = OutlinedTextFieldDefaults.colors()
 ) {
     val context = LocalContext.current
+    val view = LocalView.current
 
     val finalTrailingIcon: @Composable (() -> Unit)? = if (showPaste || showClear) {
         {
@@ -79,7 +83,10 @@ fun OtaTextField(
                 modifier = Modifier.padding(end = 4.dp)
             ) {
                 if (showClear && value.isNotEmpty()) {
-                    IconButton(onClick = { onValueChange("") }) {
+                    IconButton(onClick = {
+                        view.haptic(HapticType.TICK)
+                        onValueChange("")
+                    }) {
                         Icon(
                             imageVector = Icons.Rounded.Close,
                             contentDescription = stringResource(R.string.action_clear),
@@ -88,6 +95,7 @@ fun OtaTextField(
                     }
                 } else if (showPaste && value.isEmpty()) {
                     IconButton(onClick = {
+                        view.haptic(HapticType.CLICK)
                         val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                         val text = clipboard.primaryClip?.getItemAt(0)?.text?.toString()?.trim()
                         if (!text.isNullOrBlank()) {
