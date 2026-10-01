@@ -281,7 +281,7 @@
                         <span class="w-2 h-2 rounded-full bg-brand-500 animate-ping"></span>
                         <span>OFFICIAL FIRMWARE INTELLIGENCE</span>
                         <span class="opacity-40">•</span>
-                        <span data-apk-version class="text-slate-900 dark:text-white font-extrabold">v5.0.0</span>
+                        <span data-apk-version class="text-slate-900 dark:text-white font-extrabold">v5.0.1</span>
                     </div>
 
                     <!-- Main Catchphrase -->
@@ -785,7 +785,7 @@
             </div>
             <div class="hidden sm:flex flex-col pr-2">
                 <span class="text-xs font-black text-slate-900 dark:text-white">OTA Pulse</span>
-                <span class="text-[10px] font-mono text-brand-600 dark:text-brand-400" data-apk-version>v5.0.0 Direct APK</span>
+                <span class="text-[10px] font-mono text-brand-600 dark:text-brand-400" data-apk-version>v5.0.1 Direct APK</span>
             </div>
             <a href="https://github.com/RemuruSama/OTA-Pulse/releases" target="_blank" data-apk-download class="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-400 hover:bg-brand-300 text-slate-950 font-extrabold text-xs shadow-md hover:scale-105 active:scale-95 transition-all">
                 <i data-lucide="download" class="w-4 h-4"></i>
@@ -1120,7 +1120,7 @@
                 if (apkAsset && apkAsset.browser_download_url) {
                     cachedApkUrl = apkAsset.browser_download_url;
                     cachedApkName = apkAsset.name;
-                    cachedVersion = data.tag_name || 'v5.0.0';
+                    cachedVersion = data.tag_name || 'v5.0.1';
                     try {
                         sessionStorage.setItem('ota_pulse_apk_url', cachedApkUrl);
                         sessionStorage.setItem('ota_pulse_apk_name', cachedApkName);
