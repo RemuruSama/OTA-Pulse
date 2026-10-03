@@ -33,8 +33,8 @@ From [app/build.gradle.kts](app/build.gradle.kts) and [gradle/libs.versions.toml
 - `minSdk = 29`
 - `targetSdk = 37`
 - `compileSdk = 37`
-- `versionCode = 31`
-- `versionName = 5.0.1`
+- `versionCode = 32`
+- `versionName = 5.0.2`
 - Jetpack Compose 100% UI (`composeBom = 2026.06.01`, Material 3 `1.5.0-alpha22`, Material Kolor `5.0.0-alpha07`)
 - ViewBinding enabled (`buildFeatures { viewBinding = true; buildConfig = true; compose = true }`)
 - Hilt 2.60.1 + KSP 2.3.9
