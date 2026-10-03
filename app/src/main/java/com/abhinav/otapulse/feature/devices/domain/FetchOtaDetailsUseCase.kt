@@ -47,7 +47,6 @@ class FetchOtaDetailsUseCase @Inject constructor(
             !reqMode.isNullOrBlank() -> reqMode
             else -> variant.reqMode ?: "manual"
         }
-        val isTaste = resolvedReqMode.equals("taste", ignoreCase = true)
 
         // 4. Construct Request
         val otaRequest = OtaRequest(
@@ -57,7 +56,7 @@ class FetchOtaDetailsUseCase @Inject constructor(
             region = regionId,
             ruiVersion = device.ruiVersion,
             imei0 = device.imei,
-            beta = device.beta || isTaste,
+            beta = device.beta,
             nvIdentifier = nvIdentifier,
             language = variant.language,
             reqMode = resolvedReqMode,

@@ -175,7 +175,7 @@ class ColorOs17SupportTest {
     }
 
     @Test
-    fun `Request prepare supports taste reqMode override for any device release`() {
+    fun `Request prepare supports taste reqMode override without forcing closed beta mode`() {
         val request = Request(
             reqVersion = 2,
             model = "PLK110",
@@ -196,6 +196,20 @@ class ColorOs17SupportTest {
         @Suppress("UNCHECKED_CAST")
         val properties = propField.get(request) as Map<String, Any>
         assertEquals("taste", properties["reqMode"])
+
+        val keyField = Request::class.java.getDeclaredField("v2SymmetricKey")
+        keyField.isAccessible = true
+        val key = keyField.get(request) as String
+
+        val paramsObj = JSONObject(JSONObject(payload.body).getString("params"))
+        val decrypted = com.abhinav.otapulse.core.common.Crypto.decryptCtrV2(
+            paramsObj.getString("cipher"),
+            key,
+            paramsObj.getString("iv")
+        )
+        val bodyJson = JSONObject(decrypted)
+        assertEquals("0", bodyJson.getString("mode"))
+        assertEquals("taste", bodyJson.getString("reqMode"))
     }
 }
 

@@ -120,7 +120,7 @@ class Request(
         properties.forEach { (key, value) ->
             if (rawBody.containsKey(key)) rawBody[key] = value.toString()
         }
-        if (beta || reqMode == "taste") rawBody["mode"] = "1"
+        if (beta) rawBody["mode"] = "1"
 
         val bodyJson = JSONObject(rawBody as Map<*, *>)
         val headers = buildHeaders()
