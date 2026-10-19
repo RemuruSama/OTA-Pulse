@@ -6,7 +6,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Device(
     val name: String,
-    val ruiVersion: Int,
+    val ruiVersion: Int = 6,
     val imei: String,
     val beta: Boolean,
     val imageResId: Int?,

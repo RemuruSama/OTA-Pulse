@@ -1,200 +1,45 @@
 [
   {
     "name": "OPPO Find N3",
-    "ruiVersion": 5,
+    "variants": [
+      {
+        "displayName": "ID",
+        "productModel": "CPH2499"
+      },
+      {
+        "displayName": "SG",
+        "productModel": "CPH2499"
+      },
+      {
+        "displayName": "TW",
+        "productModel": "CPH2499"
+      },
+      {
+        "displayName": "MY",
+        "productModel": "CPH2499"
+      },
+      {
+        "displayName": "TH",
+        "productModel": "CPH2499"
+      },
+      {
+        "displayName": "VN",
+        "productModel": "CPH2499"
+      },
+      {
+        "displayName": "OCA",
+        "productModel": "CPH2499"
+      },
+      {
+        "displayName": "CN",
+        "productModel": "PHN110"
+      }
+    ],
     "firmwareGroups": {
-      "Android 13": [
-        {
-          "displayName": "ID",
-          "productModel": "CPH2499",
-          "productName": "CPH2499"
-        },
-        {
-          "displayName": "SG",
-          "productModel": "CPH2499",
-          "productName": "CPH2499"
-        },
-        {
-          "displayName": "TW",
-          "productModel": "CPH2499",
-          "productName": "CPH2499"
-        },
-        {
-          "displayName": "MY",
-          "productModel": "CPH2499",
-          "productName": "CPH2499"
-        },
-        {
-          "displayName": "TH",
-          "productModel": "CPH2499",
-          "productName": "CPH2499"
-        },
-        {
-          "displayName": "VN",
-          "productModel": "CPH2499",
-          "productName": "CPH2499"
-        },
-        {
-          "displayName": "OCA",
-          "productModel": "CPH2499",
-          "productName": "CPH2499"
-        },
-        {
-          "displayName": "CN",
-          "productModel": "PHN110",
-          "productName": "PHN110"
-        }
-      ],
-      "Android 14": [
-        {
-          "displayName": "ID",
-          "productModel": "CPH2499",
-          "productName": "CPH2499",
-          "versionLetter": "C"
-        },
-        {
-          "displayName": "SG",
-          "productModel": "CPH2499",
-          "productName": "CPH2499",
-          "versionLetter": "C"
-        },
-        {
-          "displayName": "TW",
-          "productModel": "CPH2499",
-          "productName": "CPH2499",
-          "versionLetter": "C"
-        },
-        {
-          "displayName": "MY",
-          "productModel": "CPH2499",
-          "productName": "CPH2499",
-          "versionLetter": "C"
-        },
-        {
-          "displayName": "TH",
-          "productModel": "CPH2499",
-          "productName": "CPH2499",
-          "versionLetter": "C"
-        },
-        {
-          "displayName": "VN",
-          "productModel": "CPH2499",
-          "productName": "CPH2499",
-          "versionLetter": "C"
-        },
-        {
-          "displayName": "OCA",
-          "productModel": "CPH2499",
-          "productName": "CPH2499",
-          "versionLetter": "C"
-        },
-        {
-          "displayName": "CN",
-          "productModel": "PHN110",
-          "productName": "PHN110",
-          "versionLetter": "C"
-        }
-      ],
-      "Android 15": [
-        {
-          "displayName": "ID",
-          "productModel": "CPH2499",
-          "productName": "CPH2499",
-          "versionLetter": "F"
-        },
-        {
-          "displayName": "SG",
-          "productModel": "CPH2499",
-          "productName": "CPH2499",
-          "versionLetter": "F"
-        },
-        {
-          "displayName": "TW",
-          "productModel": "CPH2499",
-          "productName": "CPH2499",
-          "versionLetter": "F"
-        },
-        {
-          "displayName": "MY",
-          "productModel": "CPH2499",
-          "productName": "CPH2499",
-          "versionLetter": "F"
-        },
-        {
-          "displayName": "TH",
-          "productModel": "CPH2499",
-          "productName": "CPH2499",
-          "versionLetter": "F"
-        },
-        {
-          "displayName": "VN",
-          "productModel": "CPH2499",
-          "productName": "CPH2499",
-          "versionLetter": "F"
-        },
-        {
-          "displayName": "OCA",
-          "productModel": "CPH2499",
-          "productName": "CPH2499",
-          "versionLetter": "F"
-        },
-        {
-          "displayName": "CN",
-          "productModel": "PHN110",
-          "productName": "PHN110",
-          "versionLetter": "F"
-        }
-      ],
-      "Android 16": [
-        {
-          "displayName": "ID",
-          "productModel": "CPH2499",
-          "productName": "CPH2499",
-          "versionLetter": "H"
-        },
-        {
-          "displayName": "SG",
-          "productModel": "CPH2499",
-          "productName": "CPH2499",
-          "versionLetter": "H"
-        },
-        {
-          "displayName": "TW",
-          "productModel": "CPH2499",
-          "productName": "CPH2499",
-          "versionLetter": "H"
-        },
-        {
-          "displayName": "MY",
-          "productModel": "CPH2499",
-          "productName": "CPH2499",
-          "versionLetter": "H"
-        },
-        {
-          "displayName": "TH",
-          "productModel": "CPH2499",
-          "productName": "CPH2499",
-          "versionLetter": "H"
-        },
-        {
-          "displayName": "VN",
-          "productModel": "CPH2499",
-          "productName": "CPH2499",
-          "versionLetter": "H"
-        },
-        {
-          "displayName": "OCA",
-          "productModel": "CPH2499",
-          "productName": "CPH2499",
-          "versionLetter": "H"
-        },
-        {
-          "displayName": "CN",
-          "productModel": "PHN110",
-          "productName": "PHN110",
-          "versionLetter": "H"
-        }
-      ]
+      "Android 13": "A",
+      "Android 14": "C",
+      "Android 15": "F",
+      "Android 16": "H"
     }
   }
 ]
