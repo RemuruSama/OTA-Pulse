@@ -230,22 +230,13 @@ class HomeUpdateViewModel @Inject constructor(
                                 language = "en-EN"
                             )
                             runCatching {
-                                fetchOtaDetailsUseCase(dummyDevice, regionVariant, reqMode, 0)
+                                fetchOtaDetailsUseCase(dummyDevice, regionVariant, reqMode, 0, shouldLogHistory = false)
                                     .getOrThrow()
                                     .let { ota ->
                                         val enriched = if (isArbDetectionEnabled) {
                                             val arbInfo = arbLookupService.lookupByUrl(ota.downloadUrl)
                                             if (arbInfo != null) {
-                                                val withArb = ota.copy(arbStatus = arbInfo.toDisplayString())
-                                                otaHistoryRepository.logOtaUpdate(
-                                                    com.abhinav.otapulse.core.model.OtaHistoryEntry(
-                                                        timestamp = System.currentTimeMillis(),
-                                                        deviceName = "This Device",
-                                                        region = regionVariant.displayName.ifBlank { regionVariant.region },
-                                                        otaUpdate = withArb
-                                                    )
-                                                )
-                                                withArb
+                                                ota.copy(arbStatus = arbInfo.toDisplayString())
                                             } else ota
                                         } else {
                                             ota.copy(arbStatus = "N/A")
@@ -273,6 +264,17 @@ class HomeUpdateViewModel @Inject constructor(
                 .groupBy { it.letter }
                 .map { (_, results) -> results.maxWith(compareBy { it.ota.resolvedOtaVersion() }) }
                 .sortedByDescending { it.letter }
+
+            bestResultsPerLetter.forEach { sr ->
+                otaHistoryRepository.logOtaUpdate(
+                    com.abhinav.otapulse.core.model.OtaHistoryEntry(
+                        timestamp = System.currentTimeMillis(),
+                        deviceName = "This Device",
+                        region = region,
+                        otaUpdate = sr.ota
+                    )
+                )
+            }
 
             _uiState.update {
                 it.copy(

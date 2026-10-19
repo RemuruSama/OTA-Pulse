@@ -33,7 +33,11 @@ class AddDeviceViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(AddDeviceUiState())
     val uiState = _uiState.asStateFlow()
 
+    private var isInitialized = false
+
     fun setEditDevice(device: PredefinedDevice) {
+        if (isInitialized) return
+        isInitialized = true
         _uiState.update {
             it.copy(
                 deviceName = device.name,

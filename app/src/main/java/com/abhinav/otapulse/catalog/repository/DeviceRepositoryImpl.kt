@@ -12,7 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -30,7 +30,8 @@ class DeviceRepositoryImpl @Inject constructor(
 ) : DeviceRepository {
 
     private val _devicesFlow = MutableStateFlow<List<Device>>(emptyList())
-    private val cacheMutex = Mutex()
+    private val lock = Any()
+    private val coroutineScope = kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.SupervisorJob() + Dispatchers.IO)
     private val devicesFile = File(context.filesDir, "devices.json")
 
     private var inMemoryFixedDevices: List<PredefinedDevice> = emptyList()
@@ -46,9 +47,11 @@ class DeviceRepositoryImpl @Inject constructor(
     }
 
     init {
-        migrateLegacyFavoritesIfNeeded()
-        loadLocalCatalog()
-        updateDevicesCache()
+        coroutineScope.launch {
+            migrateLegacyFavoritesIfNeeded()
+            loadLocalCatalog()
+            updateDevicesCache()
+        }
     }
 
     private fun loadLocalCatalog() {
@@ -102,8 +105,7 @@ class DeviceRepositoryImpl @Inject constructor(
     }
 
     private fun updateDevicesCache() {
-        if (!cacheMutex.tryLock()) return
-        try {
+        synchronized(lock) {
             val favorites = getFavorites()
             val fixedDevices = inMemoryFixedDevices.map { it.toDomain() }
             val customDevices = customDeviceManager.getCustomDevices().map { it.toDomain() }
@@ -113,8 +115,6 @@ class DeviceRepositoryImpl @Inject constructor(
             _devicesFlow.value = allDevices
                 .map { device -> device.copy(isFavorite = favorites.contains(device.name)) }
                 .sortedByDescending { it.isFavorite }
-        } finally {
-            cacheMutex.unlock()
         }
     }
 
@@ -166,13 +166,14 @@ class DeviceRepositoryImpl @Inject constructor(
                         .url("$url?t=$timestamp")
                         .cacheControl(okhttp3.CacheControl.FORCE_NETWORK)
                         .build()
-                    val response = okHttpClient.newCall(request).execute()
-                    if (response.isSuccessful) {
-                        val json = response.body?.string()
-                        if (!json.isNullOrBlank()) {
-                            allDevices.addAll(
-                                DeviceCatalogParser.parseDevices(json).devices
-                            )
+                    okHttpClient.newCall(request).execute().use { response ->
+                        if (response.isSuccessful) {
+                            val json = response.body.string()
+                            if (json.isNotBlank()) {
+                                allDevices.addAll(
+                                    DeviceCatalogParser.parseDevices(json).devices
+                                )
+                            }
                         }
                     }
                 } catch (e: Exception) {
@@ -183,7 +184,9 @@ class DeviceRepositoryImpl @Inject constructor(
             if (allDevices.isNotEmpty()) {
                 val combinedJson = gson.toJson(allDevices)
                 devicesFile.writeText(combinedJson)
-                inMemoryFixedDevices = allDevices
+                synchronized(lock) {
+                    inMemoryFixedDevices = allDevices
+                }
                 updateDevicesCache()
             }
         } catch (e: Exception) {

@@ -69,6 +69,37 @@ class BsDiffApplierTest {
         assertArrayEquals(newData, result)
     }
 
+    @Test(expected = IllegalArgumentException::class)
+    fun `applyPatch throws on patch shorter than header`() {
+        BsDiffApplier.applyPatch(ByteArray(10), ByteArray(15))
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun `applyPatch throws on invalid signature`() {
+        val badHeader = ByteArray(32)
+        BsDiffApplier.applyPatch(ByteArray(10), badHeader)
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun `applyPatch throws on negative header value`() {
+        val patch = ByteBuffer.allocate(32).order(ByteOrder.LITTLE_ENDIAN)
+        patch.put("BSDIFF40".toByteArray())
+        writeBsdiffLong(patch, -100L) // negative ctrlBlockLen
+        writeBsdiffLong(patch, 100L)
+        writeBsdiffLong(patch, 100L)
+        BsDiffApplier.applyPatch(ByteArray(10), patch.array())
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun `applyPatch throws when newSize exceeds maximum safety limit`() {
+        val patch = ByteBuffer.allocate(32).order(ByteOrder.LITTLE_ENDIAN)
+        patch.put("BSDIFF40".toByteArray())
+        writeBsdiffLong(patch, 100L)
+        writeBsdiffLong(patch, 100L)
+        writeBsdiffLong(patch, 1_000_000_000L) // 1 GB exceeds 512 MB limit
+        BsDiffApplier.applyPatch(ByteArray(10), patch.array())
+    }
+
     private fun writeBsdiffLong(out: java.io.OutputStream, value: Long) {
         var v = if (value < 0) -value else value
         if (value < 0) v = v or Long.MIN_VALUE

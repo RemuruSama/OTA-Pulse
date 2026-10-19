@@ -61,7 +61,7 @@ android {
     }
 
     buildFeatures {
-        viewBinding = true
+        viewBinding = false
         buildConfig = true
         compose = true
     }
@@ -84,7 +84,6 @@ android {
 kotlin {
     compilerOptions {
         jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
-        freeCompilerArgs.add("-Xannotation-default-target=param-property")
     }
 }
 
@@ -113,14 +112,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.activity.ktx)
-    implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.recyclerview)
-    implementation(libs.androidx.fragment)
-    implementation(libs.androidx.fragment.ktx)
-    implementation(libs.androidx.navigation.fragment.ktx)
-    implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.gson)
-    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0")
 
     // Lifecycle
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
@@ -152,13 +144,6 @@ dependencies {
     implementation(libs.androidx.work.runtime.ktx)
     implementation(libs.androidx.dynamicanimation.ktx)
     implementation(libs.hilt.work)
-
-    // Glide
-    implementation(libs.glide)
-    ksp(libs.glide.compiler)
-
-    // Flexbox
-    implementation(libs.flexbox)
 
     // Coroutines
     implementation(libs.kotlinx.coroutines.android)

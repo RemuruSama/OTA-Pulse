@@ -174,7 +174,7 @@ class DevicesViewModel @Inject constructor(
                 )
             }
 
-            val result = fetchOtaDetailsUseCase(device, variant)
+            val result = fetchOtaDetailsUseCase(device, variant, shouldLogHistory = false)
 
             // Enrich with verified ARB data from community database
             val isArbDetectionEnabled = appSettingsPreferences.getAppSettings().arbDetection
@@ -191,16 +191,14 @@ class DevicesViewModel @Inject constructor(
             }
 
             enrichedResult.getOrNull()?.let { enrichedOta ->
-                if (!enrichedOta.arbStatus.isNullOrBlank() && enrichedOta.arbStatus != "N/A") {
-                    otaHistoryRepository.logOtaUpdate(
-                        com.abhinav.otapulse.core.model.OtaHistoryEntry(
-                            timestamp = System.currentTimeMillis(),
-                            deviceName = device.name,
-                            region = variant.displayName.ifBlank { variant.region },
-                            otaUpdate = enrichedOta
-                        )
+                otaHistoryRepository.logOtaUpdate(
+                    com.abhinav.otapulse.core.model.OtaHistoryEntry(
+                        timestamp = System.currentTimeMillis(),
+                        deviceName = device.name,
+                        region = variant.displayName.ifBlank { variant.region },
+                        otaUpdate = enrichedOta
                     )
-                }
+                )
             }
 
             _uiState.update { currentState ->

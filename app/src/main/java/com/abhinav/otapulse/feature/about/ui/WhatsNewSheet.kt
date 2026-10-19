@@ -32,6 +32,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
@@ -58,6 +59,7 @@ fun WhatsNewSheet(
 
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val context = LocalContext.current
+    val markwon = remember(context) { Markwon.create(context) }
 
     ModalBottomSheet(
         onDismissRequest = onDismiss,
@@ -104,7 +106,6 @@ fun WhatsNewSheet(
                         },
                         update = { textView ->
                             textView.setTextColor(textColor)
-                            val markwon = Markwon.create(textView.context)
                             markwon.setMarkdown(textView, changelog)
                         },
                         modifier = Modifier.fillMaxWidth()

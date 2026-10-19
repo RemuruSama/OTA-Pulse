@@ -20,7 +20,8 @@ class FetchOtaDetailsUseCase @Inject constructor(
         device: Device,
         variant: RegionVariant,
         reqMode: String? = variant.reqMode,
-        gray: Int = variant.gray
+        gray: Int = variant.gray,
+        shouldLogHistory: Boolean = true
     ): Result<OtaUpdate> {
         // 1. Resolve Region Info / Server ID
         // Try mapping the region string directly (for manual "EU", "IN", etc.)
@@ -67,14 +68,16 @@ class FetchOtaDetailsUseCase @Inject constructor(
         return otaRepository.fetchOtaUpdate(otaRequest).mapCatching { updates ->
             if (updates.isNotEmpty()) {
                 val bestUpdate = updates.first()
-                otaHistoryRepository.logOtaUpdate(
-                    com.abhinav.otapulse.core.model.OtaHistoryEntry(
-                        timestamp = System.currentTimeMillis(),
-                        deviceName = device.name,
-                        region = variant.displayName.ifBlank { variant.region },
-                        otaUpdate = bestUpdate
+                if (shouldLogHistory) {
+                    otaHistoryRepository.logOtaUpdate(
+                        com.abhinav.otapulse.core.model.OtaHistoryEntry(
+                            timestamp = System.currentTimeMillis(),
+                            deviceName = device.name,
+                            region = variant.displayName.ifBlank { variant.region },
+                            otaUpdate = bestUpdate
+                        )
                     )
-                )
+                }
                 bestUpdate
             } else {
                 throw Exception("Server returned empty component list.")

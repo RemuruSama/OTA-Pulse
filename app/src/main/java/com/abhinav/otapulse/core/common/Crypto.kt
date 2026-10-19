@@ -78,6 +78,9 @@ object Crypto {
     }
 
     fun decryptCtrV1(data: String): String {
+        if (data.length < 15) {
+            throw IllegalArgumentException("Encrypted payload too short (minimum 15 characters required, got ${data.length})")
+        }
         val encryptedData = Base64.getDecoder().decode(data.substring(0, data.length - 15))
         val pseudoKey = data.takeLast(15)
         val key = getKey(pseudoKey)
@@ -114,6 +117,9 @@ object Crypto {
     }
 
     fun decryptEcb(data: String): String {
+        if (data.length < 15) {
+            throw IllegalArgumentException("Encrypted payload too short (minimum 15 characters required, got ${data.length})")
+        }
         val encryptedData = Base64.getDecoder().decode(data.substring(0, data.length - 15))
         val pseudoKey = data.takeLast(15)
         val key = getKey(pseudoKey)

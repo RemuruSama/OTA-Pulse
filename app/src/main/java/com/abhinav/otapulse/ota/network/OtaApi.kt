@@ -44,10 +44,14 @@ class OtaApi @Inject constructor(private val httpClient: OkHttpClient) {
                 .apply { payload.headers.forEach { (key, value) -> addHeader(key, value) } }
                 .build()
 
-            val response = httpClient.newCall(okRequest).execute()
-            val responseCode = response.code
-            val responseBody = response.body.string()
-            android.util.Log.d("RequestDebug", "Server Raw Response ($responseCode): $responseBody")
+            val (responseCode, responseBody) = httpClient.newCall(okRequest).execute().use { response ->
+                val code = response.code
+                val body = response.body.string()
+                Pair(code, body)
+            }
+            if (com.abhinav.otapulse.BuildConfig.DEBUG) {
+                android.util.Log.d("RequestDebug", "Server Raw Response ($responseCode): $responseBody")
+            }
 
             // Validate HTTP and JSON structure
             Request.validateResponse(responseCode, responseBody)

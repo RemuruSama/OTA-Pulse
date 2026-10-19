@@ -166,11 +166,12 @@ class Request(
                     val key = v2SymmetricKey
                         ?: error("decrypt() called before getPayload(); v2SymmetricKey is unset")
                     val bodyObject = JSONObject(responseBody)
-                    Crypto.decryptCtrV2(
-                        bodyObject.getString("cipher"),
-                        key,
-                        bodyObject.getString("iv")
-                    )
+                    val cipher = bodyObject.optString("cipher")
+                    val iv = bodyObject.optString("iv")
+                    if (cipher.isBlank() || iv.isBlank()) {
+                        throw OtaError.DecryptionError("Response missing cipher or iv")
+                    }
+                    Crypto.decryptCtrV2(cipher, key, iv)
                 }
                 properties["rui_version"] == 1 -> Crypto.decryptEcb(responseBody)
                 else -> Crypto.decryptCtrV1(responseBody)
@@ -185,13 +186,13 @@ class Request(
         val rawJson = content.toString(2)
 
         // Adaptive Parsing: Check if the useful content is wrapped inside a "body" object
-        val dataRoot = if (content.has("body")) content.getJSONObject("body") else content
+        val dataRoot = if (content.has("body")) content.optJSONObject("body") ?: content else content
 
         val componentsArray = dataRoot.optJSONArray("components") ?: return emptyList()
 
         for (i in 0 until componentsArray.length()) {
-            val componentObject = componentsArray.getJSONObject(i)
-            val componentPackets = componentObject.getJSONObject("componentPackets")
+            val componentObject = componentsArray.optJSONObject(i) ?: continue
+            val componentPackets = componentObject.optJSONObject("componentPackets") ?: JSONObject()
             val vabInfo = componentPackets.optJSONObject("vabInfo")?.optJSONObject("data")
 
             val headerMap = extractHeaderMap(vabInfo)
@@ -203,7 +204,7 @@ class Request(
 
             // Clean URLs by aggressively filtering out ANY whitespace character (spaces, tabs, newlines, unicode spaces)
             val cleanManualUrl = componentPackets.optString("manualUrl").filter { !it.isWhitespace() }
-            val cleanUrl = componentPackets.getString("url").filter { !it.isWhitespace() }
+            val cleanUrl = componentPackets.optString("url").filter { !it.isWhitespace() }
             val cleanPanelUrl = changelogUrl.filter { !it.isWhitespace() }
             val cleanH5Url = h5Url.filter { !it.isWhitespace() }
 
@@ -221,13 +222,13 @@ class Request(
 
             componentsList.add(
                 NetworkComponent(
-                    componentId = componentObject.getString("componentId"),
-                    componentName = componentObject.getString("componentName"),
-                    componentVersion = componentObject.getString("componentVersion"),
-                    size = componentPackets.getString("size"),
+                    componentId = componentObject.optString("componentId"),
+                    componentName = componentObject.optString("componentName"),
+                    componentVersion = componentObject.optString("componentVersion"),
+                    size = componentPackets.optString("size"),
                     manualUrl = cleanManualUrl,
                     url = cleanUrl,
-                    md5 = componentPackets.getString("md5"),
+                    md5 = componentPackets.optString("md5"),
                     otaStreamingProperty = vabInfo?.optString("otaStreamingProperty"),
                     vabPackageHash = vabInfo?.optString("vab_package_hash"),
                     extraParams = vabInfo?.optString("extra_params"),

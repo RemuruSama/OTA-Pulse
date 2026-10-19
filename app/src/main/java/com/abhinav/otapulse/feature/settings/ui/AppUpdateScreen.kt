@@ -133,6 +133,7 @@ fun AppUpdateScreen(
     }
 
     val isUpdateAvailable = url.isNotBlank() && version.isNotBlank() && !version.equals("latest", ignoreCase = true)
+    val markwon = remember(context) { Markwon.create(context) }
 
     Scaffold(
         modifier = modifier
@@ -314,7 +315,6 @@ fun AppUpdateScreen(
                                 },
                                 update = { textView ->
                                     textView.setTextColor(textColor)
-                                    val markwon = Markwon.create(textView.context)
                                     markwon.setMarkdown(textView, changelog.ifBlank { "No detailed changelog provided." })
                                 },
                                 modifier = Modifier.fillMaxWidth()

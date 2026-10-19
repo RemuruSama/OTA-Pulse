@@ -322,7 +322,9 @@ fun InAppBrowserScreen(
                             builtInZoomControls = true
                             displayZoomControls = false
                             setSupportZoom(true)
-                            mixedContentMode = WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
+                            mixedContentMode = WebSettings.MIXED_CONTENT_NEVER_ALLOW
+                            allowFileAccess = false
+                            allowContentAccess = false
                             userAgentString = if (effectiveDesktopMode) buildDesktopUserAgent(defaultUserAgent) else defaultUserAgent
                             loadWithOverviewMode = effectiveDesktopMode || wideWindowDesktopMode
                             useWideViewPort = effectiveDesktopMode || wideWindowDesktopMode

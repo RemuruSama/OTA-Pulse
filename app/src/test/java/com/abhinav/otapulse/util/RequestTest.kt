@@ -3,6 +3,7 @@ package com.abhinav.otapulse.util
 import org.junit.Assert.*
 import org.junit.Test
 import com.abhinav.otapulse.core.network.Request
+import com.abhinav.otapulse.core.model.OtaError
 
 /**
  * Unit tests for Request — verifies URL resolution, version calculations, and NV carrier logic.
@@ -115,6 +116,49 @@ class RequestTest {
         request.prepare()
         val payload = request.getPayload()
         assertFalse(payload.headers.containsKey("protectedKey"))
+    }
+
+    @Test
+    fun `parseComponents handles incomplete component objects without throwing JSONException`() {
+        val request = createRequest()
+        val json = org.json.JSONObject("""
+            {
+                "components": [
+                    {
+                        "componentId": "test_comp_1"
+                    }
+                ]
+            }
+        """.trimIndent())
+
+        val components = request.parseComponents(json)
+        assertEquals(1, components.size)
+        assertEquals("test_comp_1", components[0].componentId)
+        assertEquals("", components[0].url)
+        assertEquals("", components[0].manualUrl)
+    }
+
+    @Test
+    fun `parseComponents returns empty list when components key is missing`() {
+        val request = createRequest()
+        val json = org.json.JSONObject("""{"status": "ok"}""")
+        val components = request.parseComponents(json)
+        assertTrue(components.isEmpty())
+    }
+
+    @Test
+    fun `validateResponse accepts valid 200 response`() {
+        Request.validateResponse(200, """{"responseCode": 200, "status": "success"}""")
+    }
+
+    @Test(expected = OtaError.NetworkError::class)
+    fun `validateResponse throws NetworkError on non-200 HTTP code`() {
+        Request.validateResponse(500, "Internal Server Error")
+    }
+
+    @Test(expected = OtaError.ServerError::class)
+    fun `validateResponse throws ServerError on server error code inside body`() {
+        Request.validateResponse(200, """{"responseCode": 404, "errMsg": "No update available"}""")
     }
 
     // --- Helper ---

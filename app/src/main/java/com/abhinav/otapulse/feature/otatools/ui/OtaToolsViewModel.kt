@@ -221,7 +221,7 @@ class OtaToolsViewModel @Inject constructor(
                             language = language
                         )
                         runCatching {
-                            fetchOtaDetailsUseCase(dummyDevice, regionVariant, reqMode, gray)
+                            fetchOtaDetailsUseCase(dummyDevice, regionVariant, reqMode, gray, shouldLogHistory = false)
                                 .getOrThrow()
                                 .let { ota ->
                                     val enriched = if (isArbDetectionEnabled) {
@@ -249,14 +249,13 @@ class OtaToolsViewModel @Inject constructor(
                         nvId = resolvedNvId.ifEmpty { null },
                         language = language
                     )
-                    fetchOtaDetailsUseCase(dummyDevice, regionVariant, reqMode, gray)
+                    fetchOtaDetailsUseCase(dummyDevice, regionVariant, reqMode, gray, shouldLogHistory = false)
                 }.getOrElse { Result.failure<OtaUpdate>(it) }
 
                 _uiState.update {
                     it.copy(
                         isLoading = false,
-                        result = lastError as? Result<OtaUpdate>
-                            ?: Result.failure(Exception("No update found on any server.")),
+                        result = lastError,
                         deviceName = dummyDevice.name,
                         regionName = "$region (Searched: ${servers.joinToString(", ")})"
                     )
@@ -340,7 +339,7 @@ class OtaToolsViewModel @Inject constructor(
                                     language = language
                                 )
                                 runCatching {
-                                    fetchOtaDetailsUseCase(dummyDevice, regionVariant, mode, gray)
+                                    fetchOtaDetailsUseCase(dummyDevice, regionVariant, mode, gray, shouldLogHistory = false)
                                         .getOrThrow()
                                         .let { ota ->
                                             val enriched = if (isArbDetectionEnabled) {

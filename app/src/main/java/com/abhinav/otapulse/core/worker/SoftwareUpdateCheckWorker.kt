@@ -136,7 +136,7 @@ class SoftwareUpdateCheckWorker @AssistedInject constructor(
                             language = "en-EN"
                         )
                         try {
-                            val result = fetchOtaDetailsUseCase(device, regionVariant, reqMode, 0)
+                            val result = fetchOtaDetailsUseCase(device, regionVariant, reqMode, 0, shouldLogHistory = false)
                             result.getOrNull()?.also { ota ->
                                 Log.d(TAG, "[$server / branch $letter] Found: ${ota.resolvedOtaVersion()}")
                             }

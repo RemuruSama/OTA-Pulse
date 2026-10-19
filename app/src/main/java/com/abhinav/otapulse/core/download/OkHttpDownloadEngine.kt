@@ -403,6 +403,7 @@ class OkHttpDownloadEngine @Inject constructor(
         val buffer = ByteArray(BUFFER_SIZE)
         var written = initialOffset
         var lastProgressReport = System.currentTimeMillis()
+        var lastPersistTime = lastProgressReport
         var lastWritten = written
         var speedBytesPerSec = 0L
 
@@ -437,7 +438,11 @@ class OkHttpDownloadEngine @Inject constructor(
                             etaInMilliSeconds = eta,
                             progress = progress
                         )
-                        updateRecord(updatedRec)
+                        updateRecord(updatedRec, persist = false)
+                        if (now - lastPersistTime >= PERSIST_INTERVAL_MS) {
+                            lastPersistTime = now
+                            persistRecords()
+                        }
                         dispatch { it.onProgress(updatedRec, eta, speedBytesPerSec) }
                     }
                 }
@@ -510,9 +515,13 @@ class OkHttpDownloadEngine @Inject constructor(
 
     private fun getRecord(id: Int): DownloadRecord? = records[id]
 
-    private fun updateRecord(record: DownloadRecord) {
-        records[record.id] = record
-        persistRecords()
+    private fun updateRecord(record: DownloadRecord, persist: Boolean = true) {
+        synchronized(lock) {
+            records[record.id] = record
+        }
+        if (persist) {
+            persistRecords()
+        }
     }
 
     // ── Persistence ───────────────────────────────────────────────────────────
@@ -579,6 +588,7 @@ class OkHttpDownloadEngine @Inject constructor(
         private const val KEY_RECORDS = "records"
         private const val BUFFER_SIZE = 256 * 1024    // 256 KB — reduces syscall count ~32× vs 8 KB for large OTA files
         private const val PROGRESS_INTERVAL_MS = 500L  // Emit progress every 500 ms
+        private const val PERSIST_INTERVAL_MS = 5000L   // Debounce disk persistence to every 5s during download
         private const val MAX_RETRIES = 3
         private const val RETRY_DELAY_MS = 1_500L
     }

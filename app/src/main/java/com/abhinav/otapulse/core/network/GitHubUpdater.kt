@@ -6,6 +6,7 @@ import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -21,17 +22,37 @@ object GitHubUpdater {
     private const val REPO_OWNER = "RemuruSama"
     private const val REPO_NAME = "OTA-Pulse"
 
+    private val updaterScope = kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.SupervisorJob() + Dispatchers.IO)
+
     /**
-     * Checks for a newer app release on GitHub using a raw Thread (for non-coroutine callers).
+     * Checks for a newer app release on GitHub asynchronously.
+     */
+    suspend fun checkForUpdate(
+        currentVersion: String,
+        httpClient: OkHttpClient = OkHttpClient()
+    ): UpdateInfo? = withContext(Dispatchers.IO) {
+        checkUpdateInternal(currentVersion, httpClient)
+    }
+
+    /**
+     * Checks for a newer app release on GitHub using coroutine dispatch (for callback callers).
      * Uses the provided [OkHttpClient] singleton instead of creating its own instance.
-     *
-     * For new coroutine-based callers, prefer [AppUpdateRepositoryImpl] instead.
      */
     fun checkForUpdate(
         currentVersion: String,
         httpClient: OkHttpClient = OkHttpClient(),
         onResult: (UpdateInfo?) -> Unit
     ) {
+        updaterScope.launch {
+            val result = checkUpdateInternal(currentVersion, httpClient)
+            dispatchResult(result, onResult)
+        }
+    }
+
+    private fun checkUpdateInternal(
+        currentVersion: String,
+        httpClient: OkHttpClient
+    ): UpdateInfo? {
         val url = "https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/releases/latest"
         Log.d(TAG, "Checking for updates from: $url")
 
@@ -40,55 +61,50 @@ object GitHubUpdater {
             .header("User-Agent", "OTAPulse/$currentVersion")
             .build()
 
-        Thread {
-            try {
-                val response = httpClient.newCall(request).execute()
-                val jsonString = response.body.string()
-
-                if (!response.isSuccessful) {
-                    Log.e(TAG, "Network Error: ${response.code}")
-                    checkForUpdateFallback(currentVersion, httpClient, onResult)
-                    return@Thread
-                }
-
-                if (jsonString.isNotEmpty()) {
-                    Log.d(TAG, "Response: $jsonString")
-                    val json = Gson().fromJson(jsonString, JsonObject::class.java)
-                    val latestTag = json.get("tag_name").asString
-
-                    val cleanLatest = latestTag.removePrefix("v")
-                    val cleanCurrent = currentVersion.removePrefix("v")
-
-                    Log.d(TAG, "Comparing Local: $cleanCurrent vs Remote: $cleanLatest")
-
-                    if (isNewerVersion(cleanLatest, cleanCurrent)) {
-                        val assets = json.getAsJsonArray("assets")
-                        if (assets.size() > 0) {
-                            val downloadUrl = assets[0].asJsonObject.get("browser_download_url").asString
-                            val body = json.get("body").asString
-                            dispatchResult(UpdateInfo(latestTag, downloadUrl, body), onResult)
-                            return@Thread
-                        } else {
-                            Log.e(TAG, "No assets (APK) attached to the release!")
-                        }
-                    } else {
-                        dispatchResult(null, onResult)
-                        return@Thread
-                    }
-                }
-                checkForUpdateFallback(currentVersion, httpClient, onResult)
-            } catch (e: Exception) {
-                Log.e(TAG, "Exception: ${e.message}", e)
-                checkForUpdateFallback(currentVersion, httpClient, onResult)
+        try {
+            val (isSuccess, code, jsonString) = httpClient.newCall(request).execute().use { response ->
+                Triple(response.isSuccessful, response.code, response.body.string())
             }
-        }.start()
+
+            if (!isSuccess) {
+                Log.e(TAG, "Network Error: $code")
+                return checkForUpdateFallback(currentVersion, httpClient)
+            }
+
+            if (jsonString.isNotEmpty()) {
+                Log.d(TAG, "Response: $jsonString")
+                val json = Gson().fromJson(jsonString, JsonObject::class.java)
+                val latestTag = json.get("tag_name").asString
+
+                val cleanLatest = latestTag.removePrefix("v")
+                val cleanCurrent = currentVersion.removePrefix("v")
+
+                Log.d(TAG, "Comparing Local: $cleanCurrent vs Remote: $cleanLatest")
+
+                if (isNewerVersion(cleanLatest, cleanCurrent)) {
+                    val assets = json.getAsJsonArray("assets")
+                    if (assets.size() > 0) {
+                        val downloadUrl = assets[0].asJsonObject.get("browser_download_url").asString
+                        val body = json.get("body").asString
+                        return UpdateInfo(latestTag, downloadUrl, body)
+                    } else {
+                        Log.e(TAG, "No assets (APK) attached to the release!")
+                    }
+                } else {
+                    return null
+                }
+            }
+            return checkForUpdateFallback(currentVersion, httpClient)
+        } catch (e: Exception) {
+            Log.e(TAG, "Exception: ${e.message}", e)
+            return checkForUpdateFallback(currentVersion, httpClient)
+        }
     }
 
     private fun checkForUpdateFallback(
         currentVersion: String,
-        httpClient: OkHttpClient,
-        onResult: (UpdateInfo?) -> Unit
-    ) {
+        httpClient: OkHttpClient
+    ): UpdateInfo? {
         try {
             val webUrl = "https://github.com/$REPO_OWNER/$REPO_NAME/releases/latest"
             val request = Request.Builder()
@@ -112,8 +128,7 @@ object GitHubUpdater {
                                 }
                             }.getOrNull() ?: "https://github.com/$REPO_OWNER/$REPO_NAME/releases/download/$tag/otapulse_update_$cleanLatest.apk"
 
-                            dispatchResult(UpdateInfo(tag, downloadUrl, "New release $tag available on GitHub."), onResult)
-                            return
+                            return UpdateInfo(tag, downloadUrl, "New release $tag available on GitHub.")
                         }
                     }
                 }
@@ -121,7 +136,7 @@ object GitHubUpdater {
         } catch (e: Exception) {
             Log.e(TAG, "Fallback check failed: ${e.message}")
         }
-        dispatchResult(null, onResult)
+        return null
     }
 
     private fun dispatchResult(result: UpdateInfo?, onResult: (UpdateInfo?) -> Unit) {

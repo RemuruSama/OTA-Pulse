@@ -69,4 +69,24 @@ class CryptoTest {
         val hash2 = Crypto.sha256("input2")
         assertNotEquals(hash1, hash2)
     }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun `CTR v1 throws IllegalArgumentException on short ciphertext`() {
+        Crypto.decryptCtrV1("short")
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun `CTR v1 throws IllegalArgumentException on empty ciphertext`() {
+        Crypto.decryptCtrV1("")
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun `ECB throws IllegalArgumentException on short ciphertext`() {
+        Crypto.decryptEcb("short")
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun `ECB throws IllegalArgumentException on empty ciphertext`() {
+        Crypto.decryptEcb("")
+    }
 }
