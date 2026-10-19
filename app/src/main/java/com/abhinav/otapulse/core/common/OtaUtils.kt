@@ -37,7 +37,7 @@ object OtaUtils {
 
     private val SUFFIXES_TO_STRIP = listOf(
         "EEA", "IN", "RU", "TR", "CN", "EU", "TW", "MEA", "SA",
-        "SG", "TH", "LATAM", "BR", "MY", "ID", "KZ", "OCA", "VN", "GLO"
+        "SG", "TH", "LATAM", "BR", "MY", "ID", "KZ", "OCA", "VN", "GLO", "PH", "LK"
     ).distinct()
 
     private val BASE_SEARCH_ORDER = listOf("EU", "GL", "IN", "CN")
@@ -96,12 +96,22 @@ object OtaUtils {
     }
 
     /**
-     * Infers the display region code (e.g. IN, CN, EU, GLO) from a device NV ID.
+     * Infers the display region code (e.g. IN, CN, EU, GLO, LK) from a device NV ID.
      */
     fun inferRegionFromNvId(nvId: String): String {
         val normalizedNvId = nvId.trim()
+        val nvIdToSearch = if (normalizedNvId.length == 8 && normalizedNvId.all { it == '0' || it == '1' }) {
+            try {
+                val decimalVal = normalizedNvId.toInt(2)
+                "NV" + decimalVal.toString(16).uppercase()
+            } catch (_: Exception) {
+                normalizedNvId
+            }
+        } else {
+            normalizedNvId
+        }
         val nvRegion = RegionData.regions.firstOrNull {
-            it.nvid.equals(normalizedNvId, ignoreCase = true)
+            it.nvid.equals(nvIdToSearch, ignoreCase = true)
         }?.displayName
         return nvRegion ?: "GLO"
     }

@@ -311,7 +311,7 @@ fun ManualQueryScreen(
                     item {
                         InfoDetailRow(
                             title = stringResource(R.string.manual_target_region_title),
-                            desc = "Regional target payload filter: GLO (Global), EU (Europe/EEA), IN (India), CN (China), RU (Russia)."
+                            desc = "Regional target payload filter: GLO (Global), EU (Europe/EEA), IN (India), CN (China), RU (Russia), LK (Sri Lanka)."
                         )
                     }
                     item {

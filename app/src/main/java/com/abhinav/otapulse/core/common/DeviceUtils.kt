@@ -50,7 +50,11 @@ object DeviceUtils {
             "ro.oplus.pipeline.region",
             "sys.region.switch.country",
             "ro.vendor.oplus.radio.sar_regionmark",
-            "persist.sys.oplus.region"
+            "persist.sys.oplus.region",
+            "ro.oplus.operator",
+            "ro.build.oplus_operator",
+            "ro.vendor.oplus.operator",
+            "ro.oplus.image.my_manifest.operator"
         )
         for (prop in regionProps) {
             val valStr = getSystemProperty(prop).trim().uppercase()
@@ -60,6 +64,20 @@ object DeviceUtils {
                     else -> valStr
                 }
                 return mapped
+            }
+        }
+
+        val myRegionVersionProps = listOf(
+            "ro.build.version.my_region",
+            "ro.oplus.image.my_region.version",
+            "ro.vendor.oplus.region.version"
+        )
+        for (prop in myRegionVersionProps) {
+            val valStr = getSystemProperty(prop).trim().uppercase()
+            if (valStr.isNotBlank() && valStr != "UNKNOWN") {
+                val match = Regex("""X00([A-Z]{2})00|X([A-Z]{2})0000""").find(valStr)
+                val code = match?.groupValues?.drop(1)?.firstOrNull { it.isNotBlank() }
+                if (!code.isNullOrBlank()) return code
             }
         }
 
@@ -112,6 +130,7 @@ object DeviceUtils {
                 name.endsWith("TH", ignoreCase = true) -> "TH"
                 name.endsWith("KZ", ignoreCase = true) -> "KZ"
                 name.endsWith("PH", ignoreCase = true) -> "PH"
+                name.endsWith("LK", ignoreCase = true) -> "LK"
                 else -> null
             }
             if (matched != null) return matched

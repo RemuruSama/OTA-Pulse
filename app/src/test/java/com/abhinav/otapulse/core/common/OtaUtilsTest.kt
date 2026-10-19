@@ -31,6 +31,21 @@ class OtaUtilsTest {
         assertEquals("CPH2487", OtaUtils.getBaseOtaModel("CPH2487NV44"))
         assertEquals("CPH2487", OtaUtils.getBaseOtaModel("CPH2487_11.H.54_3540_202602261724"))
         assertEquals("RMX3840", OtaUtils.getBaseOtaModel("RMX3840.export"))
+        assertEquals("CPH2819", OtaUtils.getBaseOtaModel("CPH2819LK"))
+    }
+
+    @Test
+    fun testLkRegionMappingAndNvInference() {
+        // NV ID resolution for Sri Lanka (LK)
+        assertEquals("LK", OtaUtils.inferRegionFromNvId("NV60"))
+        assertEquals("LK", OtaUtils.inferRegionFromNvId("01100000"))
+        assertEquals("Sri Lanka", "LK".toFullRegionName())
+        assertEquals("Philippines", "PH".toFullRegionName())
+
+        val lkRegion = com.abhinav.otapulse.catalog.model.RegionData.regions.find { it.displayName == "LK" }
+        org.junit.Assert.assertNotNull(lkRegion)
+        assertEquals("NV60", lkRegion?.nvid)
+        assertEquals("EU", lkRegion?.serverCode)
     }
 
     @Test

@@ -651,7 +651,7 @@ class OtaToolsViewModel @Inject constructor(
             return versionOrLetter
         }
 
-        val suffixesToStrip = listOf("EEA", "IN", "RU", "TR", "CN", "EU", "TW", "MEA", "SA", "SG", "TH", "LATAM", "BR", "MY", "ID", "KZ", "OCA", "VN", "GLO").distinct()
+        val suffixesToStrip = listOf("EEA", "IN", "RU", "TR", "CN", "EU", "TW", "MEA", "SA", "SG", "TH", "LATAM", "BR", "MY", "ID", "KZ", "OCA", "VN", "GLO", "PH", "LK").distinct()
         var baseModel = modelInput.substringBefore("_11").substringBefore(".")
         for (suffix in suffixesToStrip) {
             if (baseModel.endsWith(suffix, ignoreCase = true)) {

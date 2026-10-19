@@ -114,6 +114,8 @@ fun String.toFullRegionName(): String {
         "ID" -> "Indonesia"
         "KZ" -> "Kazakhstan"
         "OCA" -> "Oceania"
+        "PH" -> "Philippines"
+        "LK" -> "Sri Lanka"
         else -> this
     }
 }
