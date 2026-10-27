@@ -1,5 +1,17 @@
 [
   {
+    "name": "OnePlus Turbo 6",
+    "firmwareGroups": {
+      "Android 16": [
+        {
+          "displayName": "CN",
+          "productModel": "PLU110",
+          "versionLetter": "A"
+        }
+      ]
+    }
+  },
+  {
     "name": "OnePlus 15T",
     "firmwareGroups": {
       "Android 16": [
