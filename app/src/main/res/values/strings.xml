@@ -180,6 +180,8 @@
     <string name="settings_advanced_mode_desc">Unlock experimental features</string>
     <string name="settings_arb_detection">ARB Detection</string>
     <string name="settings_arb_detection_desc">Enable Anti-Rollback checks for updates</string>
+    <string name="settings_show_json_output">Show JSON Output</string>
+    <string name="settings_show_json_output_desc">Display raw JSON button in update details</string>
     <string name="settings_export_backup">Export Backup</string>
     <string name="settings_export_backup_desc">Save devices to storage</string>
     <string name="settings_import_backup">Import Backup</string>

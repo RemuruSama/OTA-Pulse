@@ -91,6 +91,7 @@ class SettingsViewModel @Inject constructor(
     fun setArbDetection(enabled: Boolean) = appSettingsPreferences.setArbDetection(enabled)
     fun setBrowserDesktopMode(enabled: Boolean) = appSettingsPreferences.setBrowserDesktopMode(enabled)
     fun setBrowserShowControls(enabled: Boolean) = appSettingsPreferences.setBrowserShowControls(enabled)
+    fun setShowJsonOutput(enabled: Boolean) = appSettingsPreferences.setShowJsonOutput(enabled)
 
     fun setAutoSoftwareUpdateCheck(enabled: Boolean) {
         appSettingsPreferences.setAutoSoftwareUpdateCheck(enabled)

@@ -32,7 +32,8 @@ data class AppSettings(
     val checkIntervalHours: Long = 6L,
     val arbDetection: Boolean = true,
     val browserDesktopMode: Boolean = false,
-    val browserShowControls: Boolean = true
+    val browserShowControls: Boolean = true,
+    val showJsonOutput: Boolean = false
 )
 
 @Singleton
@@ -50,6 +51,7 @@ class AppSettingsPreferences @Inject constructor(
         const val PREF_ARB_DETECTION_ENABLED = "arb_detection_enabled"
         const val PREF_BROWSER_DESKTOP_MODE = "browser_desktop_mode"
         const val PREF_BROWSER_SHOW_CONTROLS = "browser_show_controls"
+        const val PREF_SHOW_JSON_OUTPUT = "show_json_output"
         const val DEFAULT_CHECK_INTERVAL_HOURS = 6L
     }
 
@@ -70,7 +72,8 @@ class AppSettingsPreferences @Inject constructor(
             checkIntervalHours = prefs.getLong(PREF_CHECK_INTERVAL_HOURS, DEFAULT_CHECK_INTERVAL_HOURS),
             arbDetection = prefs.getBoolean(PREF_ARB_DETECTION_ENABLED, true),
             browserDesktopMode = prefs.getBoolean(PREF_BROWSER_DESKTOP_MODE, false),
-            browserShowControls = prefs.getBoolean(PREF_BROWSER_SHOW_CONTROLS, true)
+            browserShowControls = prefs.getBoolean(PREF_BROWSER_SHOW_CONTROLS, true),
+            showJsonOutput = prefs.getBoolean(PREF_SHOW_JSON_OUTPUT, false)
         )
     }
 
@@ -100,6 +103,10 @@ class AppSettingsPreferences @Inject constructor(
 
     fun setBrowserShowControls(enabled: Boolean) {
         prefs.edit().putBoolean(PREF_BROWSER_SHOW_CONTROLS, enabled).apply()
+    }
+
+    fun setShowJsonOutput(enabled: Boolean) {
+        prefs.edit().putBoolean(PREF_SHOW_JSON_OUTPUT, enabled).apply()
     }
 }
 

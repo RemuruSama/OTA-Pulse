@@ -141,6 +141,7 @@ fun SettingsScreen(
         onSetAutoUpdateCheck = viewModel::setAutoUpdateCheck,
         onSetAutoSoftwareUpdateCheck = viewModel::setAutoSoftwareUpdateCheck,
         onSetArbDetection = viewModel::setArbDetection,
+        onSetShowJsonOutput = viewModel::setShowJsonOutput,
         onSetBrowserDesktopMode = viewModel::setBrowserDesktopMode,
         onSetBrowserShowControls = viewModel::setBrowserShowControls,
         onSetCheckIntervalHours = viewModel::setCheckIntervalHours,
@@ -169,6 +170,7 @@ fun SettingsContent(
     onSetAutoUpdateCheck: (Boolean) -> Unit = {},
     onSetAutoSoftwareUpdateCheck: (Boolean) -> Unit = {},
     onSetArbDetection: (Boolean) -> Unit = {},
+    onSetShowJsonOutput: (Boolean) -> Unit = {},
     onSetBrowserDesktopMode: (Boolean) -> Unit = {},
     onSetBrowserShowControls: (Boolean) -> Unit = {},
     onSetCheckIntervalHours: (Long) -> Unit = {},
@@ -240,7 +242,8 @@ fun SettingsContent(
                     onAutoUpdateChanged = onSetAutoUpdateCheck,
                     onAutoSoftwareUpdateChanged = onSetAutoSoftwareUpdateCheck,
                     onIntervalClick = { showIntervalDialog = true },
-                    onArbDetectionChanged = onSetArbDetection
+                    onArbDetectionChanged = onSetArbDetection,
+                    onShowJsonOutputChanged = onSetShowJsonOutput
                 )
             }
 
@@ -826,7 +829,8 @@ private fun GeneralSection(
     onAutoUpdateChanged: (Boolean) -> Unit,
     onAutoSoftwareUpdateChanged: (Boolean) -> Unit,
     onIntervalClick: () -> Unit,
-    onArbDetectionChanged: (Boolean) -> Unit
+    onArbDetectionChanged: (Boolean) -> Unit,
+    onShowJsonOutputChanged: (Boolean) -> Unit
 ) {
     val context = LocalContext.current
     val view = LocalView.current
@@ -907,6 +911,13 @@ private fun GeneralSection(
                 subtitle = stringResource(R.string.settings_arb_detection_desc),
                 checked = appSettings.arbDetection,
                 onCheckedChange = onArbDetectionChanged
+            )
+
+            SettingsToggleRow(
+                title = stringResource(R.string.settings_show_json_output),
+                subtitle = stringResource(R.string.settings_show_json_output_desc),
+                checked = appSettings.showJsonOutput,
+                onCheckedChange = onShowJsonOutputChanged
             )
         }
     }

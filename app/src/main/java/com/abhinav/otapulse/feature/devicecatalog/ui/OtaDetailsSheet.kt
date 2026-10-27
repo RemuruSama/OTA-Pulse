@@ -16,6 +16,8 @@
 
 package com.abhinav.otapulse.feature.devicecatalog.ui
 
+import android.content.Context
+import com.abhinav.otapulse.core.preferences.AppSettingsPreferences
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -132,7 +134,8 @@ fun OtaDetailsSheet(
     onExtractPartitions: (url: String, versionName: String, partitionNames: List<String>) -> UUID? = { _, _, _ -> null },
     isStartingExtraction: Boolean = false,
     onClearStartingExtraction: () -> Unit = {},
-    onCheckArb: ((OtaUpdate) -> Unit)? = null
+    onCheckArb: ((OtaUpdate) -> Unit)? = null,
+    showJsonOutput: Boolean? = null
 ) {
     var selectedPartitions by remember { mutableStateOf(setOf<PartitionInfo>()) }
     var cachedPartitionDialogData by remember { mutableStateOf<PartitionSelectDialogData?>(null) }
@@ -147,6 +150,12 @@ fun OtaDetailsSheet(
     }
 
     val context = LocalContext.current
+    val appPrefs = remember(context) {
+        context.getSharedPreferences(AppSettingsPreferences.PREFS_NAME, Context.MODE_PRIVATE)
+    }
+    val isJsonOutputVisible = showJsonOutput ?: remember(appPrefs) {
+        appPrefs.getBoolean(AppSettingsPreferences.PREF_SHOW_JSON_OUTPUT, false)
+    }
     val view = LocalView.current
     val workInfoFromId by produceState<WorkInfo?>(initialValue = null, activeWorkId) {
         val id = activeWorkId
@@ -312,19 +321,21 @@ fun OtaDetailsSheet(
                         }
                     }
                 }
-                Surface(
-                    onClick = { onViewJson(ota) },
-                    shape = CircleShape,
-                    color = MaterialTheme.colorScheme.primaryContainer,
-                    modifier = Modifier.size(40.dp)
-                ) {
-                    Box(contentAlignment = Alignment.Center) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_view_json),
-                            contentDescription = stringResource(R.string.button_view_json),
-                            tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                            modifier = Modifier.size(20.dp)
-                        )
+                if (isJsonOutputVisible) {
+                    Surface(
+                        onClick = { onViewJson(ota) },
+                        shape = CircleShape,
+                        color = MaterialTheme.colorScheme.primaryContainer,
+                        modifier = Modifier.size(40.dp)
+                    ) {
+                        Box(contentAlignment = Alignment.Center) {
+                            Icon(
+                                painter = painterResource(R.drawable.ic_view_json),
+                                contentDescription = stringResource(R.string.button_view_json),
+                                tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                                modifier = Modifier.size(20.dp)
+                            )
+                        }
                     }
                 }
             }
