@@ -93,8 +93,10 @@ class OtaHistoryRepositoryImpl @Inject constructor(
         
         // Basic deduplication: Check recent history
         val recentHistory = dao.getRecentHistoryForDeviceAndRegion(entryToSave.deviceName, entryToSave.region)
+        val entryKey = (entryToSave.otaUpdate.versionName ?: entryToSave.otaUpdate.realOtaVersion ?: entryToSave.otaUpdate.componentVersion).trim()
         val existingEntry = recentHistory.firstOrNull {
-            (it.otaUpdate.versionName ?: it.otaUpdate.componentVersion) == (entryToSave.otaUpdate.versionName ?: entryToSave.otaUpdate.componentVersion)
+            val existingKey = (it.otaUpdate.versionName ?: it.otaUpdate.realOtaVersion ?: it.otaUpdate.componentVersion).trim()
+            existingKey.isNotBlank() && existingKey == entryKey
         }
 
         if (existingEntry == null) {
@@ -107,24 +109,19 @@ class OtaHistoryRepositoryImpl @Inject constructor(
                 )
             )
         } else {
-            var updatedOta = existingEntry.otaUpdate
-            var needsUpdate = false
-            if (updatedOta.rawJson.isNullOrBlank() && !entryToSave.otaUpdate.rawJson.isNullOrBlank()) {
-                updatedOta = updatedOta.copy(rawJson = entryToSave.otaUpdate.rawJson)
-                needsUpdate = true
+            var updatedOta = entryToSave.otaUpdate
+            if (updatedOta.rawJson.isNullOrBlank() && !existingEntry.otaUpdate.rawJson.isNullOrBlank()) {
+                updatedOta = updatedOta.copy(rawJson = existingEntry.otaUpdate.rawJson)
             }
-            if (updatedOta.arbStatus.isNullOrBlank() && !entryToSave.otaUpdate.arbStatus.isNullOrBlank()) {
-                updatedOta = updatedOta.copy(arbStatus = entryToSave.otaUpdate.arbStatus)
-                needsUpdate = true
+            if (updatedOta.arbStatus.isNullOrBlank() && !existingEntry.otaUpdate.arbStatus.isNullOrBlank()) {
+                updatedOta = updatedOta.copy(arbStatus = existingEntry.otaUpdate.arbStatus)
             }
-            if (needsUpdate) {
-                dao.update(
-                    existingEntry.copy(
-                        timestamp = entryToSave.timestamp,
-                        otaUpdate = updatedOta
-                    )
+            dao.update(
+                existingEntry.copy(
+                    timestamp = entryToSave.timestamp,
+                    otaUpdate = updatedOta
                 )
-            }
+            )
         }
     }
 

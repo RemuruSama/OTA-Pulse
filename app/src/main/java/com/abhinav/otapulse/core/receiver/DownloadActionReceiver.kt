@@ -89,8 +89,11 @@ class DownloadActionReceiver : BroadcastReceiver() {
             if (otaUpdate != null) {
                 downloadManager.enqueueDownload(otaUpdate, deviceName, regionName)
                 
-                // Close the notification panel if possible
-                context.sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
+                // Close the notification panel if possible on pre-Android 12 (deprecated & forbidden on API 31+)
+                if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.S) {
+                    @Suppress("DEPRECATION")
+                    context.sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
+                }
                 
                 // Cancel the original software update notification since we're acting on it
                 notificationHelper.cancelNotification(301) // SOFTWARE_UPDATE_NOTIFICATION_ID

@@ -47,13 +47,17 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.sp
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.material.icons.automirrored.rounded.AltRoute
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.Description
+import androidx.compose.material.icons.rounded.Dns
 import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material.icons.rounded.FolderZip
 import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material.icons.rounded.OpenInNew
 import androidx.compose.material.icons.rounded.Share
+import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -231,22 +235,82 @@ fun OtaDetailsSheet(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.Top
             ) {
+                val rawVersion = ota.versionName?.ifBlank { stringResource(R.string.unknown_version) } ?: stringResource(R.string.unknown_version)
+                val cleanVersion = rawVersion.substringBefore(" [").trim()
+                val metadataStr = if (rawVersion.contains("[")) rawVersion.substringAfter("[").substringBefore("]").trim() else ""
+
                 Column(modifier = Modifier.weight(1f).padding(end = 12.dp)) {
                     Text(
-                        text = ota.componentName ?: stringResource(R.string.ota_details_title),
+                        text = ota.componentName.ifBlank { stringResource(R.string.ota_details_title) },
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.onSurface,
                         fontWeight = FontWeight.Bold
                     )
                     Spacer(modifier = Modifier.height(2.dp))
                     Text(
-                        text = ota.versionName ?: stringResource(R.string.unknown_version),
+                        text = cleanVersion,
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         fontWeight = FontWeight.Bold,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
+                    if (metadataStr.isNotBlank()) {
+                        Spacer(modifier = Modifier.height(6.dp))
+                        val tags = metadataStr.split("•").map { it.trim() }.filter { it.isNotBlank() }
+                        FlowRow(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(6.dp),
+                            verticalArrangement = Arrangement.spacedBy(6.dp)
+                        ) {
+                            tags.forEach { tag ->
+                                val isBranch = tag.startsWith("Branch", ignoreCase = true)
+                                val isServer = tag.startsWith("Server", ignoreCase = true)
+
+                                val (bgColor, textColor, icon) = when {
+                                    isBranch -> Triple(
+                                        MaterialTheme.colorScheme.primary.copy(alpha = 0.12f),
+                                        MaterialTheme.colorScheme.primary,
+                                        Icons.AutoMirrored.Rounded.AltRoute
+                                    )
+                                    isServer -> Triple(
+                                        MaterialTheme.colorScheme.tertiary.copy(alpha = 0.12f),
+                                        MaterialTheme.colorScheme.tertiary,
+                                        Icons.Rounded.Dns
+                                    )
+                                    else -> Triple(
+                                        MaterialTheme.colorScheme.secondary.copy(alpha = 0.12f),
+                                        MaterialTheme.colorScheme.secondary,
+                                        Icons.Rounded.Tune
+                                    )
+                                }
+
+                                Surface(
+                                    color = bgColor,
+                                    shape = RoundedCornerShape(6.dp)
+                                ) {
+                                    Row(
+                                        modifier = Modifier.padding(horizontal = 7.dp, vertical = 3.dp),
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                                    ) {
+                                        Icon(
+                                            imageVector = icon,
+                                            contentDescription = null,
+                                            tint = textColor,
+                                            modifier = Modifier.size(12.dp)
+                                        )
+                                        Text(
+                                            text = tag,
+                                            style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.SemiBold),
+                                            color = textColor,
+                                            maxLines = 1
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
                 Surface(
                     onClick = { onViewJson(ota) },

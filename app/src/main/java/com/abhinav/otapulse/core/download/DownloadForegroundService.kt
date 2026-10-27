@@ -67,8 +67,13 @@ class DownloadForegroundService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        if (!engine.hasActiveDownloads()) {
+            Log.d(TAG, "No active downloads; stopping foreground service")
+            stopSelf()
+            return START_NOT_STICKY
+        }
         promoteToForeground()
-        return START_STICKY
+        return START_NOT_STICKY
     }
 
     override fun onDestroy() {

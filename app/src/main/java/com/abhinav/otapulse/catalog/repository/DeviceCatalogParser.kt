@@ -108,21 +108,54 @@ object DeviceCatalogParser {
     }
 
     private fun deriveRuiVersion(firmwareGroups: Map<String, List<RegionVariant>>): Int {
-        val maxAndroid = firmwareGroups.keys.mapNotNull { groupName ->
-            Regex("""\d+""").find(groupName)?.value?.toIntOrNull()
-        }.maxOrNull() ?: 16
+        val ruiRegex = Regex("""(?:Realme\s*UI|RUI)\s*(\d+)""", RegexOption.IGNORE_CASE)
+        val cosRegex = Regex("""(?:ColorOS|COS)\s*(\d+)""", RegexOption.IGNORE_CASE)
+        val androidRegex = Regex("""(?:Android)\s*(\d+)""", RegexOption.IGNORE_CASE)
 
-        return when {
-            maxAndroid >= 17 -> 7
-            maxAndroid == 16 -> 6
-            maxAndroid == 15 -> 6
-            maxAndroid == 14 -> 5
-            maxAndroid == 13 -> 4
-            maxAndroid == 12 -> 3
-            maxAndroid == 11 -> 2
-            maxAndroid <= 10 -> 1
-            else -> 6
+        val versions = firmwareGroups.keys.mapNotNull { groupName ->
+            ruiRegex.find(groupName)?.groupValues?.get(1)?.toIntOrNull()?.let { rui ->
+                return@mapNotNull rui.coerceIn(1, 7)
+            }
+            cosRegex.find(groupName)?.groupValues?.get(1)?.toIntOrNull()?.let { cos ->
+                return@mapNotNull when {
+                    cos >= 16 -> 6
+                    cos == 15 -> 6
+                    cos == 14 -> 5
+                    cos == 13 -> 4
+                    cos == 12 -> 3
+                    cos == 11 -> 2
+                    cos <= 7 -> 1
+                    else -> 6
+                }
+            }
+            androidRegex.find(groupName)?.groupValues?.get(1)?.toIntOrNull()?.let { android ->
+                return@mapNotNull when {
+                    android >= 17 -> 7
+                    android == 16 || android == 15 -> 6
+                    android == 14 -> 5
+                    android == 13 -> 4
+                    android == 12 -> 3
+                    android == 11 -> 2
+                    android <= 10 -> 1
+                    else -> 6
+                }
+            }
+            Regex("""\d+""").find(groupName)?.value?.toIntOrNull()?.let { num ->
+                when {
+                    num in 1..7 -> num // Direct RUI version number (e.g. "4")
+                    num >= 17 -> 7
+                    num == 16 || num == 15 -> 6
+                    num == 14 -> 5
+                    num == 13 -> 4
+                    num == 12 -> 3
+                    num == 11 -> 2
+                    num <= 10 -> 1
+                    else -> 6
+                }
+            }
         }
+
+        return versions.maxOrNull() ?: 6
     }
 
     private fun RegionVariant.withVersionLetter(newVersionLetter: String): RegionVariant {

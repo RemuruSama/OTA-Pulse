@@ -340,6 +340,7 @@ fun InAppBrowserScreen(
                         webViewClient = object : WebViewClient() {
                             override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
                                 val target = request?.url?.toString().orEmpty()
+                                if (target.isBlank() || target == "about:blank") return false
                                 if (target.startsWith("http://") || target.startsWith("https://")) return false
                                 openExternally(ctx, target)
                                 return true
@@ -560,9 +561,21 @@ private fun buildDesktopUserAgent(baseUserAgent: String): String {
 }
 
 private fun openExternally(context: Context, url: String) {
-    if (url.isBlank()) return
+    if (url.isBlank() || url.startsWith("about:") || url.startsWith("javascript:")) return
     try {
-        context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+        val intent = if (url.startsWith("intent://") || url.startsWith("android-app://")) {
+            Intent.parseUri(url, Intent.URI_INTENT_SCHEME).apply {
+                addCategory(Intent.CATEGORY_BROWSABLE)
+                component = null
+                selector = null
+            }
+        } else {
+            Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
+                addCategory(Intent.CATEGORY_BROWSABLE)
+            }
+        }
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        context.startActivity(intent)
     } catch (_: Exception) {
         Toast.makeText(context, R.string.could_not_open_link, Toast.LENGTH_SHORT).show()
     }

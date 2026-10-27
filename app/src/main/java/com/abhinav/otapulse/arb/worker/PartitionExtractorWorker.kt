@@ -60,7 +60,11 @@ class PartitionExtractorWorker @AssistedInject constructor(
 
         val versionName = sanitizeFolderSegment(inputData.getString(KEY_VERSION_NAME) ?: "Unknown")
         val regionName = inputData.getString(KEY_REGION_NAME).orEmpty()
-        val baseDir = File(Environment.getExternalStorageDirectory(), com.abhinav.otapulse.core.network.Component.OTA_UPDATES_DIR)
+        val baseDir = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && !Environment.isExternalStorageManager()) {
+            File(applicationContext.getExternalFilesDir(null), com.abhinav.otapulse.core.network.Component.OTA_UPDATES_DIR)
+        } else {
+            File(Environment.getExternalStorageDirectory(), com.abhinav.otapulse.core.network.Component.OTA_UPDATES_DIR)
+        }
         val extractedDir = File(baseDir, "Extracted").also { it.mkdirs() }
         val regionFolderPrefix = sanitizeFolderSegment(regionName).takeIf { regionName.isNotBlank() }.orEmpty()
         val folderName = if (regionFolderPrefix.isBlank()) versionName else "$regionFolderPrefix-$versionName"
@@ -68,9 +72,13 @@ class PartitionExtractorWorker @AssistedInject constructor(
 
         val titleName = if (partitionNames.size == 1) partitionNames[0] else "${partitionNames.size} partitions"
         createNotificationChannel()
-        setForeground(createForegroundInfo(titleName, 0, 100))
 
         try {
+            runCatching {
+                setForeground(createForegroundInfo(titleName, 0, 100))
+            }.onFailure { e ->
+                Log.w("PartitionExtractor", "Could not promote worker to foreground: ${e.message}")
+            }
             Log.d("PartitionExtractor", "Starting extraction for $titleName from $source")
             
             // 1. Open session

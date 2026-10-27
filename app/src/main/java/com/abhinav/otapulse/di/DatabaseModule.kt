@@ -22,7 +22,10 @@ object DatabaseModule {
             context,
             AppDatabase::class.java,
             "otapulse_database"
-        ).build()
+        )
+            .fallbackToDestructiveMigration(dropAllTables = true)
+            .fallbackToDestructiveMigrationOnDowngrade(dropAllTables = true)
+            .build()
     }
 
     @Provides

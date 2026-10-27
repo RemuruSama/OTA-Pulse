@@ -41,7 +41,7 @@ class ArbLookupService @Inject constructor(private val arbChecker: ArbChecker) {
     }
 
     // Cache results keyed by original source to avoid repeating extraction work.
-    private val cache = mutableMapOf<String, ArbInfo?>()
+    private val cache = java.util.concurrent.ConcurrentHashMap<String, ArbInfo>()
 
     suspend fun lookup(source: String): ArbInfo? {
         val trimmedSource = source.trim()
@@ -66,7 +66,7 @@ class ArbLookupService @Inject constructor(private val arbChecker: ArbChecker) {
                     minor = it.minor
                 )
             }
-            cache[trimmedSource] = arbInfo
+            arbInfo?.let { cache[trimmedSource] = it }
             arbInfo
         } catch (e: Exception) {
             Log.w(TAG, "ARB lookup failed for $trimmedSource", e)

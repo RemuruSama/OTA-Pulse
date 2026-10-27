@@ -24,8 +24,9 @@ class FavoritesManager @Inject constructor(
     }
 
     fun getFavorites(): Map<String, String> {
-        @Suppress("UNCHECKED_CAST")
-        return sharedPreferences.all as Map<String, String>
+        return sharedPreferences.all.mapNotNull { (key, value) ->
+            (value as? String)?.let { key to it }
+        }.toMap()
     }
 }
 

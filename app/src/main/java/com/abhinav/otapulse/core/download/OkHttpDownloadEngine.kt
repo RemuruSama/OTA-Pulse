@@ -320,8 +320,11 @@ class OkHttpDownloadEngine @Inject constructor(
                 }
 
                 val contentLength = conn.contentLengthLong
+                val contentRange = conn.getHeaderField("Content-Range")
+                val rangeTotal = contentRange?.substringAfterLast('/', "")?.toLongOrNull()?.takeIf { it > 0 }
                 val totalBytes = when {
-                    code == 206 && resumeOffset > 0 -> resumeOffset + contentLength
+                    rangeTotal != null -> rangeTotal
+                    code == 206 && resumeOffset > 0 && contentLength > 0 -> resumeOffset + contentLength
                     contentLength > 0 -> contentLength
                     else -> -1L
                 }
@@ -355,9 +358,11 @@ class OkHttpDownloadEngine @Inject constructor(
                 }
 
                 try {
-                    streamToFile(id, raf, conn.inputStream, seekOffset, totalBytes)
+                    conn.inputStream.use { stream ->
+                        streamToFile(id, raf, stream, seekOffset, totalBytes)
+                    }
                 } finally {
-                    raf.close()
+                    try { raf.close() } catch (_: Exception) {}
                     conn.disconnect()
                 }
 

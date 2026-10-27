@@ -305,7 +305,17 @@ class OtaExtractor(private val context: Context) {
         file: java.io.File,
         onProgress: suspend (ExtractionState) -> Unit = {}
     ): ExtractionState = withContext(Dispatchers.IO) {
-        val resume = stateStore.load(partitionName)
+        val rawResume = stateStore.load(partitionName)
+
+        val resume = if (rawResume != null && file.exists() && file.length() >= rawResume.bytesWritten) {
+            // Truncate file to exact verified byte boundary to eliminate uncommitted buffer drift
+            java.io.RandomAccessFile(file, "rw").use { it.setLength(rawResume.bytesWritten) }
+            rawResume
+        } else {
+            stateStore.clear(partitionName)
+            file.takeIf { it.exists() }?.delete()
+            null
+        }
 
         // If resuming, open in append mode.
         val outputStream = java.io.BufferedOutputStream(java.io.FileOutputStream(file, resume != null), 1024 * 1024)

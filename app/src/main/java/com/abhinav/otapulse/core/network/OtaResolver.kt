@@ -52,13 +52,16 @@ object OtaResolver {
                     val location = connection.getHeaderField("Location")
                     if (!location.isNullOrBlank()) {
                         redirectCount++
-                        currentUrl = if (location.startsWith("/")) {
-                             // Handle relative redirects (rare but possible)
-                             val protocol = url.protocol
-                             val host = url.host
-                             "$protocol://$host$location"
-                        } else {
-                            location
+                        currentUrl = try {
+                            URL(url, location).toString()
+                        } catch (_: Exception) {
+                            if (location.startsWith("/")) {
+                                val protocol = url.protocol
+                                val host = url.host
+                                "$protocol://$host$location"
+                            } else {
+                                location
+                            }
                         }
                         Log.i(TAG, "Redirecting to: $currentUrl")
                         connection.disconnect()
@@ -73,12 +76,12 @@ object OtaResolver {
                     val token = "filename="
                     val index = contentDisposition.indexOf(token)
                     if (index >= 0) {
-                        var filename = contentDisposition.substring(index + token.length)
-                        if (filename.startsWith("\"") && filename.endsWith("\"")) {
+                        var filename = contentDisposition.substring(index + token.length).split(';')[0].trim()
+                        if (filename.startsWith("\"") && filename.endsWith("\"") && filename.length >= 2) {
                             filename = filename.substring(1, filename.length - 1)
                         }
                         if (filename.isNotBlank()) {
-                             contentDispositionFileName = filename
+                            contentDispositionFileName = filename
                         }
                     }
                 }

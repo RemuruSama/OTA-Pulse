@@ -137,17 +137,18 @@ class ZipRemoteParser(
 
             val name = String(cd, pos + 46, filenameLen, Charsets.UTF_8)
 
+            val hasUncompSentinel = uncompressedSize == 0xFFFF_FFFFL
+            val hasCompSentinel   = compressedSize   == 0xFFFF_FFFFL
+            val hasOffsetSentinel = localOffset      == 0xFFFF_FFFFL
+
             // Resolve ZIP64 extra fields when sentinel 0xFFFFFFFF values are present.
-            if (compressedSize   == 0xFFFF_FFFFL ||
-                uncompressedSize == 0xFFFF_FFFFL ||
-                localOffset      == 0xFFFF_FFFFL
-            ) {
+            if (hasUncompSentinel || hasCompSentinel || hasOffsetSentinel) {
                 val extraStart = pos + 46 + filenameLen
                 val extra = cd.sliceArray(extraStart until extraStart + extraLen)
-                parseZip64Extra(extra)?.let { z64 ->
-                    if (uncompressedSize == 0xFFFF_FFFFL) uncompressedSize = z64.uncompressedSize
-                    if (compressedSize   == 0xFFFF_FFFFL) compressedSize   = z64.compressedSize
-                    if (localOffset      == 0xFFFF_FFFFL) localOffset      = z64.localHeaderOffset
+                parseZip64Extra(extra, hasUncompSentinel, hasCompSentinel, hasOffsetSentinel)?.let { z64 ->
+                    if (hasUncompSentinel && z64.uncompressedSize != -1L) uncompressedSize = z64.uncompressedSize
+                    if (hasCompSentinel && z64.compressedSize != -1L) compressedSize = z64.compressedSize
+                    if (hasOffsetSentinel && z64.localHeaderOffset != -1L) localOffset = z64.localHeaderOffset
                 }
             }
 
@@ -168,17 +169,40 @@ class ZipRemoteParser(
         val localHeaderOffset: Long
     )
 
-    private fun parseZip64Extra(extra: ByteArray): Zip64Extra? {
+    private fun parseZip64Extra(
+        extra: ByteArray,
+        hasUncompressed: Boolean,
+        hasCompressed: Boolean,
+        hasLocalOffset: Boolean
+    ): Zip64Extra? {
         var i = 0
         while (i + 4 <= extra.size) {
             val buf = ByteBuffer.wrap(extra, i, extra.size - i).order(ByteOrder.LITTLE_ENDIAN)
             val headerId = buf.getShort(0).toInt() and 0xFFFF
             val dataSize = buf.getShort(2).toInt() and 0xFFFF
-            if (headerId == 0x0001 && i + 4 + dataSize >= 24) {
+            if (headerId == 0x0001 && i + 4 + dataSize <= extra.size) {
+                var fieldOffset = 4
+                var uncompressedSize = -1L
+                var compressedSize = -1L
+                var localHeaderOffset = -1L
+
+                if (hasUncompressed && fieldOffset + 8 <= 4 + dataSize) {
+                    uncompressedSize = buf.getLong(fieldOffset)
+                    fieldOffset += 8
+                }
+                if (hasCompressed && fieldOffset + 8 <= 4 + dataSize) {
+                    compressedSize = buf.getLong(fieldOffset)
+                    fieldOffset += 8
+                }
+                if (hasLocalOffset && fieldOffset + 8 <= 4 + dataSize) {
+                    localHeaderOffset = buf.getLong(fieldOffset)
+                    fieldOffset += 8
+                }
+
                 return Zip64Extra(
-                    uncompressedSize  = buf.getLong(4),
-                    compressedSize    = buf.getLong(12),
-                    localHeaderOffset = buf.getLong(20)
+                    uncompressedSize = uncompressedSize,
+                    compressedSize = compressedSize,
+                    localHeaderOffset = localHeaderOffset
                 )
             }
             i += 4 + dataSize

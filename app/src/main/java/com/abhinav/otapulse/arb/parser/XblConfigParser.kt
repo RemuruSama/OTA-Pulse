@@ -91,8 +91,9 @@ class XblConfigParser {
             var hashSize = 0L
 
             for (i in phNum - 1 downTo 0) {
-                val phPos = (phOff + i.toLong() * phEntSize).toInt()
-                if (phPos + PH_SIZE > data.size) continue
+                val phPosLong = phOff + i.toLong() * phEntSize
+                if (phPosLong < 0 || phPosLong + PH_SIZE > data.size) continue
+                val phPos = phPosLong.toInt()
 
                 val phBuf = ByteBuffer.wrap(data, phPos, PH_SIZE).order(ByteOrder.LITTLE_ENDIAN)
                 val pType = phBuf.int       // p_type
@@ -110,18 +111,14 @@ class XblConfigParser {
                 }
             }
 
-            if (hashSize == 0L) {
-                Log.w(TAG, "HASH segment not found")
+            if (hashSize <= 0L || hashOff < 0 || hashOff + hashSize > data.size) {
+                Log.w(TAG, "HASH segment not found or out of bounds")
                 return null
             }
 
             // 4. Read the HASH segment
             val hashStart = hashOff.toInt()
             val hashLen = hashSize.toInt()
-            if (hashStart + hashLen > data.size) {
-                Log.w(TAG, "HASH segment extends beyond data (off=$hashStart, size=$hashLen, total=${data.size})")
-                return null
-            }
 
             // 5. Scan for Hash Table Segment Header within first 0x1000 bytes
             val scanLimit = minOf(0x1000, hashLen)
@@ -137,12 +134,13 @@ class XblConfigParser {
                 val oem = readUint32(data, hashStart + off + 12)
                 val hashTblSz = readUint32(data, hashStart + off + 16)
 
-                // Sanity checks (matching arbextract.c)
+                // Sanity checks (matching arbextract.c) with unsigned safe bounds
                 if (version in 1..10 &&
-                    common <= 0x1000 &&
-                    oem <= 0x4000 &&
-                    hashTblSz <= 0x4000 &&
-                    off + 36 + common.toInt() + qti.toInt() + oem.toInt() <= hashLen
+                    common <= 0x1000L &&
+                    qti <= 0x4000L &&
+                    oem <= 0x4000L &&
+                    hashTblSz <= 0x4000L &&
+                    off + 36 + common + qti + oem <= hashLen
                 ) {
                     headerOff = off
                     commonSz = common.toInt()
@@ -158,11 +156,12 @@ class XblConfigParser {
             }
 
             // 6. Read OEM Metadata
-            val oemMdOff = hashStart + headerOff + 36 + commonSz + qtiSz
-            if (oemMdOff + 12 > data.size) {
-                Log.w(TAG, "OEM metadata offset out of bounds")
+            val oemMdOffLong = hashStart.toLong() + headerOff + 36 + commonSz + qtiSz
+            if (oemMdOffLong < 0 || oemMdOffLong + 12 > data.size) {
+                Log.w(TAG, "OEM metadata offset out of bounds: $oemMdOffLong")
                 return null
             }
+            val oemMdOff = oemMdOffLong.toInt()
 
             val major = readUint32(data, oemMdOff).toInt()
             val minor = readUint32(data, oemMdOff + 4).toInt()

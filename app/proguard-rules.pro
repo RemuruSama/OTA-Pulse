@@ -7,6 +7,17 @@
 -keep class com.abhinav.otapulse.catalog.model.** { *; }
 -keep class com.abhinav.otapulse.core.model.** { *; }
 -keep class com.abhinav.otapulse.core.network.** { *; }
+-keep class com.abhinav.otapulse.core.download.** { *; }
+-keep class com.abhinav.otapulse.ota.resume.** { *; }
+-keepclassmembers class * {
+    @com.google.gson.annotations.SerializedName <fields>;
+}
+
+# ---- Room ----
+-keep class androidx.room.RoomDatabase
+-keep @androidx.room.Entity class * { *; }
+-keep @androidx.room.Dao interface * { *; }
+-dontwarn androidx.room.paging.**
 
 # Gson specific
 -dontwarn sun.misc.**

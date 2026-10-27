@@ -31,6 +31,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.AltRoute
 import androidx.compose.material.icons.rounded.Android
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Check
@@ -1009,30 +1010,49 @@ private fun QueryOtaResultCard(
                     verticalArrangement = Arrangement.spacedBy(6.dp)
                 ) {
                     tags.forEach { tag ->
-                        val cleanTag = tag.removePrefix("Mode: ").removePrefix("Server: ").trim()
                         val isBranch = tag.startsWith("Branch", ignoreCase = true)
-                        val isServer = tag.startsWith("Server:", ignoreCase = true)
-                        val chipColor = when {
-                            isBranch -> MaterialTheme.colorScheme.primary.copy(alpha = 0.12f)
-                            isServer -> MaterialTheme.colorScheme.tertiary.copy(alpha = 0.12f)
-                            else -> MaterialTheme.colorScheme.secondary.copy(alpha = 0.12f)
+                        val isServer = tag.startsWith("Server", ignoreCase = true)
+
+                        val (bgColor, textColor, icon) = when {
+                            isBranch -> Triple(
+                                MaterialTheme.colorScheme.primary.copy(alpha = 0.12f),
+                                MaterialTheme.colorScheme.primary,
+                                Icons.AutoMirrored.Rounded.AltRoute
+                            )
+                            isServer -> Triple(
+                                MaterialTheme.colorScheme.tertiary.copy(alpha = 0.12f),
+                                MaterialTheme.colorScheme.tertiary,
+                                Icons.Rounded.Dns
+                            )
+                            else -> Triple(
+                                MaterialTheme.colorScheme.secondary.copy(alpha = 0.12f),
+                                MaterialTheme.colorScheme.secondary,
+                                Icons.Rounded.Tune
+                            )
                         }
-                        val textColor = when {
-                            isBranch -> MaterialTheme.colorScheme.primary
-                            isServer -> MaterialTheme.colorScheme.tertiary
-                            else -> MaterialTheme.colorScheme.secondary
-                        }
+
                         Surface(
-                            color = chipColor,
+                            color = bgColor,
                             shape = RoundedCornerShape(6.dp)
                         ) {
-                            Text(
-                                text = cleanTag,
-                                style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.SemiBold),
-                                color = textColor,
-                                maxLines = 1,
-                                modifier = Modifier.padding(horizontal = 7.dp, vertical = 3.dp)
-                            )
+                            Row(
+                                modifier = Modifier.padding(horizontal = 7.dp, vertical = 3.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                            ) {
+                                Icon(
+                                    imageVector = icon,
+                                    contentDescription = null,
+                                    tint = textColor,
+                                    modifier = Modifier.size(12.dp)
+                                )
+                                Text(
+                                    text = tag,
+                                    style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.SemiBold),
+                                    color = textColor,
+                                    maxLines = 1
+                                )
+                            }
                         }
                     }
                 }

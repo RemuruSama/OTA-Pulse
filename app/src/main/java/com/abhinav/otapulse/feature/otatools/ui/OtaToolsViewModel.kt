@@ -11,6 +11,8 @@ import com.abhinav.otapulse.feature.otatools.data.ArbLookupService
 import com.abhinav.otapulse.feature.devices.domain.FetchOtaDetailsUseCase
 import com.abhinav.otapulse.ota.payload.PartitionInfo
 import com.abhinav.otapulse.core.network.OtaResolver
+import com.abhinav.otapulse.core.model.OtaHistoryEntry
+import com.abhinav.otapulse.feature.history.data.OtaHistoryRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -76,6 +78,7 @@ class OtaToolsViewModel @Inject constructor(
     private val downloadRepository: DownloadRepository,
     private val arbLookupService: ArbLookupService,
     private val otaExtractor: com.abhinav.otapulse.ota.engine.OtaExtractor,
+    private val otaHistoryRepository: OtaHistoryRepository,
     @dagger.hilt.android.qualifiers.ApplicationContext private val context: android.content.Context,
     private val appSettingsPreferences: com.abhinav.otapulse.core.preferences.AppSettingsPreferences
 ) : ViewModel() {
@@ -135,7 +138,7 @@ class OtaToolsViewModel @Inject constructor(
                 language = language
             )
 
-            val result = fetchOtaDetailsUseCase(dummyDevice, regionVariant, reqMode, gray)
+            val result = fetchOtaDetailsUseCase(dummyDevice, regionVariant, reqMode, gray, shouldLogHistory = false)
 
             // Enrich with verified ARB data from community database
             val isArbDetectionEnabled = appSettingsPreferences.getAppSettings().arbDetection
@@ -149,6 +152,17 @@ class OtaToolsViewModel @Inject constructor(
                 } else {
                     ota.copy(arbStatus = "N/A")
                 }
+            }
+
+            enrichedResult.getOrNull()?.let { enrichedOta ->
+                otaHistoryRepository.logOtaUpdate(
+                    OtaHistoryEntry(
+                        timestamp = System.currentTimeMillis(),
+                        deviceName = effectiveProductName,
+                        region = "${regionVariant.displayName} (Server: $server)",
+                        otaUpdate = enrichedOta
+                    )
+                )
             }
 
             _uiState.update {
@@ -182,8 +196,15 @@ class OtaToolsViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, result = null, userMessage = null) }
 
+            val resolvedNvId = nvId ?: RegionData.regions.find {
+                it.displayName.equals(region, ignoreCase = true)
+            }?.nvid ?: ""
+
+            val fullFirmwareVersion = buildFirmwareVersionString(model, resolvedNvId, otaVersion)
+            val effectiveProductName = displayDeviceName?.takeIf { it.isNotBlank() } ?: model
+
             val dummyDevice = Device(
-                name = "Custom Device",
+                name = "Custom|" + effectiveProductName,
                 ruiVersion = ruiVersion,
                 imei = imei,
                 beta = beta,
@@ -194,14 +215,6 @@ class OtaToolsViewModel @Inject constructor(
             )
 
             val isArbDetectionEnabled = appSettingsPreferences.getAppSettings().arbDetection
-
-            // Resolve NV ID from RegionData if user didn't provide one
-            val resolvedNvId = nvId ?: RegionData.regions.find {
-                it.displayName.equals(region, ignoreCase = true)
-            }?.nvid ?: ""
-
-            val fullFirmwareVersion = buildFirmwareVersionString(model, resolvedNvId, otaVersion)
-            val effectiveProductName = displayDeviceName?.takeIf { it.isNotBlank() } ?: model
 
             // ── Fan-out to ALL servers in parallel, then pick the latest version ──
             // This guarantees that a stale server can never hide a newer build
@@ -269,6 +282,15 @@ class OtaToolsViewModel @Inject constructor(
             // naturally selects the most recent build.
             val best = successfulResults.maxWith(compareBy { it.ota.resolvedOtaVersion() })
 
+            otaHistoryRepository.logOtaUpdate(
+                OtaHistoryEntry(
+                    timestamp = System.currentTimeMillis(),
+                    deviceName = effectiveProductName,
+                    region = "$region (Server: ${best.server})",
+                    otaUpdate = best.ota
+                )
+            )
+
             _uiState.update {
                 it.copy(
                     isLoading = false,
@@ -301,8 +323,9 @@ class OtaToolsViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, result = null, multiResults = null, userMessage = null) }
 
+            val effectiveProductName = displayDeviceName?.takeIf { it.isNotBlank() } ?: model
             val dummyDevice = Device(
-                name = "Custom|" + (displayDeviceName?.takeIf { it.isNotBlank() } ?: model),
+                name = "Custom|" + effectiveProductName,
                 ruiVersion = ruiVersion,
                 imei = imei,
                 beta = beta,
@@ -328,7 +351,6 @@ class OtaToolsViewModel @Inject constructor(
                     servers.flatMap { server ->
                         reqModes.map { mode ->
                             async {
-                                val effectiveProductName = displayDeviceName?.takeIf { it.isNotBlank() } ?: model
                                 val regionVariant = RegionVariant(
                                     displayName = region,
                                     productModel = model,
@@ -377,7 +399,7 @@ class OtaToolsViewModel @Inject constructor(
                 .groupBy { "${it.letter}_${it.ota.realVersionName ?: it.ota.versionName?.substringBefore(" [") ?: it.ota.downloadUrl.substringAfterLast("/")}" }
                 .map { (_, results) ->
                     val first = results.first()
-                    val allModes = results.map { it.mode.uppercase() }.distinct().joinToString(" • ")
+                    val allModes = results.map { it.mode.uppercase() }.distinct().joinToString(", ")
                     val allServers = results.map { it.server.uppercase() }.distinct().joinToString(", ")
                     val baseTitle = (first.ota.versionName ?: first.ota.realVersionName ?: first.ota.realOtaVersion ?: "Branch ${first.letter}").substringBefore(" [").trim()
                     val annotatedTitle = "$baseTitle [Branch ${first.letter} • Mode: $allModes • Server: $allServers]"
@@ -389,6 +411,17 @@ class OtaToolsViewModel @Inject constructor(
                 .sortedByDescending { it.resolvedOtaVersion() }
 
             val bestOverall = bestResults.maxWithOrNull(compareBy { it.resolvedOtaVersion() })
+
+            bestResults.forEach { ota ->
+                otaHistoryRepository.logOtaUpdate(
+                    OtaHistoryEntry(
+                        timestamp = System.currentTimeMillis(),
+                        deviceName = effectiveProductName,
+                        region = region,
+                        otaUpdate = ota
+                    )
+                )
+            }
 
             _uiState.update {
                 it.copy(

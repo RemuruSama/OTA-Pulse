@@ -265,11 +265,12 @@ class HomeUpdateViewModel @Inject constructor(
                 .map { (_, results) -> results.maxWith(compareBy { it.ota.resolvedOtaVersion() }) }
                 .sortedByDescending { it.letter }
 
+            val effectiveDeviceName = _uiState.value.deviceName.ifBlank { _uiState.value.deviceModel }
             bestResultsPerLetter.forEach { sr ->
                 otaHistoryRepository.logOtaUpdate(
                     com.abhinav.otapulse.core.model.OtaHistoryEntry(
                         timestamp = System.currentTimeMillis(),
-                        deviceName = "This Device",
+                        deviceName = effectiveDeviceName,
                         region = region,
                         otaUpdate = sr.ota
                     )

@@ -194,7 +194,7 @@ class SoftwareUpdateCheckWorker @AssistedInject constructor(
             otaHistoryRepository.logOtaUpdate(
                 OtaHistoryEntry(
                     timestamp = System.currentTimeMillis(),
-                    deviceName = "This Device",
+                    deviceName = device.name.ifBlank { "This Device" },
                     region = region,
                     otaUpdate = enrichedOta
                 )

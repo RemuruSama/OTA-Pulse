@@ -193,9 +193,19 @@ class PayloadExtractor(
             InstallOperation.Type.SOURCE_BSDIFF,
             InstallOperation.Type.BROTLI_BSDIFF -> {
                 val reader = sourceReader ?: error("${op.type} requires a source partition reader.")
-                val oldData = op.srcExtentsList.fold(ByteArray(0)) { acc, extent ->
-                    acc + reader.readBlocks(extent.startBlock, extent.numBlocks, blockSize)
-                }.copyOfRange(0, op.srcLength.toInt())
+                val totalExtentBytes = op.srcExtentsList.sumOf { it.numBlocks } * blockSize
+                val combined = ByteArray(totalExtentBytes.toInt())
+                var writePos = 0
+                for (extent in op.srcExtentsList) {
+                    val blocks = reader.readBlocks(extent.startBlock, extent.numBlocks, blockSize)
+                    System.arraycopy(blocks, 0, combined, writePos, blocks.size)
+                    writePos += blocks.size
+                }
+                val oldData = if (op.srcLength in 1..combined.size.toLong()) {
+                    combined.copyOfRange(0, op.srcLength.toInt())
+                } else {
+                    combined
+                }
                 
                 val patch = if (op.type == InstallOperation.Type.BROTLI_BSDIFF) {
                     BrotliCompressorInputStream(stream).use { it.readBytes() }

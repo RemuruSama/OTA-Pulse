@@ -39,13 +39,16 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.AltRoute
 import androidx.compose.material.icons.rounded.ClearAll
 import androidx.compose.material.icons.rounded.DeleteForever
+import androidx.compose.material.icons.rounded.Dns
 import androidx.compose.material.icons.rounded.FileDownload
 import androidx.compose.material.icons.rounded.FileUpload
 import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
@@ -230,11 +233,18 @@ fun HistoryScreen(
             historyList
         } else {
             val q = searchQuery.trim().lowercase()
-            historyList.filter {
-                it.deviceName.lowercase().contains(q) ||
-                it.region.lowercase().contains(q) ||
-                it.otaUpdate.versionName?.lowercase()?.contains(q) == true ||
-                it.otaUpdate.realOsVersion?.lowercase()?.contains(q) == true
+            historyList.filter { entry ->
+                val ota = entry.otaUpdate
+                entry.deviceName.lowercase().contains(q) ||
+                entry.deviceName.removePrefix("Custom|").lowercase().contains(q) ||
+                entry.region.lowercase().contains(q) ||
+                ota.versionName?.lowercase()?.contains(q) == true ||
+                ota.realVersionName?.lowercase()?.contains(q) == true ||
+                ota.realOtaVersion?.lowercase()?.contains(q) == true ||
+                ota.componentVersion.lowercase().contains(q) ||
+                ota.otaTargetVersion?.lowercase()?.contains(q) == true ||
+                ota.realOsVersion?.lowercase()?.contains(q) == true ||
+                ota.oplusRomVersion?.lowercase()?.contains(q) == true
             }
         }
     }
@@ -613,18 +623,79 @@ private fun HistoryEntryCard(
                 )
             }
 
-            // Middle Row: Version Name (Prominent & Multi-line capable without squishing)
+            val rawVersion = entry.otaUpdate.versionName ?: entry.otaUpdate.realOsVersion ?: "Update available"
+            val cleanVersion = rawVersion.substringBefore(" [").trim()
+            val metadataStr = if (rawVersion.contains("[")) rawVersion.substringAfter("[").substringBefore("]").trim() else ""
+
+            // Middle Row: Clean Version Name (Prominent monospace)
             Text(
-                text = entry.otaUpdate.versionName ?: entry.otaUpdate.realOsVersion ?: "Update available",
+                text = cleanVersion,
                 style = MaterialTheme.typography.bodyMedium.copy(
                     fontFamily = FontFamily.Monospace,
                     fontWeight = FontWeight.Bold
                 ),
                 color = MaterialTheme.colorScheme.primary,
-                maxLines = 2,
+                maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.fillMaxWidth()
             )
+
+            // Branch / Mode / Server Metadata Chips
+            if (metadataStr.isNotBlank()) {
+                val tags = metadataStr.split("•").map { it.trim() }.filter { it.isNotBlank() }
+                FlowRow(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                    verticalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
+                    tags.forEach { tag ->
+                        val isBranch = tag.startsWith("Branch", ignoreCase = true)
+                        val isServer = tag.startsWith("Server", ignoreCase = true)
+
+                        val (bgColor, textColor, icon) = when {
+                            isBranch -> Triple(
+                                MaterialTheme.colorScheme.primary.copy(alpha = 0.12f),
+                                MaterialTheme.colorScheme.primary,
+                                Icons.AutoMirrored.Rounded.AltRoute
+                            )
+                            isServer -> Triple(
+                                MaterialTheme.colorScheme.tertiary.copy(alpha = 0.12f),
+                                MaterialTheme.colorScheme.tertiary,
+                                Icons.Rounded.Dns
+                            )
+                            else -> Triple(
+                                MaterialTheme.colorScheme.secondary.copy(alpha = 0.12f),
+                                MaterialTheme.colorScheme.secondary,
+                                Icons.Rounded.Tune
+                            )
+                        }
+
+                        Surface(
+                            color = bgColor,
+                            shape = RoundedCornerShape(6.dp)
+                        ) {
+                            Row(
+                                modifier = Modifier.padding(horizontal = 7.dp, vertical = 3.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                            ) {
+                                Icon(
+                                    imageVector = icon,
+                                    contentDescription = null,
+                                    tint = textColor,
+                                    modifier = Modifier.size(12.dp)
+                                )
+                                Text(
+                                    text = tag,
+                                    style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.SemiBold),
+                                    color = textColor,
+                                    maxLines = 1
+                                )
+                            }
+                        }
+                    }
+                }
+            }
 
             // Bottom Row: Metadata Badges (Region, Android Version/Security Patch, ARB Status, Size)
             Row(

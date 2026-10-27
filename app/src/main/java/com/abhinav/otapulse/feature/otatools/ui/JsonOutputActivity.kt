@@ -89,7 +89,7 @@ class JsonOutputActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        otaUpdate = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        otaUpdate = JsonOutputDataHolder.get() ?: if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             intent.getParcelableExtra(EXTRA_OTA_UPDATE, OtaUpdate::class.java)
         } else {
             @Suppress("DEPRECATION")
@@ -151,14 +151,22 @@ class JsonOutputActivity : AppCompatActivity() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        if (isFinishing) {
+            JsonOutputDataHolder.clear()
+        }
+    }
+
     companion object {
         private const val EXTRA_OTA_UPDATE = "extra_ota_update"
         private const val EXTRA_REGION_NAME = "extra_region_name"
 
-        fun createIntent(context: Context, otaUpdate: OtaUpdate, regionName: String? = null): Intent =
-            Intent(context, JsonOutputActivity::class.java)
-                .putExtra(EXTRA_OTA_UPDATE, otaUpdate)
+        fun createIntent(context: Context, otaUpdate: OtaUpdate, regionName: String? = null): Intent {
+            JsonOutputDataHolder.set(otaUpdate)
+            return Intent(context, JsonOutputActivity::class.java)
                 .putExtra(EXTRA_REGION_NAME, regionName)
+        }
     }
 }
 
