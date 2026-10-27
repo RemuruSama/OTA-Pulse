@@ -1,5 +1,17 @@
 [
   {
+    "name": "OnePlus 16",
+    "firmwareGroups": {
+      "Android 17": [
+        {
+          "displayName": "CN",
+          "productModel": "PYB110",
+          "versionLetter": "A"
+        }
+      ]
+    }
+  },
+  {
     "name": "OnePlus Turbo 6",
     "firmwareGroups": {
       "Android 16": [
