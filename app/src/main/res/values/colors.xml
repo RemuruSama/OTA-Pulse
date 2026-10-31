@@ -1,19 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorBackground">#FDECEA</color>
+    <color name="colorBackground">#08131f</color>
+    <color name="colorPrimary">#7C5CFF</color>
+    <color name="colorOnPrimary">#F7F8FF</color>
+    <color name="colorPrimaryContainer">#2B2F6B</color>
+    <color name="colorOnPrimaryContainer">#E7E9FF</color>
+    <color name="colorSecondary">#3DD9FF</color>
+    <color name="colorOnSecondary">#061620</color>
+    <color name="colorSecondaryContainer">#0B4D66</color>
+    <color name="colorOnSecondaryContainer">#DAF7FF</color>
+    <color name="colorTertiary">#8AE7C9</color>
+    <color name="colorOnTertiary">#07261D</color>
+    <color name="colorTertiaryContainer">#1C5E4F</color>
+    <color name="colorOnTertiaryContainer">#E1FFF8</color>
+    <color name="colorError">#FF6B6B</color>
+    <color name="colorOnError">#1A0A0A</color>
+    <color name="colorErrorContainer">#7A1E1E</color>
+    <color name="colorOnErrorContainer">#FFE1E1</color>
 
-    <!-- Legacy / Utility Colors -->
+    <color name="colorSurface">#0E1A2B</color>
+    <color name="colorOnSurface">#EAF7FF</color>
+    <color name="colorSurfaceVariant">#1B2D3F</color>
+    <color name="colorOnSurfaceVariant">#CDE8FF</color>
+    <color name="colorOutline">#53677A</color>
+    <color name="colorOutlineVariant">#293B4A</color>
+    <color name="colorSurfaceContainerLowest">#060D15</color>
+    <color name="colorSurfaceContainerLow">#0F1B2B</color>
+    <color name="colorSurfaceContainer">#162433</color>
+    <color name="colorSurfaceContainerHigh">#1E3046</color>
+    <color name="colorSurfaceContainerHighest">#273C52</color>
+
     <color name="material_green_500">#4CAF50</color>
     <color name="material_red_500">#F44336</color>
 
-    <!-- ARB Status Colors -->
     <color name="arb_safe">#2E7D32</color>
     <color name="arb_protected">#B00020</color>
 
-    <!-- Custom Glass Background -->
-    <color name="glass_panel_background">#1A000000</color>
+    <color name="glass_panel_background">#1A0F1E2C</color>
+    <color name="card_glass_background">#260F1E2C</color>
+    <color name="card_glass_stroke">#33FFFFFF</color>
 
-    <!-- AMOLED / True Black Surface Colors -->
     <color name="amoled_surface">#000000</color>
     <color name="amoled_on_surface">#E0E0E0</color>
     <color name="amoled_surface_variant">#121212</color>

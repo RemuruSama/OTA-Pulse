@@ -3,8 +3,19 @@
     <style name="Theme.OTAPulse" parent="Theme.Material3.DayNight.NoActionBar">
 
         <item name="android:windowBackground">@color/colorBackground</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorOnPrimary">@color/colorOnPrimary</item>
+        <item name="colorPrimaryContainer">@color/colorPrimaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/colorOnPrimaryContainer</item>
+        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="colorOnSecondary">@color/colorOnSecondary</item>
+        <item name="colorSecondaryContainer">@color/colorSecondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/colorOnSecondaryContainer</item>
+        <item name="colorSurface">@color/colorSurface</item>
+        <item name="colorOnSurface">@color/colorOnSurface</item>
+        <item name="colorSurfaceVariant">@color/colorSurfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/colorOnSurfaceVariant</item>
 
-        <!-- UI Standardizations -->
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
@@ -12,7 +23,6 @@
         <item name="android:enforceNavigationBarContrast" tools:targetApi="q">false</item>
         <item name="android:enforceStatusBarContrast" tools:targetApi="q">false</item>
 
-        <!-- Component Styles -->
         <item name="materialAlertDialogTheme">@style/Theme.App.Dialog</item>
         <item name="materialCardViewStyle">@style/Widget.App.MaterialCardView</item>
         <item name="android:popupMenuStyle">@style/Widget.App.PopupMenu</item>
@@ -28,6 +38,9 @@
 
     <style name="Widget.App.MaterialCardView" parent="Widget.Material3.CardView.Filled">
         <item name="shapeAppearance">@style/ShapeAppearance.Material3.Corner.Large</item>
+        <item name="cardBackgroundColor">@color/card_glass_background</item>
+        <item name="strokeColor">@color/card_glass_stroke</item>
+        <item name="strokeWidth">1dp</item>
     </style>
 
 </resources>
