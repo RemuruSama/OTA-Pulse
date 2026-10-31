@@ -1,5 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">OTA Pulse</string>
+    <string name="app_name" translatable="false">Colour Pulse</string>
     <string name="title_ota_tools">Tools</string>
     <string name="title_about">About</string>
     <string name="title_settings">Settings</string>
@@ -25,32 +26,18 @@
     <string name="close">Close</string>
     <string name="card_share_error">Could not generate share card</string>
 
-    <!-- Strings for fragment_device.xml -->
-    
-
     <string name="search_device_hint">Search devices</string>
     <string name="link_copied">Link copied to clipboard</string>
     <string name="paste_url">Paste URL</string>
     <string name="clear_url">Clear URL</string>
-    
-    <string name="app_tagline">Always up to date</string>
-    <string name="about_app_description">Find the latest OTA updates for your device. Supports OnePlus, realme, and OPPO devices. Some models may not yet be supported.</string>
-    
+
+    <string name="app_tagline">Feel the signal</string>
+    <string name="about_app_description">Find the latest OTA updates for your device with a fresh colour-forward experience.</string>
+
     <string name="creator_avatar_desc">Creator\'s avatar</string>
     <string name="creator_name">Abhinav Verma</string>
-    
-    
-    
-    
     <string name="github_button_text">GitHub</string>
-
-    <!-- ADDED STRINGS -->
     <string name="delete">Delete</string>
-
-    <!-- Donate Strings -->
-    
-    <!-- Removed as Razorpay is gone and we have a new UPI copy card -->
-    
     <string name="upi_id_value">abhinavftp98@axl</string>
     <string name="upi_id_copied_toast">UPI copied to clipboard</string>
 
@@ -59,39 +46,20 @@
     <string name="crypto_network_name">BNB Smart Chain (BEP20)</string>
     <string name="crypto_address_copied_toast">USDT (BEP20) address copied to clipboard</string>
 
-
-    <!-- Strings for DevicesFragment (ensure these are all present and correct) -->
     <string name="settings">Settings</string>
     <string name="delete_custom_device_title">Delete Custom Device?</string>
     <string name="delete_custom_device_message">Are you sure you want to delete %s? This action cannot be undone.</string>
     <string name="cancel">Cancel</string>
     <string name="broad_file_access_prompt">Broad file access needed for downloads. Please enable in settings.</string>
-    
     <string name="cannot_open_app_settings">Could not open app settings.</string>
-
-    <!-- Overwrite Confirmation Strings -->
-
     <string name="permission_needed">Permission Needed</string>
-
-    <!-- About Section Strings -->
     <string name="libraries_title">Libraries</string>
     <string name="developer_title">Developer</string>
-
-    
-    
-    
-    
-    
-    <string name="developer_message">Designed and developed with ❤️.\nThank you for using OTA Pulse!</string>
-
-    <!-- Hardcoded Strings Extraction -->
-    <!-- SettingsFragment -->
+    <string name="developer_message">Designed and developed with ❤️ for your Colour Pulse experience.</string>
     <string name="import_overwrite_title">Overwrite Custom Devices?</string>
     <string name="import_overwrite_message">Importing a new list will overwrite all of your existing custom devices. This action cannot be undone.</string>
     <string name="import_action">Import</string>
     <string name="close_action">Close</string>
-
-    <!-- MainActivity -->
     <string name="notification_permission_denied">Notification permission denied. You might miss download updates.</string>
     <string name="storage_permission_granted">Storage permission granted</string>
     <string name="storage_permission_required">Storage permission is required for downloads</string>
@@ -99,11 +67,11 @@
     <string name="later_action">Later</string>
     <string name="tap_to_view_update">Tap to view changelog and download</string>
     <string name="notification_permission_title">Notification Permission</string>
-    <string name="notification_permission_message">OTA Pulse uses notifications to keep you informed about download progress. Please grant this permission.</string>
+    <string name="notification_permission_message">Colour Pulse uses notifications to keep you informed about download progress. Please grant this permission.</string>
     <string name="notification_permission_settings_message">Notification access is still off. Enable it from app settings so download progress and completion alerts can appear.</string>
     <string name="grant_action">Grant</string>
     <string name="support_developer_title">Support the Developer</string>
-    <string name="support_developer_message">Support our open-source work and help OTA Pulse keep improving.</string>
+    <string name="support_developer_message">Support our open-source work and help Colour Pulse keep improving.</string>
     <string name="support_developer_star_github">Star on GitHub</string>
     <string name="support_developer_donate">Make a Donation</string>
     <string name="support_developer_maybe_later">Maybe later</string>
@@ -118,7 +86,6 @@
     <string name="browser_share">Share page</string>
     <string name="browser_enable_desktop_mode">Enable desktop mode</string>
     <string name="browser_disable_desktop_mode">Disable desktop mode</string>
-
     <string name="browser_settings_title">In-App Browser</string>
     <string name="browser_desktop_mode_title">Desktop site mode</string>
     <string name="browser_desktop_mode_summary">Request desktop layouts for documentation and forums</string>
@@ -126,16 +93,12 @@
     <string name="browser_controls_summary">Display the bottom navigation pill while browsing</string>
     <string name="browser_webview_version_title">WebView version</string>
     <string name="browser_webview_version_unavailable">Unavailable</string>
-
-    <!-- DownloadNotificationHelper -->
     <string name="notif_download_complete">Download Complete</string>
     <string name="notif_download_failed">Download Failed</string>
     <string name="notif_paused">Paused</string>
     <string name="notif_cancel">Cancel</string>
     <string name="notif_pause">Pause</string>
     <string name="notif_resume">Resume</string>
-
-    <!-- MD5 Verification -->
     <string name="notif_md5_verified">Download verified ✓</string>
     <string name="notif_md5_failed">⚠ MD5 mismatch — file may be corrupted</string>
     <string name="notif_channel_progress">Download Progress</string>
@@ -147,8 +110,6 @@
     <string name="notif_error_no_network">No internet connection.</string>
     <string name="notif_error_unknown">Unknown error. Please retry.</string>
     <string name="notif_downloading_background">Downloading in background…</string>
-
-    <!-- Software Update Notification -->
     <string name="notif_channel_software_update">Software Update</string>
     <string name="notif_channel_software_update_desc">Checks for device software updates in the background</string>
     <string name="notif_software_update_available">Software Update Available</string>
@@ -165,13 +126,9 @@
     <string name="settings_battery_optimization_desc">Ensure background checks run reliably</string>
     <string name="settings_battery_optimization_ignored">Ignored (Optimized for background)</string>
     <string name="battery_optimization_dialog_title">Background Execution</string>
-    <string name="battery_optimization_dialog_message">To reliably check for software updates in the background, OTA Pulse needs to be exempted from battery optimizations. Without this, the system may delay or cancel the update checks.</string>
+    <string name="battery_optimization_dialog_message">To reliably check for software updates in the background, Colour Pulse needs to be exempted from battery optimizations.</string>
     <string name="allow">Allow</string>
-
-    
     <string name="extract">Extract</string>
-
-    <!-- Settings Section Headers & Labels -->
     <string name="settings_auto_check_updates">Auto Check Updates</string>
     <string name="settings_auto_check_updates_desc">Notify on startup if update available</string>
     <string name="settings_app_language">App Language</string>
@@ -186,254 +143,10 @@
     <string name="settings_export_backup_desc">Save devices to storage</string>
     <string name="settings_import_backup">Import Backup</string>
     <string name="settings_import_backup_desc">Restore from file</string>
-
-    <!-- OTA Tools Fragment -->
-    <string name="tools_header_badge" translatable="false">TOOLS_INDEX.sh</string>
-    <string name="tools_header_title">OTA\nTools</string>
-    <string name="tools_header_subtitle">Open a dedicated page for manual query, partition extraction, link resolving, or ARB checking.</string>
-    <string name="tools_section_label" translatable="false">TOOLS</string>
-    <string name="tools_arb_checker_title">ARB Checker</string>
-    <string name="tools_arb_checker_desc">Inspect anti-rollback metadata from a full OTA URL or a downloaded ZIP.</string>
-    <string name="tools_link_resolver_title">Link Resolver</string>
-    <string name="tools_link_resolver_desc">Resolve downloadCheck redirected OTA links.</string>
-    <string name="tools_manual_query_title">Manual Query</string>
-    <string name="tools_manual_query_desc">Query OTA servers with your own model, region, server, and advanced fields.</string>
-    <string name="tools_partition_extraction_title">Partition Extraction</string>
-    <string name="tools_partition_extraction_desc">Load partitions from a local OTA ZIP or a full OTA URL, then extract selected images.</string>
-
-    <!-- Partition Extraction Fragment -->
-    <string name="partition_extraction_select_partition">Select Partition</string>
-    <string name="partition_loading_msg">Loading partitions\u2026</string>
-    <string name="toast_link_pasted">Link pasted</string>
-    <string name="toast_clipboard_empty">Clipboard is empty</string>
-
-    <!-- List Item: Predefined Device -->
-
-    <!-- List Item: Download -->
-
-    <!-- Content Descriptions -->
-
-    <!-- Dialog Hints -->
-    <string name="hint_search_partitions">Search partitions</string>
-
-    <!-- Manual Query Fragment Hints & Buttons -->
-    <string name="hint_ver_letter">Ver Letter</string>
-    <string name="btn_check_for_update">Check for Update</string>
-    <string name="update_available_label">OTA Found</string>
-    <string name="software_update_panel_chip">Software update</string>
-    <string name="software_update_panel_summary">Enter your build identity, auto-fill from the current device, and query updates with a single primary action.</string>
-    <string name="software_update_panel_meta_hint">Built from the live device profile and ready for a one-tap check.</string>
-    <string name="software_update_panel_version_label">Current Version</string>
-    <string name="software_update_panel_version_badge">Live profile</string>
-    <string name="software_update_panel_footer">The updater uses your saved model, version letter, NV ID, and req mode silently in the background.</string>
-
-    <!-- Toast Messages -->
-    <string name="toast_paste_ota_url_first">Paste a full OTA URL first</string>
-    <string name="toast_choose_local_zip_first">Choose a local OTA ZIP first</string>
-    <string name="toast_resolved_link_copied">Resolved link copied</string>
-    <string name="toast_device_details_fetched">Device details fetched</string>
-    <string name="toast_link_copied">Link copied</string>
-
-    <!-- General Placeholders / Labels -->
-    
-    <string name="unknown">Unknown</string>
-    <string name="unknown_version">Unknown Version</string>
-
-    <!-- Item Library Placeholders -->
-
-    <!-- ARB Checker Fragment -->
-    <string name="arb_status_label">ARB Status</string>
-
-    <!-- Link Resolver Fragment -->
-
-    <!-- OTA Details Dialog Labels -->
-    <string name="label_android">Android Version</string>
-    <string name="label_security_patch">Security Patch</string>
-    <string name="label_size">Size</string>
-    <string name="label_md5">MD5</string>
-    <string name="label_nv_id">NV Identifier</string>
-    <string name="label_separate_soft">Project ID</string>
-    <string name="label_target_version">Target Version</string>
-    <string name="label_published_time">Build Date</string>
-    <string name="btn_changelog">Changelog</string>
-
-    <!-- Manual Query Fragment -->
-
-    <!-- Default Spinner Values (non-translatable data values) -->
-    <!-- About Fragment -->
-
-    <!-- Contributors Dialog -->
-
-    <!-- Developer Dialog -->
-    <string name="developer_role">Developer &amp; Designer</string>
-    <string name="contributors_title">Contributors</string>
-
-    <!-- Add Download Dialog -->
-
-    <!-- Add Device Fragment -->
-
-    <!-- Device Info Item Placeholders -->
-
-    <string name="toast_import_partial_success">Imported %1$d custom devices. Skipped %2$d invalid entries.</string>
-    <string name="toast_import_success">Imported %1$d custom devices successfully!</string>
-    <string name="toast_import_invalid_format">Import failed: Invalid file format.</string>
-    <string name="toast_export_success">Custom devices exported successfully!</string>
-    <string name="toast_export_failed">Export failed: %1$s</string>
-    <string name="toast_import_failed">Import failed: %1$s</string>
-
-    <string name="lang_ar" translatable="false">العربية (Arabic)</string>
-    <string name="lang_bn" translatable="false">বাংলা (Bengali)</string>
-    <string name="lang_zh" translatable="false">简体中文 (Chinese Simplified)</string>
-    <string name="lang_zh_TW" translatable="false">繁體中文 (Chinese Traditional)</string>
-    <string name="lang_fr" translatable="false">Français (French)</string>
-    <string name="lang_de" translatable="false">Deutsch (German)</string>
-    <string name="lang_hi" translatable="false">हिन्दी (Hindi)</string>
-    <string name="lang_id" translatable="false">Bahasa Indonesia (Indonesian)</string>
-    <string name="lang_it" translatable="false">Italiano (Italian)</string>
-    <string name="lang_ja" translatable="false">日本語 (Japanese)</string>
-    <string name="lang_ms" translatable="false">Bahasa Melayu (Malay)</string>
-    <string name="lang_pt_BR" translatable="false">Português (Brasil)</string>
-    <string name="lang_pt_PT" translatable="false">Português (Portugal)</string>
-    <string name="lang_ru" translatable="false">Русский (Russian)</string>
-    <string name="lang_es" translatable="false">Español (Spanish)</string>
-    <string name="lang_fil" translatable="false">Filipino (Tagalog)</string>
-    <string name="lang_th" translatable="false">ไทย (Thai)</string>
-    <string name="lang_tr" translatable="false">Türkçe (Turkish)</string>
-    <string name="lang_ur" translatable="false">اردو (Urdu)</string>
-    <string name="lang_vi" translatable="false">Tiếng Việt (Vietnamese)</string>
-
-    <!-- Cursor Decoration (non-translatable) -->
-    <string name="partition_extraction_confirm_selection">Confirm Selection</string>
-
-    <!-- Phase 5 Compose Strings -->
-    <string name="nav_back">Back</string>
-    <string name="toast_partition_extraction_started">Partition extraction started</string>
-    <string name="toast_download_started">Download started</string>
-    <string name="toast_url_copied">URL copied to clipboard</string>
-    <string name="product_model_label">Product Model</string>
-    <string name="product_name_label">Product Name</string>
-    <string name="partition_extraction_url_label">Remote OTA Package URL</string>
-    <string name="partition_extraction_url_placeholder">Paste direct full OTA URL</string>
-    <string name="partition_extraction_load_url_btn">Load Partitions from URL</string>
-    <string name="partition_extraction_local_zip_title">Local OTA ZIP</string>
-    <string name="partition_extraction_load_local_btn">Load Local Partitions</string>
-    <string name="partition_extraction_select_all">Select All</string>
-    <string name="partition_extraction_deselect_all">Deselect All</string>
-    <string name="link_resolver_input_label">Redirected OTA Link</string>
-    <string name="link_resolver_input_placeholder">Paste downloadCheck URL</string>
-    <string name="link_resolver_action_btn">Resolve Link</string>
-    <string name="link_resolver_loading">Resolving redirect link…</string>
-    <string name="link_resolver_copy_btn">Copy Link</string>
-    <string name="arb_checker_url_title">Remote OTA Package URL</string>
-    <string name="arb_checker_check_url_btn">Check ARB Status</string>
-    <string name="arb_checker_local_zip_title">Local OTA ZIP</string>
-    <string name="arb_checker_check_local_btn">Check Local ZIP ARB</string>
-    <string name="arb_not_found_title">No ARB Status Found</string>
-    <string name="arb_not_found_badge">NOT DETECTED</string>
-    <string name="arb_not_found_url_msg">No anti-rollback (ARB) metadata was detected for this URL. The package may be for a non-Qualcomm (e.g. MediaTek) device, an incremental update without xbl_config, or the server blocked byte-range requests.</string>
-    <string name="arb_not_found_local_msg">No anti-rollback (ARB) metadata was detected in this local ZIP. The package may be an incremental update, does not contain xbl_config.img, or belongs to a non-Qualcomm chipset.</string>
-    <string name="arb_not_found_reason_qualcomm_title">Qualcomm Architecture</string>
-    <string name="arb_not_found_reason_qualcomm_desc">Anti-rollback index is stored within Qualcomm xbl_config or abl firmware partitions. MediaTek (Dimensity) chipsets do not use this structure.</string>
-    <string name="arb_not_found_reason_package_title">Full vs Incremental OTA</string>
-    <string name="arb_not_found_reason_package_desc">Incremental delta packages only contain updated blocks and omit complete bootloader images.</string>
-    <string name="arb_not_found_reason_range_title">HTTP Byte-Range Requests</string>
-    <string name="arb_not_found_reason_range_desc">Inspecting remote packages requires CDN support for HTTP 206 Partial Content range requests.</string>
-    <string name="arb_not_found_dismiss">Dismiss</string>
-    <string name="tools_active_downloads_title">Active Downloads</string>
-    <string name="tools_active_downloads_desc">Monitor live OTA package downloads, speed charts, pause/resume queues, and verify MD5 checksums.</string>
-    <string name="tools_update_history_title">Search History</string>
-    <string name="tools_update_history_desc">Browse chronological logs of queried and downloaded firmware updates, search across models, or export JSON.</string>
-    <string name="downloads_screen_title">Downloads</string>
-    <string name="downloads_add_cd">Add Download</string>
-    <string name="downloads_empty_title">No Downloads Active</string>
-    <string name="downloads_empty_msg">Queue OTA update downloads or paste a direct payload link to monitor speed and verify MD5 integrity.</string>
-    <string name="downloads_add_direct_link">Add Direct Link</string>
-    <string name="history_clear_all">Clear All</string>
-    <string name="history_screen_title">Search History</string>
-    <string name="history_records_count">%1$d records</string>
-    <string name="history_more_options_cd">More Options</string>
-    <string name="history_search_placeholder">Search by device, region or build version...</string>
-    <string name="history_empty_title">No History Logged</string>
-    <string name="history_empty_msg">Whenever you query for OTA updates across devices, your results and lookup timestamps will appear here.</string>
-    <string name="history_import_json">Import JSON History</string>
-    <string name="history_no_matches_title">No Matches Found</string>
-    <string name="history_no_matches_msg">No history records match \"%1$s\". Try checking your spelling or search terms.</string>
-    <string name="history_reset_search">Reset Search</string>
-    <string name="history_region_label">Region: %1$s</string>
-    <string name="history_android_ver_label">Android %1$s</string>
-    <string name="history_patch_label">Patch: %1$s</string>
-    <string name="extraction_status_title">Extraction Status</string>
-    <string name="extraction_target_partitions">Target Partitions (%1$d)</string>
-    <string name="extraction_success_msg">Successfully extracted and verified partition images to storage.</string>
-    <string name="extraction_dismiss_clear">Dismiss &amp; Clear</string>
-    <string name="extraction_full_ota_url">Full OTA URL</string>
-    <string name="extraction_tap_pick_zip">Tap to pick local OTA .zip file</string>
-    <string name="extraction_supports_payload_bin">Supports payload.bin inside full or incremental recovery ZIPs</string>
-    <string name="extraction_tap_pick_diff_file">Tap to pick a different file</string>
-    <string name="extraction_remove_file_cd">Remove file</string>
-    <string name="settings_appearance_title">Appearance &amp; Theme Engine</string>
-    <string name="settings_appearance_desc">Visual engine, colors, and aesthetics</string>
-    <string name="settings_visual_engine_label">VISUAL ENGINE</string>
-    <string name="settings_material_you_title">Material You</string>
-    <string name="settings_material_you_desc">Dynamic • Adaptive</string>
-    <string name="settings_holographic_title">Holographic</string>
-    <string name="settings_holographic_desc">Glassmorphism • Neon</string>
-    <string name="settings_color_scheme_label">COLOR SCHEME MODE</string>
-    <string name="settings_theme_light">Light</string>
-    <string name="settings_theme_dark">Dark</string>
-    <string name="settings_theme_system">System</string>
-    <string name="settings_seed_color_label">SEED COLOR &amp; STYLE</string>
-    <string name="settings_palette_style">Style: %1$s</string>
-    <string name="settings_visual_enhancements_label">VISUAL ENHANCEMENTS</string>
-    <string name="settings_dynamic_accent_title">Dynamic Accent Colors</string>
-    <string name="settings_dynamic_accent_desc">Extract personalized color palette from wallpaper</string>
-    <string name="settings_active_badge">ACTIVE</string>
-    <string name="settings_section_general">General</string>
-    <string name="settings_section_backup">Backup &amp; Restore</string>
-    <string name="settings_section_about">About &amp; Community</string>
-    <string name="settings_contributors_title">Contributors</string>
-    <string name="settings_contributors_subtitle">Open Source Community</string>
-    <string name="settings_contributors_desc">Special thanks to all contributors who helped build, translate, and improve OTA Pulse on GitHub.</string>
-    <string name="settings_contributors_btn">View on GitHub</string>
-    <string name="app_update_title">App Update</string>
-    <string name="app_update_back_cd">Back</string>
-    <string name="app_update_up_to_date">You\'re up to date!</string>
-    <string name="app_update_current_ver">Current Version: %1$s</string>
-    <string name="app_update_new_release">New Release Available</string>
-    <string name="app_update_release_notes">RELEASE NOTES &amp; CHANGELOG</string>
-    <string name="app_update_downloading">Downloading update package...</string>
-    <string name="app_update_download_complete">Download Complete!</string>
-    <string name="app_update_install_prompt">Tap below to launch Android package installer.</string>
-    <string name="app_update_install_btn">Install APK Now</string>
-    <string name="app_update_download_failed">Download Failed: %1$s</string>
-    <string name="app_update_browser_btn">Download via Browser</string>
-    <string name="app_update_later_btn">Later</string>
-    <string name="app_update_now_btn">Update Now</string>
-    <string name="home_model_required">Product Model (Required)</string>
-    <string name="home_product_name">Product Name</string>
-    <string name="home_nv_id_optional">NV ID (Optional)</string>
-    <string name="home_req_mode">Req Mode</string>
-    <string name="home_searching_msg">Searching across servers and versions...</string>
-    <string name="about_website_title">Website</string>
-    <string name="about_website_sub">Official</string>
-    <string name="about_github_title">GitHub</string>
-    <string name="about_github_sub">Source</string>
-    <string name="about_telegram_title">Telegram</string>
-    <string name="about_telegram_sub">Community</string>
-    <string name="libraries_back_cd">Back</string>
-    <string name="libraries_count_title">%1$d OPEN SOURCE LIBRARIES</string>
-    <string name="nav_tab_update">Update</string>
-    <string name="nav_tab_devices">Devices</string>
-    <string name="nav_tab_tools">Tools</string>
-    <string name="nav_tab_about">About</string>
-    <string name="nav_tab_settings">Settings</string>
-    <string name="search_cd">Search</string>
-    <string name="clear_search_cd">Clear search</string>
-    <string name="action_clear">Clear</string>
-    <string name="action_paste">Paste</string>
-    <string name="card_gen_app_title">OTA Pulse</string>
-    <string name="card_gen_update_alert">Update Alert</string>
-    <string name="about_up_to_date">OTA Pulse is up to date!</string>
+    <string name="settings_special_thanks_msg">Special thanks to all contributors who helped build, translate, and improve Colour Pulse on GitHub.</string>
+    <string name="settings_view_github_btn">View on GitHub</string>
+    <string name="card_gen_app_title">Colour Pulse</string>
+    <string name="about_up_to_date">Colour Pulse is up to date!</string>
     <string name="about_version_label">Version</string>
     <string name="about_copied_version">Copied version: v%1$s</string>
     <string name="about_official_sub">Official</string>
@@ -444,137 +157,13 @@
     <string name="about_err_telegram">Could not open Telegram</string>
     <string name="about_err_paypal">Could not open PayPal</string>
     <string name="about_upi_id_label">UPI</string>
-    <string name="about_engine_online">OTA Pulse Engine Online</string>
+    <string name="about_engine_online">Colour Pulse Engine Online</string>
     <string name="about_app_icon_cd">App Icon</string>
     <string name="about_upgrade_guide_title">Upgrade Guide</string>
     <string name="about_upgrade_guide_sub">via Local OTA Update</string>
     <string name="about_upgrade_guide_badge">ColorOS • OxygenOS • Realme UI</string>
     <string name="about_upgrade_guide_copied">Upgrade guide copied to clipboard</string>
     <string name="about_copy_guide">Copy Guide</string>
-    <string name="add_dev_device_name_label">Device Name (e.g. OnePlus 12)</string>
-    <string name="add_dev_enter_mkt_name">e.g. OnePlus 12</string>
-    <string name="add_dev_no_fw_groups">No Firmware Groups</string>
-    <string name="add_dev_no_fw_groups_msg">Add an Android version group (e.g. Android 15) to start defining variants.</string>
-    <string name="add_dev_edit_group_cd">Edit Group</string>
-    <string name="add_dev_delete_group_cd">Delete Group</string>
-    <string name="add_dev_remove_variant_cd">Remove Variant</string>
-    <string name="add_dev_add_fw_group_title">Add Firmware Group</string>
-    <string name="add_dev_enter_ver_name">Enter Android version name for this firmware group:</string>
-    <string name="add_dev_ver_placeholder">e.g. Android 15</string>
-    <string name="add_dev_edit_fw_group_title">Edit Firmware Group</string>
-    <string name="add_dev_group_name_label">Group Name</string>
-    <string name="add_dev_delete_group_title">Delete Firmware Group?</string>
-    <string name="add_dev_delete_group_msg">Are you sure you want to delete \"%1$s\" and all its variants?</string>
-    <string name="add_dev_hw_id_title">Hardware Identification</string>
-    <string name="add_dev_model_label">Product Model</string>
-    <string name="add_dev_model_placeholder">e.g. RMX3840</string>
-    <string name="add_dev_name_label">Product Name</string>
-    <string name="add_dev_name_placeholder">e.g. RMX3840export</string>
-    <string name="add_dev_region_code_title">Target Region Code</string>
-    <string name="add_dev_branch_prefix_title">Branch Prefix Letter</string>
-    <string name="add_dev_server_endpoint_title">OTA Server Endpoint</string>
-    <string name="add_dev_query_mode_title">Query Request Mode</string>
-    <string name="add_dev_gray_flag_title">Gray Flag (Beta/Stable)</string>
-    <string name="add_dev_add_variant_btn">Add Variant</string>
-    <string name="catalog_update_history_cd">Search History</string>
-    <string name="catalog_search_devices_cd">Search Devices</string>
-    <string name="catalog_add_custom_dev_cd">Add Custom Device</string>
-    <string name="catalog_syncing_msg">Syncing device catalog...</string>
-    <string name="catalog_no_devices_title">No Devices Found</string>
-    <string name="catalog_no_devices_msg">Try adjusting your search query or brand filter.</string>
-    <string name="catalog_download_started">Download started</string>
-    <string name="catalog_ota_url_label">OTA URL</string>
-    <string name="catalog_changelog_unavail">Changelog unavailable</string>
-    <string name="catalog_overwrite_label">Overwrite</string>
-    <string name="catalog_toggle_fav_cd">Toggle Favorite</string>
-    <string name="catalog_edit_device_btn">Edit Device</string>
-    <string name="catalog_copy_link_cd">Copy Link</string>
-    <string name="catalog_share_cd">Share</string>
-    <string name="catalog_select_partition_cd">Select Partition</string>
-    <string name="downloads_add_direct_title">Add Direct OTA Download</string>
-    <string name="downloads_ota_url_label">OTA URL</string>
-    <string name="downloads_file_not_found">File not found on storage</string>
-    <string name="history_imported_count">Imported %1$d history records!</string>
-    <string name="history_no_records_in_file">No records found in file.</string>
-    <string name="history_import_failed">Failed to import history JSON.</string>
-    <string name="history_exported_success">History exported successfully!</string>
-    <string name="history_export_failed">Failed to export history.</string>
-    <string name="history_no_records_export">No records to export</string>
-    <string name="history_download_started">Download started</string>
-    <string name="history_ota_url_label">OTA URL</string>
-    <string name="history_changelog_unavail">Changelog unavailable</string>
-    <string name="arb_remove_file_cd">Remove file</string>
-    <string name="arb_index_label">ARB Index: %1$d</string>
-    <string name="arb_firmware_ver_label">Firmware Version: %1$d.%2$d</string>
-    <string name="arb_target_dev_label">Target Device: %1$s</string>
-    <string name="arb_status_details_label">Status Details: %1$s</string>
-    <string name="link_resolver_title">Resolved OTA Link</string>
-    <string name="manual_ota_url_label">OTA URL</string>
-    <string name="manual_changelog_unavail">Changelog unavailable</string>
-    <string name="manual_got_it_btn">Got it</string>
-    <string name="manual_autofill_title">Auto-Fill</string>
-    <string name="manual_query_now_title">Query Now</string>
-    <string name="manual_multiserver_title">Multi-Server</string>
-    <string name="manual_fullscan_title">Full Scan</string>
-    <string name="manual_os_major_title">OS Major Version</string>
-    <string name="manual_target_region_title">Target Region Code</string>
-    <string name="manual_branch_prefix_title">Branch Prefix Letter</string>
-    <string name="manual_endpoint_title">OTA Server Endpoint</string>
-    <string name="manual_nv_id_title">NV Identifier &amp; Advanced Overrides</string>
-    <string name="manual_guide_cd">Manual Query Guide &amp; Details</string>
-    <string name="manual_hw_id_title">Hardware Identification</string>
-    <string name="manual_model_placeholder">e.g. RMX3840</string>
-    <string name="manual_region_placeholder">e.g. RMX3840IN</string>
-    <string name="manual_req_mode_title">Request Mode</string>
-    <string name="manual_gray_channel_title">Gray Release Channel</string>
-    <string name="manual_nv_carrier_label">NV ID / Carrier Variant</string>
-    <string name="manual_nv_placeholder">e.g. 00011011</string>
-    <string name="manual_imei_override_label">IMEI Identifier Override</string>
-    <string name="manual_lang_code_label">Language Code</string>
-    <string name="manual_err_no_model">Please enter a Product Model</string>
-    <string name="manual_querying_msg">Querying OTA servers across target channels...</string>
-    <string name="manual_android_os_cd">Android OS</string>
-    <string name="manual_arb_status_cd">ARB Status</string>
-    <string name="manual_url_copied_toast">Download URL copied to clipboard!</string>
-    <string name="manual_url_cd">URL</string>
-    <string name="manual_copy_url_cd">Copy URL</string>
-    <string name="manual_download_queued">Download queued</string>
-    <string name="worker_extracting_title">Extracting %1$s</string>
-    <string name="worker_extracted_msg">Extracted: %1$s</string>
-    <string name="worker_saved_success">%1$s saved successfully</string>
-    <string name="worker_failed_extract">Failed to extract %1$s</string>
-    <string name="worker_extraction_cancelled">%1$s extraction was cancelled</string>
-    <string name="partition_remove_file_cd">Remove file</string>
-    <string name="libs_back_cd">Back</string>
-    <string name="libs_err_open_link">Could not open link</string>
-    <string name="app_update_no_newer">No newer updates found on GitHub</string>
-    <string name="app_update_err_browser">Could not open browser</string>
-    <string name="app_update_err_install">Failed to install update</string>
-    <string name="settings_contributors_label">Contributors</string>
-    <string name="settings_open_source_sub">Open Source Community</string>
-    <string name="settings_dynamic_adaptive_sub">Dynamic • Adaptive</string>
-    <string name="settings_glassmorphism_sub">Glassmorphism • Neon</string>
-    <string name="settings_dynamic_accent_sub">Extract personalized color palette from wallpaper</string>
-    <string name="settings_author_name">Abhinav Verma</string>
-    <string name="home_update_history_cd">Search History</string>
-    <string name="home_model_required_label">Product Model (Required)</string>
-    <string name="home_name_label">Product Name</string>
-    <string name="home_nv_id_label">NV ID (Optional)</string>
-    <string name="home_req_mode_label">Req Mode</string>
-    <string name="home_download_started">Download started</string>
-    <string name="home_ota_url_label">OTA URL</string>
-    <string name="home_changelog_unavail">Changelog unavailable</string>
-    <string name="action_save">Save</string>
-    <string name="action_delete">Delete</string>
-    <string name="action_cancel">Cancel</string>
-    <string name="action_add">Add</string>
-    <string name="action_back">Back</string>
-    <string name="history_cleared_toast">History cleared</string>
-    <string name="settings_special_thanks_msg">Special thanks to all contributors who helped build, translate, and improve OTA Pulse on GitHub.</string>
-    <string name="settings_view_github_btn">View on GitHub</string>
-    <string name="history_export_json">Export JSON History</string>
-    <string name="history_entry_deleted">History entry deleted</string>
-    <string name="action_undo">Undo</string>
+    <string name="settings_contributors_desc">Special thanks to all contributors who helped build, translate, and improve Colour Pulse on GitHub.</string>
+    <string name="settings_contributors_btn">View on GitHub</string>
 </resources>
-
-

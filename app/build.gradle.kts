@@ -17,7 +17,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace = "com.abhinav.otapulse"
+    namespace = "com.colourpulse.app"
     compileSdk = 37
 
     signingConfigs {
@@ -34,12 +34,12 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.abhinav.otapulse"
+        applicationId = "com.colourpulse.app"
         minSdk = 29
         targetSdk = 37
         versionCode = 34
         versionName = "5.0.4"
-        
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
