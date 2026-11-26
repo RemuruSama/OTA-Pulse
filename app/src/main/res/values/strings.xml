@@ -575,6 +575,21 @@
     <string name="history_export_json">Export JSON History</string>
     <string name="history_entry_deleted">History entry deleted</string>
     <string name="action_undo">Undo</string>
+    <string name="history_check_missing_arb">Check Missing ARB</string>
+    <string name="about_usdt_qr_cd">USDT BEP20 QR Code</string>
+    <string name="downloads_share_file_cd">Share File</string>
+    <string name="arb_copy_source_cd">Copy source</string>
+    <string name="home_copy_version_cd">Copy Version</string>
+    <string name="home_copy_version_pkg_cd">Copy Version Package</string>
+    <string name="arb_source_copied_toast">Source copied</string>
+    <string name="arb_report_copied_toast">ARB report copied to clipboard</string>
+    <string name="clipboard_ota_link_label">OTA Link</string>
+    <string name="clipboard_arb_report_label">ARB Report</string>
+    <string name="arb_source_label">Source</string>
+    <string name="clipboard_usdt_address_label">USDT Address</string>
+    <string name="about_no_upi_app">No UPI app found. %1$s</string>
+    <string name="clipboard_guide_label">OTA Upgrade Guide</string>
+    <string name="about_upgrade_guide_body">Upgrade Guide: Local OTA Update\n\n1. Download ROM Package:\nDownload the latest ROM upgrade zip package from the specified server.\n\n2. Copy to Phone Storage:\nCopy the ROM upgrade package to the phone storage (root directory or Downloads). Do not extract it manually.\n\n3. Enable Developer Mode:\nGo to Settings -&gt; About device -&gt; Version -&gt; Click Build number 7 times and enter the password, now you are in the developer mode.\n\n4. Select Local Install:\nGo back to Settings -&gt; About device -&gt; Up to date -&gt; Click the top right button -&gt; Local install -&gt; Click on the corresponding installation package.\n\n5. Extract &amp;amp; Upgrade:\nClick Extract -&amp;gt; Upgrade -&amp;gt; Wait until system upgrade is completed to 100%.\n\n6. Restart Device:\nAfter the upgrade is complete, click Restart. Update successful!</string>
 </resources>
 
 

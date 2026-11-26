@@ -257,29 +257,9 @@ fun AboutScreen(
                 UpgradeGuideCard(
                     onCopyGuide = {
                         view.haptic(HapticType.CLICK)
-                        val guideText = """
-Upgrade Guide: Local OTA Update
-
-1. Download ROM Package:
-Download the latest ROM upgrade zip package from the specified server.
-
-2. Copy to Phone Storage:
-Copy the ROM upgrade package to the phone storage (root directory or Downloads). Do not extract it manually.
-
-3. Enable Developer Mode:
-Go to Settings -> About device -> Version -> Click Build number 7 times and enter the password, now you are in the developer mode.
-
-4. Select Local Install:
-Go back to Settings -> About device -> Up to date -> Click the top right button -> Local install -> Click on the corresponding installation package.
-
-5. Extract & Upgrade:
-Click Extract -> Upgrade -> Wait until system upgrade is completed to 100%.
-
-6. Restart Device:
-After the upgrade is complete, click Restart. Update successful!
-                        """.trimIndent()
+                        val guideText = context.getString(R.string.about_upgrade_guide_body)
                         val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                        clipboard.setPrimaryClip(ClipData.newPlainText("OTA Upgrade Guide", guideText))
+                        clipboard.setPrimaryClip(ClipData.newPlainText(context.getString(R.string.clipboard_guide_label), guideText))
                         Toast.makeText(context, context.getString(R.string.about_upgrade_guide_copied), Toast.LENGTH_SHORT).show()
                     }
                 )
@@ -315,7 +295,7 @@ After the upgrade is complete, click Restart. Update successful!
                     onCopyAddress = {
                         view.haptic(HapticType.HEAVY_CLICK)
                         val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                        clipboard.setPrimaryClip(ClipData.newPlainText("USDT Address", cryptoAddress))
+                        clipboard.setPrimaryClip(ClipData.newPlainText(context.getString(R.string.clipboard_usdt_address_label), cryptoAddress))
                         Toast.makeText(context, cryptoCopiedToast, Toast.LENGTH_SHORT).show()
                     }
                 )
@@ -348,7 +328,7 @@ After the upgrade is complete, click Restart. Update successful!
                         } catch (e: Exception) {
                             val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                             clipboard.setPrimaryClip(ClipData.newPlainText(context.getString(R.string.about_upi_id_label), upiId))
-                            Toast.makeText(context, "No UPI app found. $upiCopiedToast", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, context.getString(R.string.about_no_upi_app, upiCopiedToast), Toast.LENGTH_SHORT).show()
                         }
                     },
                     onOpenCrypto = {
@@ -358,7 +338,7 @@ After the upgrade is complete, click Restart. Update successful!
                     onCopyCrypto = {
                         view.haptic(HapticType.HEAVY_CLICK)
                         val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                        clipboard.setPrimaryClip(ClipData.newPlainText("USDT Address", cryptoAddress))
+                        clipboard.setPrimaryClip(ClipData.newPlainText(context.getString(R.string.clipboard_usdt_address_label), cryptoAddress))
                         Toast.makeText(context, cryptoCopiedToast, Toast.LENGTH_SHORT).show()
                     }
                 )
@@ -1022,7 +1002,7 @@ private fun CryptoWalletDialog(
                     ) {
                         Icon(
                             imageVector = ImageVector.vectorResource(id = R.drawable.ic_close),
-                            contentDescription = "Close",
+                            contentDescription = stringResource(R.string.close),
                             tint = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.size(20.dp)
                         )
@@ -1038,7 +1018,7 @@ private fun CryptoWalletDialog(
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.qr_crypto_usdt),
-                        contentDescription = "USDT BEP20 QR Code",
+                        contentDescription = stringResource(R.string.about_usdt_qr_cd),
                         modifier = Modifier
                             .size(220.dp)
                             .padding(8.dp)

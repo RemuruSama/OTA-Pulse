@@ -485,7 +485,7 @@ fun HomeUpdateContent(
                                                 )
                                                 Icon(
                                                     imageVector = Icons.Rounded.ContentCopy,
-                                                    contentDescription = "Copy Version",
+                                                    contentDescription = stringResource(R.string.home_copy_version_cd),
                                                     tint = MaterialTheme.colorScheme.primary,
                                                     modifier = Modifier.size(16.dp)
                                                 )
@@ -753,7 +753,7 @@ fun HomeUpdateContent(
                                                     Spacer(modifier = Modifier.width(8.dp))
                                                     Icon(
                                                         imageVector = Icons.Rounded.ContentCopy,
-                                                        contentDescription = "Copy Version Package",
+                                                        contentDescription = stringResource(R.string.home_copy_version_pkg_cd),
                                                         tint = MaterialTheme.colorScheme.primary,
                                                         modifier = Modifier.size(16.dp)
                                                     )
@@ -919,7 +919,7 @@ fun HomeUpdateContent(
             },
             onCopyLink = { url ->
                 val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                clipboard.setPrimaryClip(ClipData.newPlainText("OTA Link", url))
+                clipboard.setPrimaryClip(ClipData.newPlainText(context.getString(R.string.clipboard_ota_link_label), url))
                 Toast.makeText(context, R.string.toast_link_copied, Toast.LENGTH_SHORT).show()
             },
             onViewChangelog = { url ->
