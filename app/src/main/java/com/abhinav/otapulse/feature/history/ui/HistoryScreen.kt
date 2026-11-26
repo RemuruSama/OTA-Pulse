@@ -313,7 +313,7 @@ fun HistoryScreen(
                             )
                             if (historyList.isNotEmpty()) {
                                 DropdownMenuItem(
-                                    text = { Text("Check Missing ARB") },
+                                    text = { Text(stringResource(R.string.history_check_missing_arb)) },
                                     leadingIcon = { Icon(Icons.Rounded.Security, contentDescription = null) },
                                     onClick = {
                                         showMenu = false

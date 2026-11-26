@@ -749,7 +749,7 @@ private fun DownloadItemCard(
                         ) {
                             Icon(
                                 imageVector = Icons.Rounded.Share,
-                                contentDescription = "Share File",
+                                contentDescription = stringResource(R.string.downloads_share_file_cd),
                                 tint = MaterialTheme.colorScheme.onSurfaceVariant,
                                 modifier = Modifier.size(18.dp)
                             )
